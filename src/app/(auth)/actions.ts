@@ -1,8 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import { createClient } from "../utils/supabase/server";
-import { SignUpWithPasswordCredentials } from "@supabase/supabase-js";
-import { cookies } from "next/headers";
+import { SignUpWithPasswordCredentials, User } from "@supabase/supabase-js";
 import { SignupInput } from "./signup/components/SignupForm";
 import { LoginInput } from "./login/components/LoginForm";
 
@@ -56,4 +55,28 @@ export const signout = async () => {
     console.error("로그아웃 에러", error);
   }
   redirect("/login");
+};
+
+// 카카오 로그인
+export const signInWithKakao = async () => {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "kakao",
+    options: {
+      redirectTo: "http://localhost:3000/login/callback"
+    }
+  });
+  if (error) {
+    console.error("카카오 로그인 에러", error);
+  }
+  return data.url;
+};
+
+export const getUser = async (): Promise<User | null> => {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    console.error(error);
+  }
+  return data.user;
 };
