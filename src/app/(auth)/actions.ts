@@ -7,7 +7,7 @@ import { SignupInput } from "./signup/components/SignupForm";
 import { LoginInput } from "./login/components/LoginForm";
 
 // 로그인
-export async function login(loginInput: LoginInput) {
+export const login = async (loginInput: LoginInput) => {
   const supabase = createClient();
   const data = {
     email: loginInput.email,
@@ -25,10 +25,10 @@ export async function login(loginInput: LoginInput) {
     console.log("로그인된 유저:", userData.user); // 유저 정보 출력
   }
   redirect("/");
-}
+};
 
 // 회원가입
-export async function signup(signupInput: SignupInput) {
+export const signup = async (signupInput: SignupInput) => {
   const supabase = createClient();
   const data: SignUpWithPasswordCredentials = {
     email: signupInput.email,
@@ -43,6 +43,17 @@ export async function signup(signupInput: SignupInput) {
   if (error) {
     console.error("회원가입 에러", error);
   } else {
+    signout();
     redirect("/login");
   }
-}
+};
+
+// 로그아웃
+export const signout = async () => {
+  const supabase = createClient();
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error("로그아웃 에러", error);
+  }
+  redirect("/login");
+};
