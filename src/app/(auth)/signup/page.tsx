@@ -1,7 +1,12 @@
 import React from "react";
+import SignupForm from "./components/SignupForm";
 
-const page = () => {
-  return <div>Sign Up</div>;
+const SignupPage = () => {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <SignupForm />
+    </div>
+  );
 };
 
-export default page;
+export default SignupPage;
