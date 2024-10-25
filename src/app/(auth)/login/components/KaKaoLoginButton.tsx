@@ -1,12 +1,18 @@
 "use client";
-import { signInWithKakao } from "../../actions";
+import { useRouter } from "next/navigation";
+import { getUser, signInWithKakao } from "../../actions";
 
 const KaKaoLoginButton = () => {
+  const router = useRouter();
   const handleLogin = async () => {
     const redirectUrl = await signInWithKakao();
     if (redirectUrl) {
-      window.location.href = redirectUrl; // 클라이언트에서 리다이렉트
+      router.push(redirectUrl);
     }
+
+    // const user = await getUser();
+    // if (!user) return;
+    // await saveUserInfo(user?.user_metadata);
   };
   return <button onClick={handleLogin}>카카오로 로그인</button>;
 };
