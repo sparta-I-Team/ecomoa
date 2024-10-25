@@ -1,9 +1,10 @@
 "use server";
+
 import { redirect } from "next/navigation";
-import { createClient } from "../utils/supabase/server";
+import { createClient } from "../utlis/supabase/server";
 import { SignUpWithPasswordCredentials, User } from "@supabase/supabase-js";
-import { SignupInput } from "./signup/components/SignupForm";
-import { LoginInput } from "./login/components/LoginForm";
+import { SignupInput } from "../app/(auth)/signup/components/SignupForm";
+import { LoginInput } from "../app/(auth)/login/components/LoginForm";
 
 // 로그인
 export const login = async (loginInput: LoginInput) => {

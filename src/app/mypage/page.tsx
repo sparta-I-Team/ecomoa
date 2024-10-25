@@ -1,5 +1,5 @@
 import React from "react";
-import { getUser } from "../(auth)/actions";
+import { getUser } from "../../api/actions";
 import DeleteAccountButton from "../(auth)/login/components/DeleteAccountButton";
 import LogoutButton from "../(auth)/login/components/LogoutButton";
 

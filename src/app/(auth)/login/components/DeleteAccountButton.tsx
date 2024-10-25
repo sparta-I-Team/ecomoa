@@ -1,7 +1,7 @@
 "use client";
 
+import { deleteUser } from "@/api/delete-action";
 import { User } from "@supabase/supabase-js";
-import { deleteUser } from "../../delete-action";
 import { useRouter } from "next/navigation";
 
 interface DeleteAccountProps {

@@ -1,5 +1,5 @@
 "use client";
-import { signup } from "../../actions";
+import { signup } from "../../../../api/actions";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";

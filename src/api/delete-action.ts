@@ -1,4 +1,5 @@
 "use server";
+
 import { createClient } from "@supabase/supabase-js";
 
 // Service Role Key를 사용하는 서버 측 Supabase 클라이언트 생성

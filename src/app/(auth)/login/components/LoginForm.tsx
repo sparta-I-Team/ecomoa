@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { login } from "../../actions";
+import { login } from "../../../../api/actions";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
