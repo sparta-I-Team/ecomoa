@@ -1,9 +1,9 @@
 "use client";
 
 import { z } from "zod";
-import { login } from "../../actions";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { login } from "@/api/actions";
 
 // Zod 스키마 정의
 const loginSchema = z.object({

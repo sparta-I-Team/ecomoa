@@ -1,10 +1,10 @@
-import { createClient } from "@/app/utils/supabase/server";
+import { createClient } from "@/utlis/supabase/server";
 import { NextResponse } from "next/server";
 
 export const GET = async (request: Request) => {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-
+  
   const supabase = createClient();
 
   if (code) {

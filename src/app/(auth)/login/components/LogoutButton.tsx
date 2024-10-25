@@ -1,6 +1,6 @@
 "use client";
 
-import { signout } from "../../actions";
+import { signout } from "@/api/actions";
 
 const LogoutButton = () => {
   const handleLogout = () => {
