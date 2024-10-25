@@ -13,7 +13,20 @@ const Page = () => {
   } = useForm<FormData>();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    alert(JSON.stringify(data));
+    const electric = Number(data.electric) || 0;
+    const water = Number(data.water) || 0;
+    const gas = Number(data.gas) || 0;
+    const car = Number(data.car) || 0;
+    const waste = Number(data.waste) || 0;
+
+    const total =
+      electric * 0.4781 +
+      water * 0.237 +
+      gas * 2.176 +
+      (car / 16.04) * 2.097 +
+      waste * 0.5573;
+
+    alert(`전체 에너지원 CO₂ 발생 합계 : ${total.toFixed(2)} kg/월`);
   };
 
   const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -26,7 +39,7 @@ const Page = () => {
   return (
     <>
       <div>탄소 배출량 계산하기</div>
-      <div>
+      <div className="flex">
         <div>계산하려는 달</div>
         <YearMonthPicker
           onChangeYear={handleYearChange}
@@ -40,15 +53,18 @@ const Page = () => {
           register={register}
           errors={errors}
           requiredMessage="사용한 전기량을 입력해주세요"
-          placeholder="00.00"
+          placeholder="이번달 사용량을 입력해주세요"
+          unit="kwh/월"
         />
+
         <InputField
           id="water"
           label="수도"
           register={register}
           errors={errors}
           requiredMessage="사용한 수도량을 입력해주세요"
-          placeholder="00.00"
+          placeholder="이번달 사용량을 입력해주세요0.00"
+          unit="m³/월"
         />
         <InputField
           id="gas"
@@ -56,7 +72,8 @@ const Page = () => {
           register={register}
           errors={errors}
           requiredMessage="사용한 가스량을 입력해주세요"
-          placeholder="00.00"
+          placeholder="이번달 사용량을 입력해주세요"
+          unit="m³/월"
         />
         <InputField
           id="car"
@@ -64,7 +81,8 @@ const Page = () => {
           register={register}
           errors={errors}
           requiredMessage="자가용 사용량을 입력해주세요"
-          placeholder="00.00"
+          placeholder="이번달 사용량을 입력해주세요"
+          unit="km/월"
         />
         <InputField
           id="waste"
@@ -72,7 +90,8 @@ const Page = () => {
           register={register}
           errors={errors}
           requiredMessage="폐기물량을 입력해주세요"
-          placeholder="00.00"
+          placeholder="이번달 사용량을 입력해주세요"
+          unit="Kg/월"
         />
         <button type="submit">저장하고 다음</button>
       </form>

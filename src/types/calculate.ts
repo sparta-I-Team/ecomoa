@@ -17,4 +17,5 @@ export interface InputFieldProps {
   errors: FieldErrors<FormData>;
   requiredMessage?: string;
   placeholder?: string;
+  unit: string;
 }

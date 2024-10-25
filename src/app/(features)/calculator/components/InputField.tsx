@@ -7,10 +7,11 @@ const InputField: React.FC<InputFieldProps> = ({
   register,
   errors,
   requiredMessage,
-  placeholder
+  placeholder,
+  unit
 }) => {
   return (
-    <div className="flex flex-col">
+    <div>
       <label htmlFor={id}>{label}</label>
       <input
         id={id}
@@ -20,6 +21,7 @@ const InputField: React.FC<InputFieldProps> = ({
           required: requiredMessage
         })}
       />
+      <div>{unit}</div>
       <div className="h-[30px]">
         {errors[id] && (
           <small className="text-red-500">
