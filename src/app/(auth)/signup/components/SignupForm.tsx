@@ -3,6 +3,7 @@ import { signup } from "../../actions";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
 // Zod 스키마 정의
 const signupSchema = z.object({
@@ -28,6 +29,7 @@ export interface SignupInput {
 }
 
 const SignupForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -41,7 +43,7 @@ const SignupForm = () => {
     try {
       await signup(data);
       alert("회원가입이 완료되었습니다.");
-      console.log("회원가입 성공");
+      router.push("/login");
     } catch (error) {
       console.error("회원가입 오류:", error);
     }
