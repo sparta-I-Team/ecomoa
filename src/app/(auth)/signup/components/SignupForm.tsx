@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { signup } from "@/api/auth-actions";
+import { SignupInput } from "@/types/authType";
 
 // Zod 스키마 정의
 const signupSchema = z.object({
@@ -22,12 +23,6 @@ const signupSchema = z.object({
         "닉네임은 알파벳, 숫자, 한글, @, 밑줄 및 하이픈만 포함해야 합니다."
     }) // 특정 문자만 허용
 });
-
-export interface SignupInput {
-  email: string;
-  password: string;
-  nickname: string;
-}
 
 const SignupForm = () => {
   const router = useRouter();

@@ -1,9 +1,9 @@
 "use client";
-
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login } from "@/api/auth-actions";
+import { LoginInput } from "@/types/authType";
 
 // Zod 스키마 정의
 const loginSchema = z.object({
@@ -16,11 +16,6 @@ const loginSchema = z.object({
     .min(6, { message: "비밀번호는 최소 6자 이상이어야 합니다." })
     .nonempty({ message: "비밀번호를 입력해주세요." })
 });
-
-export interface LoginInput {
-  email: string;
-  password: string;
-}
 
 const LoginForm = () => {
   const {
@@ -44,6 +39,7 @@ const LoginForm = () => {
       }
     }
   };
+
   return (
     <form
       className="flex flex-col justify-center items-center"
