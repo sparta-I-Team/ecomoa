@@ -1,4 +1,6 @@
 import React from "react";
+import { ChallengeSection } from "./components/ChallengeSection";
+import { Modal } from "@/components/shared/Modal";
 
 const page = () => {
   return (
@@ -25,7 +27,6 @@ const page = () => {
             </div>
           </figure>
         </section>
-
         {/* 오른쪽 캐릭터 섹션 */}
         <section className="">
           <figure className="w-[300px] h-[300px] border">
@@ -42,12 +43,10 @@ const page = () => {
           </div>
         </section>
       </header>
-
-      {/* 중앙/하단 인터랙티브 영역 */}
-      <section className="">{/* 클라이언트 컴포넌트 영역 */}</section>
+      <ChallengeSection />
 
       {/* 모달 */}
-      <div className=""></div>
+      <Modal />
     </main>
   );
 };
