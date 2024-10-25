@@ -12,6 +12,8 @@ export const ChallengeForm = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<ChallengeFormInputs>();
+  
+  // 모달스토어에서 모달 openModal 함수 가져오기!!
   const { openModal } = useModal();
 
   const onSubmit = (data: ChallengeFormInputs) => {
@@ -22,6 +24,8 @@ export const ChallengeForm = () => {
       date: new Date().toISOString
     };
     console.log(submitData);
+
+    // 모달안에 넣을 컨텐츠를 설정!
     openModal(
       <div className="p-4 text-center">
         <h2 className="text-xl font-bold mb-4">챌린지 인증 완료!</h2>

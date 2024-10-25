@@ -1,6 +1,6 @@
 "use client";
+import { signInWithKakao } from "@/api/actions";
 import { useRouter } from "next/navigation";
-import { getUser, signInWithKakao } from "../../../../api/actions";
 
 const KaKaoLoginButton = () => {
   const router = useRouter();
