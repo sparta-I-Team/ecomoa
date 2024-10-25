@@ -1,7 +1,6 @@
 "use server";
 
 import { createClient } from "@supabase/supabase-js";
-
 // Service Role Key를 사용하는 서버 측 Supabase 클라이언트 생성
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,5 +13,7 @@ export const deleteUser = async (userId: string) => {
   if (error) {
     console.error("회원 탈퇴 에러", error);
   }
+  await supabaseAdmin.auth.signOut();
+
   return data;
 };

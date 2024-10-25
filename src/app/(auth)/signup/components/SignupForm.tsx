@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { signup } from "@/api/actions";
+import { signup } from "@/api/auth-actions";
 
 // Zod 스키마 정의
 const signupSchema = z.object({

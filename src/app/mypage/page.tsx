@@ -1,7 +1,7 @@
 import React from "react";
 import DeleteAccountButton from "../(auth)/login/components/DeleteAccountButton";
 import LogoutButton from "../(auth)/login/components/LogoutButton";
-import { getUser } from "@/api/actions";
+import { getUser } from "@/api/auth-actions";
 
 const Mypage = async () => {
   const user = await getUser();

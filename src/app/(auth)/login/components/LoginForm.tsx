@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { login } from "@/api/actions";
+import { login } from "@/api/auth-actions";
 
 // Zod 스키마 정의
 const loginSchema = z.object({

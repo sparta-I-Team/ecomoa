@@ -40,10 +40,11 @@ export const signup = async (signupInput: SignupInput) => {
     }
   };
   const { error } = await supabase.auth.signUp(data);
+  await supabase.auth.signOut();
   if (error) {
     console.error("회원가입 에러", error);
   } else {
-    signout();
+    await supabase.auth.signOut();
     redirect("/login");
   }
 };
