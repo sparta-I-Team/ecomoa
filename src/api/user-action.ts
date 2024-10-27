@@ -53,3 +53,19 @@ export const getMyPosts = async (userId: string) => {
   }
   return posts || [];
 };
+
+// 닉네임 중복 검사
+export const checkNicknameAvailability = async (newNickname: string) => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("user_info")
+    .select("user_nickname")
+    .eq("user_nickname", newNickname)
+    .limit(1);
+
+  if (error) {
+    console.error("닉네임 중복 검사 오류", error);
+    return null;
+  }
+  return data.length === 0; // 사용 가능하면 true, 중복이면 false
+};

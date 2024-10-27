@@ -16,3 +16,14 @@ export interface ProfileProps {
 export interface FormData {
   nickname: string;
 }
+
+export interface MyPosts {
+  post_id: string;
+  user_id: string;
+  post_title: string;
+  post_content: string;
+  post_img: string;
+  post_category: string;
+  created_at: string;
+  updated_at: string;
+}
