@@ -1,6 +1,5 @@
 "use server";
 
-import { UserInfo } from "@/types/userInfoType";
 import { createClient } from "@/utlis/supabase/server";
 
 export const getUserInfo = async (userId: string) => {
@@ -38,4 +37,19 @@ export const updateNickname = async ({
     return null;
   }
   return data;
+};
+
+// 내가 쓴 글 가져오기
+export const getMyPosts = async (userId: string) => {
+  const supabase = createClient();
+  const { data: posts, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("내가 쓴 글 가져오기 오류", error);
+    return null;
+  }
+  return posts || [];
 };
