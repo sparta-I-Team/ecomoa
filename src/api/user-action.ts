@@ -55,12 +55,16 @@ export const getMyPosts = async (userId: string) => {
 };
 
 // 닉네임 중복 검사
-export const checkNicknameAvailability = async (newNickname: string) => {
+export const checkNicknameAvailability = async (
+  newNickname: string,
+  userId: string
+) => {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("user_info")
     .select("user_nickname")
     .eq("user_nickname", newNickname)
+    .neq("user_id", userId) // 현재 사용자의 아이디를 제외
     .limit(1);
 
   if (error) {

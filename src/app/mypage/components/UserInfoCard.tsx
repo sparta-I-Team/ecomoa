@@ -22,6 +22,7 @@ const nicknameSchema = z
 const UserInfoCard = ({ user }: ProfileProps) => {
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
+  const [initialNickname, setInitialNickname] = useState("");
   const [nicknameAvailable, setNicknameAvailable] = useState(true);
   const [nicknameError, setNicknameError] = useState("");
 
@@ -51,9 +52,8 @@ const UserInfoCard = ({ user }: ProfileProps) => {
 
   useEffect(() => {
     if (userInfo) {
-      setValue("nickname", userInfo.user_nickname); // 초기값 설정
-      setNicknameAvailable(true); // 초기 상태
-      setNicknameError(""); // 초기 상태
+      setInitialNickname(userInfo.user_nickname); // 초기값 설정
+      setValue("nickname", userInfo.user_nickname); // 입력 필드 초기값 설정
     }
   }, [userInfo, setValue]);
 
@@ -61,11 +61,25 @@ const UserInfoCard = ({ user }: ProfileProps) => {
     const result = nicknameSchema.safeParse(data.nickname);
     if (result.success && nicknameAvailable) {
       mutate({ userId: user.id, newNickname: data.nickname });
+    } else {
+      // 에러 처리
+      setNicknameError("유효하지 않은 닉네임입니다."); // 닉네임이 유효하지 않을 때
     }
   };
 
-  const handleBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setValue("nickname", initialNickname); // 입력 필드 초기값 설정
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setValue("nickname", initialNickname); // 취소 시 원래 닉네임으로 되돌리기
+  };
+
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
+    setValue("nickname", nickname); // 입력된 닉네임을 상태에 반영
     const result = nicknameSchema.safeParse(nickname);
 
     // 닉네임 유효성 검사
@@ -79,16 +93,18 @@ const UserInfoCard = ({ user }: ProfileProps) => {
     }
 
     // 중복 검사
-    const available = await checkNicknameAvailability(nickname);
-    if (!available) return;
+    const available =
+      (await checkNicknameAvailability(nickname, user.id)) || false; // null일 경우 false로 설정
     setNicknameAvailable(available); // 중복 검사 결과를 상태에 저장
+
     if (!available) {
       setNicknameError("이미 사용 중인 닉네임입니다."); // 중복 닉네임 에러 메시지
     } else {
-      setNicknameError("");
+      setNicknameError(""); // 사용 가능한 닉네임일 경우 에러 메시지 초기화
     }
   };
 
+  // JSX를 여기서 렌더링
   if (!userInfo) return null;
 
   return (
@@ -98,22 +114,21 @@ const UserInfoCard = ({ user }: ProfileProps) => {
           <form onSubmit={handleSubmit(onSubmit)} className="flex">
             <div className="flex flex-col items-center">
               <input
-                {...register("nickname", {
-                  required: "닉네임을 입력하세요."
-                })}
+                {...register("nickname", {})}
                 placeholder="닉네임을 입력하세요"
-                onBlur={handleBlur} // 닉네임 입력 후 중복 체크
+                defaultValue={initialNickname}
+                onChange={handleChange}
               />
               {/* 에러 메시지 출력 */}
               {nicknameError && (
-                <p className="text-red-600 mt-1 whitespace-nowrap">
+                <p className="text-sm text-red-600 mt-1 whitespace-nowrap">
                   {nicknameError}
                 </p>
               )}
 
               <div className="flex gap-2">
                 <button type="submit">저장</button>
-                <button type="button" onClick={() => setIsEditing(false)}>
+                <button type="button" onClick={handleCancel}>
                   취소
                 </button>
               </div>
@@ -130,7 +145,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
               {userInfo?.user_nickname}
             </span>
             <span className="font-black text-lg">님</span>
-            <button onClick={() => setIsEditing(true)}>수정</button>
+            <button onClick={handleEditClick}>수정</button>
           </>
         )}
       </div>
@@ -138,5 +153,4 @@ const UserInfoCard = ({ user }: ProfileProps) => {
     </div>
   );
 };
-
 export default UserInfoCard;
