@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { CHALLENGES } from "@/utlis/challenges";
 import { useChallengeStore } from "@/zustand/challengeStore";
+import BlackAutoWidthButton from "./ui/BlackAutoWidthButton";
+import { CHALLENGES } from "@/utlis/challenges";
 
 export const ChallengeSelection = () => {
   const { handleSubmit } = useForm();
   const { setStep, setSelectedChallenges } = useChallengeStore();
-
   const [selected, setSelected] = useState<string[]>([]);
 
   const onSubmit = () => {
@@ -25,34 +25,40 @@ export const ChallengeSelection = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col gap-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-10 mx-auto">
+      <h1>데일리 탄소 절감 챌린지</h1>
+      <div className="grid grid-cols-6 gap-4 pt-8">
         {CHALLENGES.map((challenge) => (
-          <label
+          <div
             key={challenge.id}
-            className={`p-4 border rounded-lg cursor-pointer
-              ${
-                selected.includes(challenge.id)
-                  ? "bg-gray-100 border-gray-500"
-                  : ""
-              }`}
+            className="flex flex-col space-y-3 justify-center items-center py-4 border rounded-lg cursor-pointer"
+            onClick={() => handleToggleChallenge(challenge.id)}
           >
-            <input
-              type="checkbox"
-              checked={selected.includes(challenge.id)}
-              onChange={() => handleToggleChallenge(challenge.id)}
-              className="hidden"
-            />
-            <span>{challenge.label}</span>
-          </label>
+            <div className="w-[60px] h-[60px] bg-gray-300 rounded-full text-center" />
+            <label className="w-full font-bold text-[12px]">
+              <input
+                type="checkbox"
+                checked={selected.includes(challenge.id)}
+                onChange={() => handleToggleChallenge(challenge.id)}
+                className="hidden"
+              />
+              <span className="block text-center">{challenge.label}</span>
+            </label>
+            <div
+              className={`px-4 flex items-center justify-center rounded-xl transition-colors
+                ${
+                  selected.includes(challenge.id)
+                    ? "bg-gray-800 text-white"
+                    : "bg-gray-300 text-gray-700 hover:bg-gray-400"
+                }
+              `}
+            >
+              C
+            </div>
+          </div>
         ))}
       </div>
-      <button
-        type="submit"
-        className="mt-4 px-4 py-2 bg-black text-white rounded-lg"
-      >
-        다음 단계
-      </button>
+      <BlackAutoWidthButton text="챌린지 인증하기" />
     </form>
   );
 };
