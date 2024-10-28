@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { signup } from "@/api/auth-actions";
+import { SignupInput } from "@/types/authType";
 
 // Zod 스키마 정의
 const signupSchema = z.object({
@@ -22,12 +23,6 @@ const signupSchema = z.object({
         "닉네임은 알파벳, 숫자, 한글, @, 밑줄 및 하이픈만 포함해야 합니다."
     }) // 특정 문자만 허용
 });
-
-export interface SignupInput {
-  email: string;
-  password: string;
-  nickname: string;
-}
 
 const SignupForm = () => {
   const router = useRouter();
@@ -52,22 +47,40 @@ const SignupForm = () => {
 
   return (
     <form
-      className="flex flex-col justify-center items-center"
+      className="w-1/3 flex flex-col justify-center items-center gap-1 p-3"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <input type="email" {...register("email")} placeholder="email" />
-      <p role="alert" className="text-red-600">
+      <h2 className="text-xl mb-6">회원가입</h2>
+      <input
+        type="email"
+        className="p-2 w-full rounded-md border border-[#9c9c9c]"
+        {...register("email")}
+        placeholder="이메일"
+      />
+      <p role="alert" className="text-sm text-red-600">
         {errors.email?.message}
       </p>
-      <input type="password" {...register("password")} placeholder="password" />
-      <p role="alert" className="text-red-600">
+      <input
+        type="password"
+        className="p-2 w-full rounded-md border border-[#9c9c9c]"
+        {...register("password")}
+        placeholder="비밀번호"
+      />
+      <p role="alert" className="text-sm text-red-600">
         {errors.password?.message}
       </p>
-      <input type="text" {...register("nickname")} placeholder="nickname" />
-      <p role="alert" className="text-red-600">
+      <input
+        type="text"
+        className="p-2 w-full rounded-md border border-[#9c9c9c]"
+        {...register("nickname")}
+        placeholder="닉네임"
+      />
+      <p role="alert" className="text-sm text-red-600">
         {errors.nickname?.message}
       </p>
-      <button type="submit">회원가입</button>
+      <button type="submit" className="bg-[#cbcbcb] p-2 w-full rounded-md">
+        회원가입
+      </button>
     </form>
   );
 };

@@ -1,9 +1,9 @@
 "use client";
-
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login } from "@/api/auth-actions";
+import { LoginInput } from "@/types/authType";
 
 // Zod 스키마 정의
 const loginSchema = z.object({
@@ -16,11 +16,6 @@ const loginSchema = z.object({
     .min(6, { message: "비밀번호는 최소 6자 이상이어야 합니다." })
     .nonempty({ message: "비밀번호를 입력해주세요." })
 });
-
-export interface LoginInput {
-  email: string;
-  password: string;
-}
 
 const LoginForm = () => {
   const {
@@ -44,20 +39,34 @@ const LoginForm = () => {
       }
     }
   };
+
   return (
     <form
-      className="flex flex-col justify-center items-center"
+      className="w-1/3 flex flex-col justify-center items-center gap-1 p-3"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <input type="email" {...register("email")} placeholder="email" />
-      <p role="alert" className="text-red-600">
+      <h2 className="text-xl mb-6">로그인</h2>
+      <input
+        type="email"
+        className="p-2 w-full rounded-md border border-[#9c9c9c]"
+        {...register("email")}
+        placeholder="이메일"
+      />
+      <p role="alert" className="text-sm text-red-600">
         {errors.email?.message}
       </p>
-      <input type="password" {...register("password")} placeholder="password" />
-      <p role="alert" className="text-red-600">
+      <input
+        type="password"
+        className="p-2 w-full rounded-md border border-[#9c9c9c]"
+        {...register("password")}
+        placeholder="비밀번호"
+      />
+      <p role="alert" className="text-sm text-red-600">
         {errors.password?.message}
       </p>
-      <button type="submit">로그인</button>
+      <button type="submit" className="bg-[#cbcbcb] p-2 w-full rounded-md">
+        로그인
+      </button>
     </form>
   );
 };

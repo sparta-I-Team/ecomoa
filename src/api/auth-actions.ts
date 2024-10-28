@@ -3,8 +3,7 @@
 import { redirect } from "next/navigation";
 import { SignUpWithPasswordCredentials, User } from "@supabase/supabase-js";
 import { createClient } from "@/utlis/supabase/server";
-import { SignupInput } from "@/app/(auth)/signup/components/SignupForm";
-import { LoginInput } from "@/app/(auth)/login/components/LoginForm";
+import { LoginInput, SignupInput } from "@/types/authType";
 
 // 로그인
 export const login = async (loginInput: LoginInput) => {
