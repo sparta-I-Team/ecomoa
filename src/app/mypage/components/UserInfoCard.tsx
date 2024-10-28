@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { checkNicknameAvailability } from "@/api/user-action"; // 서버 액션 가져오기
+import ProfileImgUpload from "./ProfileImgUpload";
 
 const forbiddenWords = ["욕설1", "욕설2", "욕설3"];
 
@@ -104,52 +105,54 @@ const UserInfoCard = ({ user }: ProfileProps) => {
     }
   };
 
-  // JSX를 여기서 렌더링
-  if (!userInfo) return null;
+  // if (!userInfo) return null;
 
   return (
-    <div className="flex flex-col items-center bg-slate-400">
-      <div className="flex flex-row items-center gap-1">
-        {isEditing ? (
-          <form onSubmit={handleSubmit(onSubmit)} className="flex">
-            <div className="flex flex-col items-center">
-              <input
-                {...register("nickname", {})}
-                placeholder="닉네임을 입력하세요"
-                defaultValue={initialNickname}
-                onChange={handleChange}
-              />
-              {/* 에러 메시지 출력 */}
-              {nicknameError && (
-                <p className="text-sm text-red-600 mt-1 whitespace-nowrap">
-                  {nicknameError}
+    <div className="flex flex-col items-center bg-[#edeef0] w-full">
+      <div className="flex flex-row items-center gap-2 w-full p-5 justify-start">
+        <ProfileImgUpload userId={user.id} userAvatar={userInfo?.user_avatar} />
+        <div className="flex flex-row items-center gap-1">
+          {isEditing ? (
+            <form onSubmit={handleSubmit(onSubmit)} className="flex">
+              <div className="flex flex-col items-center">
+                <div className="flex flex-row gap-1">
+                  <input
+                    {...register("nickname", {})}
+                    placeholder="닉네임을 입력하세요"
+                    defaultValue={initialNickname}
+                    onChange={handleChange}
+                  />
+                  <button type="submit">저장</button>
+                  <button type="button" onClick={handleCancel}>
+                    취소
+                  </button>
+                </div>
+                {/* 에러 메시지 출력 */}
+                {nicknameError && (
+                  <p className="text-sm text-red-600 mt-1 whitespace-nowrap">
+                    {nicknameError}
+                  </p>
+                )}
+              </div>
+              {errors.nickname && (
+                <p role="alert" className="text-red-600">
+                  {errors.nickname.message}
                 </p>
               )}
-
-              <div className="flex gap-2">
-                <button type="submit">저장</button>
-                <button type="button" onClick={handleCancel}>
-                  취소
-                </button>
-              </div>
-            </div>
-            {errors.nickname && (
-              <p role="alert" className="text-red-600">
-                {errors.nickname.message}
-              </p>
-            )}
-          </form>
-        ) : (
-          <>
-            <span className="font-black text-lg">
-              {userInfo?.user_nickname}
-            </span>
-            <span className="font-black text-lg">님</span>
-            <button onClick={handleEditClick}>수정</button>
-          </>
-        )}
+            </form>
+          ) : (
+            <>
+              <span className="font-black text-lg">
+                {userInfo?.user_nickname}
+              </span>
+              <span className="font-black text-lg">님</span>
+              <button className="mr-auto" onClick={handleEditClick}>
+                수정
+              </button>
+            </>
+          )}
+        </div>
       </div>
-      <p>{userInfo?.user_email}</p>
     </div>
   );
 };
