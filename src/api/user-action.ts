@@ -1,5 +1,6 @@
 "use server";
 
+import { Bookmarks } from "@/types/userInfoType";
 import { createClient } from "@/utlis/supabase/server";
 
 export const getUserInfo = async (userId: string) => {
@@ -131,4 +132,21 @@ export const updateAvatarUrl = async (userId: string, newAvatarUrl: string) => {
   }
   console.log("프로필 업데이트 성공");
   return data;
+};
+
+// 북마크
+export const getBookmarks = async (
+  userId: string
+): Promise<Bookmarks[] | null> => {
+  const supabase = createClient();
+  const { data: bookmarks, error } = await supabase
+    .from("bookmarks")
+    .select("*, posts(*)")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("북마크 포스트 가져오기 오류", error);
+    return null;
+  }
+  return bookmarks;
 };

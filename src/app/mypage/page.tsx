@@ -13,7 +13,6 @@ const Mypage = async () => {
   return (
     <div className="w-1/3 flex flex-col m-auto w-full px-10">
       <h1>마이페이지</h1>
-      <p>포인트와 등급을 확인해보세요!</p>
       <div className="flex flex-row justify-center gap-5">
         <UserInfoCard user={user} />
         <MyPoint user={user} />
@@ -26,7 +25,7 @@ const Mypage = async () => {
         <Link href={"/"}>탄소계산 히스토리</Link>
       </div>
       <div className="border-b border-gray-400 mb-1 flex justify-between items-center p-4">
-        <Link href={"/"}>나의 스크랩</Link>
+        <Link href={"/mypage/bookmark"}>나의 스크랩</Link>
         <LikePosts user={user} />
       </div>
       <div className="border-b border-gray-400 mb-1 flex justify-between items-center p-4">
