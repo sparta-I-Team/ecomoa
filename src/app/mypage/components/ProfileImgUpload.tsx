@@ -107,8 +107,10 @@ const ProfileImgUpload = ({ userId, userAvatar }: ProfileImgUploadProps) => {
     >
       <label htmlFor="profileImage">
         <Image
-          src={previewImage || "디폴트 이미지"}
+          src={previewImage || "/images/default-profile"}
           alt="미리보기"
+          width={64}
+          height={64}
           className="w-16 h-16 cursor-pointer object-cover"
         />
       </label>
