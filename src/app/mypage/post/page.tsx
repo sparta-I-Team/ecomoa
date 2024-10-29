@@ -1,4 +1,3 @@
-import React from "react";
 import Myposts from "../components/Myposts";
 
 const MyPostPage = async () => {

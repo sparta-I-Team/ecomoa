@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 
 const Myposts = () => {
   const { user } = userStore();
-  console.log("주스탠드 user======================>", user);
   const { data: myPosts, isLoading } = useQuery<MyPosts[] | null>({
     queryKey: ["myPosts", user.id],
     queryFn: () => getMyPosts(user.id),

@@ -65,7 +65,6 @@ export const signInWithKakao = async () => {
   if (error) {
     console.error("카카오 로그인 에러", error);
   }
-  console.log("카카오로그인-------->", data);
   return data.url;
 };
 

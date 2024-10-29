@@ -8,10 +8,6 @@ interface LikePostsProps {
 const LikePosts = async ({ user }: LikePostsProps) => {
   const likeInfo = await getLikePosts(user.id);
   const posts = likeInfo?.map((like) => like.posts).flat(); // 모든 like에서 posts 추출 후 평탄화
-
-  console.log("like 테이블 연결--------->", likeInfo);
-  console.log("ddddddd", posts);
-
   return (
     <div className="bg-slate-400">
       {posts?.map((post) => (
