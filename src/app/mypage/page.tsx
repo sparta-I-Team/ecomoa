@@ -11,32 +11,52 @@ const Mypage = async () => {
   if (!user) return;
 
   return (
-    <div className="w-1/3 flex flex-col m-auto w-full px-10">
-      <h1>마이페이지</h1>
+    <div className="flex flex-col m-auto w-full">
+      <h1 className="pt-[89px] font-semibold font-[24px] mb-6">마이페이지</h1>
       <div className="flex flex-row justify-center gap-5">
         <UserInfoCard user={user} />
         <MyPoint user={user} />
       </div>
 
-      <div className="border-b border-gray-400 mt-10 mb-1 flex justify-between items-center p-4">
-        <Link href={"/"}>챌린지 히스토리</Link>
-      </div>
-      <div className="border-b border-gray-400 mb-1 flex justify-between items-center p-4">
-        <Link href={"/"}>탄소계산 히스토리</Link>
-      </div>
-      <div className="border-b border-gray-400 mb-1 flex justify-between items-center p-4">
-        <Link href={"/mypage/bookmark"}>나의 스크랩</Link>
+      <Link
+        href={"/"}
+        className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center"
+      >
+        <p className="font-[18px]">챌린지 히스토리</p>
+      </Link>
+
+      <Link
+        href={"/"}
+        className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center"
+      >
+        <p className="font-[18px]">탄소계산 히스토리</p>
+      </Link>
+      <Link
+        href={"/mypage/bookmark"}
+        className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center"
+      >
+        <p className="font-[18px]">나의 스크랩</p>
         <LikePosts user={user} />
-      </div>
-      <div className="border-b border-gray-400 mb-1 flex justify-between items-center p-4">
-        <Link href={"/mypage/post"}>나의 게시글</Link>
-      </div>
-      <div className="border-b border-gray-400 mb-1 flex justify-between items-center p-4">
-        <Link href={"/"}>회원정보 수정</Link>
-      </div>
-      <div className="border-b border-gray-400 mb-1 flex justify-between items-center p-4">
-        <Link href={"/"}>회원 탈퇴</Link>
-      </div>
+      </Link>
+      <Link
+        href={"/mypage/post"}
+        className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center"
+      >
+        <p className="font-[18px]">나의 게시글</p>
+      </Link>
+      <Link
+        href={"/"}
+        className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center"
+      >
+        <p className="font-[18px]">회원정보 수정</p>
+      </Link>
+      <Link
+        href={"/"}
+        className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center"
+      >
+        <p className="font-[18px]">회원 탈퇴</p>
+      </Link>
+
       <div className="mt-10">
         <DeleteAccountButton user={user} />
         <LogoutButton />

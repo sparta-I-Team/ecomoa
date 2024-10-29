@@ -108,12 +108,15 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   // if (!userInfo) return null;
 
   return (
-    <div className="flex flex-col items-center bg-[#edeef0] w-full">
+    <div className="w-[585px] h-[220px] flex flex-col items-center bg-[#edeef0] w-full">
       <div className="flex flex-row items-center gap-2 w-full p-5 justify-start">
         <ProfileImgUpload userId={user.id} userAvatar={userInfo?.user_avatar} />
         <div className="flex flex-row items-center gap-1">
           {isEditing ? (
-            <form onSubmit={handleSubmit(onSubmit)} className="flex">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex items-center"
+            >
               <div className="flex flex-col items-center">
                 <div className="flex flex-row gap-1">
                   <input

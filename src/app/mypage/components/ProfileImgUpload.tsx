@@ -109,9 +109,9 @@ const ProfileImgUpload = ({ userId, userAvatar }: ProfileImgUploadProps) => {
         <Image
           src={previewImage || "/images/default-profile.jpg"}
           alt="미리보기"
-          width={64}
-          height={64}
-          className="w-16 h-16 cursor-pointer object-cover"
+          width={72}
+          height={72}
+          className="cursor-pointer object-cover"
         />
       </label>
       <input
