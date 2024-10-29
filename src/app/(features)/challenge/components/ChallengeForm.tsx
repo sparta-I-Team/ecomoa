@@ -7,8 +7,8 @@ import Select from "./form/Select";
 import ImageUpload from "./form/ImageUpload";
 import BlackAutoWidthButton from "./ui/BlackAutoWidthButton";
 import { useChallengeMutation } from "@/hooks/useChallenge";
-import { getUser } from "@/api/actions";
 import { calculateTotalCarbon } from "@/utlis/challenge/calculateCarbon";
+import { getUser } from "@/api/auth-actions";
 
 export const ChallengeForm = () => {
   const [previews, setPreviews] = useState<string[]>([]);

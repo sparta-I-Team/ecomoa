@@ -1,8 +1,8 @@
-import { getUser } from "@/api/actions";
 import { useChallengeDashboard } from "@/hooks/useChallengeDashboard";
 import React, { useEffect, useState } from "react";
 import { StatsSection } from "./header/StatsSection";
 import { LevelSection } from "./header/LevelSection";
+import { getUser } from "@/api/auth-actions";
 
 const ChallengeHeader = () => {
   const [userId, setUserId] = useState<string>("");
@@ -24,7 +24,10 @@ const ChallengeHeader = () => {
 
   return (
     <header className="flex flex-row justify-between">
-      <StatsSection todayChallenge={todayChallenge} co2Difference={co2Difference} />
+      <StatsSection
+        todayChallenge={todayChallenge}
+        co2Difference={co2Difference}
+      />
       <LevelSection levelInfo={levelInfo} />
     </header>
   );
