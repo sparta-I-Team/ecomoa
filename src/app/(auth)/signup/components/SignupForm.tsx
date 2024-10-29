@@ -13,15 +13,7 @@ const signupSchema = z.object({
   password: z
     .string()
     .min(6, { message: "비밀번호는 최소 6자 이상이어야 합니다." })
-    .nonempty({ message: "비밀번호를 입력해주세요." }),
-  nickname: z
-    .string()
-    .min(2, { message: "닉네임은 최소 2자 이상이어야 합니다." })
-    .max(20, { message: "닉네임은 20자 이하이어야 합니다." }) // 닉네임 길이 제한
-    .regex(/^[a-zA-Z0-9가-힣@_-]*$/, {
-      message:
-        "닉네임은 알파벳, 숫자, 한글, @, 밑줄 및 하이픈만 포함해야 합니다."
-    }) // 특정 문자만 허용
+    .nonempty({ message: "비밀번호를 입력해주세요." })
 });
 
 const SignupForm = () => {
@@ -35,7 +27,7 @@ const SignupForm = () => {
   });
 
   const onSubmit: SubmitHandler<SignupInput> = async (data: SignupInput) => {
-    console.log("제출된 데이터:", data); // 데이터 로그
+    // console.log("제출된 데이터:", data);
     try {
       await signup(data);
       alert("회원가입이 완료되었습니다.");
@@ -68,15 +60,6 @@ const SignupForm = () => {
       />
       <p role="alert" className="text-sm text-red-600">
         {errors.password?.message}
-      </p>
-      <input
-        type="text"
-        className="p-2 w-full rounded-md border border-[#9c9c9c]"
-        {...register("nickname")}
-        placeholder="닉네임"
-      />
-      <p role="alert" className="text-sm text-red-600">
-        {errors.nickname?.message}
       </p>
       <button type="submit" className="bg-[#cbcbcb] p-2 w-full rounded-md">
         회원가입

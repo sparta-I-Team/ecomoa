@@ -1,9 +1,12 @@
 "use client";
 import { getMyPosts } from "@/api/user-action";
-import { MyPosts, ProfileProps } from "@/types/userInfoType";
+import { MyPosts } from "@/types/userInfoType";
+import { userStore } from "@/zustand/userStore";
 import { useQuery } from "@tanstack/react-query";
 
-const Myposts = ({ user }: ProfileProps) => {
+const Myposts = () => {
+  const { user } = userStore();
+  console.log("주스탠드 user======================>", user);
   const { data: myPosts, isLoading } = useQuery<MyPosts[] | null>({
     queryKey: ["myPosts", user.id],
     queryFn: () => getMyPosts(user.id),
@@ -19,7 +22,7 @@ const Myposts = ({ user }: ProfileProps) => {
   }
 
   return (
-    <div className="bg-gray-400 flex flex-col items-center mt-4">
+    <div>
       {myPosts && myPosts.length > 0 ? ( // myPosts가 null이 아닐 경우 확인
         <div>
           {myPosts.map((post) => (
@@ -31,7 +34,7 @@ const Myposts = ({ user }: ProfileProps) => {
           ))}
         </div>
       ) : (
-        <p>게시글이 없습니다.</p>
+        <p>작성한 게시글이 없습니다.</p>
       )}
     </div>
   );

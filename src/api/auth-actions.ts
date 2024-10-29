@@ -17,13 +17,13 @@ export const login = async (loginInput: LoginInput) => {
     console.error("로그인 오류", error);
     throw new Error(error.message);
   }
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-  if (userError) {
-    console.error("유저 정보 가져오기 오류:", userError);
-  } else {
-    console.log("로그인된 유저:", userData.user); // 유저 정보 출력
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+  if (sessionError) {
+    console.error("유저 정보 가져오기 오류:", sessionError);
+    throw new Error("유저 정보를 가져오는 중 오류가 발생했습니다.");
   }
-  redirect("/");
+  return sessionData;
 };
 
 // 회원가입
@@ -31,12 +31,12 @@ export const signup = async (signupInput: SignupInput) => {
   const supabase = createClient();
   const data: SignUpWithPasswordCredentials = {
     email: signupInput.email,
-    password: signupInput.password,
-    options: {
-      data: {
-        nickname: signupInput.nickname
-      }
-    }
+    password: signupInput.password
+    // options: {
+    //   data: {
+    //     nickname: signupInput.nickname
+    //   }
+    // }
   };
   const { error } = await supabase.auth.signUp(data);
   await supabase.auth.signOut();
@@ -70,6 +70,7 @@ export const signInWithKakao = async () => {
   if (error) {
     console.error("카카오 로그인 에러", error);
   }
+  console.log("카카오로그인-------->", data);
   return data.url;
 };
 

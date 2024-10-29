@@ -1,4 +1,5 @@
 "use client";
+import { createClient } from "@/utlis/supabase/client";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -8,6 +9,14 @@ const Header = () => {
   const handleLogout = () => {
     setIsUserLoggedIn(!isUserLoggedIn);
   };
+  const supabase = createClient();
+  supabase.auth.onAuthStateChange((event, session) => {
+    console.log("!!!!!!!!!!!!!!", event);
+    if (event === "INITIAL_SESSION") {
+      console.log("initial session", session);
+    }
+    if (event === "SIGNED_IN") console.log("SIGNED_IN", session);
+  });
 
   return (
     <header>

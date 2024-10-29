@@ -4,6 +4,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login } from "@/api/auth-actions";
 import { LoginInput } from "@/types/authType";
+import { useRouter } from "next/navigation";
+import { getUserInfo } from "@/api/user-action";
+import { userStore } from "@/zustand/userStore";
 
 // Zod 스키마 정의
 const loginSchema = z.object({
@@ -18,6 +21,8 @@ const loginSchema = z.object({
 });
 
 const LoginForm = () => {
+  const { loginUser } = userStore();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -27,9 +32,24 @@ const LoginForm = () => {
   });
 
   const onSubmit: SubmitHandler<LoginInput> = async (data: LoginInput) => {
-    console.log("제출된 데이터:", data);
     try {
-      await login(data);
+      const response = await login(data);
+      console.log("리스폰스", response);
+      const userInfo = await getUserInfo(response.session?.user.id as string);
+
+      // zustand 스토어에 사용자 정보 저장
+      loginUser({
+        email: response.session?.user.email as string,
+        accessToken: response.session?.access_token as string,
+        id: response.session?.user.id as string,
+        isAuthenticated: true
+      });
+
+      if (!userInfo?.user_nickname) {
+        router.push("/nickname");
+      } else {
+        router.push("/");
+      }
     } catch (error) {
       const err = error as Error;
       if (err.message.includes("Invalid login credentials")) {
