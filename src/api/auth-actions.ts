@@ -32,11 +32,6 @@ export const signup = async (signupInput: SignupInput) => {
   const data: SignUpWithPasswordCredentials = {
     email: signupInput.email,
     password: signupInput.password
-    // options: {
-    //   data: {
-    //     nickname: signupInput.nickname
-    //   }
-    // }
   };
   const { error } = await supabase.auth.signUp(data);
   await supabase.auth.signOut();

@@ -1,21 +1,29 @@
 "use client";
 import { createClient } from "@/utlis/supabase/client";
+import { userStore } from "@/zustand/userStore";
 import Link from "next/link";
 import React, { useState } from "react";
 
 const Header = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(true);
+  const { loginUser } = userStore();
 
   const handleLogout = () => {
     setIsUserLoggedIn(!isUserLoggedIn);
   };
   const supabase = createClient();
   supabase.auth.onAuthStateChange((event, session) => {
-    console.log("!!!!!!!!!!!!!!", event);
     if (event === "INITIAL_SESSION") {
-      console.log("initial session", session);
     }
-    if (event === "SIGNED_IN") console.log("SIGNED_IN", session);
+    if (event === "SIGNED_IN") {
+      // zustand 스토어에 사용자 정보 저장
+      loginUser({
+        email: session?.user.email as string,
+        accessToken: session?.access_token as string,
+        id: session?.user.id as string,
+        isAuthenticated: true
+      });
+    }
   });
 
   return (

@@ -34,10 +34,9 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<LoginInput> = async (data: LoginInput) => {
     try {
       const response = await login(data);
-      console.log("리스폰스", response);
       const userInfo = await getUserInfo(response.session?.user.id as string);
 
-      // zustand 스토어에 사용자 정보 저장
+      // zustand 스토어에 로그인 유저 정보 저장
       loginUser({
         email: response.session?.user.email as string,
         accessToken: response.session?.access_token as string,

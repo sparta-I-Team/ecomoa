@@ -10,7 +10,7 @@ const LogoutButton = () => {
     if (isConfirmed) {
       // 사용자가 OK를 클릭했을 경우
       signout();
-      // userStore 초기화
+      // zustand userStore 초기화
       logoutUser();
     }
   };
