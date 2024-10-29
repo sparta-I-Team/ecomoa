@@ -10,7 +10,6 @@ export const challengesApi = {
       const imageUrls = await Promise.all(
         params.images.map(async (file) => {
           const fileName = `${params.userId}/${Date.now()}`;
-          console.log(fileName);
           const { data, error } = await supabase.storage
             .from("challenges")
             .upload(fileName, file);
@@ -77,6 +76,24 @@ export const challengesApi = {
     const { data, error } = await supabase
       .from("challenges")
       .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+    return data;
+  },
+
+  readByUserId: async (userId: string) => {
+    const { data, error } = await supabase
+      .from("challenges")
+      .select(
+        `
+        *,
+        user_info:user_id (
+          user_nickname
+        )
+      `
+      )
+      .eq("user_id", userId)
       .order("created_at", { ascending: false });
 
     if (error) throw error;

@@ -1,4 +1,3 @@
-// utils/calculateCarbon.ts
 export const CARBON_VALUES = {
   transport: 1.3,
   bike: 1.0,

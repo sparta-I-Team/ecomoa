@@ -1,4 +1,4 @@
-import { CHALLENGES, CHALLENGE_OPTIONS } from "@/utlis/challenges";
+import { CHALLENGES, CHALLENGE_OPTIONS } from "@/utlis/challenge/challenges";
 import { useChallengeStore } from "@/zustand/challengeStore";
 import React from "react";
 

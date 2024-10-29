@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useChallengeStore } from "@/zustand/challengeStore";
 import BlackAutoWidthButton from "./ui/BlackAutoWidthButton";
-import { CHALLENGES } from "@/utlis/challenges";
+import { CHALLENGES } from "@/utlis/challenge/challenges";
 
 export const ChallengeSelection = () => {
   const { handleSubmit } = useForm();
