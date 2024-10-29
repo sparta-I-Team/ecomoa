@@ -1,9 +1,9 @@
 "use client";
 import { getUser } from "@/api/auth-actions";
 import { updateNickname, checkNicknameAvailability } from "@/api/user-action";
+import { userStore } from "@/zustand/userStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -35,6 +35,7 @@ const nicknameSchema = z.object({
 type NicknameInput = z.infer<typeof nicknameSchema>;
 
 const NicknameSetPage = () => {
+  const { user } = userStore();
   const router = useRouter();
   const queryClient = useQueryClient();
   const {
@@ -49,22 +50,15 @@ const NicknameSetPage = () => {
   // useMutation을 최상위에서 호출
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: NicknameInput) => {
-      const user = await getUser(); // 사용자 정보 가져오기
+      // const user = await getUser(); // 사용자 정보 가져오기
       if (!user) return;
-      // 닉네임 중복 검사
-      //   const available = await checkNicknameAvailability(data.nickname, user.id);
-      //   if (!available) {
-      //     await setError("nickname", { message: "이미 사용 중인 닉네임입니다." });
-      //     return;
-      //   }
-      // 닉네임 업데이트
       return updateNickname({
         userId: user.id,
         newNickname: data.nickname
       });
     },
     onSuccess: async () => {
-      const user = await getUser();
+      // const user = await getUser();
       if (!user) return;
       queryClient.invalidateQueries({
         queryKey: ["userInfo", user.id]
@@ -83,36 +77,36 @@ const NicknameSetPage = () => {
   };
 
   return (
-    <div className="w-[800px] h-[800px] mx-auto">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className=" flex flex-col justify-center items-center m-auto w-[800px] h-[600px]"
-      >
-        <Image
-          src={"/images/default-profile.jpg"}
-          width={225}
-          height={240}
-          alt="씨앗모아 이미지"
-        />
-        <p className="text-2xl">LV.1 씨앗모아</p>
-        <p className="text-2xl">닉네임을 설정해주세요</p>
-        <input
-          type="text"
-          className="w-[400px] h-16 rounded-md border border-[#9c9c9c] p-3"
-          {...register("nickname")}
-          placeholder="닉네임"
-        />
-        <p role="alert" className="text-sm text-red-600">
-          {errors.nickname?.message}
-        </p>
-        <button
-          type="submit"
-          disabled={isPending}
-          className="w-[300px] h-20 p-[11px_14px] rounded-[85px] mt-[69px] text-[32px]"
+    <div className="w-full min-h-screen bg-[#cccccc] flex justify-center items-center">
+      <div className="w-[800px] h-[500px] bg-[#FFFFFF] rounded-[20px] mx-auto ">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className=" flex flex-col justify-center items-center m-auto w-[800px] h-[600px]"
         >
-          {isPending ? "로딩 중..." : "생성하기"}
-        </button>
-      </form>
+          <div className="w-[337px] h-[71px] mb-[59px]">
+            <p className="text-[26px] font-semibold">
+              회원가입이 완료되었습니다.
+            </p>
+            <p className="text-[26px] font-semibold">닉네임을 설정해주세요</p>
+          </div>
+          <input
+            type="text"
+            className="w-[400px] h-16 rounded-[12px] border border-[#9c9c9c] p-3 mb-[74px] placeholder:text-xl"
+            {...register("nickname")}
+            placeholder="ex. 홍길동"
+          />
+          <p role="alert" className="text-sm text-red-600">
+            {errors.nickname?.message}
+          </p>
+          <button
+            type="submit"
+            disabled={isPending}
+            className="w-[300px] h-[68px] p-[11px_14px] rounded-[85px] mb-[76px] text-[32px] bg-[#469B0D] text-[#FFF] text-2xl font-semibold"
+          >
+            생성하기
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
