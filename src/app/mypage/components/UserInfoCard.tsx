@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { checkNicknameAvailability } from "@/api/user-action"; // 서버 액션 가져오기
 import ProfileImgUpload from "./ProfileImgUpload";
+import { useChallengeDashboard } from "@/hooks/useChallengeDashboard";
+import LevelGauge from "./LevelGauge";
 
 const forbiddenWords = ["욕설1", "욕설2", "욕설3"];
 
@@ -104,11 +106,10 @@ const UserInfoCard = ({ user }: ProfileProps) => {
       setNicknameError(""); // 사용 가능한 닉네임일 경우 에러 메시지 초기화
     }
   };
-
-  // if (!userInfo) return null;
+  const { levelInfo } = useChallengeDashboard(user.id);
 
   return (
-    <div className="w-[585px] h-[220px] flex flex-col items-center bg-[#edeef0] w-full">
+    <div className="w-[585px] h-[220px] flex flex-col items-center bg-[#edeef0]">
       <div className="flex flex-row items-center gap-2 w-full p-5 justify-start">
         <ProfileImgUpload userId={user.id} userAvatar={userInfo?.user_avatar} />
         <div className="flex flex-row items-center gap-1">
@@ -156,6 +157,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
           )}
         </div>
       </div>
+      <LevelGauge levelInfo={levelInfo} />
     </div>
   );
 };
