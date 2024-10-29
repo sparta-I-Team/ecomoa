@@ -39,13 +39,13 @@ const SignupForm = () => {
 
   return (
     <form
-      className="w-1/3 flex flex-col justify-center items-center gap-1 p-3"
+      className="w-full flex flex-col justify-center items-center gap-1 p-3"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h2 className="text-xl mb-6">회원가입</h2>
+      <h2 className="text-4xl font-normal mb-[60px]">회원가입</h2>
       <input
         type="email"
-        className="p-2 w-full rounded-md border border-[#9c9c9c]"
+        className="p-2 w-[584px] h-16 rounded-md borde border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold"
         {...register("email")}
         placeholder="이메일"
       />
@@ -54,14 +54,17 @@ const SignupForm = () => {
       </p>
       <input
         type="password"
-        className="p-2 w-full rounded-md border border-[#9c9c9c]"
+        className="p-2 w-[584px] h-16 rounded-md borde border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold"
         {...register("password")}
         placeholder="비밀번호"
       />
       <p role="alert" className="text-sm text-red-600">
         {errors.password?.message}
       </p>
-      <button type="submit" className="bg-[#cbcbcb] p-2 w-full rounded-md">
+      <button
+        type="submit"
+        className="w-[584px] mt-[45px] h-16 bg-[#469B0D] p-2 rounded-md text-[#FFF]"
+      >
         회원가입
       </button>
     </form>
