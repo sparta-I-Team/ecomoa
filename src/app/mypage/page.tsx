@@ -12,7 +12,7 @@ const Mypage = async () => {
 
   return (
     <div className="flex flex-col m-auto w-full">
-      <h1 className="pt-[89px] font-semibold font-[24px] mb-6">마이페이지</h1>
+      <h1 className="pt-[89px] font-semibold text-[24px] mb-6">마이페이지</h1>
       <div className="flex flex-row justify-center gap-5">
         <UserInfoCard user={user} />
         <MyPoint user={user} />
