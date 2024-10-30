@@ -5,7 +5,6 @@ const page = () => {
     <div>
       Community
       <nav>챌린지/ 정보 / 등등</nav>
-        
     </div>
   );
 };

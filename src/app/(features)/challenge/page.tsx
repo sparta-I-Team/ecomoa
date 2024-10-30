@@ -1,12 +1,11 @@
-import React from "react";
-import Test from "./components/Test";
+// app/page.tsx
+import { Challenge } from "./components/Challenge";
 
-const page = () => {
+// 서버 컴포넌트
+export default function Page() {
   return (
-    <div>
-      <Test />
-    </div>
+    <main className="pt-4">
+      <Challenge />;
+    </main>
   );
-};
-
-export default page;
+}
