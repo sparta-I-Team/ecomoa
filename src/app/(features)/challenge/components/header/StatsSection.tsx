@@ -1,12 +1,21 @@
+import { ChallengeData } from "@/types/challengesType";
+import StatsSectionSkeleton from "../ui/StatsSectionSkeleton";
+
 interface StatsSectionProps {
-  todayChallenge: any;
+  todayChallenge: ChallengeData | undefined;
   co2Difference: number;
+  isLoading: boolean;
 }
 
-export const StatsSection = ({
+const StatsSection = ({
   todayChallenge,
-  co2Difference
+  co2Difference,
+  isLoading
 }: StatsSectionProps) => {
+  if (isLoading) {
+    return <StatsSectionSkeleton />;
+  }
+
   const today = new Date();
   const month = today.getMonth() + 1;
   const date = today.getDate();
@@ -42,9 +51,11 @@ export const StatsSection = ({
             </p>
           </>
         ) : (
-          <p className="text-xl">오늘의 데일리 챌린지에 참여해보세요!</p>
+          <p className="text-3xl font-bold">오늘의 데일리 챌린지에 참여해보세요!</p>
         )}
       </article>
     </section>
   );
 };
+
+export default StatsSection;

@@ -1,8 +1,8 @@
 import { getUser } from "@/api/actions";
 import { useChallengeDashboard } from "@/hooks/useChallengeDashboard";
 import React, { useEffect, useState } from "react";
-import { StatsSection } from "./header/StatsSection";
-import { LevelSection } from "./header/LevelSection";
+import LevelSection from "./header/LevelSection";
+import StatsSection from "./header/StatsSection";
 
 const ChallengeHeader = () => {
   const [userId, setUserId] = useState<string>("");
@@ -18,14 +18,16 @@ const ChallengeHeader = () => {
   const { isLoading, error, todayChallenge, levelInfo, co2Difference } =
     useChallengeDashboard(userId);
 
-  if (isLoading) return <>로딩중...</>;
-
   if (error) return <>{error.message}</>;
 
   return (
     <header className="flex flex-row justify-between">
-      <StatsSection todayChallenge={todayChallenge} co2Difference={co2Difference} />
-      <LevelSection levelInfo={levelInfo} />
+      <StatsSection
+        todayChallenge={todayChallenge}
+        co2Difference={co2Difference}
+        isLoading={isLoading}
+      />
+      <LevelSection levelInfo={levelInfo} isLoading={isLoading} />
     </header>
   );
 };
