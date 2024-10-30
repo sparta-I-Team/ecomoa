@@ -8,7 +8,7 @@ import ImageUpload from "./form/ImageUpload";
 import BlackAutoWidthButton from "./ui/BlackAutoWidthButton";
 import { useChallengeMutation } from "@/hooks/useChallenge";
 import { calculateTotalCarbon } from "@/utlis/challenge/calculateCarbon";
-import { getUser } from "@/api/auth-actions";
+import { CHALLENGES } from "@/utlis/challenge/challenges";
 
 export const ChallengeForm = () => {
   const [previews, setPreviews] = useState<string[]>([]);
@@ -24,7 +24,7 @@ export const ChallengeForm = () => {
     formState: { errors }
   } = useForm<ChallengeFormInputs>();
 
-  const { openModal, closeModal } = useModal();
+  const { openModal } = useModal();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -72,16 +72,30 @@ export const ChallengeForm = () => {
       });
 
       openModal(
-        <div className="p-4 text-center">
+        <div className="p-6 flex flex-col items-center w-full max-w-md">
           <h2 className="text-xl font-bold mb-4">챌린지 인증 완료!</h2>
-          <p>오늘의 챌린지를 성공적으로 완료했습니다.</p>
-          <p className="mt-2">포인트 획득: {selectedChallenges.length * 100}</p>
-          <button
-            onClick={closeModal}
-            className="mt-4 px-4 py-2 bg-black hover:bg-gray-800 text-white rounded-lg w-full"
-          >
-            확인
-          </button>
+          <p className="text-gray-700">
+            오늘의 챌린지를 성공적으로 완료했습니다.
+          </p>
+          <p className="mt-2 text-lg font-semibold">
+            포인트 획득: {selectedChallenges.length * 100}
+          </p>
+          <div className="flex flex-wrap gap-2 justify-center mt-4 w-full">
+            {CHALLENGES.filter((c) => selectedChallenges.includes(c.id)).map(
+              (ch) => (
+                <div
+                  key={ch.id}
+                  className="
+                  rounded-full bg-black px-4 py-1.5 text-sm 
+                  text-white shadow-sm whitespace-nowrap
+                  "
+                  title={ch.label}
+                >
+                  {ch.label}
+                </div>
+              )
+            )}
+          </div>
         </div>
       );
 

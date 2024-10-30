@@ -10,7 +10,7 @@ export const challengesApi = {
       const imageUrls = await Promise.all(
         params.images.map(async (file) => {
           const fileName = `${params.userId}/${Date.now()}`;
-          const { data, error } = await supabase.storage
+          const {  error } = await supabase.storage
             .from("challenges")
             .upload(fileName, file);
 

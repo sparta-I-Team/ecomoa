@@ -1,4 +1,5 @@
 import { ChallengeFormInputs } from "@/types/challengesType";
+import Image from "next/image";
 import React, { useRef } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
@@ -96,7 +97,7 @@ const ImageUpload = ({
           >
             {previews[index] ? (
               <>
-                <img
+                <Image
                   src={previews[index]}
                   alt={`미리보기 ${index + 1}`}
                   className="w-full h-full object-cover"

@@ -1,14 +1,27 @@
 import { LevelInfo } from "@/types/challengesType";
+import Image from "next/image";
+import LevelSectionSkeleton from "../ui/LevelSectionSkeleton";
 
 interface LevelSectionProps {
-  levelInfo: LevelInfo;
+  levelInfo: LevelInfo | null;
+  isLoading: boolean;
 }
 
-export const LevelSection = ({ levelInfo }: LevelSectionProps) => {
+const LevelSection = ({ levelInfo, isLoading }: LevelSectionProps) => {
+  
+  if (isLoading || !levelInfo) {
+    return <LevelSectionSkeleton />;
+  }
+
   return (
     <section>
       <figure className="w-[300px] h-[300px] border">
-        {/* 캐릭터 이미지 추가 예정 */}
+        <Image
+          src={levelInfo.image}
+          alt={levelInfo.name}
+          width={300}
+          height={300}
+        />
       </figure>
       <div className="space-y-2">
         <div className="flex flex-col">
@@ -34,3 +47,5 @@ export const LevelSection = ({ levelInfo }: LevelSectionProps) => {
     </section>
   );
 };
+
+export default LevelSection;

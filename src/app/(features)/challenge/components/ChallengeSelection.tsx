@@ -27,11 +27,13 @@ export const ChallengeSelection = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-10 mx-auto">
       <h1>데일리 탄소 절감 챌린지</h1>
-      <div className="grid grid-cols-6 gap-4 pt-8">
+      <div className="grid grid-cols-6 gap-4 pt-4">
         {CHALLENGES.map((challenge) => (
           <div
             key={challenge.id}
-            className="flex flex-col space-y-3 justify-center items-center py-4 border rounded-lg cursor-pointer"
+            className={`flex flex-col space-y-3 justify-center items-center py-4 border rounded-lg cursor-pointer
+                ${selected.includes(challenge.id) && "border-black"}
+              `}
             onClick={() => handleToggleChallenge(challenge.id)}
           >
             <div className="w-[60px] h-[60px] bg-gray-300 rounded-full text-center" />
@@ -53,7 +55,7 @@ export const ChallengeSelection = () => {
                 }
               `}
             >
-              C
+              Check
             </div>
           </div>
         ))}
