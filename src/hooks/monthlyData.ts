@@ -1,4 +1,4 @@
-import { getUser } from "@/api/actions";
+import { getUser } from "@/api/auth-actions";
 import { MonthlyData } from "@/types/calculate";
 import browserClient from "@/utlis/supabase/browserClient";
 
