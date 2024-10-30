@@ -4,6 +4,7 @@ import { ChallengeForm } from "./ChallengeForm";
 import { ChallengeSelection } from "./ChallengeSelection";
 import ChallengeHeader from "./ChallengeHeader";
 import { useChallengeStore } from "@/zustand/challengeStore";
+import Calendar from "@/components/ui/Calendar";
 
 export const Challenge = () => {
   const { step } = useChallengeStore();
@@ -14,6 +15,7 @@ export const Challenge = () => {
         <>
           <ChallengeHeader />
           <ChallengeSelection />
+          <Calendar />
           <Modal />
         </>
       ) : (
