@@ -9,6 +9,7 @@ import BlackAutoWidthButton from "./ui/BlackAutoWidthButton";
 import { useChallengeMutation } from "@/hooks/useChallenge";
 import { calculateTotalCarbon } from "@/utlis/challenge/calculateCarbon";
 import { CHALLENGES } from "@/utlis/challenge/challenges";
+import { getUser } from "@/api/auth-actions";
 
 export const ChallengeForm = () => {
   const [previews, setPreviews] = useState<string[]>([]);

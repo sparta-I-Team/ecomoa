@@ -2,6 +2,7 @@ import { useChallengeDashboard } from "@/hooks/useChallengeDashboard";
 import React, { useEffect, useState } from "react";
 import LevelSection from "./header/LevelSection";
 import StatsSection from "./header/StatsSection";
+import { getUser } from "@/api/auth-actions";
 
 const ChallengeHeader = () => {
   const [userId, setUserId] = useState<string>("");
