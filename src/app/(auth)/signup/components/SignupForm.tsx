@@ -4,7 +4,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { signup } from "@/api/actions";
+import { signup } from "@/api/auth-actions";
+import { SignupInput } from "@/types/authType";
 
 // Zod 스키마 정의
 const signupSchema = z.object({
@@ -12,22 +13,8 @@ const signupSchema = z.object({
   password: z
     .string()
     .min(6, { message: "비밀번호는 최소 6자 이상이어야 합니다." })
-    .nonempty({ message: "비밀번호를 입력해주세요." }),
-  nickname: z
-    .string()
-    .min(2, { message: "닉네임은 최소 2자 이상이어야 합니다." })
-    .max(20, { message: "닉네임은 20자 이하이어야 합니다." }) // 닉네임 길이 제한
-    .regex(/^[a-zA-Z0-9가-힣@_-]*$/, {
-      message:
-        "닉네임은 알파벳, 숫자, 한글, @, 밑줄 및 하이픈만 포함해야 합니다."
-    }) // 특정 문자만 허용
+    .nonempty({ message: "비밀번호를 입력해주세요." })
 });
-
-export interface SignupInput {
-  email: string;
-  password: string;
-  nickname: string;
-}
 
 const SignupForm = () => {
   const router = useRouter();
@@ -40,7 +27,7 @@ const SignupForm = () => {
   });
 
   const onSubmit: SubmitHandler<SignupInput> = async (data: SignupInput) => {
-    console.log("제출된 데이터:", data); // 데이터 로그
+    // console.log("제출된 데이터:", data);
     try {
       await signup(data);
       alert("회원가입이 완료되었습니다.");
@@ -52,22 +39,34 @@ const SignupForm = () => {
 
   return (
     <form
-      className="flex flex-col justify-center items-center"
+      className="w-full flex flex-col justify-center items-center gap-1 p-3"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <input type="email" {...register("email")} placeholder="email" />
-      <p role="alert" className="text-red-600">
+      <h2 className="text-4xl font-normal mb-[60px]">회원가입</h2>
+      <input
+        type="email"
+        className="p-2 w-[584px] h-16 rounded-md borde border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold"
+        {...register("email")}
+        placeholder="이메일"
+      />
+      <p role="alert" className="text-sm text-red-600">
         {errors.email?.message}
       </p>
-      <input type="password" {...register("password")} placeholder="password" />
-      <p role="alert" className="text-red-600">
+      <input
+        type="password"
+        className="p-2 w-[584px] h-16 rounded-md borde border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold"
+        {...register("password")}
+        placeholder="비밀번호"
+      />
+      <p role="alert" className="text-sm text-red-600">
         {errors.password?.message}
       </p>
-      <input type="text" {...register("nickname")} placeholder="nickname" />
-      <p role="alert" className="text-red-600">
-        {errors.nickname?.message}
-      </p>
-      <button type="submit">회원가입</button>
+      <button
+        type="submit"
+        className="w-[584px] mt-[45px] h-16 bg-[#469B0D] p-2 rounded-md text-[#FFF]"
+      >
+        회원가입
+      </button>
     </form>
   );
 };

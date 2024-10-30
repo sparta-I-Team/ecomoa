@@ -14,9 +14,11 @@
     "@supabase/supabase-js": "^2.45.6",
     "@tanstack/react-query": "^5.59.15",
     "axios": "^1.7.7",
+    "chart.js": "^4.4.6",
     "next": "14.2.15",
     "normalize.css": "^8.0.1",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",
     "zod": "^3.23.8",
@@ -31,6 +33,9 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "engines": {
+    "npm": "npm 대신 yarn을 사용해주세요"
   },
   "packageManager": "yarn@1.22.22"
 }
