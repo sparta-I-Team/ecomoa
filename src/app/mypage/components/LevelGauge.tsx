@@ -4,6 +4,7 @@ interface LevelGaugeProps {
   levelInfo: LevelInfo;
 }
 const LevelGauge = ({ levelInfo }: LevelGaugeProps) => {
+  console.log(levelInfo);
   return (
     <div className="space-y-2 w-full flex flex-col justify-center items-center">
       {/* 레벨 */}
@@ -17,19 +18,19 @@ const LevelGauge = ({ levelInfo }: LevelGaugeProps) => {
         <p className="">레벨업까지 {levelInfo.pointsToNextLevel}P 남았어요</p>
       </div>
       {/* 게이지 */}
-      <div className="w-full flex flex-row gap-3 items-center justify-start px-5 py-3">
-        <div className="w-[406px] h-4 bg-gray-200">
+      <div className="w-[406px] flex flex-row gap-3 items-center justify-start px-5 py-3">
+        <div className="w-full h-4 bg-gray-200">
           <div
-            className="bg-black h-4 transition-all duration-300"
+            className="w-full bg-black h-4 transition-all duration-300"
             style={{
-              //   width: `${(levelInfo.currentPoints / levelInfo.maxPoints) * 100}%`
-              width: `${(800 / levelInfo.maxPoints) * 100}%`
+              // width: `${(levelInfo.currentPoints / levelInfo.maxPoints) * 100}%`
+              width: `${(80 / levelInfo.maxPoints) * 100}%`
             }}
           />
         </div>
         <p className="text-base font-normal text-right">
           {/* {levelInfo.currentPoints}/{levelInfo.maxPoints} */}
-          {800}/{1000}
+          {80}/{1000}
         </p>
       </div>
     </div>

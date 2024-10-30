@@ -9,6 +9,7 @@ import { checkNicknameAvailability } from "@/api/user-action"; // 서버 액션 
 import ProfileImgUpload from "./ProfileImgUpload";
 import { useChallengeDashboard } from "@/hooks/useChallengeDashboard";
 import LevelGauge from "./LevelGauge";
+import { LevelInfo } from "@/types/challengesType";
 
 const forbiddenWords = ["욕설1", "욕설2", "욕설3"];
 
@@ -21,6 +22,15 @@ const nicknameSchema = z
       message: "닉네임에 금지된 단어가 포함되어 있습니다."
     }
   );
+
+const defaultLevelInfo: LevelInfo = {
+  level: 0, // 기본 레벨
+  name: "N/A", // 기본 이름
+  currentPoints: 0, // 기본 현재 포인트
+  maxPoints: 100, // 기본 최대 포인트
+  pointsToNextLevel: 100, // 다음 레벨까지 필요한 포인트
+  image: "" // 기본 이미지 URL
+};
 
 const UserInfoCard = ({ user }: ProfileProps) => {
   const queryClient = useQueryClient();
@@ -106,8 +116,9 @@ const UserInfoCard = ({ user }: ProfileProps) => {
       setNicknameError(""); // 사용 가능한 닉네임일 경우 에러 메시지 초기화
     }
   };
+  console.log(user);
   const { levelInfo } = useChallengeDashboard(user.id);
-
+  // if (!levelInfo)
   return (
     <div className="w-[585px] h-[220px] flex flex-col items-center bg-[#edeef0]">
       <div className="flex flex-row items-center gap-2 w-full p-5 justify-start">
@@ -157,7 +168,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
           )}
         </div>
       </div>
-      <LevelGauge levelInfo={levelInfo} />
+      <LevelGauge levelInfo={levelInfo || defaultLevelInfo} />
     </div>
   );
 };
