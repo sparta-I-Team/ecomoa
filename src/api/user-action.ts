@@ -37,7 +37,16 @@ export const updateNickname = async ({
     console.error("닉네임 업데이트 오류", error);
     return null;
   }
-  return data;
+  const { data: userMetadata, error: userMetadataError } =
+    await supabase.auth.updateUser({
+      data: {
+        nickname: newNickname
+      }
+    });
+  if (userMetadataError) {
+    console.error("닉네임 메타데이터 업데이트 오류", error);
+  }
+  return { data, userMetadata };
 };
 
 // 내가 쓴 글 가져오기
