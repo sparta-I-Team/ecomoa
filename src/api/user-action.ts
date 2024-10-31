@@ -159,3 +159,23 @@ export const getBookmarks = async (
   }
   return bookmarks;
 };
+
+// 회원가입시 params컬럼
+export const signInParams = async (userId) => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("user_info")
+    .eq("user_id", userId)
+    .update([
+      {
+        params: { firstTag: false }
+      }
+    ])
+    .select();
+
+  if (error) {
+    console.error(error);
+  } else {
+    console.log("제이슨 객체", data);
+  }
+};

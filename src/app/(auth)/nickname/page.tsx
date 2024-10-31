@@ -8,6 +8,8 @@ import Filter from "badwords-ko";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import NicknameModal from "../login/components/NicknameModal";
+import { useState } from "react";
 
 const filter = new Filter();
 // Zod 스키마
@@ -48,6 +50,7 @@ const nicknameSchema = z.object({
 type NicknameInput = z.infer<typeof nicknameSchema>;
 
 const NicknameSetPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(true); // 모달 상태 추가
   const { user } = userStore();
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -88,39 +91,42 @@ const NicknameSetPage = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#cccccc] flex justify-center items-center">
-      <div className="w-[800px] h-[500px] bg-[#FFFFFF] rounded-[20px] mx-auto ">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className=" flex flex-col justify-center items-center m-auto w-[800px] h-[600px]"
-        >
-          <div className="w-[337px] h-[71px] mb-[59px]">
-            <p className="text-[26px] font-semibold">
-              회원가입이 완료되었습니다.
-            </p>
-            <p className="text-[26px] font-semibold">닉네임을 설정해주세요</p>
-          </div>
-          <input
-            type="text"
-            className="w-[400px] h-16 rounded-[12px] border border-[#9c9c9c] p-3 mb-[74px] placeholder:text-xl"
-            {...register("nickname")}
-            placeholder="ex. 홍길동"
-          />
-          <div className="flex flex-col items-center justify-center">
-            <p role="alert" className="fixed mt-5 text-sm text-red-600">
-              {errors.nickname?.message}
-            </p>
-            <button
-              type="submit"
-              disabled={isPending}
-              className="w-[300px] h-[68px] p-[11px_14px] rounded-[85px] mb-[76px] text-[32px] bg-[#469B0D] text-[#FFF] text-2xl font-semibold"
-            >
-              생성하기
-            </button>
-          </div>
-        </form>
-      </div>
+    <div>
+      {isModalOpen && <NicknameModal onClose={() => setIsModalOpen(false)} />}
     </div>
+    // <div className="w-full min-h-screen bg-[#cccccc] flex justify-center items-center">
+    //   <div className="w-[800px] h-[500px] bg-[#FFFFFF] rounded-[20px] mx-auto ">
+    //     <form
+    //       onSubmit={handleSubmit(onSubmit)}
+    //       className=" flex flex-col justify-center items-center m-auto w-[800px] h-[600px]"
+    //     >
+    //       <div className="w-[337px] h-[71px] mb-[59px]">
+    //         <p className="text-[26px] font-semibold">
+    //           회원가입이 완료되었습니다.
+    //         </p>
+    //         <p className="text-[26px] font-semibold">닉네임을 설정해주세요</p>
+    //       </div>
+    //       <input
+    //         type="text"
+    //         className="w-[400px] h-16 rounded-[12px] border border-[#9c9c9c] p-3 mb-[74px] placeholder:text-xl"
+    //         {...register("nickname")}
+    //         placeholder="ex. 홍길동"
+    //       />
+    //       <div className="flex flex-col items-center justify-center">
+    //         <p role="alert" className="fixed mt-5 text-sm text-red-600">
+    //           {errors.nickname?.message}
+    //         </p>
+    //         <button
+    //           type="submit"
+    //           disabled={isPending}
+    //           className="w-[300px] h-[68px] p-[11px_14px] rounded-[85px] mb-[76px] text-[32px] bg-[#469B0D] text-[#FFF] text-2xl font-semibold"
+    //         >
+    //           생성하기
+    //         </button>
+    //       </div>
+    //     </form>
+    //   </div>
+    // </div>
   );
 };
 

@@ -1,6 +1,7 @@
 import GoogleLoginButton from "./components/GoogleLoginButton";
 import KaKaoLoginButton from "./components/KaKaoLoginButton";
 import LoginForm from "./components/LoginForm";
+import NaverLoginButton from "./components/NaverLoginButton";
 
 const LoginPage = () => {
   return (
@@ -8,6 +9,7 @@ const LoginPage = () => {
       <LoginForm />
       <KaKaoLoginButton />
       <GoogleLoginButton />
+      <NaverLoginButton />
     </div>
   );
 };
