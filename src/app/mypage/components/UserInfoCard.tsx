@@ -85,10 +85,14 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   const { mutate } = useMutation({
     mutationFn: updateNickname,
     onSuccess: () => {
+      console.log("성공");
       queryClient.invalidateQueries({
         queryKey: ["userInfo", user.id]
       });
       setIsEditing(false);
+    },
+    onError: (error) => {
+      console.error("닉네임 업데이트 오류", error);
     }
   });
 
@@ -100,13 +104,9 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   }, [userInfo, setValue]);
 
   const onSubmit = async (data: FormData) => {
-    const result = nicknameSchema.safeParse(data.nickname);
-    if (result.success && nicknameAvailable) {
-      mutate({ userId: user.id, newNickname: data.nickname });
-    } else {
-      // 에러 처리
-      setNicknameError("유효하지 않은 닉네임입니다."); // 닉네임이 유효하지 않을 때
-    }
+    console.log("서브밋", data.nickname);
+    // const result = nicknameSchema.safeParse(data.nickname);
+    mutate({ userId: user.id, newNickname: data.nickname });
   };
 
   const handleEditClick = () => {
@@ -122,17 +122,17 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
     setValue("nickname", nickname); // 입력된 닉네임을 상태에 반영
-    // const result = nicknameSchema.safeParse(nickname);
+    const result = nicknameSchema.safeParse(nickname);
 
     // 닉네임 유효성 검사
-    // if (!result.success) {
-    //   setNicknameError(result.error.errors[0].message); // 금지된 단어 에러 메시지
-    //   setNicknameAvailable(false);
-    //   return;
-    // } else {
-    //   setNicknameError(""); // 유효성 통과
-    //   setNicknameAvailable(true);
-    // }
+    if (!result.success) {
+      setNicknameError(result.error.errors[0].message); // 금지된 단어 에러 메시지
+      setNicknameAvailable(false);
+      return;
+    } else {
+      setNicknameError(""); // 유효성 통과
+      setNicknameAvailable(true);
+    }
 
     // 중복 검사
     // const available =
@@ -145,7 +145,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
     //   setNicknameError(""); // 사용 가능한 닉네임일 경우 에러 메시지 초기화
     // }
   };
-  console.log(user);
+  // console.log(user);
   const { levelInfo } = useChallengeDashboard(user.id);
   // if (!levelInfo)
   return (
