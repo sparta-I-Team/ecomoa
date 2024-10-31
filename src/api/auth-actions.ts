@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { SignUpWithPasswordCredentials, User } from "@supabase/supabase-js";
 import { createClient } from "@/utlis/supabase/server";
 import { LoginInput, SignupInput } from "@/types/authType";
+import { signInParams } from "./user-action";
 
 // 로그인
 export const login = async (loginInput: LoginInput) => {
@@ -64,6 +65,10 @@ export const signInWithKakao = async () => {
   });
   if (error) {
     console.error("카카오 로그인 에러", error);
+  }
+  const session = await getSession();
+  if (session) {
+    const userId = await signInParams(session?.user.id);
   }
   return data.url;
 };

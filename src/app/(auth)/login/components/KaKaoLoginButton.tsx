@@ -1,13 +1,22 @@
 "use client";
 
-import { signInWithKakao } from "@/api/auth-actions";
+import { getUser, signInWithKakao } from "@/api/auth-actions";
+import { signInParams } from "@/api/user-action";
+import { userStore } from "@/zustand/userStore";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const KaKaoLoginButton = () => {
+  const router = useRouter();
   const handleLogin = async () => {
     const redirectUrl = await signInWithKakao();
     if (redirectUrl) {
-      window.location.href = redirectUrl; // 클라이언트에서 리다이렉트
+      // const user = await getUser();
+      // if (user) {
+      //   await signInParams(user.id);
+      // }
+      router.push(redirectUrl);
+      // window.location.href = redirectUrl; // 클라이언트에서 리다이렉트
     }
   };
   return (

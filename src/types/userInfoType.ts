@@ -49,3 +49,5 @@ export interface Bookmarks {
     post_category: string | null;
   };
 }
+
+export type UserInfoNickname = Pick<UserInfo, "user_nickname">;

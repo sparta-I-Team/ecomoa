@@ -7,8 +7,9 @@ export default async function Home() {
   // 여기서 로그인 한 회원의 params를 체크한 후에 ,
   // params의 값이 false 이면 모달 띄워라
   const user = await getUser();
-  const userInfo: UserInfo = await getUserInfo(user.id);
-  if (userInfo.params.firstTag === false) {
+  if (!user) return;
+  const userInfo: UserInfo = await getUserInfo(user?.id);
+  if (userInfo?.params?.firstTag === false) {
     return <NicknameModal />;
   }
   // 여기는 서버 서버 컴포넌트여야 하는거 아닌가요?
