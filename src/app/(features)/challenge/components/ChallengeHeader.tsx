@@ -10,7 +10,6 @@ const ChallengeHeader = () => {
   useEffect(() => {
     const handleGetUser = async () => {
       const res = await getUser();
-      console.log(res);
       setUserId(res?.id || "");
     };
     handleGetUser();

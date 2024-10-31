@@ -46,3 +46,5 @@ export const LEVEL_CONFIG = {
   3: { name: "트리모아", min: 5100, max: 10000, image: "/tree.png" },
   4: { name: "클로비", min: 10100, max: 20000, image: "/clover.png" }
 } as const;
+
+export const DAY_OF_THE_WEEK = ["일", "월", "화", "수", "목", "금", "토"];
