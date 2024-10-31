@@ -160,22 +160,36 @@ export const getBookmarks = async (
   return bookmarks;
 };
 
-// 회원가입시 params컬럼
-export const signInParams = async (userId) => {
+// 회원가입시 params 컬럼
+export const signInParams = async (userId: string) => {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("user_info")
-    .eq("user_id", userId)
-    .update([
-      {
-        params: { firstTag: false }
-      }
-    ])
-    .select();
+    .update({
+      params: { firstTag: false }
+    })
+    .eq("user_id", userId);
 
   if (error) {
     console.error(error);
   } else {
     console.log("제이슨 객체", data);
+  }
+};
+
+// 닉네임 수정 완료 params 함수
+export const setNicknameParams = async (userId: string) => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("user_info")
+    .update({
+      params: { firstTag: true }
+    })
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error(error);
+  } else {
+    console.log("params true로 바꾸기", data);
   }
 };
