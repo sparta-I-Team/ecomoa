@@ -2,18 +2,15 @@
 
 import { deleteUserInfo } from "@/api/auth-actions";
 import { deleteUser } from "@/api/delete-action";
-import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 
 interface DeleteAccountProps {
-  user: User;
+  userId: string;
 }
 
-const DeleteAccountButton = ({ user }: DeleteAccountProps) => {
+const DeleteAccountButton = ({ userId }: DeleteAccountProps) => {
   const router = useRouter();
   const handleDeleteAccount = async () => {
-    const userId = user.id;
-
     try {
       const isConfirmed = window.confirm("회원 탈퇴하시겠습니까?");
       if (isConfirmed) {

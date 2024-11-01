@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { checkNicknameAvailability } from "@/api/user-action"; // 서버 액션 가져오기
 import ProfileImgUpload from "./ProfileImgUpload";
-import { useChallengeDashboard } from "@/hooks/useChallengeDashboard";
 import LevelGauge from "./LevelGauge";
 import { getUser } from "@/api/auth-actions";
 import Filter from "badwords-ko";
@@ -50,21 +49,12 @@ const nicknameSchema = z.object({
     )
 });
 
-// const defaultLevelInfo: LevelInfo = {
-//   level: 0, // 기본 레벨
-//   name: "N/A", // 기본 이름
-//   currentPoints: 0, // 기본 현재 포인트
-//   maxPoints: 0, // 기본 최대 포인트
-//   pointsToNextLevel: 1000, // 다음 레벨까지 필요한 포인트
-//   image: "" // 기본 이미지 URL
-// };
-
 const UserInfoCard = ({ user }: ProfileProps) => {
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [initialNickname, setInitialNickname] = useState("");
-  const [nicknameAvailable, setNicknameAvailable] = useState(true);
-  const [nicknameError, setNicknameError] = useState("");
+  // const [nicknameAvailable, setNicknameAvailable] = useState(true);
+  // const [nicknameError, setNicknameError] = useState("");
 
   const {
     register,
@@ -122,17 +112,17 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
     setValue("nickname", nickname); // 입력된 닉네임을 상태에 반영
-    const result = nicknameSchema.safeParse(nickname);
+    // const result = nicknameSchema.safeParse(nickname);
 
     // 닉네임 유효성 검사
-    if (!result.success) {
-      setNicknameError(result.error.errors[0].message); // 금지된 단어 에러 메시지
-      setNicknameAvailable(false);
-      return;
-    } else {
-      setNicknameError(""); // 유효성 통과
-      setNicknameAvailable(true);
-    }
+    // if (!result.success) {
+    //   setNicknameError(result.error.errors[0].message); // 금지된 단어 에러 메시지
+    //   setNicknameAvailable(false);
+    //   return;
+    // } else {
+    //   setNicknameError(""); // 유효성 통과
+    //   setNicknameAvailable(true);
+    // }
   };
   const pointInfo = calculateLevelInfo(userInfo?.user_point ?? 0); // 널 병합 연산자
 

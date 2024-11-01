@@ -6,7 +6,7 @@ import {
   updateNickname,
   UpdateNicknameParams
 } from "@/api/user-action";
-import { UserInfo, UserInfoNickname } from "@/types/userInfoType";
+import { UserInfoNickname } from "@/types/userInfoType";
 import { userStore } from "@/zustand/userStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -19,9 +19,9 @@ import { z } from "zod";
 
 const filter = new Filter();
 
-interface NicknameModalProps {
-  onClose: () => void;
-}
+// interface NicknameModalProps {
+//   onClose: () => void;
+// }
 interface FormData {
   nickname: string;
 }
@@ -68,7 +68,6 @@ const NicknameModal = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors }
   } = useForm<FormData>({
     resolver: zodResolver(nicknameSchema)
@@ -86,7 +85,7 @@ const NicknameModal = () => {
       if (data) {
         setUserInfo(data.user_nickname);
       }
-      const userInfo: UserInfo = await getUserInfo(user.id);
+      await getUserInfo(user.id);
 
       queryClient.invalidateQueries({
         queryKey: ["userInfo", user.id]

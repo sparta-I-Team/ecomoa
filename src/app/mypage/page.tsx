@@ -10,8 +10,9 @@ import { getUserInfo } from "@/api/user-action";
 const Mypage = async () => {
   const user = await getUser();
   if (!user) return;
-  const userInfo = await getUserInfo(user.id);
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@마이페이지", userInfo);
+  await getUserInfo(user.id);
+  // console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@마이페이지", userInfo);
+  const userId = user.id;
   return (
     <div className="flex flex-col m-auto w-full">
       <h1 className="pt-[89px] font-semibold text-[24px] mb-6">마이페이지</h1>
@@ -54,7 +55,7 @@ const Mypage = async () => {
       </Link> */}
       <div className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center">
         {/* <p className="font-[18px]">회원 탈퇴</p> */}
-        <DeleteAccountButton user={user} />
+        <DeleteAccountButton userId={userId} />
       </div>
 
       <div className="mt-10">

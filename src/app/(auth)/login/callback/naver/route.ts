@@ -2,7 +2,6 @@
 import { getUser } from "@/api/auth-actions";
 import { getUserInfo } from "@/api/user-action";
 import { createClient } from "@/utlis/supabase/server";
-import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -47,12 +46,12 @@ export async function GET(req: Request) {
     );
   }
 
-  let loggedInUser;
+  // let loggedInUser;
 
   if (existingUser) {
     console.log(existingUser);
     // 사용자가 이미 존재하는 경우 로그인
-    const { user, error: loginError } = await supabase.auth.signInWithPassword({
+    const { error: loginError } = await supabase.auth.signInWithPassword({
       email: userData.email,
       password: "temporary-password" // 임시 비밀번호
     });
@@ -66,13 +65,13 @@ export async function GET(req: Request) {
     console.log(currentUser);
     const userInfo = await getUserInfo(currentUser.id);
     if (!userInfo.user_metadata?.nickname) {
-      return NextResponse.redirect(new URL("/nickname", req.url)); // 닉네임이 없으면 닉네임 설정 페이지로 리다이렉트
+      return NextResponse.redirect(new URL("/", req.url)); // 닉네임이 없으면 닉네임 설정 페이지로 리다이렉트
     }
 
-    loggedInUser = user;
+    // loggedInUser = user;
   } else {
     // 사용자가 존재하지 않는 경우 회원가입
-    const { user, error: signUpError } = await supabase.auth.signUp({
+    const { error: signUpError } = await supabase.auth.signUp({
       email: userData.email,
       password: "temporary-password" // 임시 비밀번호
     });
@@ -82,21 +81,20 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: signUpError.message }, { status: 500 });
     }
 
-    loggedInUser = user;
+    // loggedInUser = user;
 
     // 자동 로그인
-    const { user: loggedInUserAfterSignUp, error: loginError } =
-      await supabase.auth.signInWithPassword({
-        email: userData.email,
-        password: "temporary-password"
-      });
+    const { error: loginError } = await supabase.auth.signInWithPassword({
+      email: userData.email,
+      password: "temporary-password"
+    });
 
     if (loginError) {
       console.error("Supabase signIn error:", loginError);
       return NextResponse.json({ error: loginError.message }, { status: 500 });
     }
 
-    loggedInUser = loggedInUserAfterSignUp;
+    // loggedInUser = loggedInUserAfterSignUp;
   }
 
   // 로그인 성공 시 대시보드로 리다이렉트

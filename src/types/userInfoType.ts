@@ -7,6 +7,7 @@ export interface UserInfo {
   user_point: number;
   created_at: string;
   updated_at: string;
+  user_id: string;
   params: {
     firstTag: boolean;
   };

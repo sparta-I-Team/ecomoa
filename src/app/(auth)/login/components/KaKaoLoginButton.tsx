@@ -1,8 +1,6 @@
 "use client";
 
-import { getUser, signInWithKakao } from "@/api/auth-actions";
-import { signInParams } from "@/api/user-action";
-import { userStore } from "@/zustand/userStore";
+import { signInWithKakao } from "@/api/auth-actions";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 

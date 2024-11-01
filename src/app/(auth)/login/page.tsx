@@ -1,7 +1,6 @@
 import Image from "next/image";
 import GoogleLoginButton from "./components/GoogleLoginButton";
 import KaKaoLoginButton from "./components/KaKaoLoginButton";
-import LoginForm from "./components/LoginForm";
 import NaverLoginButton from "./components/NaverLoginButton";
 
 const LoginPage = () => {

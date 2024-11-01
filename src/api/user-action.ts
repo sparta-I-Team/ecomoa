@@ -27,7 +27,7 @@ export const updateNickname = async ({
   newNickname: string;
 }): Promise<UserInfoNickname | null> => {
   const supabase = createClient();
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("user_info")
     .update({ user_nickname: newNickname })
     .eq("user_id", userId)
@@ -37,12 +37,11 @@ export const updateNickname = async ({
     console.error("닉네임 업데이트 오류", error);
     return null;
   }
-  const { data: userMetadata, error: userMetadataError } =
-    await supabase.auth.updateUser({
-      data: {
-        nickname: newNickname
-      }
-    });
+  const { error: userMetadataError } = await supabase.auth.updateUser({
+    data: {
+      nickname: newNickname
+    }
+  });
   if (userMetadataError) {
     console.error("닉네임 메타데이터 업데이트 오류", error);
   }
@@ -163,7 +162,7 @@ export const getBookmarks = async (
 // 회원가입시 params 컬럼
 export const signInParams = async (userId: string) => {
   const supabase = createClient();
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("user_info")
     .update({
       params: { firstTag: false }
@@ -178,7 +177,7 @@ export const signInParams = async (userId: string) => {
 // 닉네임 수정 완료 params 함수
 export const UpdateNicknameParams = async (userId: string) => {
   const supabase = createClient();
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("user_info")
     .update({
       params: { firstTag: true }
