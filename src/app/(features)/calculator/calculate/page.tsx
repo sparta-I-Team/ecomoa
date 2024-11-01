@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import InputField from "../components/InputField";
 import { FormData } from "@/types/calculate";
@@ -7,24 +7,19 @@ import YearMonthPicker from "../components/YearMonthPicker";
 import Loading from "../components/Loading";
 import browserClient from "@/utlis/supabase/browserClient";
 import { useRouter } from "next/navigation";
-import { getUser } from "@/api/auth-actions";
+import { userStore } from "@/zustand/userStore";
+
+const currentYear = new Date().getFullYear();
+const currentMonth = new Date().getMonth() + 1;
 
 const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<string | null>(null);
+  const [thisYear, setThisYear] = useState<number | null>(currentYear);
+  const [thisMonth, setThisMonth] = useState<number | null>(currentMonth);
 
   const router = useRouter();
-
-  // 유저 정보
-  useEffect(() => {
-    const loadUser = async () => {
-      const fetchedUser = await getUser();
-      if (fetchedUser) {
-        setUser(fetchedUser.id);
-      }
-    };
-    loadUser();
-  }, []);
+  const { user } = userStore();
+  console.log(user.id);
 
   const {
     register,
@@ -56,7 +51,7 @@ const Page = () => {
 
     try {
       const { error } = await browserClient.from("carbon_records").insert({
-        user_id: user,
+        user_id: user.id,
         electricity_usage: electricity,
         electricity_co2: (electricity * 0.4781).toFixed(2),
         water_usage: water,
@@ -67,14 +62,20 @@ const Page = () => {
         car_co2: ((car / 16.04) * 2.097).toFixed(2),
         waste_volume: waste,
         waste_co2: (waste * 0.5573).toFixed(2),
-        carbon_emissions: total.toFixed(2)
+        carbon_emissions: total.toFixed(2),
+        year: Number(thisYear),
+        month: Number(thisMonth)
       });
       if (error) {
         console.error("데이터 삽입 오류:", error);
         alert("데이터 삽입 중 오류가 발생했습니다.");
       } else {
         setTimeout(() => {
-          alert(`전체 에너지원 CO₂ 발생 합계 : ${total.toFixed(2)} kg/월`);
+          alert(
+            `전체 에너지원 CO₂ 발생 합계 : ${total.toFixed(
+              2
+            )} kg/월 ${thisYear}년도 ${thisMonth}달`
+          );
           setIsLoading(false);
           router.push("/calculator/result");
         }, 5000);
@@ -87,11 +88,17 @@ const Page = () => {
   };
 
   const handleYearChange = (year: number) => {
-    console.log("Selected Year:", year);
+    setThisYear(year);
   };
 
   const handleMonthChange = (month: number) => {
-    console.log("Selected Month:", month);
+    setThisMonth(month);
+  };
+
+  const handleCloseDropdown = () => {
+    // 드롭다운이 닫힐 때 데이터를 새로 로드합니다
+    setThisYear(thisYear);
+    setThisMonth(thisMonth);
   };
 
   return (
@@ -100,8 +107,11 @@ const Page = () => {
       <div>이번 달 이산화탄소 배출량이 얼마나 발생했을지 계산해봅시다</div>
       <div className="flex">
         <YearMonthPicker
-          onChangeYear={handleYearChange}
-          onChangeMonth={handleMonthChange}
+          thisYear={thisYear}
+          thisMonth={thisMonth}
+          onChangeYear={handleYearChange} // 연도 변경 핸들러 전달
+          onChangeMonth={handleMonthChange} // 월 변경 핸들러 전달
+          onCloseDropdown={handleCloseDropdown} // 드롭다운 닫힘 시 호출될 함수
           disabled={false}
         />
       </div>

@@ -6,13 +6,11 @@ import { MonthlyData } from "@/types/calculate";
 import YearMonthPicker from "../components/YearMonthPicker";
 import ThisMonthChart from "../components/ThisMonthChart";
 import MonthlyChart from "../components/MonthlyChart";
-import UsageCard from "../components/UsageCard";
-import SectionCard from "../components/SectionCard";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
 
-const ResultPage: React.FC = () => {
+const HistoryPage: React.FC = () => {
   const [user, setUser] = useState<string | null>(null);
   const [thisYear, setThisYear] = useState<number | null>(currentYear);
   const [thisMonth, setThisMonth] = useState<number | null>(currentMonth);
@@ -51,8 +49,7 @@ const ResultPage: React.FC = () => {
 
   return (
     <>
-      <div>탄소 배출량 계산하기</div>
-      <div>이번 달 이산화탄소 배출량이 얼마나 발생했을지 계산해봅시다</div>
+      <div>탄소 계산 히스토리</div>
       <div className="flex flex-col justify-center items-center bg-[#EAFCDE] p-10 w-[1200px] rounded-[32px]">
         <div className="flex flex-col w-[400px] h-[60px] px-11 bg-[#aef480] rounded-[38px] justify-center items-center gap-2.5">
           <div className="flex justify-center items-center text-[#1c3d05] text-4xl font-semibold">
@@ -142,44 +139,8 @@ const ResultPage: React.FC = () => {
           <MonthlyChart currentData={currentData} totalAvgData={totalAvgData} />
         </div>
       </div>
-      <div className="flex flex-col">
-        <SectionCard
-          title={"전기"}
-          usageValue={currentData?.electricity_usage}
-          co2Value={currentData?.electricity_co2}
-        />
-        <SectionCard
-          title={"수도"}
-          usageValue={currentData?.water_usage}
-          co2Value={currentData?.water_co2}
-        />
-        <SectionCard
-          title={"가스"}
-          usageValue={currentData?.gas_usage}
-          co2Value={currentData?.gas_co2}
-        />
-        <SectionCard
-          title={"교통"}
-          usageValue={currentData?.car_usage}
-          co2Value={currentData?.car_co2}
-        />
-        <SectionCard
-          title={"폐기물"}
-          usageValue={currentData?.waste_volume}
-          co2Value={currentData?.waste_co2}
-        />
-      </div>
-      <div>
-        <div>일상 속 에너지 절약법</div>
-        <div className="w-[1200px] h-[100px] p-2.5 bg-white rounded-[20px] border-2 border-[#8cd5fd] justify-center items-center gap-2.5 inline-flex">
-          <div className="text-[#27affb] text-xl font-semibold">
-            전기 밥솥 보온 기능 꺼두기
-          </div>
-        </div>
-      </div>
-      <button>이미지로 저장</button>
     </>
   );
 };
 
-export default ResultPage;
+export default HistoryPage;

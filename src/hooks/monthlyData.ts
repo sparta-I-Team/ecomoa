@@ -3,15 +3,17 @@ import { MonthlyData } from "@/types/calculate";
 import browserClient from "@/utlis/supabase/browserClient";
 
 type SetUserType = (userId: string | null) => void; // setUser의 타입 정의
-type SetCurrentMonthlyType = (monthlyData: MonthlyData | null) => void;
-type SetTotalCurrentMonthlyType = (monthlyData: MonthlyData | null) => void;
 
 // 이번달 기준 내 최신 data
 export const loadUserAndFetchData = async (
   setUser: SetUserType,
-  setCurrentMonthly: SetCurrentMonthlyType
+  // setThisYear: React.Dispatch<React.SetStateAction<number | null>>,
+  // setThisMonth: React.Dispatch<React.SetStateAction<number | null>>,
+  thisYear: number | null,
+  thisMonth: number | null,
+  setCurrentData: React.Dispatch<React.SetStateAction<MonthlyData | null>>
 ) => {
-  // 유저 정보
+  // user값(user_id 비교용)
   const fetchedUser = await getUser();
   if (fetchedUser) {
     setUser(fetchedUser.id);
@@ -20,6 +22,8 @@ export const loadUserAndFetchData = async (
       .from("carbon_records")
       .select("*")
       .eq("user_id", fetchedUser.id)
+      .eq("year", thisYear)
+      .eq("month", thisMonth)
       .gte(
         "created_at",
         new Date(
@@ -27,30 +31,37 @@ export const loadUserAndFetchData = async (
           new Date().getMonth(),
           1
         ).toISOString()
-      ) // 이번 달의 첫날 이후의 데이터만 가져옴
-      .order("created_at", { ascending: false }) // 최신 순으로 정렬
+      )
+      .order("created_at", { ascending: false })
       .limit(1);
 
     if (error) {
-      console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
+      console.error("Error fetching data:", error);
+      return;
+    }
+
+    // 가져온 데이터를 상태에 업데이트
+    if (data && data.length > 0) {
+      setCurrentData(data[0]); // 데이터가 있을 경우 업데이트
     } else {
-      setCurrentMonthly(data[0]);
-      console.log(data[0]);
+      setCurrentData(null); // 데이터가 없으면 null로 설정
     }
   }
 };
 
 // 이번달 기준 전체 유저 data의 각 칼럼의 평균값
 export const loadTotalUsersData = async (
-  setTotalCurrentMonthly: SetTotalCurrentMonthlyType
+  // setThisYear: React.Dispatch<React.SetStateAction<number | null>>,
+  // setThisMonth: React.Dispatch<React.SetStateAction<number | null>>,
+  thisYear: number | null,
+  thisMonth: number | null,
+  setTotalAvgData: React.Dispatch<React.SetStateAction<MonthlyData | null>>
 ) => {
   const { data, error } = await browserClient
     .from("carbon_records")
     .select("*")
-    .gte(
-      "created_at",
-      new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
-    );
+    .eq("year", thisYear)
+    .eq("month", thisMonth);
 
   if (error) {
     console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
@@ -118,7 +129,6 @@ export const loadTotalUsersData = async (
       )
     };
 
-    setTotalCurrentMonthly(avgData);
-    console.log("Averages:", avgData);
+    setTotalAvgData(avgData);
   }
 };
