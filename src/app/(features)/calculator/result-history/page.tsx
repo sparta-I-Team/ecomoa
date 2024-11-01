@@ -1,146 +1,21 @@
-"use client";
-import { useEffect, useState } from "react";
+import React from "react";
+import ResultComponent from "../components/ResultComponent";
 
-import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
-import { MonthlyData } from "@/types/calculate";
-import YearMonthPicker from "../components/YearMonthPicker";
-import ThisMonthChart from "../components/ThisMonthChart";
-import MonthlyChart from "../components/MonthlyChart";
-
-const currentYear = new Date().getFullYear();
-const currentMonth = new Date().getMonth() + 1;
-
-const HistoryPage: React.FC = () => {
-  const [user, setUser] = useState<string | null>(null);
-  const [thisYear, setThisYear] = useState<number | null>(currentYear);
-  const [thisMonth, setThisMonth] = useState<number | null>(currentMonth);
-  const [currentData, setCurrentData] = useState<MonthlyData | null>(null);
-  const [totalAvgData, setTotalAvgData] = useState<MonthlyData | null>(null);
-  const [lastData, setLastData] = useState<MonthlyData | null>(null);
-  const [lastTotalAvgData, setLastTotalAvgData] = useState<MonthlyData | null>(
-    null
-  );
-
-  // 내 이번달 저번달 / 전체유저 이번달 저번달 데이터 fetch 함수
-  useEffect(() => {
-    loadUserAndFetchData(setUser, thisYear, thisMonth, setCurrentData);
-    loadTotalUsersData(thisYear, thisMonth, setTotalAvgData);
-
-    // 이전 달의 데이터 로딩
-    const previousYear = thisMonth === 1 ? thisYear - 1 : thisYear;
-    const previousMonth = thisMonth === 1 ? 12 : thisMonth - 1;
-
-    loadUserAndFetchData(setUser, previousYear, previousMonth, setLastData);
-    loadTotalUsersData(previousYear, previousMonth, setLastTotalAvgData);
-  }, [thisYear, thisMonth]);
-
-  const handleYearChange = (year: number) => {
-    setThisYear(year);
-  };
-
-  const handleMonthChange = (month: number) => {
-    setThisMonth(month);
-  };
-
-  const handleCloseDropdown = () => {
-    loadUserAndFetchData(setUser, thisYear, thisMonth, setCurrentData);
-    loadTotalUsersData(thisYear, thisMonth, setTotalAvgData);
-  };
+const ResultHistory = () => {
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1 필요
 
   return (
     <>
-      <div>탄소 계산 히스토리</div>
-      <div className="flex flex-col justify-center items-center bg-[#EAFCDE] p-10 w-[1200px] rounded-[32px]">
-        <div className="flex flex-col w-[400px] h-[60px] px-11 bg-[#aef480] rounded-[38px] justify-center items-center gap-2.5">
-          <div className="flex justify-center items-center text-[#1c3d05] text-4xl font-semibold">
-            <YearMonthPicker
-              thisYear={thisYear}
-              thisMonth={thisMonth}
-              onChangeYear={handleYearChange} // 연도 변경 핸들러 전달
-              onChangeMonth={handleMonthChange} // 월 변경 핸들러 전달
-              onCloseDropdown={handleCloseDropdown} // 드롭다운 닫힘 시 호출될 함수
-              disabled={false}
-            />
-          </div>
-        </div>
-
-        <div>이번 달 배출량</div>
-        <div className="flex flex-col w-[1055px] h-full bg-white rounded-[20px] border border-[#5bca11]">
-          <div className="flex justify-center items-center w-[1055px] gap-12">
-            <div className="w-[500px] h-[300px] flex justify-center items-center">
-              <ThisMonthChart
-                currentData={currentData}
-                totalAvgData={totalAvgData}
-                lastData={lastData}
-                lastTotalAvgData={lastTotalAvgData}
-              />
-            </div>
-            <div className="h-[202px] border-l border-[#5bca11] mx-4"></div>
-
-            <div className="flex flex-col justify-center text-center">
-              <div>이번달 총 탄소 배출량</div>
-              <div className="text-[#27affb] text-[64px] font-semibold">
-                {currentData?.carbon_emissions}kg
-              </div>
-              <div>
-                (평균 대비
-                {(
-                  (currentData?.carbon_emissions /
-                    totalAvgData?.carbon_emissions) *
-                  100
-                ).toFixed(2)}
-                % 높은 배출량)
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-row justify-center">
-            <div className="bg-red-300 w-[200px] h-[180px]"></div>
-            <div className="flex flex-col justify-center text-center">
-              <div>
-                {user} 님의 11월 탄소배출량은 지난달보다{" "}
-                {lastData && currentData ? (
-                  currentData.carbon_emissions < lastData.carbon_emissions ? (
-                    <>
-                      {(
-                        100 -
-                        (currentData.carbon_emissions /
-                          lastData.carbon_emissions) *
-                          100
-                      ).toFixed(2)}{" "}
-                      % 감소했어요!
-                      <div>평소보다 탄소를 조금 배출하고 있어요.</div>
-                      <div>다음달에도 이번달 처럼만 사용해주세요.</div>
-                    </>
-                  ) : (
-                    <>
-                      {(
-                        (currentData.carbon_emissions /
-                          lastData.carbon_emissions) *
-                          100 -
-                        100
-                      ).toFixed(2)}{" "}
-                      % 증가했어요!
-                      <div>
-                        그래도 아직 평균에 비해 조금 많은 탄소를 배출하고
-                        있어요.
-                      </div>
-                      <div>다음달에는 더 노력해보아요.</div>
-                    </>
-                  )
-                ) : (
-                  "데이터가 부족합니다."
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>항목 별 탄소 배출량</div>
-        <div className="flex flex-col w-[1055px] h-full bg-white rounded-[20px] border border-[#5bca11]">
-          <MonthlyChart currentData={currentData} totalAvgData={totalAvgData} />
-        </div>
+      <div>이전 탄소 배출량 히스토리</div>
+      <div className="w-[1200px] border border-[#5bca11] mt-[12px] mb-[20px]"></div>
+      <div>
+        <div>{currentMonth}월 탄소 배출량 결과표</div>
+        <ResultComponent year={currentYear} month={currentMonth} />
       </div>
     </>
   );
 };
 
-export default HistoryPage;
+export default ResultHistory;

@@ -59,29 +59,15 @@ const ThisMonthChart: React.FC<ThisMonthChartProps> = ({
     responsive: true,
     plugins: {
       legend: {
-        position: "top" as const
+        position: "top" as const // 또는 "bottom", "left", "right" 중 하나로 설정
       },
       title: {
-        display: true
-      },
-      datalabels: {
-        anchor: "end", // 라벨을 바의 끝에 앵커
-        align: "end", // 라벨을 바의 위쪽에 정렬
-        formatter: (value) => value.toFixed(2), // 소수점 2자리로 포맷
-        color: "#000", // 라벨 색상
-        font: {
-          weight: "bold", // 라벨 글씨 두껍게
-          size: 12 // 라벨 크기
-        }
+        display: true,
+        text: "이번달 탄소 배출량"
       }
     },
     layout: {
-      padding: {
-        top: 20,
-        right: 20,
-        bottom: 20,
-        left: 20
-      }
+      padding: 20
     }
   };
 

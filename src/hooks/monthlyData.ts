@@ -132,3 +132,102 @@ export const loadTotalUsersData = async (
     setTotalAvgData(avgData);
   }
 };
+
+export const loadTotal5Data = async (
+  thisYear: number,
+  thisMonth: number,
+  monthsToFetch: number,
+  setTotalAvgData: React.Dispatch<React.SetStateAction<MonthlyData[] | null>>
+) => {
+  const totalAvgDataArray: MonthlyData[] = [];
+
+  for (let i = 0; i < monthsToFetch; i++) {
+    const targetYear = thisMonth - i <= 0 ? thisYear - 1 : thisYear;
+    const targetMonth =
+      thisMonth - i <= 0 ? 12 + (thisMonth - i) : thisMonth - i;
+
+    const { data, error } = await browserClient
+      .from("carbon_records")
+      .select("*")
+      .eq("year", targetYear)
+      .eq("month", targetMonth);
+
+    if (error) {
+      console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
+      continue;
+    }
+
+    if (data.length > 0) {
+      const avgData: MonthlyData = {
+        water_usage: parseFloat(
+          (
+            data.reduce((acc, record) => acc + record.water_usage, 0) /
+            data.length
+          ).toFixed(2)
+        ),
+        water_co2: parseFloat(
+          (
+            data.reduce((acc, record) => acc + record.water_co2, 0) /
+            data.length
+          ).toFixed(2)
+        ),
+        gas_usage: parseFloat(
+          (
+            data.reduce((acc, record) => acc + record.gas_usage, 0) /
+            data.length
+          ).toFixed(2)
+        ),
+        gas_co2: parseFloat(
+          (
+            data.reduce((acc, record) => acc + record.gas_co2, 0) / data.length
+          ).toFixed(2)
+        ),
+        electricity_usage: parseFloat(
+          (
+            data.reduce((acc, record) => acc + record.electricity_usage, 0) /
+            data.length
+          ).toFixed(2)
+        ),
+        electricity_co2: parseFloat(
+          (
+            data.reduce((acc, record) => acc + record.electricity_co2, 0) /
+            data.length
+          ).toFixed(2)
+        ),
+        waste_volume: parseFloat(
+          (
+            data.reduce((acc, record) => acc + record.waste_volume, 0) /
+            data.length
+          ).toFixed(2)
+        ),
+        waste_co2: parseFloat(
+          (
+            data.reduce((acc, record) => acc + record.waste_co2, 0) /
+            data.length
+          ).toFixed(2)
+        ),
+        carbon_emissions: parseFloat(
+          (
+            data.reduce((acc, record) => acc + record.carbon_emissions, 0) /
+            data.length
+          ).toFixed(2)
+        ),
+        car_usage: parseFloat(
+          (
+            data.reduce((acc, record) => acc + record.car_usage, 0) /
+            data.length
+          ).toFixed(2)
+        ),
+        car_co2: parseFloat(
+          (
+            data.reduce((acc, record) => acc + record.car_co2, 0) / data.length
+          ).toFixed(2)
+        )
+      };
+
+      totalAvgDataArray.unshift(avgData); // 가장 최근 달을 마지막에 배치
+    }
+  }
+
+  setTotalAvgData(totalAvgDataArray);
+};
