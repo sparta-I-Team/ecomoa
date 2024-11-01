@@ -11,7 +11,7 @@ const Mypage = async () => {
   const user = await getUser();
   if (!user) return;
   const userInfo = await getUserInfo(user.id);
-  console.log(userInfo);
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@마이페이지", userInfo);
   return (
     <div className="flex flex-col m-auto w-full">
       <h1 className="pt-[89px] font-semibold text-[24px] mb-6">마이페이지</h1>
@@ -46,21 +46,18 @@ const Mypage = async () => {
       >
         <p className="font-[18px]">나의 게시글</p>
       </Link>
-      <Link
+      {/* <Link
         href={"/"}
         className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center"
       >
         <p className="font-[18px]">회원정보 수정</p>
-      </Link>
-      <Link
-        href={"/"}
-        className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center"
-      >
-        <p className="font-[18px]">회원 탈퇴</p>
-      </Link>
+      </Link> */}
+      <div className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center">
+        {/* <p className="font-[18px]">회원 탈퇴</p> */}
+        <DeleteAccountButton user={user} />
+      </div>
 
       <div className="mt-10">
-        <DeleteAccountButton user={user} />
         <LogoutButton />
       </div>
     </div>

@@ -32,14 +32,14 @@ interface ChallengeOptions {
   disposable?: string[];
   files?: string[];
   transport?: string[];
-  [key: string]: string[] | undefined; 
- }
+  [key: string]: string[] | undefined;
+}
 
- interface UserInfo {
+interface UserInfo {
   user_nickname: string;
- }
+}
 
- export interface ChallengeData {
+export interface ChallengeData {
   chall_id: string;
   user_id: string;
   content: string;
@@ -50,9 +50,9 @@ interface ChallengeOptions {
   created_at: string;
   updated_at: string;
   user_info: UserInfo;
- }
+}
 
- export interface LevelInfo {
+export interface pointInfo {
   level: number;
   name: string;
   currentPoints: number;
