@@ -1,9 +1,9 @@
 "use server";
 
-import { Bookmarks, UserInfoNickname } from "@/types/userInfoType";
+import { Bookmarks, UserInfo, UserInfoNickname } from "@/types/userInfoType";
 import { createClient } from "@/utlis/supabase/server";
 
-export const getUserInfo = async (userId: string) => {
+export const getUserInfo = async (userId: string): Promise<UserInfo | null> => {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("user_info")

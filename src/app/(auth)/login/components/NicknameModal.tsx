@@ -127,18 +127,15 @@ const NicknameModal = () => {
 
           <input
             type="text"
-            className="w-[400px] h-16 rounded-[12px] border border-[#9c9c9c] p-3 mb-[74px] placeholder:text-xl flex justify-between items-center"
+            id="nickname"
+            className="w-[400px] h-16 rounded-[12px] border border-[#9c9c9c] p-3 mb-[74px] placeholder:text-[16px] flex justify-between items-center"
             {...register("nickname")}
             onChange={handleInputChange}
             maxLength={20}
             placeholder="ex. 홍길동"
           />
-          <span
-            style={{
-              color: inputLength === 20 ? "red" : "blue" // 조건부 색상 변경
-            }}
-            className="absolute right-3 top-1/2 left-1/2 text-sm"
-          >
+
+          <span className="text-[#6E7481] absolute top-1/2 right-1/2 text-[16px]">
             {inputLength}/20
           </span>
           <div className="flex flex-col items-center justify-center">
