@@ -2,7 +2,6 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function updateSession(request: NextRequest) {
-  //   console.log("!!!!!!!!!!!!!!!!");
   let supabaseResponse = NextResponse.next({
     request
   });
@@ -37,14 +36,16 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user }
   } = await supabase.auth.getUser();
-  //   console.log("유저@@@@@@@@@", user);
+  console.log("유저@@", user);
+  console.log("Request path:", request.nextUrl.pathname);
   if (
-    !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/") &&
-    !request.nextUrl.pathname.startsWith("/signup")
-    // !request.nextUrl.pathname.startsWith("/auth")
+    (!user && request.nextUrl.pathname.startsWith("/mypage")) ||
+    request.nextUrl.pathname.startsWith("/challenge")
+    // !request.nextUrl.pathname.startsWith("/login") &&
+    // !request.nextUrl.pathname.startsWith("/") &&
+    // !request.nextUrl.pathname.startsWith("/signup") &&
   ) {
+    // console.log("Redirecting to /login"); // 리다이렉션 발생 시 로그 남기기
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
     url.pathname = "/login";
