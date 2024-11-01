@@ -23,18 +23,15 @@ const KaKaoLoginButton = () => {
     <>
       <button
         onClick={handleLogin}
-        className="border-none mt-10 flex flex-col justify-center items-center"
+        className="border-none btn btn-primary rounded-xl"
       >
         <Image
-          src={"/images/kakaobtn.png"}
-          width={48}
-          height={48}
-          alt="kakaoBtn"
+          src={"/images/kakao.png"}
+          width={400}
+          height={54}
+          alt="kakao_login_btn"
         />
-        <div className="flex flex-col">
-          <span className="text-lg font-semibold">카카오</span>
-          <span className="text-lg font-semibold">로그인</span>
-        </div>
+        <div className="flex flex-col"></div>
       </button>
     </>
   );

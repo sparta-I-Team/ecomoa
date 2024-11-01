@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React from "react";
 
 const NaverLoginButton = () => {
@@ -12,7 +13,19 @@ const NaverLoginButton = () => {
     window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientId}&redirect_uri=${redirectUri}&state=${state}`;
   };
 
-  return <button onClick={handleNaverLogin}>Naver로 로그인하기</button>;
+  return (
+    <button
+      onClick={handleNaverLogin}
+      className="border-none btn btn-primary rounded-xl"
+    >
+      <Image
+        src={"/images/naver.png"}
+        width={400}
+        height={52}
+        alt="naver_login_btn"
+      />
+    </button>
+  );
 };
 
 export default NaverLoginButton;

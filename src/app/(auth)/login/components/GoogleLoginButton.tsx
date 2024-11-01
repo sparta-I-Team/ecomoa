@@ -5,6 +5,7 @@ import { getUserInfo, signInParams } from "@/api/user-action";
 import { useModal } from "@/zustand/modalStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Session } from "inspector/promises";
+import Image from "next/image";
 
 const GoogleLoginButton = () => {
   const supabase = createClient();
@@ -87,8 +88,16 @@ const GoogleLoginButton = () => {
 
   return (
     <div>
-      <button onClick={signInWithGoogle} className="btn btn-primary">
-        구글 로그인
+      <button
+        onClick={signInWithGoogle}
+        className="border-none btn btn-primary rounded-xl"
+      >
+        <Image
+          src={"/images/google.png"}
+          width={400}
+          height={52}
+          alt="google_login_btn"
+        />
       </button>
     </div>
   );
