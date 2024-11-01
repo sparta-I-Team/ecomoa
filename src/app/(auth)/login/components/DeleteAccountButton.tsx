@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteUserInfo } from "@/api/auth-actions";
 import { deleteUser } from "@/api/delete-action";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
@@ -14,16 +15,23 @@ const DeleteAccountButton = ({ user }: DeleteAccountProps) => {
     const userId = user.id;
 
     try {
-      window.confirm("회원 탈퇴하시겠습니까?");
-      await deleteUser(userId);
-      router.push("/login");
+      const isConfirmed = window.confirm("회원 탈퇴하시겠습니까?");
+      if (isConfirmed) {
+        await deleteUser(userId);
+        await deleteUserInfo(userId);
+        router.push("/login");
+      }
     } catch (error) {
       alert("회원 탈퇴에 실패했습니다.");
       console.error(error);
     }
   };
 
-  return <button onClick={handleDeleteAccount}>회원 탈퇴</button>;
+  return (
+    <button className="border-none" onClick={handleDeleteAccount}>
+      회원 탈퇴
+    </button>
+  );
 };
 
 export default DeleteAccountButton;
