@@ -1,17 +1,17 @@
 "use client";
 
-import { userStore } from "@/zustand/userStore";
 import { useEffect, useState } from "react";
 import NicknameModal from "./NicknameModal";
 import { useUserInfo } from "@/hooks/useUserInfo";
+import { userStore } from "@/zustand/userStore";
 
 const NicknameManager = () => {
   const { user } = userStore();
-  const { data: userInfo, isFetching, isLoading } = useUserInfo();
+  const { data: userInfo, isLoading } = useUserInfo();
   const [isModalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    if (userInfo?.params?.firstTag === false) {
+    if (user && userInfo?.params?.firstTag === false) {
       setModalOpen(true);
     }
   }, [userInfo]);

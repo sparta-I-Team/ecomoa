@@ -39,8 +39,9 @@ export async function updateSession(request: NextRequest) {
   console.log("유저@@", user);
   console.log("Request path:", request.nextUrl.pathname);
   if (
-    (!user && request.nextUrl.pathname.startsWith("/mypage")) ||
-    request.nextUrl.pathname.startsWith("/challenge")
+    !user &&
+    request.nextUrl.pathname.startsWith("/mypage")
+    // request.nextUrl.pathname.startsWith("/challenge")
     // !request.nextUrl.pathname.startsWith("/login") &&
     // !request.nextUrl.pathname.startsWith("/") &&
     // !request.nextUrl.pathname.startsWith("/signup") &&

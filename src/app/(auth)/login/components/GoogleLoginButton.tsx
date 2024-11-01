@@ -2,26 +2,11 @@
 import { signInParams } from "@/api/user-action";
 import { createClient } from "@/utlis/supabase/client";
 import { userStore } from "@/zustand/userStore";
-// import { getUserInfo, signInParams } from "@/api/user-action";
-// import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 
 const GoogleLoginButton = () => {
   const supabase = createClient();
   const { loginUser } = userStore();
-
-  // const { mutateAsync } = useMutation({
-  //   mutationFn: (userId: string) => signInParams(userId),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["user"]
-  //     });
-  //   },
-  //   onError: (error) => {
-  //     console.log(error);
-  //     // throw new Error(error);
-  //   }
-  // });
 
   const signInWithGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -50,34 +35,12 @@ const GoogleLoginButton = () => {
         id: session.user.id as string,
         isAuthenticated: true
       });
-      // const queryClient = useQueryClient();
-      // const { mutate } = useMutation({
-      //   mutationFn: (userId: string) => getUserInfo(userId),
-      //   onSuccess: () => {
-      //     queryClient.invalidateQueries({
-      //       queryKey: ["user"]
-      //     });
-      //   }
-      // }
-      //   // params에 firstTag가 없을 때만 false 설정
-      //   // await signInParams(session.user.id);
 
-      //   // const userInfo = await getUserInfo(session.user.id);
-      //   // if (!userInfo.params || Object.keys(userInfo.params).length === 0) {
-      //   //   mutate(session.user.id);
       await signInParams(session.user.id); // params를 false로 설정
       //   // }
       if (!session) {
         console.log("세션 x");
       }
-      if (session) {
-        // mutateAsync(session?.user.id);
-        console.log(session);
-        // signInParams(session?.user.id);
-      }
-      // } else {
-      //   console.error("구글 로그인 세션 오류", error);
-      // }
       return session;
     }
   };
