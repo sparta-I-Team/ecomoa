@@ -13,7 +13,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Filter from "badwords-ko";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { MouseEventHandler, useState } from "react";
+import { ChangeEvent, MouseEventHandler, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -64,6 +64,7 @@ const NicknameModal = () => {
   const [userInfo, setUserInfo] = useState("");
   const { user } = userStore();
   const router = useRouter();
+  const [inputLength, setInputLength] = useState(0);
   const {
     register,
     handleSubmit,
@@ -107,6 +108,9 @@ const NicknameModal = () => {
     router.push("/challenge");
   };
 
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputLength(e.target.value.length);
+  };
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 mt-[89px]">
       {!isSuccess ? (
@@ -114,16 +118,30 @@ const NicknameModal = () => {
           onSubmit={handleSubmit(onSubmit)}
           className=" flex flex-col justify-center items-center m-auto w-[800px] h-[600px] bg-white"
         >
-          <div className="w-[337px] h-[71px] mb-[59px]">
-            <p className="text-[26px] font-semibold">만나서 반갑습니다.</p>
-            <p className="text-[26px] font-semibold">닉네임을 설정해주세요</p>
+          <div className="text-center h-[71px] mb-[78px] leading-[1.5] text-[32px] font-semibold">
+            <p className="">만나서 반갑습니다.</p>
+            <div className="flex flex-row text-center">
+              <p className="text-[#5BCA11]">닉네임</p>
+              <p>을 설정해주세요!</p>
+            </div>
           </div>
+
           <input
             type="text"
-            className="w-[400px] h-16 rounded-[12px] border border-[#9c9c9c] p-3 mb-[74px] placeholder:text-xl"
+            className="w-[400px] h-16 rounded-[12px] border border-[#9c9c9c] p-3 mb-[74px] placeholder:text-xl flex justify-between items-center"
             {...register("nickname")}
+            onChange={handleInputChange}
+            maxLength={20}
             placeholder="ex. 홍길동"
           />
+          <span
+            style={{
+              color: inputLength === 20 ? "red" : "blue" // 조건부 색상 변경
+            }}
+            className="absolute right-3 top-1/2 left-1/2 text-sm"
+          >
+            {inputLength}/20
+          </span>
           <div className="flex flex-col items-center justify-center">
             <p role="alert" className="fixed mt-5 text-sm text-red-600">
               {errors.nickname?.message}

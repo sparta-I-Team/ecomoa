@@ -1,6 +1,6 @@
 "use server";
 
-import { Bookmarks } from "@/types/userInfoType";
+import { Bookmarks, UserInfoNickname } from "@/types/userInfoType";
 import { createClient } from "@/utlis/supabase/server";
 
 export const getUserInfo = async (userId: string) => {
@@ -25,7 +25,7 @@ export const updateNickname = async ({
 }: {
   userId: string;
   newNickname: string;
-}) => {
+}): Promise<UserInfoNickname | null> => {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("user_info")
@@ -46,7 +46,7 @@ export const updateNickname = async ({
   if (userMetadataError) {
     console.error("닉네임 메타데이터 업데이트 오류", error);
   }
-  return { data, userMetadata };
+  return { user_nickname: newNickname };
 };
 
 // 내가 쓴 글 가져오기
@@ -172,13 +172,11 @@ export const signInParams = async (userId: string) => {
 
   if (error) {
     console.error(error);
-  } else {
-    console.log("제이슨 객체", data);
   }
 };
 
 // 닉네임 수정 완료 params 함수
-export const setNicknameParams = async (userId: string) => {
+export const UpdateNicknameParams = async (userId: string) => {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("user_info")
@@ -189,7 +187,5 @@ export const setNicknameParams = async (userId: string) => {
 
   if (error) {
     console.error(error);
-  } else {
-    console.log("params true로 바꾸기", data);
   }
 };
