@@ -6,11 +6,38 @@ const supabase = createClient();
 export const challengesApi = {
   create: async (params: InsertChallengeParams) => {
     try {
+      // 오늘 날짜의 시작 시간과 끝 시간 계산
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      // 오늘 제출한 챌린지가 있는지 확인
+      const { data: todayChallenge, error: checkError } = await supabase
+        .from("challenges")
+        .select("created_at")
+        .eq("user_id", params.userId)
+        .gte("created_at", today.toISOString())
+        .lt("created_at", tomorrow.toISOString())
+        .single();
+
+      if (checkError && checkError.code !== "PGRST116") {
+        // PGRST116는 결과가 없을 때 발생하는 에러 코드
+        throw checkError;
+      }
+
+      // 이미 오늘 챌린지를 제출했다면 에러를 던짐
+      if (todayChallenge) {
+        throw new Error(
+          "이미 오늘의 챌린지를 제출하셨습니다. 내일 다시 도전해주세요!"
+        );
+      }
+
       //이미지 관련 요청임
       const imageUrls = await Promise.all(
         params.images.map(async (file) => {
           const fileName = `${params.userId}/${Date.now()}`;
-          const {  error } = await supabase.storage
+          const { error } = await supabase.storage
             .from("challenges")
             .upload(fileName, file);
 

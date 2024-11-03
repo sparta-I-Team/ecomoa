@@ -41,10 +41,22 @@ export const CHALLENGE_OPTIONS: Record<string, ChallengeOption[]> = {
 };
 
 export const LEVEL_CONFIG = {
-  1: { name: "씨앗", min: 0, max: 1000, image: "/seed.png" },
-  2: { name: "새싹", min: 1100, max: 5000, image: "/sesac.png" },
-  3: { name: "트리모아", min: 5100, max: 10000, image: "/tree.png" },
-  4: { name: "클로비", min: 10100, max: 20000, image: "/clover.png" }
+  1: { name: "씨앗", min: 0, max: 1000, image: "/seed.png", bg: "#FFF1C2" },
+  2: { name: "새싹", min: 1100, max: 5000, image: "/sesac.png", bg: "#FFDBE2" },
+  3: {
+    name: "트리모아",
+    min: 5100,
+    max: 10000,
+    image: "/tree.png",
+    bg: "#D4FCE0"
+  },
+  4: {
+    name: "클로비",
+    min: 10100,
+    max: 20000,
+    image: "/clover.png",
+    bg: "#CCE9FF"
+  }
 } as const;
 
 export const DAY_OF_THE_WEEK = ["일", "월", "화", "수", "목", "금", "토"];

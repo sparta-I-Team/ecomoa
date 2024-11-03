@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
 import useCalendar from "@/hooks/useCalendar";
 import { calendarApi } from "@/api/calendarApi";
-import { getUser } from "@/api/auth-actions";
 import { DAY_OF_THE_WEEK } from "@/utlis/challenge/challenges";
 import dayjs from "dayjs";
 import { MonthlyData, MonthlyStats } from "@/types/calendar";
+import { userStore } from "@/zustand/userStore";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Calendar = () => {
   const { currentMonth, getDatesInMonth, handleMonthChange } = useCalendar();
+  const { user } = userStore();
+
   const { weeks } = getDatesInMonth(0);
 
-  const [userId, setUserId] = useState<string>("");
   const [monthlyData, setMonthlyData] = useState<MonthlyData>({});
   const [monthlyStats, setMonthlyStats] = useState<MonthlyStats>({
     totalCo2: 0,
@@ -18,18 +20,10 @@ const Calendar = () => {
     totalChallenges: 0
   });
 
-  useEffect(() => {
-    const handleGetUser = async () => {
-      const res = await getUser();
-      setUserId(res?.id || "");
-    };
-    handleGetUser();
-    fetchMonthlyData();
-  }, [currentMonth, userId]);
-
+  console.log(currentMonth);
   // 현재 월의 데이터 가져오기
   const fetchMonthlyData = async () => {
-    if (!userId) return;
+    if (!user.id) return;
 
     try {
       const startOfMonth = currentMonth.startOf("month").format("YYYY-MM-DD");
@@ -39,7 +33,7 @@ const Calendar = () => {
       const challengeData = await calendarApi.getByDateRange(
         startOfMonth,
         endOfMonth,
-        userId
+        user.id
       );
 
       // 데이터를 날짜별로 정리
@@ -70,24 +64,28 @@ const Calendar = () => {
     }
   };
 
+  useEffect(() => {
+    fetchMonthlyData();
+  }, [user, currentMonth]);
+
   return (
     <div>
       {/* 헤더 */}
-      <div className="flex gap-3 mt-[100px] mb-8">
+      <div className="flex gap-4 mt-[100px] mb-8 items-center">
         <button
           onClick={() => handleMonthChange(-1)}
-          className="w-6 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors"
+          className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors"
         >
-          {`<`}
+          <ChevronLeft className="w-8 h-8" />
         </button>
-        <span className="text-xl font-medium">
+        <span className="text-3xl font-medium">
           {currentMonth.format("YYYY년 MM월")}
         </span>
         <button
           onClick={() => handleMonthChange(1)}
-          className="w-6 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors"
+          className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors"
         >
-          {`>`}
+          <ChevronRight className="w-8 h-8" />
         </button>
       </div>
 

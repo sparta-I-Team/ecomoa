@@ -29,7 +29,8 @@ const defaultLevelInfo: LevelInfo = {
   currentPoints: 0, // 기본 현재 포인트
   maxPoints: 100, // 기본 최대 포인트
   pointsToNextLevel: 100, // 다음 레벨까지 필요한 포인트
-  image: "" // 기본 이미지 URL
+  image: "", // 기본 이미지 URL
+  bg: ""
 };
 
 const UserInfoCard = ({ user }: ProfileProps) => {

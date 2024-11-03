@@ -14,7 +14,8 @@ export const calculateLevelInfo = (totalPoints: number): LevelInfo => {
         currentPoints,
         maxPoints: levelRange,
         pointsToNextLevel,
-        image: config.image
+        image: config.image,
+        bg: config.bg
       };
     }
   }
@@ -25,6 +26,7 @@ export const calculateLevelInfo = (totalPoints: number): LevelInfo => {
     currentPoints: 20000,
     maxPoints: 20000,
     pointsToNextLevel: 0,
-    image: LEVEL_CONFIG[4].image
+    image: LEVEL_CONFIG[4].image,
+    bg: LEVEL_CONFIG[4].bg
   };
 };
