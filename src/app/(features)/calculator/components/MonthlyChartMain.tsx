@@ -1,7 +1,7 @@
-import React from "react";
+import { MonthlyData } from "@/types/calculate";
 import { Bar } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
+  Chart,
   CategoryScale,
   LinearScale,
   BarElement,
@@ -9,58 +9,41 @@ import {
   Tooltip,
   Legend
 } from "chart.js";
-import { MonthlyData } from "@/types/calculate";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 interface MonthlyChartMainProps {
-  totalAvgData: MonthlyData[];
-  currentData: MonthlyData | null;
+  emissionsData: MonthlyData[] | null; // 평균 배출량 데이터
+  currentData: MonthlyData[] | null;
 }
 
 const MonthlyChartMain: React.FC<MonthlyChartMainProps> = ({
-  totalAvgData,
+  emissionsData,
   currentData
 }) => {
-  const avgData = totalAvgData.length > 0 ? totalAvgData[0] : null;
+  // 평균 배출량 데이터와 총 배출량을 기반으로 datasets 구성
+  const datasets = [
+    {
+      label: "평균 배출량",
+      data: emissionsData?.map((monthData) => monthData.carbon_emissions) || [],
 
+      backgroundColor: "rgba(217, 217, 217, 0.6)",
+      borderColor: "rgba(217, 217, 217, 1)",
+      borderWidth: 1
+    },
+    {
+      label: "나의 총 배출량",
+      data: currentData?.map((monthData) => monthData.carbon_emissions) || [],
+      backgroundColor: "rgba(91, 202, 17, 0.6)",
+      borderColor: "rgba(91, 202, 17, 1)",
+      borderWidth: 1
+    }
+  ];
+
+  // labels에 현재 달 기준 5달 추가
   const data = {
-    labels: ["전기", "수도", "가스", "교통", "폐기물"],
-    datasets: [
-      {
-        label: "평균 배출량",
-        data: [
-          avgData?.electricity_co2 || 0,
-          avgData?.water_co2 || 0,
-          avgData?.gas_co2 || 0,
-          avgData?.car_co2 || 0,
-          avgData?.waste_co2 || 0
-        ],
-        backgroundColor: "#D9D9D9",
-        borderColor: "#D9D9D9",
-        borderWidth: 1
-      },
-      {
-        label: "나의 배출량",
-        data: [
-          currentData?.electricity_co2 || 0,
-          currentData?.water_co2 || 0,
-          currentData?.gas_co2 || 0,
-          currentData?.car_co2 || 0,
-          currentData?.waste_co2 || 0
-        ],
-        backgroundColor: "#5BCA11",
-        borderColor: "#5BCA11",
-        borderWidth: 1
-      }
-    ]
+    labels: currentData?.map((monthData) => monthData.month) || [],
+    datasets: datasets
   };
 
   const options = {
@@ -71,10 +54,11 @@ const MonthlyChartMain: React.FC<MonthlyChartMainProps> = ({
       },
       title: {
         display: true,
-        text: "이번달 탄소 배출량"
+        text: "최근 5개월 탄소 배출량 비교"
       }
     }
   };
+
   return (
     <div>
       <Bar data={data} options={options} />

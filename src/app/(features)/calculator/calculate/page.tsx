@@ -8,6 +8,7 @@ import Loading from "../components/Loading";
 import browserClient from "@/utlis/supabase/browserClient";
 import { useRouter } from "next/navigation";
 import { userStore } from "@/zustand/userStore";
+import YearMonthPickerMain from "../components/YearMonthPickerMain";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
@@ -39,7 +40,6 @@ const Page = () => {
     const car = Number(data.car) || 0;
     const waste = Number(data.waste) || 0;
 
-    // 토탈
     const total =
       electricity * 0.4781 +
       water * 0.237 +
@@ -50,36 +50,85 @@ const Page = () => {
     setIsLoading(true);
 
     try {
-      const { error } = await browserClient.from("carbon_records").insert({
-        user_id: user.id,
-        electricity_usage: electricity,
-        electricity_co2: (electricity * 0.4781).toFixed(2),
-        water_usage: water,
-        water_co2: (water * 0.237).toFixed(2),
-        gas_usage: gas,
-        gas_co2: (gas * 2.176).toFixed(2),
-        car_usage: car,
-        car_co2: ((car / 16.04) * 2.097).toFixed(2),
-        waste_volume: waste,
-        waste_co2: (waste * 0.5573).toFixed(2),
-        carbon_emissions: total.toFixed(2),
-        year: Number(thisYear),
-        month: Number(thisMonth)
-      });
-      if (error) {
-        console.error("데이터 삽입 오류:", error);
-        alert("데이터 삽입 중 오류가 발생했습니다.");
-      } else {
-        setTimeout(() => {
+      const { data: existingData, error: fetchError } = await browserClient
+        .from("carbon_records")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("year", thisYear)
+        .eq("month", thisMonth);
+
+      if (fetchError) {
+        console.error("기존 데이터 조회 오류:", fetchError);
+        alert("기존 데이터 조회 중 오류가 발생했습니다.");
+        setIsLoading(false);
+        return;
+      }
+
+      const selectedData =
+        existingData && existingData.length > 0 ? existingData[0] : null;
+
+      if (selectedData) {
+        const { error } = await browserClient
+          .from("carbon_records")
+          .update({
+            electricity_usage: electricity,
+            electricity_co2: (electricity * 0.4781).toFixed(2),
+            water_usage: water,
+            water_co2: (water * 0.237).toFixed(2),
+            gas_usage: gas,
+            gas_co2: (gas * 2.176).toFixed(2),
+            car_usage: car,
+            car_co2: ((car / 16.04) * 2.097).toFixed(2),
+            waste_volume: waste,
+            waste_co2: (waste * 0.5573).toFixed(2),
+            carbon_emissions: total.toFixed(2)
+          })
+          .eq("user_id", user.id) // 사용자의 id
+          .eq("year", thisYear) // 연도
+          .eq("month", thisMonth); // 월
+
+        if (error) {
+          console.error("데이터 업데이트 오류:", error);
+          alert("데이터 업데이트 중 오류가 발생했습니다.");
+        } else {
           alert(
             `전체 에너지원 CO₂ 발생 합계 : ${total.toFixed(
               2
-            )} kg/월 ${thisYear}년도 ${thisMonth}달`
+            )} kg/월 ${thisYear}년도 ${thisMonth}달이 업데이트되었습니다.`
           );
-          setIsLoading(false);
-          router.push("/calculator/result");
-        }, 5000);
+        }
+      } else {
+        const { error } = await browserClient.from("carbon_records").insert({
+          user_id: user.id,
+          electricity_usage: electricity,
+          electricity_co2: (electricity * 0.4781).toFixed(2),
+          water_usage: water,
+          water_co2: (water * 0.237).toFixed(2),
+          gas_usage: gas,
+          gas_co2: (gas * 2.176).toFixed(2),
+          car_usage: car,
+          car_co2: ((car / 16.04) * 2.097).toFixed(2),
+          waste_volume: waste,
+          waste_co2: (waste * 0.5573).toFixed(2),
+          carbon_emissions: total.toFixed(2),
+          year: Number(thisYear),
+          month: Number(thisMonth)
+        });
+
+        if (error) {
+          console.error("데이터 삽입 오류:", error);
+          alert("데이터 삽입 중 오류가 발생했습니다.");
+        } else {
+          alert(
+            `전체 에너지원 CO₂ 발생 합계 : ${total.toFixed(
+              2
+            )} kg/월 ${thisYear}년도 ${thisMonth}달이 저장되었습니다.`
+          );
+        }
       }
+
+      setIsLoading(false);
+      router.push("/calculator/result");
     } catch (err) {
       console.error("에러 발생:", err);
       alert("데이터 처리 중 오류가 발생했습니다.");
@@ -89,29 +138,24 @@ const Page = () => {
 
   const handleYearChange = (year: number) => {
     setThisYear(year);
+    console.log("Selected Year:", year);
   };
-
   const handleMonthChange = (month: number) => {
     setThisMonth(month);
+    console.log("Selected Month:", month);
   };
-
-  const handleCloseDropdown = () => {
-    // 드롭다운이 닫힐 때 데이터를 새로 로드합니다
-    setThisYear(thisYear);
-    setThisMonth(thisMonth);
-  };
+  console.log(thisYear);
 
   return (
     <>
       <div>탄소 배출량 계산하기</div>
       <div>이번 달 이산화탄소 배출량이 얼마나 발생했을지 계산해봅시다</div>
       <div className="flex">
-        <YearMonthPicker
+        <YearMonthPickerMain
           thisYear={thisYear}
           thisMonth={thisMonth}
           onChangeYear={handleYearChange} // 연도 변경 핸들러 전달
           onChangeMonth={handleMonthChange} // 월 변경 핸들러 전달
-          onCloseDropdown={handleCloseDropdown} // 드롭다운 닫힘 시 호출될 함수
           disabled={false}
         />
       </div>

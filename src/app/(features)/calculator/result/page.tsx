@@ -8,6 +8,7 @@ import ThisMonthChart from "../components/ThisMonthChart";
 import MonthlyChart from "../components/MonthlyChart";
 import UsageCard from "../components/UsageCard";
 import SectionCard from "../components/SectionCard";
+import YearMonthPickerMain from "../components/YearMonthPickerMain";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
@@ -56,7 +57,7 @@ const ResultPage: React.FC = () => {
       <div className="flex flex-col justify-center items-center bg-[#EAFCDE] p-10 w-[1200px] rounded-[32px]">
         <div className="flex flex-col w-[400px] h-[60px] px-11 bg-[#aef480] rounded-[38px] justify-center items-center gap-2.5">
           <div className="flex justify-center items-center text-[#1c3d05] text-4xl font-semibold">
-            <YearMonthPicker
+            <YearMonthPickerMain
               thisYear={thisYear}
               thisMonth={thisMonth}
               onChangeYear={handleYearChange} // 연도 변경 핸들러 전달

@@ -1,6 +1,24 @@
-import React from "react";
+"use client";
+import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
+import { MonthlyData } from "@/types/calculate";
+import React, { useEffect, useState } from "react";
+import CompareMonthlyEmissions from "../components/CompareMonthlyEmissions";
+
+const currentYear = new Date().getFullYear();
+const currentMonth = new Date().getMonth() + 1;
 
 const ResultPageMain = () => {
+  const [user, setUser] = useState<string | null>(null);
+  const [thisYear, setThisYear] = useState<number | null>(currentYear);
+  const [thisMonth, setThisMonth] = useState<number | null>(currentMonth);
+  const [currentData, setCurrentData] = useState<MonthlyData | null>(null);
+  const [totalAvgData, setTotalAvgData] = useState<MonthlyData | null>(null);
+
+  useEffect(() => {
+    loadUserAndFetchData(setUser, thisYear, thisMonth, setCurrentData);
+    loadTotalUsersData(thisYear, thisMonth, setTotalAvgData);
+  }, [thisYear, thisMonth]);
+  // console.log("currentData =>", currentData, "total =>", totalAvgData);
   return (
     <>
       <div>
@@ -13,11 +31,11 @@ const ResultPageMain = () => {
           <div className="flex flex-row gap-10">
             <div>
               <div>현재까지 총 배출량</div>
-              <div>42kg</div>
+              <div>{currentData?.carbon_emissions}kg</div>
             </div>
             <div>
               <div>월별 평균 배출량</div>
-              <div>21kg</div>
+              <div>{totalAvgData?.carbon_emissions}kg</div>
             </div>
           </div>
           <div>
@@ -33,7 +51,10 @@ const ResultPageMain = () => {
       </div>
       <div>
         <div>월간 배출량 추이</div>
-        <div className="w-fill h-[350px] bg-red-200"></div>
+        <div>
+          <CompareMonthlyEmissions />
+        </div>
+        <div></div>
       </div>
       <div>
         <div>탄소 계산 히스토리</div>
