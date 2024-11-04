@@ -8,11 +8,11 @@ import { userStore } from "@/zustand/userStore";
 const NicknameManager = () => {
   const { user } = userStore();
   const { data: userInfo, isLoading } = useUserInfo();
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (user && userInfo?.params?.firstTag === false) {
-      setModalOpen(true);
+      setIsModalOpen(true);
     }
   }, [userInfo, user]);
 
@@ -23,7 +23,10 @@ const NicknameManager = () => {
   return (
     <div>
       {isModalOpen && (
-        <NicknameModal isModalOpen={isModalOpen} setModalOpen={setModalOpen} />
+        <NicknameModal
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
       )}
     </div>
   );

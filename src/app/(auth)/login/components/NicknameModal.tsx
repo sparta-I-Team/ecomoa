@@ -13,7 +13,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Filter from "badwords-ko";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, MouseEventHandler, useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -56,22 +56,24 @@ const nicknameSchema = z.object({
 
 interface NicknameModalProps {
   isModalOpen: boolean;
-  setModalOpen: (open: boolean) => void;
+  setIsModalOpen: (open: boolean) => void;
 }
-const NicknameModal = ({ isModalOpen, setModalOpen }: NicknameModalProps) => {
+const NicknameModal = ({ isModalOpen, setIsModalOpen }: NicknameModalProps) => {
   const queryClient = useQueryClient();
   const [isSuccess, setIsSuccess] = useState(false);
   const [userInfo, setUserInfo] = useState("");
   const { user } = userStore();
   const router = useRouter();
-  const [inputLength, setInputLength] = useState(0);
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors }
   } = useForm<FormData>({
     resolver: zodResolver(nicknameSchema)
   });
+  const nicknameValue = watch("nickname"); // 현재 닉네임 값
+  const inputLength = nicknameValue?.length || 0;
 
   // 닉네임 업데이트
   const { mutateAsync } = useMutation<
@@ -97,7 +99,6 @@ const NicknameModal = ({ isModalOpen, setModalOpen }: NicknameModalProps) => {
   });
 
   const onSubmit = async (data: FormData) => {
-    await nicknameSchema.parseAsync(data);
     await mutateAsync({ userId: user.id, newNickname: data.nickname });
     setIsSuccess(true);
   };
@@ -105,18 +106,16 @@ const NicknameModal = ({ isModalOpen, setModalOpen }: NicknameModalProps) => {
   const onClickChallenge: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
     await UpdateNicknameParams(user.id);
+    setIsModalOpen(false);
     router.push("/challenge");
-  };
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputLength(e.target.value.length);
   };
 
   // 모달 닫기
   const onClickClose = () => {
-    setModalOpen(false);
+    setIsModalOpen(false);
   };
 
+  if (!isModalOpen) return null;
   return (
     <div
       className="fixed inset-0 flex items-center justify-center z-50 p-4 mt-[89px]"
@@ -125,13 +124,14 @@ const NicknameModal = ({ isModalOpen, setModalOpen }: NicknameModalProps) => {
           "linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), var(--naver-text, #FFF)"
       }}
     >
-      {!isSuccess ? (
+      {!isSuccess && isModalOpen ? (
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="w-[800px] h-[500px] rounded-[20px] flex flex-col justify-center items-center m-auto bg-white"
         >
           <div className="relative w-full">
             <button
+              type="button"
               onClick={onClickClose}
               className="absolute border-none -top-10 right-10 text-lg"
             >
@@ -151,7 +151,6 @@ const NicknameModal = ({ isModalOpen, setModalOpen }: NicknameModalProps) => {
               id="nickname"
               className=" w-[360px] h-[56px] p-[0px_20px] rounded-[12px] border border-[#9c9c9c] mb-[74px] placeholder:text-[16px] flex justify-between items-center"
               {...register("nickname")}
-              onChange={handleInputChange}
               maxLength={20}
               placeholder="ex. 홍길동"
             />
@@ -172,7 +171,6 @@ const NicknameModal = ({ isModalOpen, setModalOpen }: NicknameModalProps) => {
           <div className="flex flex-col items-center justify-center">
             <button
               type="submit"
-              // disabled={isPending}
               className="w-[380px] h-[52px] p-[11px_32px] rounded-[85px] text-[18px] bg-[#91F051] border-none"
             >
               가입완료
@@ -183,6 +181,7 @@ const NicknameModal = ({ isModalOpen, setModalOpen }: NicknameModalProps) => {
         <form className="w-[800px] h-[500px] rounded-[20px] flex flex-col justify-center items-center m-auto bg-white">
           <div className="relative w-full">
             <button
+              type="button"
               onClick={onClickClose}
               className="absolute border-none -top-10 right-10 text-lg"
             >
