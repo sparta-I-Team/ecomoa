@@ -2,6 +2,7 @@
 
 import { deleteUserInfo } from "@/api/auth-actions";
 import { deleteUser } from "@/api/delete-action";
+import { userStore } from "@/zustand/userStore";
 import { useRouter } from "next/navigation";
 
 interface DeleteAccountProps {
@@ -10,10 +11,12 @@ interface DeleteAccountProps {
 
 const DeleteAccountButton = ({ userId }: DeleteAccountProps) => {
   const router = useRouter();
+  const { logoutUser } = userStore();
   const handleDeleteAccount = async () => {
     try {
       const isConfirmed = window.confirm("회원 탈퇴하시겠습니까?");
       if (isConfirmed) {
+        logoutUser();
         await deleteUser(userId);
         await deleteUserInfo(userId);
         router.push("/login");
