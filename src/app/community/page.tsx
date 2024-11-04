@@ -2,11 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
-<<<<<<< HEAD
-import Like from "./components/Like";
-=======
 import Image from "next/image";
->>>>>>> 1e24f7d60199eb03ff2c680cbc5e3b6526b02491
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -101,20 +97,6 @@ const Page = () => {
               key={index}
               className="w-full h-[220px] border-b border-black flex flex-row p-4"
             >
-<<<<<<< HEAD
-              <div className="mb-4">
-                <label className="bg-[#D9D9D9] ">
-                  {post.user_info.user_nickname}님
-                </label>
-                <time>{new Date(post.created_at).toLocaleDateString()}</time>
-              </div>
-              <h2 className="text-xl font-semibold mb-2">{post.post_title}</h2>
-              <p>{post.post_content}</p>
-              <div className="flex justify-between items-center mt-auto">
-                <div className="flex space-x-4">
-                  <Like postId={post.post_id} />
-                  <label>댓글 {post.comment || 0}</label>
-=======
               <div className="flex-1">
                 <div className="mb-4">
                   <label className="mr-2 bg-[#D9D9D9]">{totalPoints}p</label>
@@ -133,7 +115,6 @@ const Page = () => {
                       )
                     )}
                   </div>
->>>>>>> 1e24f7d60199eb03ff2c680cbc5e3b6526b02491
                 </div>
               </div>
               <div className="flex-none ml-4">
