@@ -20,7 +20,13 @@ const NicknameManager = () => {
     return <div>Loading...</div>;
   }
 
-  return <div>{isModalOpen && <NicknameModal />}</div>;
+  return (
+    <div>
+      {isModalOpen && (
+        <NicknameModal isModalOpen={isModalOpen} setModalOpen={setModalOpen} />
+      )}
+    </div>
+  );
 };
 
 export default NicknameManager;
