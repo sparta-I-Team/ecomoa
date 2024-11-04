@@ -21,6 +21,7 @@ export const useChallengeDashboard = (userId: string) => {
   const isLoading = isUserChallengeLoading || isChallengeListLoading || !userId;
 
   // 오늘의 챌린지 계산
+  // -> 오늘의 챌린지를 처음부터 api로 요청
   const today = new Date()
     .toLocaleDateString("ko-KR", {
       timeZone: "Asia/Seoul",

@@ -20,7 +20,6 @@ const Calendar = () => {
     totalChallenges: 0
   });
 
-  console.log(currentMonth);
   // 현재 월의 데이터 가져오기
   const fetchMonthlyData = async () => {
     if (!user.id) return;

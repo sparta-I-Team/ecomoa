@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useModalStore } from "@/zustand/modalStore";
 import { useChallengeStore } from "@/zustand/challengeStore";
@@ -50,6 +50,34 @@ export const useChallengeForm = () => {
     });
   };
 
+  const successModalContent = useMemo(
+    () => (
+      <div className="p-6 flex flex-col items-center w-full max-w-md">
+        <h2 className="text-xl font-bold mb-4">챌린지 인증 완료!</h2>
+        <p className="text-gray-700">
+          오늘의 챌린지를 성공적으로 완료했습니다.
+        </p>
+        <p className="mt-2 text-lg font-semibold">
+          포인트 획득: {selectedChallenges.length * 100}P
+        </p>
+        <div className="flex flex-wrap gap-2 justify-center mt-4 w-full">
+          {CHALLENGES.filter((c) => selectedChallenges.includes(c.id)).map(
+            (ch) => (
+              <div
+                key={ch.id}
+                className="rounded-full bg-black px-4 py-1.5 text-sm text-white shadow-sm whitespace-nowrap"
+                title={ch.label}
+              >
+                {ch.label}
+              </div>
+            )
+          )}
+        </div>
+      </div>
+    ),
+    [selectedChallenges]
+  );
+
   const onSubmit = async (data: ChallengeFormInputs, imageFiles: File[]) => {
     try {
       const unselectedChallenges = selectedChallenges.filter((challengeId) => {
@@ -83,62 +111,17 @@ export const useChallengeForm = () => {
         point: selectedChallenges.length * 100
       });
 
-      openModal(
-        <div className="p-6 flex flex-col items-center w-full max-w-md">
-          <h2 className="text-xl font-bold mb-4">챌린지 인증 완료!</h2>
-          <p className="text-gray-700">
-            오늘의 챌린지를 성공적으로 완료했습니다.
-          </p>
-          <p className="mt-2 text-lg font-semibold">
-            포인트 획득: {selectedChallenges.length * 100}
-          </p>
-          <div className="flex flex-wrap gap-2 justify-center mt-4 w-full">
-            {CHALLENGES.filter((c) => selectedChallenges.includes(c.id)).map(
-              (ch) => (
-                <div
-                  key={ch.id}
-                  className="rounded-full bg-black px-4 py-1.5 text-sm text-white shadow-sm whitespace-nowrap"
-                  title={ch.label}
-                >
-                  {ch.label}
-                </div>
-              )
-            )}
-          </div>
-        </div>,
-        "autoClose",
-        2000
-      );
+      openModal(successModalContent, "autoClose", 2000);
       setStep(1);
     } catch (error) {
-      const isDailyLimitError =
+      if (
         error instanceof Error &&
-        error.message.includes("이미 오늘의 챌린지를 제출");
-
-      if (isDailyLimitError) {
-        openModal(
-          <div className="p-6 flex flex-col items-center w-full max-w-md text-center">
-            <h2 className="text-xl font-bold mb-4">이미 참여하셨어요!</h2>
-            <p className="text-gray-700 mb-2">
-              오늘은 이미 챌린지에 참여하셨습니다.
-            </p>
-            <p className="text-gray-600">내일 다시 도전해주세요! 🌱</p>
-            <button
-              className="mt-6 px-6 py-2 w-full bg-black text-white rounded"
-              onClick={() => {
-                closeModal();
-                setStep(1);
-              }}
-            >
-              확인
-            </button>
-          </div>,
-          "persistent",
-          0
-        );
+        error.message.includes("이미 오늘의 챌린지를 제출")
+      ) {
+        openModal(alreadyParticipatedModalContent, "persistent", 0);
       } else {
         openModal(
-          <div className="p-6 flex flex-col items-center w-full max-w-md">
+          <div className="p-10 flex flex-col items-center w-full max-w-md">
             <h2 className="text-xl font-bold mb-4 text-red-500">오류 발생</h2>
             <p className="text-gray-700 text-center">
               {error instanceof Error
@@ -152,18 +135,41 @@ export const useChallengeForm = () => {
       }
     }
   };
+  const alreadyParticipatedModalContent = useMemo(
+    () => (
+      <div className="p-10 flex flex-col items-center w-full max-w-md text-center">
+        <h2 className="text-xl font-bold mb-4">이미 참여하셨어요!</h2>
+        <p className="text-gray-700 mb-2">
+          오늘은 이미 챌린지에 참여하셨습니다.
+        </p>
+        <p className="text-gray-600">내일 다시 도전해주세요! 🌱</p>
+        <button
+          className="mt-6 px-6 py-2 w-full bg-black text-white rounded"
+          onClick={() => {
+            closeModal();
+            setStep(1);
+          }}
+        >
+          확인
+        </button>
+      </div>
+    ),
+    [closeModal, setStep]
+  );
 
-  const handleOpenGoBackModal = () => {
-    openModal(
-      <div className="flex flex-col p-8 w-[600px]">
+  const goBackModalContent = useMemo(
+    () => (
+      <div className="flex flex-col p-10 w-[600px]">
         <div className="flex flex-col justify-center items-center space-y-2 text-2xl pt-16">
           <p className="text-gray-800">챌린지 인증을 취소하겠습니까?</p>
           <p className="text-gray-800">
-            지금 인증하면 <span className="font-bold text-black">600P</span>를
-            받을 수 있어요!
+            지금 인증하면{" "}
+            <span className="font-bold text-black">
+              {selectedChallenges.length * 100}P
+            </span>
+            를 받을 수 있어요!
           </p>
         </div>
-
         <div className="flex gap-4 mt-12">
           <button
             className="px-6 py-4 mt-6 w-full bg-gray-300 transition-colors"
@@ -181,11 +187,10 @@ export const useChallengeForm = () => {
             계속 작성할게요
           </button>
         </div>
-      </div>,
-      "persistent",
-      0
-    );
-  };
+      </div>
+    ),
+    [closeModal, setStep, selectedChallenges.length]
+  );
 
   return {
     selectedOptions,
@@ -194,7 +199,7 @@ export const useChallengeForm = () => {
     errors,
     handleOptionToggle,
     onSubmit,
-    handleOpenGoBackModal,
+    handleOpenGoBackModal: () => openModal(goBackModalContent, "persistent", 0),
     challengeMutation
   };
 };
