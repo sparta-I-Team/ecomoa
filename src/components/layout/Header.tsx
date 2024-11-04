@@ -24,10 +24,11 @@ const Header = () => {
     setIsUserLoggedIn(!isUserLoggedIn);
   };
 
+  // useEffect나 페이징 처리 해주는게 나을 것 같음
   const handleSetStep = () => {
     setStep(1);
   };
-  
+
   const supabase = createClient();
   supabase.auth.onAuthStateChange((event, session) => {
     if (event === "INITIAL_SESSION") {

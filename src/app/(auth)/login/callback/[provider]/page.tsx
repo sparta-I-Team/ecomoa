@@ -40,8 +40,6 @@ const AuthCallback = () => {
         if (error) throw error;
 
         if (session) {
-          console.log("세션 :", session);
-
           loginUser({
             email: session.user.email as string,
             accessToken: session.access_token as string,
