@@ -82,7 +82,7 @@ const Service = () => {
       </section>
 
       <section className="mx-auto mt-[280px]">
-        <p className="font-black w-full font-wanted text-center font-[500] text-[48px] leading-[7d2px] tracking-[-0.72px]">
+        <p className="w-full font-wanted text-center font-[500] text-[48px] leading-[7d2px] tracking-[-0.72px]">
           당신의
           <span className="text-[#5BCA11] font-wanted text-[48px] font-[800] leading-[72px]">
             MOA
@@ -219,7 +219,7 @@ const Service = () => {
               마세요!
             </p>
             <Image
-              src={"/service/ecomap.png"}
+              src={"/service/map.png"}
               width={380}
               height={380}
               alt="친환경 맵 소개"

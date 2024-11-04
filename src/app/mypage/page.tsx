@@ -13,8 +13,8 @@ const Mypage = async () => {
   await getUserInfo(user.id);
   const userId = user.id;
   return (
-    <div className="flex flex-col m-auto w-full">
-      <h1 className="pt-[89px] font-semibold text-[24px] mb-6">마이페이지</h1>
+    <div className="flex flex-col m-auto max-w-[1200px]">
+      <h1 className="mt-[89px] font-semibold text-[24px] mb-6">마이페이지</h1>
       <div className="flex flex-row justify-center gap-5">
         <UserInfoCard user={user} />
         <MyPoint user={user} />
@@ -46,14 +46,7 @@ const Mypage = async () => {
       >
         <p className="font-[18px]">나의 게시글</p>
       </Link>
-      {/* <Link
-        href={"/"}
-        className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center"
-      >
-        <p className="font-[18px]">회원정보 수정</p>
-      </Link> */}
       <div className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center">
-        {/* <p className="font-[18px]">회원 탈퇴</p> */}
         <DeleteAccountButton userId={userId} />
       </div>
 

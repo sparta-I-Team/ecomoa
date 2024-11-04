@@ -67,12 +67,13 @@ const NicknameModal = ({ isModalOpen, setIsModalOpen }: NicknameModalProps) => {
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors }
   } = useForm<FormData>({
     resolver: zodResolver(nicknameSchema)
   });
-  const nicknameValue = watch("nickname"); // 현재 닉네임 값
+  const nicknameValue = watch("nickname") || ""; // 현재 닉네임 값
   const inputLength = nicknameValue?.length || 0;
 
   // 닉네임 업데이트
@@ -115,6 +116,11 @@ const NicknameModal = ({ isModalOpen, setIsModalOpen }: NicknameModalProps) => {
     setIsModalOpen(false);
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setValue("nickname", value); // 입력 값을 setValue로 업데이트
+  };
+
   if (!isModalOpen) return null;
   return (
     <div
@@ -149,11 +155,13 @@ const NicknameModal = ({ isModalOpen, setIsModalOpen }: NicknameModalProps) => {
             <input
               type="text"
               id="nickname"
-              className=" w-[360px] h-[56px] p-[0px_20px] rounded-[12px] border border-[#9c9c9c] mb-[74px] placeholder:text-[16px] flex justify-between items-center"
+              className=" w-[400px] h-[56px] p-[0px_20px] rounded-[12px] border border-[#9c9c9c] mb-[74px] placeholder:text-[16px] flex justify-between items-center"
               {...register("nickname")}
               maxLength={20}
               placeholder="ex. 홍길동"
+              onChange={handleChange}
             />
+            {/* 글자 수 표시 */}
             <span className="text-[#6E7481] absolute top-5 right-3 text-[16px]">
               {inputLength}/20
             </span>
