@@ -51,7 +51,9 @@ const StatsSection = ({
             </p>
           </>
         ) : (
-          <p className="text-3xl font-bold">오늘의 데일리 챌린지에 참여해보세요!</p>
+          <p className="text-3xl font-bold">
+            오늘의 데일리 챌린지에 참여해보세요!
+          </p>
         )}
       </article>
     </section>

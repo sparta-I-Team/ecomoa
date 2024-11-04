@@ -1,7 +1,10 @@
 export interface ChallengeFormInputs {
   content: string;
-  images: FileList;
-  options: Record<string, string[]>;
+  images: File[];
+  selectedOptions?: {
+    // 옵션 필드 추가
+    [key: string]: string[];
+  };
 }
 
 export interface ChallengeStoreType {
@@ -59,4 +62,12 @@ export interface LevelInfo {
   maxPoints: number;
   pointsToNextLevel: number;
   image: string;
+  bg: string;
+}
+
+//이미지
+
+export interface ImageValidation {
+  isValid: boolean;
+  message?: string;
 }

@@ -1,19 +1,19 @@
 "use client";
-import { useModal } from "@/zustand/modalStore";
+import { useModalStore } from "@/zustand/modalStore";
 import { useEffect } from "react";
 
 export const Modal = () => {
-  const { isOpen, modalContent, closeModal } = useModal();
+  const { isOpen, modalContent, closeModal, type, time } = useModalStore();
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && type === "autoClose") {
       const timer = setTimeout(() => {
         closeModal();
-      }, 2000);
+      }, time);
 
       return () => clearTimeout(timer);
     }
-  }, [isOpen, closeModal]);
+  }, [isOpen, closeModal, type, time]);
 
   if (!isOpen) return null;
 
@@ -23,10 +23,17 @@ export const Modal = () => {
       onClick={closeModal}
     >
       <div
-        className="bg-white rounded-xl shadow-xl max-h-[90vh] overflow-y-auto w-full max-w-[400px] transform transition-all"
+        className="bg-white rounded-xl shadow-xl max-h-[80vh] overflow-y-auto  inline-block w-auto min-w-[280px] transform transition-all"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="overflow-x-hidden">{modalContent}</div>
+        <div className="overflow-x-hidden relative">
+          {modalContent}
+
+          <button
+            onClick={closeModal}
+            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+          ></button>
+        </div>
       </div>
     </div>
   );
