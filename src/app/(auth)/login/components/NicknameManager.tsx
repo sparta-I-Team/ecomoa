@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import NicknameModal from "./NicknameModal";
 import { useUserInfo } from "@/hooks/useUserInfo";
 import { userStore } from "@/zustand/userStore";
+import { useModalStore } from "@/zustand/modalStore";
 
 const NicknameManager = () => {
   const { user } = userStore();
   const { data: userInfo, isLoading } = useUserInfo();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { openModal, closeModal } = useModalStore();
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (user && userInfo?.params?.firstTag === false) {
