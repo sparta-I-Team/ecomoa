@@ -1,100 +1,198 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import {
-  // currentMonthly,
-  MonthlyData,
-  totalCurrentMonthly
-} from "@/types/calculate";
 import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
-import MonthlyChart from "../components/MonthlyChart";
+import { MonthlyData } from "@/types/calculate";
 import ThisMonthChart from "../components/ThisMonthChart";
-import YearMonthPicker from "../components/YearMonthPicker";
+import MonthlyChart from "../components/MonthlyChart";
+import SectionCard from "../components/SectionCard";
+
+const currentYear = new Date().getFullYear();
+const currentMonth = new Date().getMonth() + 1;
 
 const ResultPage: React.FC = () => {
-  const [user, setUser] = useState<string | null>(null);
-  const [currentMonthly, setCurrentMonthly] = useState<MonthlyData | null>(
-    null
-  ); // MonthlyData 타입으로 설정
+  const [currentData, setCurrentData] = useState<MonthlyData | null>(null);
+  const [totalAvgData, setTotalAvgData] = useState<MonthlyData | null>(null);
+  const [lastData, setLastData] = useState<MonthlyData | null>(null);
 
-  const [totalCurrentMonthly, setTotalCurrentMonthly] =
-    useState<totalCurrentMonthly | null>(null);
-
+  // 내 이번달 저번달 / 전체유저 이번달 저번달 데이터 fetch 함수
   useEffect(() => {
-    loadUserAndFetchData(setUser, setCurrentMonthly);
-    loadTotalUsersData(setTotalCurrentMonthly);
-  }, []);
-  // console.log(totalCurrentMonthly);
+    loadUserAndFetchData(currentYear, currentMonth, setCurrentData);
+    loadTotalUsersData(currentYear, currentMonth, setTotalAvgData);
+
+    // 이전 달의 데이터 로딩
+    const previousYear = currentMonth === 1 ? currentYear - 1 : currentYear;
+    const previousMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+
+    loadUserAndFetchData(previousYear, previousMonth, setLastData);
+    loadTotalUsersData(previousYear, previousMonth, setTotalAvgData);
+  }, [currentYear, currentMonth]);
 
   return (
-    <div>
-      <div>탄소 계산 히스토리</div>
-      <div className="border border-red-400 p-10 w-[1055px] h-[700px]">
-        <div className="flex flex-row justify-center gap-20">
-          <div>
-            <div className="flex justify-center">
-              <YearMonthPicker
-                disabled={true}
-                onChangeYear={() => {}}
-                onChangeMonth={() => {}}
-              />
+    <>
+      <div> &lt; 탄소 계산기</div>
+      <div className="text-[#32343a] text-3xl font-semibold mb-[28px]">
+        탄소 배출량 계산 결과
+      </div>
+      <div className="text-[#18191d] text-xl font-normal font-['Wanted Sans'] mb-[80px]">
+        이번 달 이산화탄소 배출량이 얼마나 발생했을지 확인해봅시다
+      </div>
+      <div>
+        <div className="text-[24px] font-semibold">
+          {currentYear}년{currentMonth}월 탄소 배출량 계산 결과표
+        </div>
+
+        {/* 첫번째 섹션 데이터 제공 */}
+        {/* 왼쪽 */}
+        <div className="flex flex-row">
+          <div className="flex flex-col w-[586px] h-[456px] rounded-[20px] border border-[#5bca11]">
+            <div className="mt-[40px] ml-[42px] ">
+              <div className="flex flex-col">
+                <div className="text-3xl font-semibold mb-[24px] leading-none ">
+                  이번 달 총 탄소 배출량은
+                </div>
+                <div className="text-[#27affb] text-[48px] font-semibold leading-none mb-[32px]">
+                  {currentData?.carbon_emissions}kg
+                </div>
+                <div className="text-base leading-none">
+                  탄소 배출량이 평균 대비
+                  {totalAvgData && currentData ? (
+                    currentData.carbon_emissions <
+                    totalAvgData.carbon_emissions ? (
+                      <>
+                        {(
+                          100 -
+                          (currentData.carbon_emissions /
+                            totalAvgData.carbon_emissions) *
+                            100
+                        ).toFixed(2)}{" "}
+                        % 적어요
+                      </>
+                    ) : (
+                      <>
+                        {(
+                          (currentData.carbon_emissions /
+                            totalAvgData.carbon_emissions) *
+                            100 -
+                          100
+                        ).toFixed(2)}{" "}
+                        % 높았어요
+                      </>
+                    )
+                  ) : null}
+                </div>
+              </div>
             </div>
-            <div>이번 달 배출량</div>
-            <div className=" w-[350px] h-[200px]">
+            <div className="w-[280px] h-[259px] flex justify-center items-center">
               <ThisMonthChart
-                currentMonthly={currentMonthly}
-                totalCurrentMonthly={totalCurrentMonthly}
+                currentData={currentData}
+                totalAvgData={totalAvgData}
               />
             </div>
           </div>
-          <div className="flex flex-col justify-center text-center">
-            <div>이번달 총 탄소 배출량</div>
-            <div>{currentMonthly?.carbon_emissions}kg</div>
-            <div>평균 대비 12% 높은 배출량</div> {/* 해당부분 구현 예정 */}
-          </div>
-        </div>
-        <div className="flex">
-          <div className="bg-red-300 w-[200px] h-[180px]"></div>
-          <div className="flex flex-col justify-center text-center">
-            <div>{user} 님의 11월 탄소배출량은 지난달보다 00% 감소했어요! </div>
-            <div>그래도 아직 평균에 비해 조금 많은 탄소를 배출하고 있어요.</div>
-            <div>다음달에는 더 노력해보아요.</div>
-          </div>
-        </div>
-      </div>
 
-      <div className="border border-red-400 p-10 mt-10">
+          {/* 상단 오른쪽 */}
+          <div>
+            <div className="flex flex-row justify-center border border-[#5bca11] w-[585px] h-[210px] mb-[30px]">
+              <div className="flex flex-col justify-center text-center">
+                <div>
+                  홍길동님의 {currentMonth}월 탄소배출량은 지난달보다{" "}
+                  {lastData && currentData ? (
+                    currentData.carbon_emissions < lastData.carbon_emissions ? (
+                      <>
+                        {(
+                          100 -
+                          (currentData.carbon_emissions /
+                            lastData.carbon_emissions) *
+                            100
+                        ).toFixed(2)}{" "}
+                        % 감소했어요!
+                        <div>평소보다 탄소를 조금 배출하고 있어요.</div>
+                        <div>다음달에도 이번달 처럼만 사용해주세요.</div>
+                      </>
+                    ) : (
+                      <>
+                        {(
+                          (currentData.carbon_emissions /
+                            lastData.carbon_emissions) *
+                            100 -
+                          100
+                        ).toFixed(2)}{" "}
+                        % 증가했어요!
+                        <div>
+                          그래도 아직 평균에 비해 조금 많은 탄소를 배출하고
+                          있어요.
+                        </div>
+                        <div>다음달에는 더 노력해보아요.</div>
+                      </>
+                    )
+                  ) : (
+                    "데이터가 부족합니다."
+                  )}
+                </div>
+                <div className="bg-red-300 w-[80px] h-[80px]"></div>
+              </div>
+            </div>
+            <div className="w-[585px] h-[210px] border border-[#5bca11] flex flex-col justify-center items-center">
+              <div>이번달 절감량을 통해 심은 나무</div>
+              <div className="flex flex-row justify-center items-center">
+                <div className="bg-red-300 w-[100px] h-[118px]"></div>
+                <div>
+                  {(
+                    ((totalAvgData?.carbon_emissions || 0) -
+                      (currentData?.carbon_emissions || 0)) /
+                    22
+                  ).toFixed(2)}{" "}
+                  그루
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 두번째 섹션 데이터 제공 */}
         <div>항목 별 탄소 배출량</div>
-        <MonthlyChart currentMonthly={currentMonthly} />
+        <div className="flex flex-col w-[1055px] h-full bg-white rounded-[20px] border border-[#5bca11]">
+          <MonthlyChart currentData={currentData} totalAvgData={totalAvgData} />
+        </div>
       </div>
-      <div className="border border-red-400 p-10 mt-10">
-        <div>
-          <div>전기</div>
-          <div className="flex justify-center gap-8">
-            <div className="flex w-[500px] h-[100px] bg-slate-400">
-              <div>사용량</div>
-              <div>{currentMonthly?.electricity_usage}kg</div>
-            </div>
-            <div className="flex w-[500px] h-[100px] bg-slate-200">
-              <div>co2 배출량</div>
-              <div>{currentMonthly?.electricity_co2}kg</div>
-            </div>
+      <div className="flex flex-col">
+        <SectionCard
+          title={"전기"}
+          usageValue={currentData?.electricity_usage}
+          co2Value={currentData?.electricity_co2}
+        />
+        <SectionCard
+          title={"수도"}
+          usageValue={currentData?.water_usage}
+          co2Value={currentData?.water_co2}
+        />
+        <SectionCard
+          title={"가스"}
+          usageValue={currentData?.gas_usage}
+          co2Value={currentData?.gas_co2}
+        />
+        <SectionCard
+          title={"교통"}
+          usageValue={currentData?.car_usage}
+          co2Value={currentData?.car_co2}
+        />
+        <SectionCard
+          title={"폐기물"}
+          usageValue={currentData?.waste_volume}
+          co2Value={currentData?.waste_co2}
+        />
+      </div>
+      <div>
+        <div>일상 속 에너지 절약법</div>
+        <div className="w-[1200px] h-[100px] p-2.5 bg-white rounded-[20px] border-2 border-[#8cd5fd] justify-center items-center gap-2.5 inline-flex">
+          <div className="text-[#27affb] text-xl font-semibold">
+            전기 밥솥 보온 기능 꺼두기
           </div>
         </div>
       </div>
-
-      <div className="border border-red-400 p-10 mt-10">
-        <div>일상 속 에너지 절약법</div>
-        <div className="w-[1057px] h-[100px] border border-red-300 flex justify-center items-center text-center">
-          전기 밥솥 보온 기능을 꺼두기
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-4 m-10">
-        <button>이미지로 저장</button>
-        <button>닫기</button>
-      </div>
-    </div>
+      <button>이미지로 저장</button>
+    </>
   );
 };
 

@@ -25,7 +25,7 @@
 //             >
 //               X
 //             </button>
-//           </div> 
+//           </div>
 //           <div className="text-center h-[71px] mb-[78px] leading-[1.5] text-[32px] font-semibold">
 //             <p className="">만나서 반갑습니다.</p>
 //             <div className="flex flex-row text-center">

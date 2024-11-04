@@ -12,14 +12,21 @@ const Main = () => {
         </p>
       </div>
       <div>
-        <div>
-          <div className="w-[789px] h-[458px] bg-red-300"></div>
-        </div>
         <Link href="/calculator/calculate">
-          <button>탄소 배출량 계산하기</button>
+          <div className="w-full h-[250px] bg-[#EAFCDE] mb-[20px]">
+            <div>탄소 배출량 계산하기</div>
+            <div>
+              전기 / 수도 / 가스 / 교통 / 폐기물에 대한 사용량을 입력하세요
+            </div>
+          </div>
         </Link>
         <Link href="/calculator/result">
-          <button>이전 탄소 배출 통계</button>
+          <div className="w-full h-[250px] bg-[#EAFCDE]">
+            <div>이전 탄소 배출량 히스토리</div>
+            <div>
+              이전에 계산한 탄소 배출량에 대한 종합적인 통계를 확인하세요{" "}
+            </div>
+          </div>
         </Link>
       </div>
     </div>

@@ -1,25 +1,54 @@
 import { getUser } from "@/api/auth-actions";
-import { MonthlyData } from "@/types/calculate";
 import browserClient from "@/utlis/supabase/browserClient";
 
-type SetUserType = (userId: string | null) => void; // setUser의 타입 정의
-type SetCurrentMonthlyType = (monthlyData: MonthlyData | null) => void;
-type SetTotalCurrentMonthlyType = (monthlyData: MonthlyData | null) => void;
+// type SetUserType = (userId: string | null) => void; // setUser의 타입 정의
+
+// 내 전체 데이터
+export const loadMyAllData = async (
+  setMyAllData: React.Dispatch<React.SetStateAction<MonthlyData[] | null>>
+) => {
+  const fetchedUser = await getUser();
+  if (fetchedUser) {
+    const { data, error } = await browserClient
+      .from("carbon_records")
+      .select("*")
+      .eq("user_id", fetchedUser.id);
+
+    if (error) {
+      console.error("Error fetching data:", error);
+      setMyAllData(null); // 오류 발생 시 null로 설정
+      return;
+    }
+
+    // 가져온 데이터를 상태에 업데이트
+    if (data && Array.isArray(data) && data.length > 0) {
+      setMyAllData(data); // 데이터가 있을 경우 업데이트
+    } else {
+      setMyAllData(null); // 데이터가 없으면 null로 설정
+    }
+  } else {
+    setMyAllData(null); // fetchedUser가 없으면 null로 설정
+  }
+};
 
 // 이번달 기준 내 최신 data
 export const loadUserAndFetchData = async (
-  setUser: SetUserType,
-  setCurrentMonthly: SetCurrentMonthlyType
+  // setUser: SetUserType,
+  thisYear: number | null,
+  thisMonth: number | null,
+  setCurrentData: React.Dispatch<React.SetStateAction<MonthlyData | null>>
 ) => {
-  // 유저 정보
+  // user값(user_id 비교용)
   const fetchedUser = await getUser();
   if (fetchedUser) {
-    setUser(fetchedUser.id);
+    // setUser(fetchedUser.id);
 
     const { data, error } = await browserClient
       .from("carbon_records")
       .select("*")
       .eq("user_id", fetchedUser.id)
+      .eq("year", thisYear)
+      .eq("month", thisMonth)
       .gte(
         "created_at",
         new Date(
@@ -27,35 +56,42 @@ export const loadUserAndFetchData = async (
           new Date().getMonth(),
           1
         ).toISOString()
-      ) // 이번 달의 첫날 이후의 데이터만 가져옴
-      .order("created_at", { ascending: false }) // 최신 순으로 정렬
+      )
+      .order("created_at", { ascending: false })
       .limit(1);
 
     if (error) {
-      console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
+      console.error("Error fetching data:", error);
+      return;
+    }
+
+    // 가져온 데이터를 상태에 업데이트
+    if (data && data.length > 0) {
+      setCurrentData(data[0]); // 데이터가 있을 경우 업데이트
     } else {
-      setCurrentMonthly(data[0]);
-      console.log(data[0]);
+      setCurrentData(null); // 데이터가 없으면 null로 설정
     }
   }
 };
 
 // 이번달 기준 전체 유저 data의 각 칼럼의 평균값
 export const loadTotalUsersData = async (
-  setTotalCurrentMonthly: SetTotalCurrentMonthlyType
+  thisYear: number | null,
+  thisMonth: number | null,
+  setTotalAvgData: React.Dispatch<React.SetStateAction<MonthlyData | null>>
 ) => {
   const { data, error } = await browserClient
     .from("carbon_records")
     .select("*")
-    .gte(
-      "created_at",
-      new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
-    );
+    .eq("year", thisYear)
+    .eq("month", thisMonth);
 
   if (error) {
     console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
   } else if (data.length > 0) {
     const avgData: MonthlyData = {
+      year: thisYear ?? 0, // currentYear가 null일 경우 0으로 대체
+      month: thisMonth ?? 0, // currentMonth가 null일 경우 0으로 대체
       water_usage: parseFloat(
         (
           data.reduce((acc, record) => acc + record.water_usage, 0) /
@@ -118,7 +154,300 @@ export const loadTotalUsersData = async (
       )
     };
 
-    setTotalCurrentMonthly(avgData);
-    console.log("Averages:", avgData);
+    setTotalAvgData(avgData);
+  }
+};
+
+// 5달치 평균 배출량 fetch
+interface MonthlyData {
+  water_usage: number;
+  water_co2: number;
+  gas_usage: number;
+  gas_co2: number;
+  electricity_usage: number;
+  electricity_co2: number;
+  waste_volume: number;
+  waste_co2: number;
+  carbon_emissions: number;
+  car_usage: number;
+  car_co2: number;
+  year: number;
+  month: number;
+}
+
+export const loadRecentFiveMonthsEmissions = async (
+  thisYear: number,
+  thisMonth: number,
+  monthsToFetch: number
+) => {
+  try {
+    let startMonth = thisMonth - monthsToFetch + 1;
+    let startYear = thisYear;
+
+    while (startMonth <= 0) {
+      startMonth = 12 + startMonth;
+      startYear--;
+    }
+
+    const targetDates = [];
+    for (let i = 0; i < 5; i++) {
+      let targetMonth = startMonth + i;
+      let targetYear = startYear;
+
+      while (targetMonth > 12) {
+        targetMonth = targetMonth - 12;
+        targetYear++;
+      }
+
+      targetDates.push({ year: targetYear, month: targetMonth });
+    }
+
+    const { data, error } = await browserClient
+      .from("carbon_records")
+      .select("*")
+      .or(
+        targetDates
+          .map((d) => `and(year.eq.${d.year},month.eq.${d.month})`)
+          .join(",")
+      );
+
+    if (error) {
+      console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
+      return null;
+    }
+
+    const groupedData = targetDates
+      .map((date) => {
+        const monthData = data.filter(
+          (d) => d.year === date.year && d.month === date.month
+        );
+
+        if (monthData.length === 0) return null;
+
+        const avgData: MonthlyData = {
+          year: date.year,
+          month: date.month,
+          water_usage: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.water_usage, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          water_co2: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.water_co2, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          gas_usage: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.gas_usage, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          gas_co2: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.gas_co2, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          electricity_usage: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.electricity_usage, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          electricity_co2: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.electricity_co2, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          waste_volume: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.waste_volume, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          waste_co2: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.waste_co2, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          carbon_emissions: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.carbon_emissions, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          car_usage: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.car_usage, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          car_co2: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.car_co2, 0) /
+              monthData.length
+            ).toFixed(2)
+          )
+        };
+
+        return avgData;
+      })
+      .filter((data): data is MonthlyData => data !== null);
+
+    return groupedData;
+  } catch (error) {
+    console.error("데이터 로딩 중 오류 발생:", error);
+    return null;
+  }
+};
+
+// 내 5달치 데이터
+export const loadMyRecentFiveMonthsEmissions = async (
+  thisYear: number,
+  thisMonth: number,
+  monthsToFetch: number
+) => {
+  try {
+    // user_id를 가져오기
+    const fetchedUser = await getUser();
+    if (!fetchedUser) {
+      console.error("사용자를 가져오는 중 오류가 발생했습니다.");
+      return null;
+    }
+
+    const user_id = fetchedUser.id;
+    console.log(user_id);
+
+    let startMonth = thisMonth - monthsToFetch + 1;
+    let startYear = thisYear;
+
+    while (startMonth <= 0) {
+      startMonth = 12 + startMonth;
+      startYear--;
+    }
+
+    const targetDates = [];
+    for (let i = 0; i < 5; i++) {
+      let targetMonth = startMonth + i;
+      let targetYear = startYear;
+
+      while (targetMonth > 12) {
+        targetMonth = targetMonth - 12;
+        targetYear++;
+      }
+
+      targetDates.push({ year: targetYear, month: targetMonth });
+    }
+
+    // user_id 조건 추가하여 데이터 조회
+    const { data, error } = await browserClient
+      .from("carbon_records")
+      .select("*")
+      .eq("user_id", user_id)
+      .or(
+        targetDates
+          .map((d) => `and(year.eq.${d.year},month.eq.${d.month})`)
+          .join(",")
+      )
+      .order("created_at", { ascending: false })
+      .limit(5);
+
+    if (error) {
+      console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
+      return null;
+    }
+
+    const groupedData = targetDates
+      .map((date) => {
+        const monthData = data.filter(
+          (d) => d.year === date.year && d.month === date.month
+        );
+
+        if (monthData.length === 0) return null;
+
+        const avgData: MonthlyData = {
+          year: date.year,
+          month: date.month,
+          water_usage: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.water_usage, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          water_co2: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.water_co2, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          gas_usage: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.gas_usage, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          gas_co2: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.gas_co2, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          electricity_usage: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.electricity_usage, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          electricity_co2: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.electricity_co2, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          waste_volume: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.waste_volume, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          waste_co2: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.waste_co2, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          carbon_emissions: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.carbon_emissions, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          car_usage: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.car_usage, 0) /
+              monthData.length
+            ).toFixed(2)
+          ),
+          car_co2: Number(
+            (
+              monthData.reduce((acc, cur) => acc + cur.car_co2, 0) /
+              monthData.length
+            ).toFixed(2)
+          )
+        };
+
+        return avgData;
+      })
+      .filter((data): data is MonthlyData => data !== null);
+
+    return groupedData;
+  } catch (error) {
+    console.error("데이터 로딩 중 오류 발생:", error);
+    return null;
   }
 };

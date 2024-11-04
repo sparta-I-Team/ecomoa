@@ -6,8 +6,9 @@ import { useRouter } from "next/navigation";
 
 const KaKaoLoginButton = () => {
   const router = useRouter();
+
   const handleLogin = async () => {
-    const redirectUrl = await signInWithKakao(); // 경로 재설정 했음 signInWithKakao 함수 확인
+    const redirectUrl = await signInWithKakao();
     if (redirectUrl) {
       // const user = await getUser();
       // if (user) {
@@ -17,6 +18,7 @@ const KaKaoLoginButton = () => {
       // window.location.href = redirectUrl; // 클라이언트에서 리다이렉트
     }
   };
+
   return (
     <>
       <button

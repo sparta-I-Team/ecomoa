@@ -6,16 +6,14 @@ export interface YearSelectProps {
   thisMonth: number | null;
   onChangeYear: (year: number) => void;
   onChangeMonth: (month: number) => void;
-  onCloseDropdown: () => void; // 드롭다운 닫힘 시 호출될 함수 추가
   disabled: boolean;
 }
 
-const YearMonthPicker: React.FC<YearSelectProps> = ({
+const YearMonthPickerMain: React.FC<YearSelectProps> = ({
   thisYear,
   thisMonth,
   onChangeYear,
   onChangeMonth,
-  onCloseDropdown,
   disabled = false
 }) => {
   const [selectedYear, setSelectedYear] = useState<number | null>(thisYear);
@@ -32,7 +30,6 @@ const YearMonthPicker: React.FC<YearSelectProps> = ({
     if (!disabled) {
       setSelectedYear(year);
       onChangeYear(year); // 연도 변경 핸들러 호출
-      onCloseDropdown(); // 드롭다운 닫힘 시 호출
     }
   };
 
@@ -40,7 +37,6 @@ const YearMonthPicker: React.FC<YearSelectProps> = ({
     if (!disabled) {
       setSelectedMonth(month);
       onChangeMonth(month); // 월 변경 핸들러 호출
-      onCloseDropdown(); // 드롭다운 닫힘 시 호출
     }
     if (selectedYear) {
       setIsDropdownOpen(false); // 연도와 월이 모두 선택되었을 때 닫힘
@@ -94,4 +90,4 @@ const YearMonthPicker: React.FC<YearSelectProps> = ({
     </div>
   );
 };
-export default YearMonthPicker;
+export default YearMonthPickerMain;

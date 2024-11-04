@@ -16,6 +16,7 @@
     "axios": "^1.7.7",
     "badwords-ko": "^1.0.4",
     "chart.js": "^4.4.6",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "dayjs": "^1.11.13",
     "lucide-react": "^0.454.0",
     "next": "14.2.15",

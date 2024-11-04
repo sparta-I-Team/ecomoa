@@ -175,16 +175,16 @@ export const getBookmarks = async (
 // };
 
 // 닉네임 수정 완료 params 함수
-export const UpdateNicknameParams = async (userId: string) => {
-  const supabase = createClient();
-  const { error } = await supabase
-    .from("user_info")
-    .update({
-      params: { firstTag: true }
-    })
-    .eq("user_id", userId);
+// export const UpdateNicknameParams = async (userId: string) => {
+//   const supabase = createClient();
+//   const { error } = await supabase
+//     .from("user_info")
+//     .update({
+//       params: { firstTag: true }
+//     })
+//     .eq("user_id", userId);
 
-  if (error) {
-    console.error(error);
-  }
-};
+//   if (error) {
+//     console.error(error);
+//   }
+// };
