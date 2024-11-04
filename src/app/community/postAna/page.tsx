@@ -14,7 +14,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 const supabase = createClient();
 
-const PostPage = () => {
+const PostFree = () => {
   const [user, setUser] = useState<User | null>(null);
   const [userNickname, setUserNickname] = useState("");
   const [title, setTitle] = useState("");
@@ -27,6 +27,9 @@ const PostPage = () => {
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const [location, setLocation] = useState(""); // 지역명 상태 추가
+  const [price, setPrice] = useState(""); // 가격 상태 추가
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -80,6 +83,8 @@ const PostPage = () => {
   const resetForm = () => {
     setTitle("");
     setContent("");
+    setLocation(""); // 지역명 초기화
+    setPrice(""); // 가격 초기화
     setImages(Array(3).fill(null));
     setImagePreviews(Array(3).fill(""));
     setUploadedImageUrls([]);
@@ -124,13 +129,16 @@ const PostPage = () => {
       .map((url) => `"${url}"`)
       .join(",")}}`;
 
-    const { error } = await supabase.from("posts").insert([
+    // anabada 테이블에 데이터 삽입
+    const { error } = await supabase.from("anabada").insert([
       {
         user_id: user.id,
         post_title: title,
         post_content: content,
         created_at: new Date().toISOString(),
-        post_img: formattedUrls
+        post_img: formattedUrls,
+        local: location, // 지역명 추가
+        price: price // 가격 추가
       }
     ]);
 
@@ -150,37 +158,46 @@ const PostPage = () => {
   };
 
   return (
-    <main>
-      <Link href="/community">
-        <h3 className="text-lg font-bold mb-4">{"< 자유게시판 홈 "} </h3>
+    <div>
+      <Link href="/community/anabada">
+        <h3 className="text-lg font-bold mb-4">{"< 아나바다 시장 홈 "} </h3>
       </Link>
       <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD]"></div>
       {userNickname && (
         <div className="flex items-center mb-4">
-          <span className="font-semibold">{userNickname}님</span>
+          <label className="font-bold">상품 등록</label>
           <time className="ml-4">{new Date().toLocaleDateString("ko-KR")}</time>
         </div>
       )}
       {errorMessage && <div className="text-red-600 mb-4">{errorMessage}</div>}
       <form onSubmit={handleSubmit} className="flex flex-col">
-        <h4 className="font-semibold mb-4">제목</h4>
+        <h4 className="font-semibold mb-4">상품명</h4>
         <input
           type="text"
-          placeholder="제목을 입력해주세요"
+          placeholder="상품명을 입력해주세요"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
           className="mb-4 p-2 border border-gray-300 rounded"
         />
-        <h4 className="font-semibold mb-4">내용</h4>
+        <h4 className="font-semibold mb-4">가격</h4>
+        <input
+          type="text"
+          placeholder=" ₩ 가격을 입력해주세요"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          required
+          className="mb-4 p-2 border border-gray-300 rounded"
+        />
+        <h4 className="font-semibold mb-4">상품 정보</h4>
         <textarea
-          placeholder={`내용을 입력해주세요 \n - 저작권 침해, 음란, 청소년 유해물, 기타 위법자료 등을 게시할 경우 경고 없이 삭제됩니다`}
+          placeholder={`상품 정보를 입력해주세요 \n - 저작권 침해, 음란, 청소년 유해물, 기타 위법자료 등을 게시할 경우 경고 없이 삭제됩니다`}
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
           className="mb-4 p-2 border border-gray-300 rounded resize-none"
         />
-        <h4 className="font-semibold mb-4">사진(최대 3개 선택)</h4>
+        <h4 className="font-semibold mb-4">사진</h4>
         <input
           type="file"
           accept="image/*"
@@ -214,6 +231,14 @@ const PostPage = () => {
             </div>
           ))}
         </div>
+        <h4 className="font-semibold mb-4">거래 희망 지역</h4>
+        <input
+          type="text"
+          placeholder=" oo동"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="w-[832px] h-[66px] mb-4"
+        />
         <button
           type="submit"
           className="p-2 rounded w-[380px] h-[52px] bg-black text-white"
@@ -225,7 +250,7 @@ const PostPage = () => {
       {isModalVisible && (
         <Modal imageUrl={uploadedImageUrls[0]} onClose={closeModal} />
       )}
-    </main>
+    </div>
   );
 };
 
@@ -262,7 +287,7 @@ const Modal: React.FC<ModalProps> = ({ imageUrl, onClose }) => {
           <h4 className=" py-2 px-3">위치</h4>
           <h3>{"마이페이지 > 나의 게시글 > 자유게시판 "} </h3>
           <Link
-            href="/community"
+            href="/community/anabada"
             className="mt-4 p-2 bg-black text-white rounded "
           >
             업로드한 게시글 보러가기
@@ -273,4 +298,4 @@ const Modal: React.FC<ModalProps> = ({ imageUrl, onClose }) => {
   );
 };
 
-export default PostPage;
+export default PostFree;

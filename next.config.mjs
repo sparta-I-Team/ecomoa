@@ -17,7 +17,8 @@ const nextConfig = {
         hostname: "k.kakaocdn.net",
         pathname: "/**"
       }
-    ]
+    ],
+    domains: ["abofyjttdmlkgxhmvqik.supabase.co"]
   }
 };
 
