@@ -1,9 +1,9 @@
 "use server";
 
-import { Bookmarks } from "@/types/userInfoType";
+import { Bookmarks, UserInfo, UserInfoNickname } from "@/types/userInfoType";
 import { createClient } from "@/utlis/supabase/server";
 
-export const getUserInfo = async (userId: string) => {
+export const getUserInfo = async (userId: string): Promise<UserInfo | null> => {
   const supabase = createClient();
   const { data, error } = await supabase
     .from("user_info")
@@ -25,11 +25,11 @@ export const updateNickname = async ({
 }: {
   userId: string;
   newNickname: string;
-}) => {
+}): Promise<UserInfoNickname | null> => {
   const supabase = createClient();
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("user_info")
-    .update({ user_nickname: newNickname })
+    .update({ user_nickname: newNickname, params: { firstTag: true } })
     .eq("user_id", userId)
     .select();
 
@@ -37,7 +37,15 @@ export const updateNickname = async ({
     console.error("닉네임 업데이트 오류", error);
     return null;
   }
-  return data;
+  const { error: userMetadataError } = await supabase.auth.updateUser({
+    data: {
+      nickname: newNickname
+    }
+  });
+  if (userMetadataError) {
+    console.error("닉네임 메타데이터 업데이트 오류", error);
+  }
+  return { user_nickname: newNickname };
 };
 
 // 내가 쓴 글 가져오기
@@ -150,3 +158,33 @@ export const getBookmarks = async (
   }
   return bookmarks;
 };
+
+// 회원가입시 params 컬럼
+// export const signInParams = async (userId: string) => {
+//   const supabase = createClient();
+//   const { error } = await supabase
+//     .from("user_info")
+//     .update({
+//       params: { firstTag: false }
+//     })
+//     .eq("user_id", userId);
+
+//   if (error) {
+//     console.error(error);
+//   }
+// };
+
+// 닉네임 수정 완료 params 함수
+// export const UpdateNicknameParams = async (userId: string) => {
+//   const supabase = createClient();
+//   const { error } = await supabase
+//     .from("user_info")
+//     .update({
+//       params: { firstTag: true }
+//     })
+//     .eq("user_id", userId);
+
+//   if (error) {
+//     console.error(error);
+//   }
+// };

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useChallengeStore } from "@/zustand/challengeStore";
 import BlackAutoWidthButton from "./ui/BlackAutoWidthButton";
 import { CHALLENGES } from "@/utlis/challenge/challenges";
+import { Check } from "lucide-react";
 
 export const ChallengeSelection = () => {
   const { handleSubmit } = useForm();
@@ -55,12 +56,17 @@ export const ChallengeSelection = () => {
                 }
               `}
             >
-              Check
+              <Check />
             </div>
           </div>
         ))}
       </div>
-      <BlackAutoWidthButton text="챌린지 인증하기" />
+      <BlackAutoWidthButton
+        className="px-4 py-3"
+        text="챌린지 인증하기"
+        type="submit"
+        onClick={() => {}}
+      />
     </form>
   );
 };

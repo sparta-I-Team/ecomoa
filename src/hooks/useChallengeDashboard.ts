@@ -21,7 +21,19 @@ export const useChallengeDashboard = (userId: string) => {
   const isLoading = isUserChallengeLoading || isChallengeListLoading || !userId;
 
   // 오늘의 챌린지 계산
-  const today = new Date().toISOString().split("T")[0];
+  // -> 오늘의 챌린지를 처음부터 api로 요청
+  const today = new Date()
+    .toLocaleDateString("ko-KR", {
+      timeZone: "Asia/Seoul",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    })
+    .split(".")
+    .slice(0, 3)
+    .map((s) => s.trim().padStart(2, "0"))
+    .join("-");
+
   const todayChallenge = challengesData
     ?.filter((challenge) => challenge.created_at.split("T")[0] === today)
     ?.sort(

@@ -7,6 +7,10 @@ export interface UserInfo {
   user_point: number;
   created_at: string;
   updated_at: string;
+  user_id: string;
+  params: {
+    firstTag: boolean;
+  };
 }
 
 export interface ProfileProps {
@@ -46,3 +50,5 @@ export interface Bookmarks {
     post_category: string | null;
   };
 }
+
+export type UserInfoNickname = Pick<UserInfo, "user_nickname">;

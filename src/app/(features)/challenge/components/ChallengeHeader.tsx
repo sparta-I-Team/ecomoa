@@ -1,22 +1,14 @@
 import { useChallengeDashboard } from "@/hooks/useChallengeDashboard";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import LevelSection from "./header/LevelSection";
 import StatsSection from "./header/StatsSection";
-import { getUser } from "@/api/auth-actions";
+import { userStore } from "@/zustand/userStore";
 
 const ChallengeHeader = () => {
-  const [userId, setUserId] = useState<string>("");
-
-  useEffect(() => {
-    const handleGetUser = async () => {
-      const res = await getUser();
-      setUserId(res?.id || "");
-    };
-    handleGetUser();
-  }, []);
+  const { user } = userStore();
 
   const { isLoading, error, todayChallenge, levelInfo, co2Difference } =
-    useChallengeDashboard(userId);
+    useChallengeDashboard(user.id);
 
   if (error) return <>{error.message}</>;
 

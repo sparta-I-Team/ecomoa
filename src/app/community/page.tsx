@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import Like from "./components/Like";
 
 // Supabase 클라이언트 초기화
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -145,7 +146,7 @@ const Page = () => {
               <p>{post.post_content}</p>
               <div className="flex justify-between items-center mt-auto">
                 <div className="flex space-x-4">
-                  <label>♡ {post.like || 0}</label>
+                  <Like postId={post.post_id} />
                   <label>댓글 {post.comment || 0}</label>
                 </div>
               </div>

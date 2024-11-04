@@ -5,48 +5,66 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { checkNicknameAvailability } from "@/api/user-action"; // 서버 액션 가져오기
+import { checkNicknameAvailability } from "@/api/user-action";
 import ProfileImgUpload from "./ProfileImgUpload";
-import { useChallengeDashboard } from "@/hooks/useChallengeDashboard";
 import LevelGauge from "./LevelGauge";
-import { LevelInfo } from "@/types/challengesType";
+import { getUser } from "@/api/auth-actions";
+import Filter from "badwords-ko";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { calculateLevelInfo } from "@/utlis/challenge/levelCalculator";
 
-const forbiddenWords = ["욕설1", "욕설2", "욕설3"];
+const filter = new Filter();
 
-const nicknameSchema = z
-  .string()
-  .min(1, "닉네임은 1글자 이상이어야 합니다.")
-  .refine(
-    (nickname) => !forbiddenWords.some((word) => nickname.includes(word)),
-    {
-      message: "닉네임에 금지된 단어가 포함되어 있습니다."
-    }
-  );
-
-const defaultLevelInfo: LevelInfo = {
-  level: 0, // 기본 레벨
-  name: "N/A", // 기본 이름
-  currentPoints: 0, // 기본 현재 포인트
-  maxPoints: 100, // 기본 최대 포인트
-  pointsToNextLevel: 100, // 다음 레벨까지 필요한 포인트
-  image: "" // 기본 이미지 URL
-};
+const nicknameSchema = z.object({
+  nickname: z
+    .string()
+    .min(1, { message: "닉네임은 최소 1자 이상이어야 합니다." })
+    .max(20, { message: "닉네임은 20자 이하이어야 합니다." })
+    .regex(/^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ@_-]*$/, {
+      message:
+        "닉네임은 알파벳, 숫자, 한글, @, 밑줄 및 하이픈만 포함해야 합니다."
+    })
+    .refine(
+      async (nickname) => {
+        const user = await getUser();
+        if (!user) return false;
+        const available = await checkNicknameAvailability(nickname, user.id);
+        return available;
+      },
+      {
+        message: "이미 사용 중인 닉네임입니다."
+        // path: ["nickname"]
+      }
+    )
+    .refine(
+      (nickname) => {
+        // 욕설이 없으면 true 반환
+        const isProfane = filter.isProfane(nickname);
+        return !isProfane;
+      },
+      {
+        message: "닉네임에 금지된 단어가 포함되어 있습니다."
+      }
+    )
+});
 
 const UserInfoCard = ({ user }: ProfileProps) => {
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [initialNickname, setInitialNickname] = useState("");
-  const [nicknameAvailable, setNicknameAvailable] = useState(true);
-  const [nicknameError, setNicknameError] = useState("");
+  // const [nicknameAvailable, setNicknameAvailable] = useState(true);
+  // const [nicknameError, setNicknameError] = useState("");
 
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors }
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    resolver: zodResolver(nicknameSchema)
+  });
 
-  const { data: userInfo } = useQuery<UserInfo>({
+  const { data: userInfo } = useQuery<UserInfo | null>({
     queryKey: ["userInfo", user.id],
     queryFn: () => getUserInfo(user.id),
     enabled: !!user.id // user.id가 있을 때만 쿼리 실행
@@ -60,6 +78,9 @@ const UserInfoCard = ({ user }: ProfileProps) => {
         queryKey: ["userInfo", user.id]
       });
       setIsEditing(false);
+    },
+    onError: (error) => {
+      console.error("닉네임 업데이트 오류", error);
     }
   });
 
@@ -71,13 +92,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   }, [userInfo, setValue]);
 
   const onSubmit = async (data: FormData) => {
-    const result = nicknameSchema.safeParse(data.nickname);
-    if (result.success && nicknameAvailable) {
-      mutate({ userId: user.id, newNickname: data.nickname });
-    } else {
-      // 에러 처리
-      setNicknameError("유효하지 않은 닉네임입니다."); // 닉네임이 유효하지 않을 때
-    }
+    mutate({ userId: user.id, newNickname: data.nickname });
   };
 
   const handleEditClick = () => {
@@ -93,44 +108,24 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
     setValue("nickname", nickname); // 입력된 닉네임을 상태에 반영
-    const result = nicknameSchema.safeParse(nickname);
-
-    // 닉네임 유효성 검사
-    if (!result.success) {
-      setNicknameError(result.error.errors[0].message); // 금지된 단어 에러 메시지
-      setNicknameAvailable(false);
-      return;
-    } else {
-      setNicknameError(""); // 유효성 통과
-      setNicknameAvailable(true);
-    }
-
-    // 중복 검사
-    const available =
-      (await checkNicknameAvailability(nickname, user.id)) || false; // null일 경우 false로 설정
-    setNicknameAvailable(available); // 중복 검사 결과를 상태에 저장
-
-    if (!available) {
-      setNicknameError("이미 사용 중인 닉네임입니다."); // 중복 닉네임 에러 메시지
-    } else {
-      setNicknameError(""); // 사용 가능한 닉네임일 경우 에러 메시지 초기화
-    }
   };
-  console.log(user);
-  const { levelInfo } = useChallengeDashboard(user.id);
-  // if (!levelInfo)
+  const pointInfo = calculateLevelInfo(userInfo?.user_point ?? 0); // 널 병합 연산자
+
   return (
-    <div className="w-[585px] h-[220px] flex flex-col items-center bg-[#edeef0]">
+    <section className="w-[585px] h-[220px] flex flex-col items-center bg-[#edeef0]">
       <div className="flex flex-row items-center gap-2 w-full p-5 justify-start">
         <ProfileImgUpload userId={user.id} userAvatar={userInfo?.user_avatar} />
+        <p>{user.email}</p>
+        <p>{user.phone}</p>
+        <p>{user.user_metadata.name}</p>
         <div className="flex flex-row items-center gap-1">
           {isEditing ? (
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="flex items-center"
             >
-              <div className="flex flex-col items-center">
-                <div className="flex flex-row gap-1">
+              <div className="flex flex-col items-center justify-start">
+                <div className="flex justify-start gap-1">
                   <input
                     {...register("nickname", {})}
                     placeholder="닉네임을 입력하세요"
@@ -142,18 +137,12 @@ const UserInfoCard = ({ user }: ProfileProps) => {
                     취소
                   </button>
                 </div>
-                {/* 에러 메시지 출력 */}
-                {nicknameError && (
-                  <p className="text-sm text-red-600 mt-1 whitespace-nowrap">
-                    {nicknameError}
-                  </p>
+                {errors.nickname && (
+                  <span role="alert" className="text-red-600">
+                    {errors.nickname.message}
+                  </span>
                 )}
               </div>
-              {errors.nickname && (
-                <p role="alert" className="text-red-600">
-                  {errors.nickname.message}
-                </p>
-              )}
             </form>
           ) : (
             <>
@@ -168,8 +157,8 @@ const UserInfoCard = ({ user }: ProfileProps) => {
           )}
         </div>
       </div>
-      <LevelGauge levelInfo={levelInfo || defaultLevelInfo} />
-    </div>
+      <LevelGauge pointInfo={pointInfo} />
+    </section>
   );
 };
 export default UserInfoCard;
