@@ -1,5 +1,4 @@
 "use client";
-import { signInParams } from "@/api/user-action";
 import { createClient } from "@/utlis/supabase/client";
 import { userStore } from "@/zustand/userStore";
 import Image from "next/image";
@@ -36,8 +35,8 @@ const GoogleLoginButton = () => {
         isAuthenticated: true
       });
 
-      await signInParams(session.user.id); // params를 false로 설정
-      //   // }
+      // await signInParams(session.user.id);
+
       if (!session) {
         console.log("세션 x");
       }

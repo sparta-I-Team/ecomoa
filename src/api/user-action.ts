@@ -29,7 +29,7 @@ export const updateNickname = async ({
   const supabase = createClient();
   const { error } = await supabase
     .from("user_info")
-    .update({ user_nickname: newNickname })
+    .update({ user_nickname: newNickname, params: { firstTag: true } })
     .eq("user_id", userId)
     .select();
 
@@ -175,16 +175,16 @@ export const signInParams = async (userId: string) => {
 };
 
 // 닉네임 수정 완료 params 함수
-export const UpdateNicknameParams = async (userId: string) => {
-  const supabase = createClient();
-  const { error } = await supabase
-    .from("user_info")
-    .update({
-      params: { firstTag: true }
-    })
-    .eq("user_id", userId);
+// export const UpdateNicknameParams = async (userId: string) => {
+//   const supabase = createClient();
+//   const { error } = await supabase
+//     .from("user_info")
+//     .update({
+//       params: { firstTag: true }
+//     })
+//     .eq("user_id", userId);
 
-  if (error) {
-    console.error(error);
-  }
-};
+//   if (error) {
+//     console.error(error);
+//   }
+// };

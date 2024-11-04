@@ -7,6 +7,7 @@ export const useUserInfo = () => {
   return useQuery({
     queryKey: ["user", user.id],
     queryFn: () => getUserInfo(user.id),
-    enabled: !!user.id
+    enabled: !!user.id,
+    staleTime: 0
   });
 };
