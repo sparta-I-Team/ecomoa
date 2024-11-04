@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import InputField from "../components/InputField";
 import { FormData } from "@/types/calculate";
-import YearMonthPicker from "../components/YearMonthPicker";
+// import YearMonthPicker from "../components/YearMonthPicker";
 import Loading from "../components/Loading";
 import browserClient from "@/utlis/supabase/browserClient";
 import { useRouter } from "next/navigation";
@@ -193,7 +193,7 @@ const Page = () => {
           label="자가용"
           register={register}
           errors={errors}
-          requiredMessage="자가용 사용량을 입력해주세요"
+          requiredMessage="연료종류 선택과 사용량을 모두 입력해주세요"
           placeholder="에너지 사용량을 입력해주세요(숫자)"
           unit="km/월"
         />

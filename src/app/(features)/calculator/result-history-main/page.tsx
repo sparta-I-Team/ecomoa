@@ -1,5 +1,9 @@
 "use client";
-import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
+import {
+  loadMyAllData,
+  loadTotalUsersData,
+  loadUserAndFetchData
+} from "@/hooks/monthlyData";
 import { MonthlyData } from "@/types/calculate";
 import React, { useEffect, useState } from "react";
 import CompareMonthlyEmissions from "../components/CompareMonthlyEmissions";
@@ -13,19 +17,32 @@ const ResultPageMain = () => {
   const [thisMonth, setThisMonth] = useState<number | null>(currentMonth);
   const [currentData, setCurrentData] = useState<MonthlyData | null>(null);
   const [totalAvgData, setTotalAvgData] = useState<MonthlyData | null>(null);
+  const [myAllData, setMyAllData] = useState<MonthlyData | null>(0);
 
   useEffect(() => {
     loadUserAndFetchData(setUser, thisYear, thisMonth, setCurrentData);
     loadTotalUsersData(thisYear, thisMonth, setTotalAvgData);
+    loadMyAllData(setUser, setMyAllData);
   }, [thisYear, thisMonth]);
   // console.log("currentData =>", currentData, "total =>", totalAvgData);
+  console.log("myAllData => ", myAllData);
   return (
     <>
       <div>
-        <div>이전 탄소 배출량 통계</div>
+        <div>나의 탄소 배출량 히스토리</div>
         <div>지금까지의 나의 탄소 배출량 데이터를 확인해봅시다</div>
       </div>
-      <div>홍길동 님의 배출량 현황</div>
+      <div>
+        <div>
+          <div>홍길동 님</div>
+          <div>Lv1. 씨앗 모아</div>
+        </div>
+        <div className="flex">
+          <div>탄소 배출량 계산 결과표</div>
+          <div>{myAllData.length}건</div>
+        </div>
+      </div>
+
       <div className="flex flex-row gap-10">
         <div className="flex flex-col  bg-red-200">
           <div className="flex flex-row gap-10">
@@ -55,10 +72,6 @@ const ResultPageMain = () => {
           <CompareMonthlyEmissions />
         </div>
         <div></div>
-      </div>
-      <div>
-        <div>탄소 계산 히스토리</div>
-        <div className="w-fill h-[350px] bg-red-200"></div>
       </div>
     </>
   );

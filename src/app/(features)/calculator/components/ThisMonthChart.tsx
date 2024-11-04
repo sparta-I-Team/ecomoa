@@ -23,43 +23,33 @@ ChartJS.register(
 
 const ThisMonthChart: React.FC<ThisMonthChartProps> = ({
   currentData,
-  totalAvgData,
-  lastData,
-  lastTotalAvgData
+  totalAvgData
+  // lastData,
+  // lastTotalAvgData
 }) => {
   const data = {
-    labels: ["지난 달", "이번 달"],
+    labels: ["평균", "내 배출량"],
     datasets: [
       {
-        label: "평균 배출량",
+        label: "탄소 배출량 비교",
         data: [
-          lastTotalAvgData?.carbon_emissions || 0,
-          totalAvgData?.carbon_emissions || 0
+          totalAvgData?.carbon_emissions || 0, // "평균" 위치 값
+          currentData?.carbon_emissions || 0 // "내 배출량" 위치 값
         ],
-        backgroundColor: "#D9D9D9",
-        borderColor: "#D9D9D9",
-        borderWidth: 1
-      },
-      {
-        label: "나의 총 배출량",
-        data: [
-          lastData?.carbon_emissions || 0,
-          currentData?.carbon_emissions || 0
-        ],
-        backgroundColor: "#5BCA11",
-        borderColor: "#5BCA11",
-        borderWidth: 1
+        backgroundColor: ["#D9D9D9", "#5BCA11"],
+        borderColor: ["#D9D9D9", "#5BCA11"],
+        borderWidth: 1,
+        borderRadius: [8, 8] // 각각의 바 위쪽 모서리 둥글게
       }
     ]
   };
-  // console.log("lastData", lastData);
-  // console.log("lastTotalAvgData", lastTotalAvgData);
+
   const options = {
     maintainAspectRatio: false,
     responsive: true,
     plugins: {
       legend: {
-        position: "top" as const // 또는 "bottom", "left", "right" 중 하나로 설정
+        display: false // 범례 숨기기
       },
       title: {
         display: true,
@@ -68,7 +58,29 @@ const ThisMonthChart: React.FC<ThisMonthChartProps> = ({
     },
     layout: {
       padding: 20
-    }
+    },
+    scales: {
+      y: {
+        display: false, // y축 숨기기
+        grid: {
+          display: false // y축의 격자선 숨기기
+        }
+      },
+      x: {
+        display: true,
+        grid: {
+          display: false // x축의 격자선 숨기기
+        },
+        ticks: {
+          font: {
+            size: 14
+          }
+        }
+      }
+    },
+    barThickness: 60, // 바의 너비를 60px로 고정
+    categoryPercentage: 1, // 바 사이의 간격을 최소화
+    barPercentage: 1 // 각 바의 비율을 최대화
   };
 
   return (

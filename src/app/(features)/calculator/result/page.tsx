@@ -37,107 +37,129 @@ const ResultPage: React.FC = () => {
     loadTotalUsersData(previousYear, previousMonth, setLastTotalAvgData);
   }, [thisYear, thisMonth]);
 
-  const handleYearChange = (year: number) => {
-    setThisYear(year);
-  };
-
-  const handleMonthChange = (month: number) => {
-    setThisMonth(month);
-  };
-
-  const handleCloseDropdown = () => {
-    loadUserAndFetchData(setUser, thisYear, thisMonth, setCurrentData);
-    loadTotalUsersData(thisYear, thisMonth, setTotalAvgData);
-  };
-
   return (
     <>
-      <div>탄소 배출량 계산하기</div>
-      <div>이번 달 이산화탄소 배출량이 얼마나 발생했을지 계산해봅시다</div>
-      <div className="flex flex-col justify-center items-center bg-[#EAFCDE] p-10 w-[1200px] rounded-[32px]">
-        <div className="flex flex-col w-[400px] h-[60px] px-11 bg-[#aef480] rounded-[38px] justify-center items-center gap-2.5">
-          <div className="flex justify-center items-center text-[#1c3d05] text-4xl font-semibold">
-            <YearMonthPickerMain
-              thisYear={thisYear}
-              thisMonth={thisMonth}
-              onChangeYear={handleYearChange} // 연도 변경 핸들러 전달
-              onChangeMonth={handleMonthChange} // 월 변경 핸들러 전달
-              onCloseDropdown={handleCloseDropdown} // 드롭다운 닫힘 시 호출될 함수
-              disabled={false}
-            />
-          </div>
+      <div> &lt; 탄소 계산기</div>
+      <div className="text-[#32343a] text-3xl font-semibold mb-[28px]">
+        탄소 배출량 계산 결과
+      </div>
+      <div className="text-[#18191d] text-xl font-normal font-['Wanted Sans'] mb-[80px]">
+        이번 달 이산화탄소 배출량이 얼마나 발생했을지 확인해봅시다
+      </div>
+      <div>
+        <div className="text-[24px] font-semibold">
+          {thisYear}년{thisMonth}월 탄소 배출량 계산 결과표
         </div>
 
-        <div>이번 달 배출량</div>
-        <div className="flex flex-col w-[1055px] h-full bg-white rounded-[20px] border border-[#5bca11]">
-          <div className="flex justify-center items-center w-[1055px] gap-12">
-            <div className="w-[500px] h-[300px] flex justify-center items-center">
+        {/* 첫번째 섹션 데이터 제공 */}
+        {/* 왼쪽 */}
+        <div className="flex flex-row">
+          <div className="flex flex-col w-[586px] h-[456px] rounded-[20px] border border-[#5bca11]">
+            <div className="mt-[40px] ml-[42px] ">
+              <div className="flex flex-col">
+                <div className="text-3xl font-semibold mb-[24px] leading-none ">
+                  이번 달 총 탄소 배출량은
+                </div>
+                <div className="text-[#27affb] text-[48px] font-semibold leading-none mb-[32px]">
+                  {currentData?.carbon_emissions}kg
+                </div>
+                <div className="text-base leading-none">
+                  탄소 배출량이 평균 대비
+                  {totalAvgData && currentData ? (
+                    currentData.carbon_emissions <
+                    totalAvgData.carbon_emissions ? (
+                      <>
+                        {(
+                          100 -
+                          (currentData.carbon_emissions /
+                            totalAvgData.carbon_emissions) *
+                            100
+                        ).toFixed(2)}{" "}
+                        % 적어요
+                      </>
+                    ) : (
+                      <>
+                        {(
+                          (currentData.carbon_emissions /
+                            totalAvgData.carbon_emissions) *
+                            100 -
+                          100
+                        ).toFixed(2)}{" "}
+                        % 높았어요
+                      </>
+                    )
+                  ) : null}
+                </div>
+              </div>
+            </div>
+            <div className="w-[280px] h-[259px] flex justify-center items-center">
               <ThisMonthChart
                 currentData={currentData}
                 totalAvgData={totalAvgData}
-                lastData={lastData}
-                lastTotalAvgData={lastTotalAvgData}
               />
             </div>
-            <div className="h-[202px] border-l border-[#5bca11] mx-4"></div>
+          </div>
 
-            <div className="flex flex-col justify-center text-center">
-              <div>이번달 총 탄소 배출량</div>
-              <div className="text-[#27affb] text-[64px] font-semibold">
-                {currentData?.carbon_emissions}kg
-              </div>
-              <div>
-                (평균 대비
-                {(
-                  (currentData?.carbon_emissions /
-                    totalAvgData?.carbon_emissions) *
-                  100
-                ).toFixed(2)}
-                % 높은 배출량)
+          {/* 상단 오른쪽 */}
+          <div>
+            <div className="flex flex-row justify-center border border-[#5bca11] w-[585px] h-[210px] mb-[30px]">
+              <div className="flex flex-col justify-center text-center">
+                <div>
+                  홍길동님의 {thisMonth}월 탄소배출량은 지난달보다{" "}
+                  {lastData && currentData ? (
+                    currentData.carbon_emissions < lastData.carbon_emissions ? (
+                      <>
+                        {(
+                          100 -
+                          (currentData.carbon_emissions /
+                            lastData.carbon_emissions) *
+                            100
+                        ).toFixed(2)}{" "}
+                        % 감소했어요!
+                        <div>평소보다 탄소를 조금 배출하고 있어요.</div>
+                        <div>다음달에도 이번달 처럼만 사용해주세요.</div>
+                      </>
+                    ) : (
+                      <>
+                        {(
+                          (currentData.carbon_emissions /
+                            lastData.carbon_emissions) *
+                            100 -
+                          100
+                        ).toFixed(2)}{" "}
+                        % 증가했어요!
+                        <div>
+                          그래도 아직 평균에 비해 조금 많은 탄소를 배출하고
+                          있어요.
+                        </div>
+                        <div>다음달에는 더 노력해보아요.</div>
+                      </>
+                    )
+                  ) : (
+                    "데이터가 부족합니다."
+                  )}
+                </div>
+                <div className="bg-red-300 w-[80px] h-[80px]"></div>
               </div>
             </div>
-          </div>
-          <div className="flex flex-row justify-center">
-            <div className="bg-red-300 w-[200px] h-[180px]"></div>
-            <div className="flex flex-col justify-center text-center">
-              <div>
-                {user} 님의 11월 탄소배출량은 지난달보다{" "}
-                {lastData && currentData ? (
-                  currentData.carbon_emissions < lastData.carbon_emissions ? (
-                    <>
-                      {(
-                        100 -
-                        (currentData.carbon_emissions /
-                          lastData.carbon_emissions) *
-                          100
-                      ).toFixed(2)}{" "}
-                      % 감소했어요!
-                      <div>평소보다 탄소를 조금 배출하고 있어요.</div>
-                      <div>다음달에도 이번달 처럼만 사용해주세요.</div>
-                    </>
-                  ) : (
-                    <>
-                      {(
-                        (currentData.carbon_emissions /
-                          lastData.carbon_emissions) *
-                          100 -
-                        100
-                      ).toFixed(2)}{" "}
-                      % 증가했어요!
-                      <div>
-                        그래도 아직 평균에 비해 조금 많은 탄소를 배출하고
-                        있어요.
-                      </div>
-                      <div>다음달에는 더 노력해보아요.</div>
-                    </>
-                  )
-                ) : (
-                  "데이터가 부족합니다."
-                )}
+            <div className="w-[585px] h-[210px] border border-[#5bca11] flex flex-col justify-center items-center">
+              <div>이번달 절감량을 통해 심은 나무</div>
+              <div className="flex flex-row justify-center items-center">
+                <div className="bg-red-300 w-[100px] h-[118px]"></div>
+                <div>
+                  {(
+                    (totalAvgData?.carbon_emissions -
+                      currentData?.carbon_emissions) /
+                    22
+                  ).toFixed("2")}{" "}
+                  그루
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* 두번째 섹션 데이터 제공 */}
         <div>항목 별 탄소 배출량</div>
         <div className="flex flex-col w-[1055px] h-full bg-white rounded-[20px] border border-[#5bca11]">
           <MonthlyChart currentData={currentData} totalAvgData={totalAvgData} />

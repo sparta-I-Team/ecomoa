@@ -3,6 +3,35 @@ import browserClient from "@/utlis/supabase/browserClient";
 
 type SetUserType = (userId: string | null) => void; // setUser의 타입 정의
 
+// 내 전체 데이터
+export const loadMyAllData = async (
+  setUser: SetUserType,
+  setMyAllData: React.Dispatch<React.SetStateAction<MonthlyData | null>>
+) => {
+  // user값(user_id 비교용)
+  const fetchedUser = await getUser();
+  if (fetchedUser) {
+    setUser(fetchedUser.id);
+
+    const { data, error } = await browserClient
+      .from("carbon_records")
+      .select("*")
+      .eq("user_id", fetchedUser.id);
+
+    if (error) {
+      console.error("Error fetching data:", error);
+      return;
+    }
+
+    // 가져온 데이터를 상태에 업데이트
+    if (data && data.length > 0) {
+      setMyAllData(data); // 데이터가 있을 경우 업데이트
+    } else {
+      setMyAllData(0); // 데이터가 없으면 null로 설정
+    }
+  }
+};
+
 // 이번달 기준 내 최신 data
 export const loadUserAndFetchData = async (
   setUser: SetUserType,
