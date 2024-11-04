@@ -35,7 +35,7 @@ const Service = () => {
       </section>
 
       {/* 캐릭터 소개 */}
-      <section className="w-[1780px] h-[739px] flex flex-col items-center mx-auto">
+      <section className="w-full mb-[1800px] md:w-[1780px] md:mb-0 h-[739px] flex flex-col items-center mx-auto">
         <div>
           <div className="w-[720px] space-y-[40px] mb-[80px] mx-auto">
             <p className="font-wanted  text-[48px] font-[500] text-center leading-[72px] tracking-[-1.44px]">
@@ -48,7 +48,7 @@ const Service = () => {
               씨앗 모아부터 클로버 모아까지 같이 성장해나가요.
             </p>
           </div>
-          <div className="grid gap-5 mx-auto h-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+          <div className="flex flex-col gap-5 md:flex-row justify-center items-center mx-auto">
             <Image
               src={"/service/card1.png"}
               width={430}
