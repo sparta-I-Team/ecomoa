@@ -2,6 +2,7 @@ import Image from "next/image";
 import GoogleLoginButton from "./components/GoogleLoginButton";
 import KaKaoLoginButton from "./components/KaKaoLoginButton";
 import NaverLoginButton from "./components/NaverLoginButton";
+import LoginForm from "./components/LoginForm";
 
 const LoginPage = () => {
   return (
@@ -21,6 +22,7 @@ const LoginPage = () => {
           탄소 절감 혜택을 누려보세요!
         </h1>
         <p className="mb-[41px]">간편 가입 및 로그인</p>
+        <LoginForm />
         <NaverLoginButton />
         <KaKaoLoginButton />
         <GoogleLoginButton />

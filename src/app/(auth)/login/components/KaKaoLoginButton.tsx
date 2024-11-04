@@ -13,8 +13,7 @@ const KaKaoLoginButton = () => {
   const { openModal } = useModalStore();
 
   const handleLogin = async () => {
-    const redirectUrl = await signInWithKakao();
-    const userInfo = await getUserInfo(user.id);
+    const redirectUrl = await signInWithKakao(); // 경로 재설정 했음 signInWithKakao 함수 확인
     if (redirectUrl) {
       // const user = await signInParams(); // 여기서 user 정보를 가져옴
 

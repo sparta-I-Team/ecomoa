@@ -1,48 +1,33 @@
+// components/GoogleLoginButton.tsx
 "use client";
 import { createClient } from "@/utlis/supabase/client";
-import { userStore } from "@/zustand/userStore";
 import Image from "next/image";
 
 const GoogleLoginButton = () => {
   const supabase = createClient();
-  const { loginUser } = userStore();
 
   const signInWithGoogle = async () => {
+    console.log("구글 벛튼 콘솔 찍히");
+    console.log(`${process.env.NEXT_PUBLIC_BASE_URL}`);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         queryParams: {
           access_type: "offline",
           prompt: "consent"
-        }
+        },
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/login/callback/google`
+        // 경로 재설정 했음
       }
     });
 
     if (error) {
       console.error("Google 로그인 오류:", error);
-      return;
-    }
-
-    const res = await supabase.auth.getSession();
-    const session = res.data.session;
-
-    if (session) {
-      // Zustand 스토어에 로그인 유저 정보 저장
-      loginUser({
-        email: session.user.email as string,
-        accessToken: session.access_token as string,
-        id: session.user.id as string,
-        isAuthenticated: true
-      });
-
-      // await signInParams(session.user.id);
-
-      if (!session) {
-        console.log("세션 x");
-      }
-      return session;
     }
   };
+
+  // 이쪽 밑으로 로직을 삭제 했기 때문에 확인!!
+
   return (
     <div>
       <button
@@ -59,4 +44,5 @@ const GoogleLoginButton = () => {
     </div>
   );
 };
+
 export default GoogleLoginButton;

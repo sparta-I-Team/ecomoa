@@ -34,7 +34,7 @@ export default function RootLayout({
         <div>
           <Header />
         </div>
-        <div className="max-w-[1800px] mx-auto">
+        <div className="max-w-[1200px] mx-auto">
           <Script
             src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"
             strategy="beforeInteractive"

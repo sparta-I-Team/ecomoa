@@ -59,7 +59,8 @@ export const signInWithKakao = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "kakao",
     options: {
-      redirectTo: "http://localhost:3000/login/callback"
+      // 이부분 경로 확인
+      redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/login/callback/google`
     }
   });
   if (error) {
@@ -69,6 +70,7 @@ export const signInWithKakao = async () => {
   if (session) {
     // const userId = await signInParams(session?.user.id);
   }
+  console.log(data.url);
   return data.url;
 };
 

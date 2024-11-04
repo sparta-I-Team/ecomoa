@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useUserInfo = () => {
   const { user } = userStore();
+  
   return useQuery({
     queryKey: ["user", user.id],
     queryFn: () => getUserInfo(user.id),
