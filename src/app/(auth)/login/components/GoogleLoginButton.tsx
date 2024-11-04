@@ -7,8 +7,6 @@ const GoogleLoginButton = () => {
   const supabase = createClient();
 
   const signInWithGoogle = async () => {
-    console.log("구글 벛튼 콘솔 찍히");
-    console.log(`${process.env.NEXT_PUBLIC_BASE_URL}`);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
