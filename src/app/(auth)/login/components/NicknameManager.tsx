@@ -14,7 +14,7 @@ const NicknameManager = () => {
     if (user && userInfo?.params?.firstTag === false) {
       setModalOpen(true);
     }
-  }, [userInfo]);
+  }, [userInfo, user]);
 
   if (isLoading) {
     return <div>Loading...</div>;

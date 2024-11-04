@@ -52,7 +52,7 @@ export interface ChallengeData {
   user_info: UserInfo;
 }
 
-export interface pointInfo {
+export interface LevelInfo {
   level: number;
   name: string;
   currentPoints: number;

@@ -1,11 +1,10 @@
-import { pointInfo } from "@/types/challengesType";
+import { LevelInfo } from "@/types/challengesType";
 
 interface LevelGaugeProps {
-  pointInfo: pointInfo;
+  pointInfo: LevelInfo;
 }
 const LevelGauge = ({ pointInfo }: LevelGaugeProps) => {
   if (!pointInfo) return;
-  // console.log(pointInfo);
   return (
     <section className="space-y-2 w-full flex flex-col justify-center items-center">
       {/* 레벨 */}

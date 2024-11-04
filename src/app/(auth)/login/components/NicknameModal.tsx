@@ -19,9 +19,6 @@ import { z } from "zod";
 
 const filter = new Filter();
 
-// interface NicknameModalProps {
-//   onClose: () => void;
-// }
 interface FormData {
   nickname: string;
 }
@@ -49,7 +46,6 @@ const nicknameSchema = z.object({
       (nickname: string) => {
         // 욕설이 없으면 true 반환
         const isProfane = filter.isProfane(nickname);
-        console.log(isProfane);
         return !isProfane;
       },
       {
@@ -111,11 +107,17 @@ const NicknameModal = () => {
     setInputLength(e.target.value.length);
   };
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 mt-[89px]">
+    <div
+      className="fixed inset-0 flex items-center justify-center z-50 p-4 mt-[89px]"
+      style={{
+        background:
+          "linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), var(--naver-text, #FFF)"
+      }}
+    >
       {!isSuccess ? (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className=" flex flex-col justify-center items-center m-auto w-[800px] h-[600px] bg-white"
+          className="w-[800px] h-[500px] rounded-[20px] flex flex-col justify-center items-center m-auto bg-white"
         >
           <div className="text-center h-[71px] mb-[78px] leading-[1.5] text-[32px] font-semibold">
             <p className="">만나서 반갑습니다.</p>

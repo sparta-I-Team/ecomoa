@@ -11,7 +11,6 @@ const Mypage = async () => {
   const user = await getUser();
   if (!user) return;
   await getUserInfo(user.id);
-  // console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@마이페이지", userInfo);
   const userId = user.id;
   return (
     <div className="flex flex-col m-auto w-full">

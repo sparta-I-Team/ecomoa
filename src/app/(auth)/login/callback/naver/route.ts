@@ -1,6 +1,3 @@
-// src/app/(auth)/login/callback/naver/route.ts
-import { getUser } from "@/api/auth-actions";
-import { getUserInfo } from "@/api/user-action";
 import { createClient } from "@/utlis/supabase/server";
 import { NextResponse } from "next/server";
 
@@ -46,8 +43,6 @@ export async function GET(req: Request) {
     );
   }
 
-  // let loggedInUser;
-
   if (existingUser) {
     console.log(existingUser);
     // 사용자가 이미 존재하는 경우 로그인
@@ -60,13 +55,14 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: loginError.message }, { status: 500 });
     }
 
-    const currentUser = await getUser();
-    if (!currentUser) return;
-    console.log(currentUser);
-    const userInfo = await getUserInfo(currentUser.id);
-    if (!userInfo.user_metadata?.nickname) {
-      return NextResponse.redirect(new URL("/", req.url)); // 닉네임이 없으면 닉네임 설정 페이지로 리다이렉트
-    }
+    // const currentUser = await getUser();
+    // if (!currentUser) return;
+    // console.log(currentUser);
+    // const userInfo = await getUserInfo(currentUser.id);
+    // if (!userInfo) return;
+    // if (!userInfo.user_metadata?.nickname) {
+    //   return NextResponse.redirect(new URL("/", req.url));
+    // }
 
     // loggedInUser = user;
   } else {
