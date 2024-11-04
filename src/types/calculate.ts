@@ -87,3 +87,8 @@ export interface ThisMonthChartProps {
   lastData: MonthlyData | null;
   lastTotalAvgData: MonthlyData | null;
 }
+
+export interface ThisMonthResultChartProps {
+  currentData: MonthlyData | null;
+  totalAvgData: MonthlyData | null;
+}

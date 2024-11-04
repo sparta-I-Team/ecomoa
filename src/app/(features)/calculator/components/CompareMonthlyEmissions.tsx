@@ -1,7 +1,7 @@
 import {
   loadMyRecentFiveMonthsEmissions,
-  loadRecentFiveMonthsEmissions,
-  loadUserAndFetchData
+  loadRecentFiveMonthsEmissions
+  // loadUserAndFetchData
 } from "@/hooks/monthlyData";
 import { MonthlyData } from "@/types/calculate";
 import React, { useEffect, useState } from "react";

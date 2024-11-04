@@ -12,19 +12,16 @@ const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
 
 const ResultPageMain = () => {
-  const [user, setUser] = useState<string | null>(null);
-  const [thisYear, setThisYear] = useState<number | null>(currentYear);
-  const [thisMonth, setThisMonth] = useState<number | null>(currentMonth);
   const [currentData, setCurrentData] = useState<MonthlyData | null>(null);
   const [totalAvgData, setTotalAvgData] = useState<MonthlyData | null>(null);
-  const [myAllData, setMyAllData] = useState<MonthlyData | null>(0);
+  const [myAllData, setMyAllData] = useState<MonthlyData[] | null>(null); // 배열로 변경
 
   useEffect(() => {
-    loadUserAndFetchData(setUser, thisYear, thisMonth, setCurrentData);
-    loadTotalUsersData(thisYear, thisMonth, setTotalAvgData);
-    loadMyAllData(setUser, setMyAllData);
-  }, [thisYear, thisMonth]);
-  // console.log("currentData =>", currentData, "total =>", totalAvgData);
+    loadUserAndFetchData(currentYear, currentMonth, setCurrentData);
+    loadTotalUsersData(currentYear, currentMonth, setTotalAvgData);
+    loadMyAllData(setMyAllData); // 이 함수가 MonthlyData 배열을 반환하도록 수정
+  }, [currentYear, currentMonth]);
+
   console.log("myAllData => ", myAllData);
   return (
     <>
@@ -39,7 +36,9 @@ const ResultPageMain = () => {
         </div>
         <div className="flex">
           <div>탄소 배출량 계산 결과표</div>
-          <div>{myAllData.length}건</div>
+          <div>
+            {myAllData ? `${myAllData.length}건` : "결과표가 없습니다."}
+          </div>
         </div>
       </div>
 

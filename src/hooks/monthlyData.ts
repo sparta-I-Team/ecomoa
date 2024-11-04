@@ -1,18 +1,14 @@
 import { getUser } from "@/api/auth-actions";
 import browserClient from "@/utlis/supabase/browserClient";
 
-type SetUserType = (userId: string | null) => void; // setUser의 타입 정의
+// type SetUserType = (userId: string | null) => void; // setUser의 타입 정의
 
 // 내 전체 데이터
 export const loadMyAllData = async (
-  setUser: SetUserType,
-  setMyAllData: React.Dispatch<React.SetStateAction<MonthlyData | null>>
+  setMyAllData: React.Dispatch<React.SetStateAction<MonthlyData[] | null>>
 ) => {
-  // user값(user_id 비교용)
   const fetchedUser = await getUser();
   if (fetchedUser) {
-    setUser(fetchedUser.id);
-
     const { data, error } = await browserClient
       .from("carbon_records")
       .select("*")
@@ -20,21 +16,24 @@ export const loadMyAllData = async (
 
     if (error) {
       console.error("Error fetching data:", error);
+      setMyAllData(null); // 오류 발생 시 null로 설정
       return;
     }
 
     // 가져온 데이터를 상태에 업데이트
-    if (data && data.length > 0) {
+    if (data && Array.isArray(data) && data.length > 0) {
       setMyAllData(data); // 데이터가 있을 경우 업데이트
     } else {
-      setMyAllData(0); // 데이터가 없으면 null로 설정
+      setMyAllData(null); // 데이터가 없으면 null로 설정
     }
+  } else {
+    setMyAllData(null); // fetchedUser가 없으면 null로 설정
   }
 };
 
 // 이번달 기준 내 최신 data
 export const loadUserAndFetchData = async (
-  setUser: SetUserType,
+  // setUser: SetUserType,
   thisYear: number | null,
   thisMonth: number | null,
   setCurrentData: React.Dispatch<React.SetStateAction<MonthlyData | null>>
@@ -42,7 +41,7 @@ export const loadUserAndFetchData = async (
   // user값(user_id 비교용)
   const fetchedUser = await getUser();
   if (fetchedUser) {
-    setUser(fetchedUser.id);
+    // setUser(fetchedUser.id);
 
     const { data, error } = await browserClient
       .from("carbon_records")
@@ -91,6 +90,8 @@ export const loadTotalUsersData = async (
     console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
   } else if (data.length > 0) {
     const avgData: MonthlyData = {
+      year: thisYear ?? 0, // currentYear가 null일 경우 0으로 대체
+      month: thisMonth ?? 0, // currentMonth가 null일 경우 0으로 대체
       water_usage: parseFloat(
         (
           data.reduce((acc, record) => acc + record.water_usage, 0) /

@@ -3,39 +3,30 @@ import { useEffect, useState } from "react";
 
 import { loadTotalUsersData, loadUserAndFetchData } from "@/hooks/monthlyData";
 import { MonthlyData } from "@/types/calculate";
-import YearMonthPicker from "../components/YearMonthPicker";
 import ThisMonthChart from "../components/ThisMonthChart";
 import MonthlyChart from "../components/MonthlyChart";
-import UsageCard from "../components/UsageCard";
 import SectionCard from "../components/SectionCard";
-import YearMonthPickerMain from "../components/YearMonthPickerMain";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
 
 const ResultPage: React.FC = () => {
-  const [user, setUser] = useState<string | null>(null);
-  const [thisYear, setThisYear] = useState<number | null>(currentYear);
-  const [thisMonth, setThisMonth] = useState<number | null>(currentMonth);
   const [currentData, setCurrentData] = useState<MonthlyData | null>(null);
   const [totalAvgData, setTotalAvgData] = useState<MonthlyData | null>(null);
   const [lastData, setLastData] = useState<MonthlyData | null>(null);
-  const [lastTotalAvgData, setLastTotalAvgData] = useState<MonthlyData | null>(
-    null
-  );
 
   // 내 이번달 저번달 / 전체유저 이번달 저번달 데이터 fetch 함수
   useEffect(() => {
-    loadUserAndFetchData(setUser, thisYear, thisMonth, setCurrentData);
-    loadTotalUsersData(thisYear, thisMonth, setTotalAvgData);
+    loadUserAndFetchData(currentYear, currentMonth, setCurrentData);
+    loadTotalUsersData(currentYear, currentMonth, setTotalAvgData);
 
     // 이전 달의 데이터 로딩
-    const previousYear = thisMonth === 1 ? thisYear - 1 : thisYear;
-    const previousMonth = thisMonth === 1 ? 12 : thisMonth - 1;
+    const previousYear = currentMonth === 1 ? currentYear - 1 : currentYear;
+    const previousMonth = currentMonth === 1 ? 12 : currentMonth - 1;
 
-    loadUserAndFetchData(setUser, previousYear, previousMonth, setLastData);
-    loadTotalUsersData(previousYear, previousMonth, setLastTotalAvgData);
-  }, [thisYear, thisMonth]);
+    loadUserAndFetchData(previousYear, previousMonth, setLastData);
+    loadTotalUsersData(previousYear, previousMonth, setTotalAvgData);
+  }, [currentYear, currentMonth]);
 
   return (
     <>
@@ -48,7 +39,7 @@ const ResultPage: React.FC = () => {
       </div>
       <div>
         <div className="text-[24px] font-semibold">
-          {thisYear}년{thisMonth}월 탄소 배출량 계산 결과표
+          {currentYear}년{currentMonth}월 탄소 배출량 계산 결과표
         </div>
 
         {/* 첫번째 섹션 데이터 제공 */}
@@ -105,7 +96,7 @@ const ResultPage: React.FC = () => {
             <div className="flex flex-row justify-center border border-[#5bca11] w-[585px] h-[210px] mb-[30px]">
               <div className="flex flex-col justify-center text-center">
                 <div>
-                  홍길동님의 {thisMonth}월 탄소배출량은 지난달보다{" "}
+                  홍길동님의 {currentMonth}월 탄소배출량은 지난달보다{" "}
                   {lastData && currentData ? (
                     currentData.carbon_emissions < lastData.carbon_emissions ? (
                       <>
@@ -148,10 +139,10 @@ const ResultPage: React.FC = () => {
                 <div className="bg-red-300 w-[100px] h-[118px]"></div>
                 <div>
                   {(
-                    (totalAvgData?.carbon_emissions -
-                      currentData?.carbon_emissions) /
+                    ((totalAvgData?.carbon_emissions || 0) -
+                      (currentData?.carbon_emissions || 0)) /
                     22
-                  ).toFixed("2")}{" "}
+                  ).toFixed(2)}{" "}
                   그루
                 </div>
               </div>

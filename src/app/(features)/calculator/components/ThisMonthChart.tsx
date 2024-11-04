@@ -9,8 +9,8 @@ import {
   Tooltip,
   Legend
 } from "chart.js";
-import { ThisMonthChartProps } from "@/types/calculate";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { ThisMonthResultChartProps } from "@/types/calculate";
 
 ChartJS.register(
   CategoryScale,
@@ -21,11 +21,9 @@ ChartJS.register(
   Legend
 );
 
-const ThisMonthChart: React.FC<ThisMonthChartProps> = ({
+const ThisMonthChart: React.FC<ThisMonthResultChartProps> = ({
   currentData,
   totalAvgData
-  // lastData,
-  // lastTotalAvgData
 }) => {
   const data = {
     labels: ["평균", "내 배출량"],
