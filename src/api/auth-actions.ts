@@ -76,3 +76,29 @@ export const getUser = async (): Promise<User | null> => {
   }
   return data.user;
 };
+
+// 구글 로그인
+// export const signInWithGoogle = async () => {
+//   const supabase = createClient();
+//   const { data, error } = await supabase.auth.signInWithOAuth({
+//     provider: "google",
+//     options: {
+//       queryParams: {
+//         access_type: "offline",
+//         prompt: "consent" // 사용자 계정 선택 창 표시
+//       }
+//     }
+//   });
+//   if (error) {
+//     console.error("Google OAuth 로그인 오류:", error.message);
+//     return;
+//   }
+//   // 성공 시
+//   console.log("구글 로그인 성공", data);
+// };
+
+export const getSession = async () => {
+  const supabase = createClient();
+  const { data } = await supabase.auth.getSession();
+  return data.session;
+};

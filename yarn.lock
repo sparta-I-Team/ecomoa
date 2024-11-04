@@ -751,6 +751,11 @@ axobject-query@^4.1.0:
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-4.1.0.tgz#28768c76d0e3cff21bc62a9e2d0b6ac30042a1ee"
   integrity sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==
 
+badwords-ko@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/badwords-ko/-/badwords-ko-1.0.4.tgz#6b57c252c7eb3c7d1f95b0e91676b26147518d14"
+  integrity sha512-l2gJiVkIXd1nyyRI6aXEujq+aCiMfCyREUdK68mUnH6iZy8+mvXvkvOLO6Nv6MXiRKgvdUQEmSeuVno38MX+wA==
+
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"

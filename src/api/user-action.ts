@@ -37,7 +37,16 @@ export const updateNickname = async ({
     console.error("닉네임 업데이트 오류", error);
     return null;
   }
-  return data;
+  const { data: userMetadata, error: userMetadataError } =
+    await supabase.auth.updateUser({
+      data: {
+        nickname: newNickname
+      }
+    });
+  if (userMetadataError) {
+    console.error("닉네임 메타데이터 업데이트 오류", error);
+  }
+  return { data, userMetadata };
 };
 
 // 내가 쓴 글 가져오기
@@ -149,4 +158,24 @@ export const getBookmarks = async (
     return null;
   }
   return bookmarks;
+};
+
+// 회원가입시 params컬럼
+export const signInParams = async (userId) => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("user_info")
+    .eq("user_id", userId)
+    .update([
+      {
+        params: { firstTag: false }
+      }
+    ])
+    .select();
+
+  if (error) {
+    console.error(error);
+  } else {
+    console.log("제이슨 객체", data);
+  }
 };

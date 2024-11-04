@@ -5,11 +5,13 @@ import UserInfoCard from "./components/UserInfoCard";
 import MyPoint from "./components/MyPoint";
 import Link from "next/link";
 import LikePosts from "./components/LikePosts";
+import { getUserInfo } from "@/api/user-action";
 
 const Mypage = async () => {
   const user = await getUser();
   if (!user) return;
-
+  const userInfo = await getUserInfo(user.id);
+  console.log(userInfo);
   return (
     <div className="flex flex-col m-auto w-full">
       <h1 className="pt-[89px] font-semibold text-[24px] mb-6">마이페이지</h1>
