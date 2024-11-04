@@ -5,21 +5,20 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { checkNicknameAvailability } from "@/api/user-action"; // 서버 액션 가져오기
+import { checkNicknameAvailability } from "@/api/user-action";
 import ProfileImgUpload from "./ProfileImgUpload";
-import { useChallengeDashboard } from "@/hooks/useChallengeDashboard";
 import LevelGauge from "./LevelGauge";
-import { LevelInfo } from "@/types/challengesType";
 import { getUser } from "@/api/auth-actions";
 import Filter from "badwords-ko";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { calculateLevelInfo } from "@/utlis/challenge/levelCalculator";
 
 const filter = new Filter();
 
 const nicknameSchema = z.object({
   nickname: z
     .string()
-    .min(2, { message: "닉네임은 최소 2자 이상이어야 합니다." })
+    .min(1, { message: "닉네임은 최소 1자 이상이어야 합니다." })
     .max(20, { message: "닉네임은 20자 이하이어야 합니다." })
     .regex(/^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ@_-]*$/, {
       message:
@@ -41,7 +40,6 @@ const nicknameSchema = z.object({
       (nickname) => {
         // 욕설이 없으면 true 반환
         const isProfane = filter.isProfane(nickname);
-        console.log(isProfane);
         return !isProfane;
       },
       {
@@ -50,22 +48,12 @@ const nicknameSchema = z.object({
     )
 });
 
-const defaultLevelInfo: LevelInfo = {
-  level: 0, // 기본 레벨
-  name: "N/A", // 기본 이름
-  currentPoints: 0, // 기본 현재 포인트
-  maxPoints: 100, // 기본 최대 포인트
-  pointsToNextLevel: 100, // 다음 레벨까지 필요한 포인트
-  image: "", // 기본 이미지 URL
-  bg: ""
-};
-
 const UserInfoCard = ({ user }: ProfileProps) => {
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [initialNickname, setInitialNickname] = useState("");
-  const [nicknameAvailable, setNicknameAvailable] = useState(true);
-  const [nicknameError, setNicknameError] = useState("");
+  // const [nicknameAvailable, setNicknameAvailable] = useState(true);
+  // const [nicknameError, setNicknameError] = useState("");
 
   const {
     register,
@@ -76,7 +64,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
     resolver: zodResolver(nicknameSchema)
   });
 
-  const { data: userInfo } = useQuery<UserInfo>({
+  const { data: userInfo } = useQuery<UserInfo | null>({
     queryKey: ["userInfo", user.id],
     queryFn: () => getUserInfo(user.id),
     enabled: !!user.id // user.id가 있을 때만 쿼리 실행
@@ -86,7 +74,6 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   const { mutate } = useMutation({
     mutationFn: updateNickname,
     onSuccess: () => {
-      console.log("성공");
       queryClient.invalidateQueries({
         queryKey: ["userInfo", user.id]
       });
@@ -105,8 +92,6 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   }, [userInfo, setValue]);
 
   const onSubmit = async (data: FormData) => {
-    console.log("서브밋", data.nickname);
-    // const result = nicknameSchema.safeParse(data.nickname);
     mutate({ userId: user.id, newNickname: data.nickname });
   };
 
@@ -123,34 +108,11 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
     setValue("nickname", nickname); // 입력된 닉네임을 상태에 반영
-    const result = nicknameSchema.safeParse(nickname);
-
-    // 닉네임 유효성 검사
-    if (!result.success) {
-      setNicknameError(result.error.errors[0].message); // 금지된 단어 에러 메시지
-      setNicknameAvailable(false);
-      return;
-    } else {
-      setNicknameError(""); // 유효성 통과
-      setNicknameAvailable(true);
-    }
-
-    // 중복 검사
-    // const available =
-    //   (await checkNicknameAvailability(nickname, user.id)) || false; // null일 경우 false로 설정
-    // setNicknameAvailable(available); // 중복 검사 결과를 상태에 저장
-
-    // if (!available) {
-    //   setNicknameError("이미 사용 중인 닉네임입니다."); // 중복 닉네임 에러 메시지
-    // } else {
-    //   setNicknameError(""); // 사용 가능한 닉네임일 경우 에러 메시지 초기화
-    // }
   };
-  // console.log(user);
-  const { levelInfo } = useChallengeDashboard(user.id);
-  // if (!levelInfo)
+  const pointInfo = calculateLevelInfo(userInfo?.user_point ?? 0); // 널 병합 연산자
+
   return (
-    <div className="w-[585px] h-[220px] flex flex-col items-center bg-[#edeef0]">
+    <section className="w-[585px] h-[220px] flex flex-col items-center bg-[#edeef0]">
       <div className="flex flex-row items-center gap-2 w-full p-5 justify-start">
         <ProfileImgUpload userId={user.id} userAvatar={userInfo?.user_avatar} />
         <div className="flex flex-row items-center gap-1">
@@ -192,8 +154,8 @@ const UserInfoCard = ({ user }: ProfileProps) => {
           )}
         </div>
       </div>
-      <LevelGauge levelInfo={levelInfo || defaultLevelInfo} />
-    </div>
+      <LevelGauge pointInfo={pointInfo} />
+    </section>
   );
 };
 export default UserInfoCard;

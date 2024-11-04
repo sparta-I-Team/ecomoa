@@ -1,13 +1,13 @@
-import { getSession } from "@/api/auth-actions";
-import { getUserInfo } from "@/api/user-action";
-import NicknameModal from "./(auth)/login/components/NicknameModal";
+import Service from "@/components/layout/Service";
+import NicknameManager from "./(auth)/login/components/NicknameManager";
+import { Modal } from "@/components/shared/Modal";
 
-export default async function Home() {
-  const session = await getSession();
-  if (!session) return;
-  const userInfo = await getUserInfo(session?.user.id);
-  if (!userInfo.params || Object.keys(userInfo.params).length === 0) {
-    return <NicknameModal />;
-  }
-  return <>Home</>;
+export default function Home() {
+  return (
+    <>
+      <Service />
+      <NicknameManager />
+      <Modal />
+    </>
+  );
 }

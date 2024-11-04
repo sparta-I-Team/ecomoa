@@ -65,6 +65,10 @@ export const signInWithKakao = async () => {
   if (error) {
     console.error("카카오 로그인 에러", error);
   }
+  const session = await getSession();
+  if (session) {
+    // const userId = await signInParams(session?.user.id);
+  }
   return data.url;
 };
 
@@ -77,28 +81,21 @@ export const getUser = async (): Promise<User | null> => {
   return data.user;
 };
 
-// 구글 로그인
-// export const signInWithGoogle = async () => {
-//   const supabase = createClient();
-//   const { data, error } = await supabase.auth.signInWithOAuth({
-//     provider: "google",
-//     options: {
-//       queryParams: {
-//         access_type: "offline",
-//         prompt: "consent" // 사용자 계정 선택 창 표시
-//       }
-//     }
-//   });
-//   if (error) {
-//     console.error("Google OAuth 로그인 오류:", error.message);
-//     return;
-//   }
-//   // 성공 시
-//   console.log("구글 로그인 성공", data);
-// };
-
 export const getSession = async () => {
   const supabase = createClient();
   const { data } = await supabase.auth.getSession();
   return data.session;
+};
+
+// 회원탈퇴 user_info 테이블 정보 삭제
+export const deleteUserInfo = async (userId: string) => {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("user_info")
+    .delete()
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("회원탈퇴 user_info 정보 삭제 오류", error);
+  }
 };
