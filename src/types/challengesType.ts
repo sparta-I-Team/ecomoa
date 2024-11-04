@@ -1,7 +1,10 @@
 export interface ChallengeFormInputs {
   content: string;
-  images: FileList;
-  options: Record<string, string[]>;
+  images: File[];
+  selectedOptions?: {
+    // 옵션 필드 추가
+    [key: string]: string[];
+  };
 }
 
 export interface ChallengeStoreType {
@@ -32,14 +35,14 @@ interface ChallengeOptions {
   disposable?: string[];
   files?: string[];
   transport?: string[];
-  [key: string]: string[] | undefined; 
- }
+  [key: string]: string[] | undefined;
+}
 
- interface UserInfo {
+interface UserInfo {
   user_nickname: string;
- }
+}
 
- export interface ChallengeData {
+export interface ChallengeData {
   chall_id: string;
   user_id: string;
   content: string;
@@ -50,13 +53,21 @@ interface ChallengeOptions {
   created_at: string;
   updated_at: string;
   user_info: UserInfo;
- }
+}
 
- export interface LevelInfo {
+export interface LevelInfo {
   level: number;
   name: string;
   currentPoints: number;
   maxPoints: number;
   pointsToNextLevel: number;
   image: string;
+  bg: string;
+}
+
+//이미지
+
+export interface ImageValidation {
+  isValid: boolean;
+  message?: string;
 }

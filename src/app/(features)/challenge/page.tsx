@@ -5,7 +5,7 @@ import { Challenge } from "./components/Challenge";
 export default function Page() {
   return (
     <main className="pt-4">
-      <Challenge />;
+      <Challenge />
     </main>
   );
 }

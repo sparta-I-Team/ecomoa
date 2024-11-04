@@ -44,7 +44,8 @@ const LoginForm = () => {
       });
 
       if (!userInfo?.user_nickname) {
-        router.push("/nickname");
+        // 여기로 로그인 경로 재설정
+        router.push("/login/callback/email");
       } else {
         router.push("/");
       }

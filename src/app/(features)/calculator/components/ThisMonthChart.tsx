@@ -9,7 +9,8 @@ import {
   Tooltip,
   Legend
 } from "chart.js";
-import { ThisMonthChartProps } from "@/types/calculate";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import { ThisMonthResultChartProps } from "@/types/calculate";
 
 ChartJS.register(
   CategoryScale,
@@ -19,68 +20,74 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-const ThisMonthChart: React.FC<ThisMonthChartProps> = ({
-  currentMonthly,
-  totalCurrentMonthly
-}) => {
-  const currentData = currentMonthly || {
-    electricity_co2: 0,
-    water_co2: 0,
-    gas_co2: 0,
-    car_co2: 0,
-    waste_co2: 0,
-    carbon_emissions: 0
-  };
-  const totalData = totalCurrentMonthly || {
-    electricity_co2: 0,
-    water_co2: 0,
-    gas_co2: 0,
-    car_co2: 0,
-    waste_co2: 0,
-    carbon_emissions: 0
-  };
 
+const ThisMonthChart: React.FC<ThisMonthResultChartProps> = ({
+  currentData,
+  totalAvgData
+}) => {
   const data = {
-    labels: ["저번달", "이번달"],
+    labels: ["평균", "내 배출량"],
     datasets: [
       {
-        label: "평균 배출량",
+        label: "탄소 배출량 비교",
         data: [
-          totalData?.carbon_emissions || 0,
-          currentData?.carbon_emissions || 0
+          totalAvgData?.carbon_emissions || 0, // "평균" 위치 값
+          currentData?.carbon_emissions || 0 // "내 배출량" 위치 값
         ],
-        backgroundColor: "#D9D9D9",
-        borderColor: "#D9D9D9",
-        borderWidth: 1
-      },
-      {
-        label: "나의 총 배출량",
-        data: [
-          currentData?.carbon_emissions || 0,
-          totalData?.carbon_emissions || 0
-        ],
-        backgroundColor: "#5BCA11",
-        borderColor: "#5BCA11",
-        borderWidth: 1
+        backgroundColor: ["#D9D9D9", "#5BCA11"],
+        borderColor: ["#D9D9D9", "#5BCA11"],
+        borderWidth: 1,
+        borderRadius: [8, 8] // 각각의 바 위쪽 모서리 둥글게
       }
     ]
   };
 
   const options = {
+    maintainAspectRatio: false,
     responsive: true,
     plugins: {
       legend: {
-        position: "top" as const
+        display: false // 범례 숨기기
       },
       title: {
         display: true,
         text: "이번달 탄소 배출량"
       }
-    }
+    },
+    layout: {
+      padding: 20
+    },
+    scales: {
+      y: {
+        display: false, // y축 숨기기
+        grid: {
+          display: false // y축의 격자선 숨기기
+        }
+      },
+      x: {
+        display: true,
+        grid: {
+          display: false // x축의 격자선 숨기기
+        },
+        ticks: {
+          font: {
+            size: 14
+          }
+        }
+      }
+    },
+    barThickness: 60, // 바의 너비를 60px로 고정
+    categoryPercentage: 1, // 바 사이의 간격을 최소화
+    barPercentage: 1 // 각 바의 비율을 최대화
   };
+
   return (
-    <div>
-      <Bar data={data} options={options} />
+    <div className="flex justify-center items-center w-full h-full">
+      <Bar
+        data={data}
+        options={options}
+        plugins={[ChartDataLabels]} // 플러그인 등록
+      />
     </div>
   );
 };

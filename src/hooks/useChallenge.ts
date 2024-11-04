@@ -16,10 +16,9 @@ export const useChallengeMutation = () => {
 export const useChallengeList = () => {
   return useQuery({
     queryKey: ["challenges"],
-    queryFn: () => challengesApi.read(),
-    
-  })
-}
+    queryFn: () => challengesApi.read()
+  });
+};
 
 export const useUserChallengeList = (userId: string) => {
   return useQuery<ChallengeData[]>({
@@ -27,4 +26,6 @@ export const useUserChallengeList = (userId: string) => {
     queryFn: () => challengesApi.readByUserId(userId),
     enabled: !!userId
   });
+
+  // 오늘의 챌린지 가져오기
 };

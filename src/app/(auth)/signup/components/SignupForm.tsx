@@ -27,7 +27,6 @@ const SignupForm = () => {
   });
 
   const onSubmit: SubmitHandler<SignupInput> = async (data: SignupInput) => {
-    // console.log("제출된 데이터:", data);
     try {
       await signup(data);
       alert("회원가입이 완료되었습니다.");

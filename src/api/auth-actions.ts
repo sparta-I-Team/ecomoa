@@ -59,12 +59,18 @@ export const signInWithKakao = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "kakao",
     options: {
-      redirectTo: "http://localhost:3000/login/callback"
+      // 이부분 경로 확인
+      redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/login/callback/google`
     }
   });
   if (error) {
     console.error("카카오 로그인 에러", error);
   }
+  const session = await getSession();
+  if (session) {
+    // const userId = await signInParams(session?.user.id);
+  }
+  console.log(data.url);
   return data.url;
 };
 
@@ -75,4 +81,23 @@ export const getUser = async (): Promise<User | null> => {
     console.error(error);
   }
   return data.user;
+};
+
+export const getSession = async () => {
+  const supabase = createClient();
+  const { data } = await supabase.auth.getSession();
+  return data.session;
+};
+
+// 회원탈퇴 user_info 테이블 정보 삭제
+export const deleteUserInfo = async (userId: string) => {
+  const supabase = createClient();
+  const { error } = await supabase
+    .from("user_info")
+    .delete()
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("회원탈퇴 user_info 정보 삭제 오류", error);
+  }
 };

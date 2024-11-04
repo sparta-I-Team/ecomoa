@@ -2,23 +2,24 @@ import React, { useState } from "react";
 
 // 달력 선택 type 정리
 export interface YearSelectProps {
+  thisYear: number | null;
+  thisMonth: number | null;
   onChangeYear: (year: number) => void;
   onChangeMonth: (month: number) => void;
+  onCloseDropdown: () => void; // 드롭다운 닫힘 시 호출될 함수 추가
   disabled: boolean;
 }
 
-const currentYear = new Date().getFullYear();
-const currentMonth = new Date().getMonth() + 1;
-
 const YearMonthPicker: React.FC<YearSelectProps> = ({
+  thisYear,
+  thisMonth,
   onChangeYear,
   onChangeMonth,
+  onCloseDropdown,
   disabled = false
 }) => {
-  const [selectedYear, setSelectedYear] = useState<number | null>(currentYear);
-  const [selectedMonth, setSelectedMonth] = useState<number | null>(
-    currentMonth
-  );
+  const [selectedYear, setSelectedYear] = useState<number | null>(thisYear);
+  const [selectedMonth, setSelectedMonth] = useState<number | null>(thisMonth);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -30,19 +31,23 @@ const YearMonthPicker: React.FC<YearSelectProps> = ({
   const handleYearClick = (year: number) => {
     if (!disabled) {
       setSelectedYear(year);
-      onChangeYear(year);
+      onChangeYear(year); // 연도 변경 핸들러 호출
+      onCloseDropdown(); // 드롭다운 닫힘 시 호출
     }
   };
 
   const handleMonthClick = (month: number) => {
     if (!disabled) {
       setSelectedMonth(month);
-      onChangeMonth(month);
-      if (selectedYear) {
-        setIsDropdownOpen(false); // 연도와 월이 모두 선택되었을 때 닫힘
-      }
+      onChangeMonth(month); // 월 변경 핸들러 호출
+      onCloseDropdown(); // 드롭다운 닫힘 시 호출
+    }
+    if (selectedYear) {
+      setIsDropdownOpen(false); // 연도와 월이 모두 선택되었을 때 닫힘
     }
   };
+
+  const currentYear = new Date().getFullYear(); // 현재 연도 가져오기
 
   return (
     <div>
@@ -55,7 +60,6 @@ const YearMonthPicker: React.FC<YearSelectProps> = ({
 
       {isDropdownOpen && (
         <div className="flex flex-row gap-4">
-          {/* 연도 선택 리스트 */}
           <div className="year-list">
             <p>연도 선택</p>
             {Array.from({ length: currentYear - 2020 + 1 }, (_, i) => (
@@ -71,7 +75,6 @@ const YearMonthPicker: React.FC<YearSelectProps> = ({
             ))}
           </div>
 
-          {/* 월 선택 리스트 */}
           <div className="month-list">
             <p>월 선택</p>
             {Array.from({ length: 12 }, (_, i) => (
@@ -91,5 +94,4 @@ const YearMonthPicker: React.FC<YearSelectProps> = ({
     </div>
   );
 };
-
 export default YearMonthPicker;
