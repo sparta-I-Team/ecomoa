@@ -115,9 +115,9 @@ const UserInfoCard = ({ user }: ProfileProps) => {
     <section className="w-[585px] h-[220px] flex flex-col items-center bg-[#edeef0]">
       <div className="flex flex-row items-center gap-2 w-full p-5 justify-start">
         <ProfileImgUpload userId={user.id} userAvatar={userInfo?.user_avatar} />
-        <p>{user.email}</p>
+        {/* <p>{user.email}</p>
         <p>{user.phone}</p>
-        <p>{user.user_metadata.name}</p>
+        <p>{user.user_metadata.name}</p> */}
         <div className="flex flex-row items-center gap-1">
           {isEditing ? (
             <form

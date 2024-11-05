@@ -4,7 +4,6 @@ import { getUser } from "@/api/auth-actions";
 import UserInfoCard from "./components/UserInfoCard";
 import MyPoint from "./components/MyPoint";
 import Link from "next/link";
-import LikePosts from "./components/LikePosts";
 import { getUserInfo } from "@/api/user-action";
 
 const Mypage = async () => {
@@ -38,7 +37,6 @@ const Mypage = async () => {
         className="w-full h-[14px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center"
       >
         <p className="font-[18px]">나의 스크랩</p>
-        <LikePosts user={user} />
       </Link>
       <Link
         href={"/mypage/post"}

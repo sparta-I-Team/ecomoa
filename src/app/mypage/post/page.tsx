@@ -1,6 +1,6 @@
 import Myposts from "../components/Myposts";
 
-const MyPostPage = async () => {
+const FreePostPage = async () => {
   return (
     <div>
       <Myposts />
@@ -8,4 +8,4 @@ const MyPostPage = async () => {
   );
 };
 
-export default MyPostPage;
+export default FreePostPage;
