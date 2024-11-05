@@ -89,3 +89,24 @@ export interface MyBookmark {
   };
   writername: string;
 }
+
+export interface LikePosts {
+  like_id: string;
+  user_id: string;
+  post_id: string;
+  status: boolean;
+  liked_at: string;
+  updated_at: string;
+  posts: {
+    like: number | null;
+    comment: number | null;
+    post_id: string;
+    user_id: string;
+    post_img: string[];
+    created_at: string;
+    post_title: string;
+    updated_at: string;
+    post_content: string;
+    post_category: string | null;
+  };
+}

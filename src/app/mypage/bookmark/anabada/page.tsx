@@ -1,23 +1,21 @@
 import { getUser } from "@/api/auth-actions";
 import { getBookmarkAnabada } from "@/api/user-action";
-import MyScrap from "../components/MyScrap";
+import MyScrap from "../../components/MyScrap";
 
-const BookmarkPage = async () => {
+const AnabadaBookmarkPage = async () => {
   const user = await getUser();
   if (!user) return;
   const myBookmarks = await getBookmarkAnabada(user.id);
   console.log(myBookmarks);
   return (
     <>
-      {myBookmarks && myBookmarks.length > 0 ? (
-        <div className="flex flex-col items-center">
+      <div className="w-full bg-[#F4FFF4] ">
+        <div className="w-[1200px] mx-auto">
           <MyScrap />
         </div>
-      ) : (
-        <div>스크랩한 게시글이 없습니다.</div>
-      )}
+      </div>
     </>
   );
 };
 
-export default BookmarkPage;
+export default AnabadaBookmarkPage;

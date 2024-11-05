@@ -1,61 +1,72 @@
 "use client";
-import { getMyAnabada, getMyPosts } from "@/api/user-action";
+import { getMyPosts } from "@/api/user-action";
 import Like from "@/app/community/components/Like";
 import { MyPosts, MyPostsWithUserInfo } from "@/types/userInfoType";
 import { userStore } from "@/zustand/userStore";
 import { useQuery } from "@tanstack/react-query";
+import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const Myposts = () => {
+interface MyPostProps {
+  type: "free" | "anabada";
+}
+const Myposts = ({ type }: MyPostProps) => {
   const { user } = userStore();
   const [selected, setSelected] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   // 내가 작성한 게시글 가져오기
   const { data: myPosts, isLoading } = useQuery<MyPostsWithUserInfo[] | null>({
-    queryKey: ["myPosts", user.id],
-    queryFn: () => getMyPosts(user.id),
+    queryKey: ["myPosts", user.id, type],
+    queryFn: () => getMyPosts(user.id, type),
     enabled: !!user.id // user.id가 있을 때만 쿼리 실행
   });
-
-  // 내가 작성한 아나바다 가져오기
-  const { data: myAnabada } = useQuery<MyPostsWithUserInfo[] | null>({
-    queryKey: ["myAnabada", user.id],
-    queryFn: () => getMyAnabada(user.id),
-    enabled: !!user.id // user.id가 있을 때만 쿼리 실행
-  });
-
-  console.log("내가 쓴 아나바다 게시글", myAnabada);
+  console.log("????????", myPosts);
 
   const handleSelect = (option: string) => {
     setSelected(option);
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center">
-        <p>Loading...</p>
-      </div>
-    );
+    return <div>Loading...</div>;
   }
 
   return (
     <div>
       <div className="flex flex-col" style={{ width: "1200px" }}>
-        <Link href="/mypage" passHref>
-          <button className="mt-[76.5px] mb-[36px] mx-auto w-[1200px] h-12 border-b-1 border-black border-t-0 border-l-0 border-r-0 font-semibold flex items-center justify-center">
-            마이페이지
-          </button>
+        {/* <Link href="/mypage" passHref>
+          <div className="">
+            <ChevronLeft />
+            <button className="mt-[76.5px] mb-[36px] w-[1200px] h-12 border-b-1 border-black border-t-0 border-l-0 border-r-0 font-semibold">
+              마이페이지
+            </button>
+          </div>
+        </Link> */}
+        <Link href={"/mypage"} className="border-b-slate-500 w-[1200]">
+          <div className="flex items-center mb-[20px] pt-[64.5px]">
+            <ChevronLeft />
+            <span className="font-wanted text-[16px] font-[600] ">
+              마이페이지
+            </span>
+          </div>
         </Link>
+        <div className="mb-[48px]">
+          <p className="text-[32px] font-[700] leading-[44.8px] tracking-[-0.2px]">
+            나의 게시글
+          </p>
+          <p className="text-[#00691E] font-wanted text-[20px] font-[500] leading-[30px] tracking-[-0.2px]">
+            내가 작성한 게시글을 확인해보세요
+          </p>
+        </div>
         <div className="flex mb-4">
-          <Link href="/mypage/post" passHref>
+          <Link href="/mypage/post/free" passHref>
             <button className="w-[600px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-semibold flex items-center justify-center">
               자유 게시판
             </button>
           </Link>
-          <Link href="/community/anabada" passHref>
+          <Link href="/mypage/post/anabada" passHref>
             <button className="w-[600px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
               아나바다 시장
             </button>

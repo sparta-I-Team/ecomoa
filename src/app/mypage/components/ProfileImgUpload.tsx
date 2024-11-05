@@ -106,12 +106,26 @@ const ProfileImgUpload = ({ userId, userAvatar }: ProfileImgUploadProps) => {
       className="flex flex-col items-center"
     >
       <label htmlFor="profileImage">
-        <Image
+        {/* <Image
           src={previewImage || "/images/default-profile.jpg"}
           alt="미리보기"
           width={72}
           height={72}
           className="cursor-pointer object-cover"
+        /> */}
+        {/* <Image
+          src={previewImage || "/images/default-profile.jpg"}
+          alt="미리보기"
+          width={113}
+          height={84}
+          className="w-[113px] h-[84px] cursor-pointer rounded-[12px]"
+        /> */}
+        <Image
+          src="/images/lv1.png"
+          alt="미리보기"
+          width={113}
+          height={84}
+          className="w-[113px] h-[84px] cursor-pointer rounded-[12px]"
         />
       </label>
       <input

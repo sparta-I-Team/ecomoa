@@ -48,13 +48,14 @@ export const updateNickname = async ({
   return { user_nickname: newNickname };
 };
 
-// 내가 쓴 자유게시판 글 가져오기
-export const getMyPosts = async (userId: string) => {
+// 내가 쓴 게시판 글 가져오기
+export const getMyPosts = async (userId: string, type?: string) => {
   const supabase = createClient();
   const { data: posts, error } = await supabase
     .from("posts")
-    .select("*, user_info(*), comments(*)")
-    .eq("user_id", userId);
+    .select("*, user_info(*)")
+    .eq("user_id", userId)
+    .eq("params->>type", type);
 
   if (error) {
     console.error("내가 쓴 자유게시판 가져오기 오류", error);
@@ -64,19 +65,19 @@ export const getMyPosts = async (userId: string) => {
 };
 
 // 내가 쓴 아나바다 글 가져오기
-export const getMyAnabada = async (userId: string) => {
-  const supabase = createClient();
-  const { data: posts, error } = await supabase
-    .from("anabada")
-    .select("*, user_info(*), comments(*)")
-    .eq("user_id", userId);
+// export const getMyAnabada = async (userId: string) => {
+//   const supabase = createClient();
+//   const { data: posts, error } = await supabase
+//     .from("anabada")
+//     .select("*, user_info(*), comments(*)")
+//     .eq("user_id", userId);
 
-  if (error) {
-    console.error("내가 쓴 아나바다 가져오기 오류", error);
-    return null;
-  }
-  return posts || [];
-};
+//   if (error) {
+//     console.error("내가 쓴 아나바다 가져오기 오류", error);
+//     return null;
+//   }
+//   return posts || [];
+// };
 
 // 닉네임 중복 검사
 export const checkNicknameAvailability = async (
@@ -98,7 +99,22 @@ export const checkNicknameAvailability = async (
   return data.length === 0; // 사용 가능하면 true, 중복이면 false
 };
 
-// 자유게시판에서 스크랩한 게시글 가져오기
+// 좋아요 게시글 가져오기
+export const getLikePosts = async (userId: string) => {
+  const supabase = createClient();
+  const { data: likePosts, error } = await supabase
+    .from("likes")
+    .select("*, posts(*)")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("좋아요 게시글 가저오기 오류", error);
+    return null;
+  }
+  return likePosts;
+};
+
+//  게시판에서 스크랩한 게시글 가져오기
 export const getBookmarkPosts = async (userId: string) => {
   const supabase = createClient();
   const { data: scraps, error } = await supabase

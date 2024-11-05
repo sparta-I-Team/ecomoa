@@ -12,6 +12,7 @@ import { getUser } from "@/api/auth-actions";
 import Filter from "badwords-ko";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { calculateLevelInfo } from "@/utlis/challenge/levelCalculator";
+import Image from "next/image";
 
 const filter = new Filter();
 
@@ -112,12 +113,9 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   const pointInfo = calculateLevelInfo(userInfo?.user_point ?? 0); // 널 병합 연산자
 
   return (
-    <section className="w-[585px] h-[220px] flex flex-col items-center bg-[#edeef0]">
+    <section className="border border-[#DCECDC] rounded-[16px] w-[585px] h-[220px] flex flex-col items-center bg-[#FFF]">
       <div className="flex flex-row items-center gap-2 w-full p-5 justify-start">
         <ProfileImgUpload userId={user.id} userAvatar={userInfo?.user_avatar} />
-        {/* <p>{user.email}</p>
-        <p>{user.phone}</p>
-        <p>{user.user_metadata.name}</p> */}
         <div className="flex flex-row items-center gap-1">
           {isEditing ? (
             <form
@@ -146,12 +144,16 @@ const UserInfoCard = ({ user }: ProfileProps) => {
             </form>
           ) : (
             <>
-              <span className="font-black text-lg">
-                {userInfo?.user_nickname}
+              <span className="text-[#000301] font-wanted text-[28px] font-[600] leading-[-0.84px]">
+                {userInfo?.user_nickname}님
               </span>
-              <span className="font-black text-lg">님</span>
-              <button className="mr-auto" onClick={handleEditClick}>
-                수정
+              <button className="border-none mr-auto" onClick={handleEditClick}>
+                <Image
+                  src={"/images/pencil.png"}
+                  alt="닉네임 수정"
+                  width={16}
+                  height={16}
+                />
               </button>
             </>
           )}
