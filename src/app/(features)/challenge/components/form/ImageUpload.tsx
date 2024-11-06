@@ -1,4 +1,5 @@
 import { ChallengeFormInputs } from "@/types/challengesType";
+import { Plus } from "lucide-react";
 import Image from "next/image";
 import React, { useRef } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
@@ -52,13 +53,14 @@ const ImageUpload = ({
         <p className="text-red-500 text-sm">{errors.images.message}</p>
       )}
 
-      <div className="grid grid-cols-6 gap-4">
+      <h1 className="font-bold text-[14px] mb-2">사진</h1>
+      <div className="grid grid-cols-6 gap-[48px]">
         {previewPlaceholders.map((_, index) => (
           <div
             key={index}
             onClick={() => handlePreviewClick(index)}
-            className="relative aspect-square rounded-lg overflow-hidden bg-gray-300
-              cursor-pointer hover:bg-gray-500 transition-colors"
+            className="relative h-[160px]  rounded-lg overflow-hidden bg-[#F5F5F5]
+              cursor-pointer hover:bg-gray-200 transition-colors"
           >
             {previews[index] ? (
               <>
@@ -81,7 +83,9 @@ const ImageUpload = ({
               </>
             ) : (
               <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
-                <span className="text-sm mt-2">이미지 추가</span>
+                <div className="bg-white rounded-full w-[30px] h-[30px] p-2">
+                  <Plus className="w-full h-full" />
+                </div>
               </div>
             )}
           </div>

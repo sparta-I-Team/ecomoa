@@ -1,6 +1,5 @@
 "use client";
 import { createClient } from "@/utlis/supabase/client";
-import { useChallengeStore } from "@/zustand/challengeStore";
 import { userStore } from "@/zustand/userStore";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +8,6 @@ import React, { useState } from "react";
 
 const Header = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(true);
-  const { setStep } = useChallengeStore();
   const { loginUser } = userStore();
   const pathname = usePathname();
 
@@ -24,10 +22,6 @@ const Header = () => {
     setIsUserLoggedIn(!isUserLoggedIn);
   };
 
-  const handleSetStep = () => {
-    setStep(1);
-  };
-  
   const supabase = createClient();
   supabase.auth.onAuthStateChange((event, session) => {
     if (event === "INITIAL_SESSION") {
@@ -43,38 +37,36 @@ const Header = () => {
   });
 
   return (
-    <header className="">
+    <header className="bg-[#0D9C36]">
       <nav
         className="max-w-[1200px] mx-auto flex flex-row justify-between"
         aria-label="Main Navigation"
       >
-        <ul className="flex h-10">
+        <ul className="flex h-20">
           <li className="relative w-[100px] h-full">
             <Link href="/">
               <Image
-                src="/ecomoa.png"
+                src="/images/ecomoa2.png"
                 alt="에코모아로고"
                 fill
                 className="object-contain"
               />
             </Link>
           </li>
-          <div className="flex flex-row justify-center items-center space-x-4 ml-14 text-gray-400 text-sm">
+          <div className="flex flex-row justify-center items-center space-x-4 ml-14 text-white text-sm">
             {navItems.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   className={`p-2 rounded-full border transition-colors
                   ${
-                    pathname === item.href
-                      ? "border-green-500 text-green-500 font-bold"
-                      : "border-transparent text-gray-400 hover:text-gray-600 hover:border-green-200"
+                    pathname.includes(item.href)
+                      ? "border-white text-white font-bold"
+                      : "border-transparent text-white hover:text-gray-300 hover:border-gray-300"
                   }
                 `}
                 >
-                  <button className="border-none" onClick={handleSetStep}>
-                    {item.label}
-                  </button>
+                  {item.label}
                 </Link>
               </li>
             ))}

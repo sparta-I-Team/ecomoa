@@ -1,39 +1,51 @@
 import { InsertChallengeParams } from "@/types/challengesType";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 import { createClient } from "@/utlis/supabase/client";
+
+// dayjs 플러그인 설정
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const supabase = createClient();
 
 export const challengesApi = {
   create: async (params: InsertChallengeParams) => {
     try {
-      // 오늘 날짜의 시작 시간과 끝 시간 계산
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
-      // 오늘 제출한 챌린지가 있는지 확인
-      const { data: todayChallenge, error: checkError } = await supabase
+      const { data: latestChallenge, error: fetchError } = await supabase
         .from("challenges")
         .select("created_at")
         .eq("user_id", params.userId)
-        .gte("created_at", today.toISOString())
-        .lt("created_at", tomorrow.toISOString())
+        .order("created_at", { ascending: false })
+        .limit(1)
         .single();
 
-      if (checkError && checkError.code !== "PGRST116") {
-        // PGRST116는 결과가 없을 때 발생하는 에러 코드
-        throw checkError;
+      console.log(latestChallenge);
+      if (fetchError && fetchError.code !== "PGRST116") {
+        throw fetchError;
       }
 
-      // 이미 오늘 챌린지를 제출했다면 에러를 던짐
-      if (todayChallenge) {
-        throw new Error(
-          "이미 오늘의 챌린지를 제출하셨습니다. 내일 다시 도전해주세요!"
-        );
+      if (latestChallenge) {
+        const lastChallengeDate = dayjs(latestChallenge.created_at)
+          .tz("Asia/Seoul")
+          .format("YYYY-MM-DD");
+
+        const todayDate = dayjs().tz("Asia/Seoul").format("YYYY-MM-DD");
+
+        console.log("Date check:", {
+          lastChallengeDate,
+          todayDate,
+          isSameDay: lastChallengeDate === todayDate
+        });
+
+        if (lastChallengeDate === todayDate) {
+          throw new Error(
+            "이미 오늘의 챌린지를 제출하셨습니다. 내일 다시 도전해주세요!"
+          );
+        }
       }
 
-      //이미지 관련 요청임
       const imageUrls = await Promise.all(
         params.images.map(async (file) => {
           const fileName = `${params.userId}/${Date.now()}`;
@@ -51,17 +63,13 @@ export const challengesApi = {
         })
       );
 
-      //포인트 관련 요청임
       const { data: userInfo, error: userError } = await supabase
         .from("user_info")
         .select("user_point")
         .eq("user_id", params.userId)
         .single();
 
-      if (userError) {
-        console.error("기존 포인트 조회 에러:", userError);
-        throw userError;
-      }
+      if (userError) throw userError;
 
       const currentPoint = userInfo?.user_point || 0;
       const newPoint = currentPoint + params.point;
@@ -71,13 +79,9 @@ export const challengesApi = {
         .update({ user_point: newPoint })
         .eq("user_id", params.userId);
 
-      if (updateError) {
-        console.error("포인트 업데이트 에러:", updateError);
-        throw updateError;
-      }
+      if (updateError) throw updateError;
 
-      // 챌린지 테ㅐ이블에 로우 생성
-      const { data, error } = await supabase
+      const { data: challenge, error: insertError } = await supabase
         .from("challenges")
         .insert({
           user_id: params.userId,
@@ -90,15 +94,15 @@ export const challengesApi = {
         .select()
         .single();
 
-      if (error) throw error;
-      return data;
+      if (insertError) throw insertError;
+
+      return challenge;
     } catch (error) {
-      console.error("데이터 삽입 오류입니다.", error);
+      console.error("챌린지 생성 오류:", error);
       throw error;
     }
   },
 
-  // 챌린지 목록 조회 함수임
   read: async () => {
     const { data, error } = await supabase
       .from("challenges")

@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 @import "normalize.css";
 @import url("https://fastly.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.1/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
@@ -23,6 +29,7 @@
     --foreground: #ededed;
   }
 }
+
 html {
   height: 100%;
 }
@@ -33,6 +40,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   line-height: 80%;
   margin: 0;
+  leading-trim: both;
+  text-edge: cap alphabetic;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
 }
 
 input,

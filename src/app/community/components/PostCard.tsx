@@ -15,9 +15,9 @@ const PostCard = ({ post, type }: Props) => {
       {type === "free" ? (
         <article
           key={post.post_id}
-          className="w-full h-[220px] border-b border-black flex flex-row p-4"
+          className="w-full h-[220px] border-b flex flex-row p-4 "
         >
-          <div className="flex-1">
+          <div className="flex-1 rounded-[12px] ">
             <div className="mb-4">
               <label className="bg-[#D9D9D9]">
                 {post.user_info?.user_nickname}님
@@ -53,7 +53,7 @@ const PostCard = ({ post, type }: Props) => {
       ) : (
         <article
           key={post.post_id}
-          className="flex flex-col justify-end items-start p-7 w-[276px] border border-gray-200 rounded-lg shadow-md"
+          className="flex flex-col justify-end items-start p-7 w-[276px] bg-white rounded-lg "
         >
           {post.post_img && post.post_img.length > 0 ? (
             <div className="flex-none w-[220px] h-[220px] mb-4">
@@ -88,7 +88,7 @@ const PostCard = ({ post, type }: Props) => {
           </div>
           <div className="flex justify-between items-center mt-auto">
             <div className="flex space-x-4">
-              <label>♡ {post.like || 0}</label>
+              <Like postId={post.post_id} />
               <label>댓글 {post.comment || 0}</label>
             </div>
           </div>
