@@ -28,7 +28,12 @@ const DeleteAccountButton = ({ userId }: DeleteAccountProps) => {
   };
 
   return (
-    <button className="border-none" onClick={handleDeleteAccount}>
+    // className="text-[#000301] font-wanted text-[18px] font-[500] leading-normal tracking-[-0.18px]
+
+    <button
+      className="border-none text-[#000301] font-wanted text-[18px] font-[500] leading-normal tracking-[-0.18px]"
+      onClick={handleDeleteAccount}
+    >
       회원 탈퇴
     </button>
   );

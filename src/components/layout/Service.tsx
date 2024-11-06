@@ -123,7 +123,7 @@ const Service = () => {
       </section>
 
       {/* 서비스 소개 */}
-      <section className="relative w-[1800px] h-[2056px] flex-none rounded-[80px] bg-gradient-to-b from-[#EAFCDE] to-transparent mt-[280px]">
+      <section className="mx-auto relative w-[1800px] h-[2056px] flex-none rounded-[80px] bg-gradient-to-b from-[#EAFCDE] to-transparent mt-[280px]">
         <p className="pt-[80px] font-wanted text-center text-[#5BCA11] text-[36px] font-semibold leading-[54px] tracking-[-1.08px]">
           Our Service
         </p>
@@ -158,7 +158,9 @@ const Service = () => {
               alt="step3"
             />
           </div>
-          <p className="bg-[#C3C3C3] w-[820px] h-[390px] mt-[194px]">캘린더</p>
+          <p className="font-[600] text-[40px] font-wanted bg-[#C3C3C3] w-[820px] h-[390px] mt-[194px] text-center flex items-center justify-center">
+            캘린더
+          </p>
           {/* 탄소 계산기 */}
           <p className="font-wanted text-[48px] font-[600] leading-[72px] mt-[133px]">
             탄소 계산기
