@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   getUserInfo,
   updateAvatarUrl,
@@ -14,18 +14,18 @@ interface ProfileImgUploadProps {
   userAvatar?: string; // userAvatar를 선택적 prop으로 정의
 }
 
-const ProfileImgUpload = ({ userId, userAvatar }: ProfileImgUploadProps) => {
+const ProfileImgUpload = ({ userId }: ProfileImgUploadProps) => {
   const { register, handleSubmit, setValue } = useForm();
-  const [previewImage, setPreviewImage] = useState<string | undefined>(
-    userAvatar
-  );
+  // const [previewImage, setPreviewImage] = useState<string | undefined>(
+  //   userAvatar
+  // );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const queryClient = useQueryClient();
 
   // userAvatar가 변경될 때 previewImage를 초기화
-  useEffect(() => {
-    setPreviewImage(userAvatar);
-  }, [userAvatar]);
+  // useEffect(() => {
+  //   setPreviewImage(userAvatar);
+  // }, [userAvatar]);
 
   const { refetch } = useQuery({
     queryKey: ["user", userId],
@@ -41,10 +41,10 @@ const ProfileImgUpload = ({ userId, userAvatar }: ProfileImgUploadProps) => {
       queryClient.invalidateQueries({
         queryKey: ["user", userId]
       });
-      const updatedUser = await refetch();
-      if (updatedUser.data) {
-        setPreviewImage(updatedUser.data.user_avatar); // 새로운 아바타 URL로 업데이트 ++ 수정
-      }
+      await refetch();
+      // if (updatedUser.data) {
+      //   setPreviewImage(updatedUser.data.user_avatar); // 새로운 아바타 URL로 업데이트 ++ 수정
+      // }
       setSelectedFile(null);
       window.alert("프로필 이미지가 성공적으로 업데이트되었습니다.");
     },
@@ -65,7 +65,7 @@ const ProfileImgUpload = ({ userId, userAvatar }: ProfileImgUploadProps) => {
         const { publicUrl } = response;
         if (publicUrl) {
           // 프리뷰 업데이트
-          setPreviewImage(publicUrl);
+          // setPreviewImage(publicUrl);
           // 아바타 URL 업데이트
           mutate(publicUrl);
         } else {
@@ -87,7 +87,7 @@ const ProfileImgUpload = ({ userId, userAvatar }: ProfileImgUploadProps) => {
       reader.onloadend = () => {
         const result = reader.result as string;
         console.log("읽어온 이미지 데이터:", result); // 디버깅용 로그
-        setPreviewImage(result);
+        // setPreviewImage(result);
       };
       reader.readAsDataURL(file);
     }
@@ -96,7 +96,7 @@ const ProfileImgUpload = ({ userId, userAvatar }: ProfileImgUploadProps) => {
   const handleCancel = () => {
     refetch();
     setSelectedFile(null); // 선택된 파일 초기화
-    setPreviewImage(userAvatar); // 원래 아바타로 프리뷰 초기화
+    // setPreviewImage(userAvatar); // 원래 아바타로 프리뷰 초기화
     setValue("profileImage", undefined); // form 상태에서 파일 초기화
   };
 
@@ -106,12 +106,26 @@ const ProfileImgUpload = ({ userId, userAvatar }: ProfileImgUploadProps) => {
       className="flex flex-col items-center"
     >
       <label htmlFor="profileImage">
-        <Image
+        {/* <Image
           src={previewImage || "/images/default-profile.jpg"}
           alt="미리보기"
           width={72}
           height={72}
           className="cursor-pointer object-cover"
+        /> */}
+        {/* <Image
+          src={previewImage || "/images/default-profile.jpg"}
+          alt="미리보기"
+          width={113}
+          height={84}
+          className="w-[113px] h-[84px] cursor-pointer rounded-[12px]"
+        /> */}
+        <Image
+          src="/images/lv1.png"
+          alt="미리보기"
+          width={113}
+          height={84}
+          className="w-[113px] h-[84px] cursor-pointer rounded-[12px]"
         />
       </label>
       <input

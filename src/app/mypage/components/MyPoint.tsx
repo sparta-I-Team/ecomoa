@@ -9,16 +9,23 @@ interface MyPointProps {
 const MyPoint = async ({ user }: MyPointProps) => {
   const userInfo: UserInfo | null = await getUserInfo(user.id);
   return (
-    <div className="w-[586px] h-[220px] px-8 bg-[#edeef0]">
+    // <section className="flex flex-col items-center "></section>
+    <div className="w-[586px] h-[220px] px-8 border border-[#DCECDC] rounded-[16px] bg-[#FFF]">
       <div className="flex flex-col gap-6">
-        <p className="mt-8">내 포인트</p>
-        <p className="font-semibold text-[32px] mb-[42px]">
+        <p className="font-wanted mt-[28px] text-[#0D9C36] text-[16px] font-[600] leading-[-0.48px]">
+          내 포인트
+        </p>
+        <p className="font-wanted text-[28px] text-[#000301] font-[600] leading-[-0.84px]">
           {userInfo?.user_point}P
         </p>
       </div>
-      <div className="flex justify-center">
-        <button className="border-none w-1/2">포인트 적립, 사용내역</button>
-        <button className="border-none w-1/2">포인트 교환 샵</button>
+      <div className="flex justify-center gap-3 mt-[60px]">
+        <button className="flex flex-col justify-center items-center text-[#FFFFFF] font-wanted text-[18px] font-[500] leading-[0-18px] border-none w-[255px] h-[60px] p-[24px_16px] bg-[#00320F] rounded-[40px]">
+          포인트 적립, 사용내역
+        </button>
+        <button className="flex flex-col justify-center items-center text-[#FFFFFF] font-wanted text-[18px] font-[500] leading-[0-18px] border-none w-[255px] h-[60px] p-[24px_16px] bg-[#00320F] rounded-[40px]">
+          포인트 교환 샵
+        </button>
       </div>
     </div>
   );
