@@ -45,26 +45,17 @@ export async function GET(req: Request) {
 
   if (existingUser) {
     console.log(existingUser);
+
     // 사용자가 이미 존재하는 경우 로그인
     const { error: loginError } = await supabase.auth.signInWithPassword({
       email: userData.email,
       password: "temporary-password" // 임시 비밀번호
     });
+
     if (loginError) {
       console.error("Supabase signIn error:", loginError);
       return NextResponse.json({ error: loginError.message }, { status: 500 });
     }
-
-    // const currentUser = await getUser();
-    // if (!currentUser) return;
-    // console.log(currentUser);
-    // const userInfo = await getUserInfo(currentUser.id);
-    // if (!userInfo) return;
-    // if (!userInfo.user_metadata?.nickname) {
-    //   return NextResponse.redirect(new URL("/", req.url));
-    // }
-
-    // loggedInUser = user;
   } else {
     // 사용자가 존재하지 않는 경우 회원가입
     const { error: signUpError } = await supabase.auth.signUp({
@@ -77,8 +68,6 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: signUpError.message }, { status: 500 });
     }
 
-    // loggedInUser = user;
-
     // 자동 로그인
     const { error: loginError } = await supabase.auth.signInWithPassword({
       email: userData.email,
@@ -89,8 +78,6 @@ export async function GET(req: Request) {
       console.error("Supabase signIn error:", loginError);
       return NextResponse.json({ error: loginError.message }, { status: 500 });
     }
-
-    // loggedInUser = loggedInUserAfterSignUp;
   }
 
   // 로그인 성공 시 대시보드로 리다이렉트
