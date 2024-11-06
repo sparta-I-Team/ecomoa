@@ -50,7 +50,7 @@ const Page = () => {
           <input
             type="text"
             placeholder="키워드를 검색해 보세요"
-            className="w-[380px] h-[52px] p-[19px] border-b border-[#191A1D] focus:outline-none placeholder:text-[#191A1D] "
+            className="mt-4 flex w-[380px] h-[52px] p-[19px_20px] flex-col justify-center items-start gap-[10px] flex-shrink-0 rounded-[40px] bg-[#DCECDC]"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -95,7 +95,7 @@ const Page = () => {
               </div>
             </div>
 
-            <button className="ml-4 bg-[#D9D9D9] h-10 w-36 rounded">
+            <button className="ml-4 bg-[#DCECDC] h-10 w-36 rounded-[20px]">
               <Link href="/community/post">게시글 작성</Link>
             </button>
           </div>

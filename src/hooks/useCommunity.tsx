@@ -138,9 +138,6 @@ export const useCommunity = () => {
             &times; {/* X 아이콘 */}
           </button>
           <div className="p-12">
-            <h4 className="font-semibold mb-4 text-2xl">
-              게시글을 업로드 했어요
-            </h4>
             {uploadedUrls[0] ? (
               <Image
                 src={uploadedUrls[0]}
@@ -152,11 +149,16 @@ export const useCommunity = () => {
             ) : (
               <div className="text-gray-500 ">등록된 이미지가 없습니다.</div>
             )}
-            <h4 className=" py-2 px-3">위치</h4>
-            <h3>{"마이페이지 > 나의 게시글 > 아나바다 시장 "} </h3>
+            <h4 className="font-semibold mb-4 text-2xl">
+              게시글을 업로드 했어요
+            </h4>
+
+            <h3 className="flex h-[32px] p-[15px_16px] justify-center items-center gap-[10px] rounded-[4px] bg-[#EDEEF0]">
+              {"마이페이지 > 나의 게시글 > 아나바다 시장 "}{" "}
+            </h3>
             <Link
               href="/community/anabada"
-              className="mt-4 p-2 bg-black text-white rounded "
+              className="mt-4 p-2 bg-[#0D9C36] rounded-[40px] text-white w-[513px] h-[60px]"
             >
               업로드한 게시글 보러가기
             </Link>

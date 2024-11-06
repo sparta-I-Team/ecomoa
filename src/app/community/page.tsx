@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import Image from "next/image";
+import { ChallengeOption } from "@/types/challengesType";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -19,6 +20,64 @@ interface Challenge {
   user_id: string;
   created_at: string;
 }
+
+// const OPTION_TRANSLATIONS: Record<string, string> = {
+//   bus: "버스",
+//   subway: "지하철",
+//   train: "기차",
+//   "public-bike": "공공자전거",
+//   "personal-bike": "개인자전거",
+//   tumbler: "텀블러 사용",
+//   "eco-bag": "장바구니 사용",
+//   "reusable-container": "다회용기 사용",
+//   "standby-power": "대기전력 차단",
+//   "unused-plug": "미사용 플러그 뽑기",
+//   "delete-files": "불필요한 파일 삭제",
+//   "organize-folders": "폴더 정리",
+//   "cloud-cleanup": "클라우드 정리",
+//   "eco-friendly": "친환경 인증 제품",
+//   "second-hand": "중고 제품",
+//   "local-product": "지역 생산 제품"
+// };
+
+export const CHALLENGES: ChallengeOption[] = [
+  { id: "transport", label: "대중교통 이용" },
+  { id: "bike", label: "자전거 이용" },
+  { id: "disposable", label: "일회 용품 사용하지 않기" },
+  { id: "electricity", label: "전기 절약하기" },
+  { id: "files", label: "디지털 파일 정리" },
+  { id: "used", label: "친환경 제품 구매" }
+];
+export const CHALLENGE_OPTIONS: Record<string, ChallengeOption[]> = {
+  transport: [
+    { id: "bus", label: "버스" },
+    { id: "subway", label: "지하철" },
+    { id: "train", label: "기차" }
+  ],
+  bike: [
+    { id: "public-bike", label: "공공자전거" },
+    { id: "personal-bike", label: "개인자전거" }
+  ],
+  disposable: [
+    { id: "tumbler", label: "텀블러 사용" },
+    { id: "eco-bag", label: "장바구니 사용" },
+    { id: "reusable-container", label: "다회용기 사용" }
+  ],
+  electricity: [
+    { id: "standby-power", label: "대기전력 차단" },
+    { id: "unused-plug", label: "미사용 플러그 뽑기" }
+  ],
+  files: [
+    { id: "delete-files", label: "불필요한 파일 삭제" },
+    { id: "organize-folders", label: "폴더 정리" },
+    { id: "cloud-cleanup", label: "클라우드 정리" }
+  ],
+  used: [
+    { id: "eco-friendly", label: "친환경 인증 제품" },
+    { id: "second-hand", label: "중고 제품" },
+    { id: "local-product", label: "지역 생산 제품" }
+  ]
+};
 
 const Page = () => {
   const [challenges, setChallenges] = useState<Challenge[]>([]);
@@ -59,7 +118,7 @@ const Page = () => {
       <div className="flex flex-col" style={{ width: "1200px" }}>
         <div className="flex mb-4">
           <Link href="/community" passHref>
-            <button className="w-[400px] h-12  border-b-2 border-black border-t-0 border-l-0 border-r-0 font-bold flex items-center justify-center">
+            <button className="w-[400px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-bold flex items-center justify-center">
               첼린지 인증
             </button>
           </Link>
@@ -74,6 +133,7 @@ const Page = () => {
             </button>
           </Link>
         </div>
+
         {loading && <p>로딩 중...</p>}
         {error && <p className="text-red-500">{error}</p>}
         {challenges.map((challenge, index) => {
@@ -86,7 +146,6 @@ const Page = () => {
             })
             .replace(/\./g, ".");
 
-          // 선택된 옵션 개수 계산
           const selectedCount = Object.values(
             challenge.selected_options
           ).filter((option) => option).length;
@@ -101,18 +160,18 @@ const Page = () => {
                 <div className="mb-4">
                   <label className="mr-2 bg-[#D9D9D9]">{totalPoints}p</label>
                   <label>{formattedDate}</label>
-                  <label className="ml-2">{challenge.user_id}</label>
                   <div className="p-2 mt-2">
-                    {/* selected_options 목록들 보여주기..이걸 한글로 변환해야할듯 */}
                     {Object.entries(challenge.selected_options).map(
-                      ([key, value]) => (
-                        <div
-                          key={key}
-                          className="mb-2 inline-block rounded-[32px] border border-[#D5D7DD] p-2"
-                        >
-                          <label>{`${key}: ${value}`}</label>
-                        </div>
-                      )
+                      ([key, value]) => {
+                        console.log("key", key);
+                        console.log("value", value);
+                        const tags = CHALLENGE_OPTIONS[key].filter((option) => {
+                          return option.id === value;
+                        });
+                        console.log("tags", tags);
+
+                        return <div>임시</div>;
+                      }
                     )}
                   </div>
                 </div>
