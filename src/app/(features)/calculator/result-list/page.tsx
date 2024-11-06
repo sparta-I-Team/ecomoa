@@ -1,6 +1,8 @@
 "use client";
 import { loadMyAllData } from "@/hooks/monthlyData";
 import { MonthlyData } from "@/types/calculate";
+import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const ResultListPage = () => {
@@ -12,21 +14,26 @@ const ResultListPage = () => {
 
   return (
     <>
-      <div>
-        <div> &lt; 나의 탄소 배출량 히스토리</div>
-        <div className="text-[#32343a] text-3xl font-semibold mb-[28px]">
-          나의 탄소 배출량 히스토리
-        </div>
-        <div className="text-[#18191d] text-xl font-normal font-['Wanted Sans'] mb-[80px]">
-          지금까지의 나의 탄소 배출량 데이터를 확인해봅시다{" "}
-        </div>
+      <div className="mt-[76px] mb-[80px]">
+        <Link href="/calculator/result-history-main">
+          <p className="text-[16px]"> &lt; 탄소 계산기 홈</p>
+        </Link>
+        <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
+        <p className="text-[#32343a] text-[30px] font-semibold mb-[28px]">
+          탄소 배출량 계산 히스토리
+        </p>
+        <p className=" text-[20px] font-normal text-[#00691E]">
+          이번 달 이산화탄소 배출량이 얼마나 발생했을지 확인해봅시다
+        </p>
       </div>
-      <div className="flex flex-row justify-between">
-        <div className="flex flex-row">
-          <div>탄소 배출량 계산 결과표</div>
-          <div> {myAllData ? `${myAllData.length}건` : "0건"}</div>
+
+      <div>
+        <div className="flex w-full h-[92px] bg-[#00320f] rounded-xl">
+          <div className="flex flex-row justify-start items-center pl-6 text-[20px] text-white gap-2">
+            탄소 계산 히스토리
+            <div>{myAllData ? `${myAllData.length}건` : "0건"}</div>
+          </div>
         </div>
-        <div>2024년</div>
       </div>
       <div>
         {myAllData && myAllData.length > 0 ? (
@@ -41,12 +48,20 @@ const ResultListPage = () => {
             .map((data, index) => (
               <div
                 key={index}
-                className="w-[1128px] h-[120px] border border-black"
+                className="flex flex-row w-[1120px] h-[92px] p-[24px]"
               >
-                <div>
-                  {data.year}년 {data.month}월
+                <Image
+                  src={"/calculate/electricity_color.svg"}
+                  alt={"electricity_color"}
+                  width={48}
+                  height={48}
+                />
+                <div className="flex flex-row justify-center items-center ml-5">
+                  <div>
+                    {data.year}년 {data.month}월 탄소 계산 결과표
+                  </div>
                 </div>
-                <div>탄소 배출량 계산 결과표</div>
+                <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
               </div>
             ))
         ) : (
