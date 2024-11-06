@@ -8,11 +8,10 @@ import CommunityNav from "../components/CommunityNav";
 
 const Page = () => {
   const [selected, setSelected] = useState<string | null>(null);
-  const [posts, setPosts] = useState<AnaPost[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   const handleSelect = (option: string) => {
     setSelected(option);
   };

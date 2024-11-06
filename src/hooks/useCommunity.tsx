@@ -129,42 +129,43 @@ export const useCommunity = () => {
         location,
         type
       });
-      openModal(
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center relative w-[585px] h-[600px]">
-          <button
-            onClick={handleCloseModal}
-            className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 border-none text-3xl"
-          >
-            &times; {/* X 아이콘 */}
-          </button>
-          <div className="p-12">
-            <h4 className="font-semibold mb-4 text-2xl">
-              게시글을 업로드 했어요
-            </h4>
-            {uploadedUrls[0] ? (
-              <Image
-                src={uploadedUrls[0]}
-                alt="등록한 이미지"
-                width={300}
-                height={260}
-                className="mb-4 max-w-full rounded"
-              />
-            ) : (
-              <div className="text-gray-500 ">등록된 이미지가 없습니다.</div>
-            )}
-            <h4 className=" py-2 px-3">위치</h4>
-            <h3>{"마이페이지 > 나의 게시글 > 아나바다 시장 "} </h3>
-            <Link
-              href="/community/anabada"
-              className="mt-4 p-2 bg-black text-white rounded "
+      openModal({
+        type: "custom",
+        content: (
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center relative w-[585px] h-[600px]">
+            <button
+              onClick={handleCloseModal}
+              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 border-none text-3xl"
             >
-              업로드한 게시글 보러가기
-            </Link>
+              &times; {/* X 아이콘 */}
+            </button>
+            <div className="p-12">
+              <h4 className="font-semibold mb-4 text-2xl">
+                게시글을 업로드 했어요
+              </h4>
+              {uploadedUrls[0] ? (
+                <Image
+                  src={uploadedUrls[0]}
+                  alt="등록한 이미지"
+                  width={300}
+                  height={260}
+                  className="mb-4 max-w-full rounded"
+                />
+              ) : (
+                <div className="text-gray-500 ">등록된 이미지가 없습니다.</div>
+              )}
+              <h4 className=" py-2 px-3">위치</h4>
+              <h3>{"마이페이지 > 나의 게시글 > 아나바다 시장 "} </h3>
+              <Link
+                href="/community/anabada"
+                className="mt-4 p-2 bg-black text-white rounded "
+              >
+                업로드한 게시글 보러가기
+              </Link>
+            </div>
           </div>
-        </div>,
-        "",
-        0
-      );
+        )
+      });
       resetForm();
     } catch (error) {
       console.log("게시글 작성 에러", error);
