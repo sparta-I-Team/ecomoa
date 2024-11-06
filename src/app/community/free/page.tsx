@@ -40,7 +40,7 @@ const Page = () => {
   }, [posts, searchTerm]);
 
   return (
-    <div>
+    <div className="bg-[#F2F9F2]">
       <label className="text-xl font-bold mb-4 mt-4">
         친환경 활동을 공유해 보세요
       </label>

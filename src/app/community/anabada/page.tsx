@@ -4,7 +4,7 @@ import Link from "next/link";
 import { communityApi } from "@/api/communityApi";
 import PostCard from "../components/PostCard";
 import { Post } from "@/types/community";
-import CommunityNav from "../components/CommunityNav";
+// import CommunityNav from "../components/CommunityNav";
 
 const Page = () => {
   const [selected, setSelected] = useState<string | null>(null);
@@ -41,7 +41,7 @@ const Page = () => {
   }, [posts, searchTerm]);
 
   return (
-    <div>
+    <div className="bg-[#F2F9F2] w-[1280px]">
       <label className="text-xl font-bold mb-4 mt-4">
         친환경 활동을 공유해 보세요
       </label>

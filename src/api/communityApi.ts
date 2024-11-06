@@ -1,5 +1,5 @@
 // communityApi.ts
-import { Post } from "@/types/community";
+import { Post, PostCreateType } from "@/types/community";
 import { createClient } from "@/utlis/supabase/client";
 
 const supabase = createClient();
@@ -13,7 +13,7 @@ export const communityApi = {
     price,
     location,
     type
-  }: Type) => {
+  }: PostCreateType) => {
     const { data, error } = await supabase.from("posts").insert([
       {
         user_id,
@@ -40,7 +40,7 @@ export const communityApi = {
       if (error) {
         throw error;
       }
-
+      console.log("데이터", data);
       return { data: data as Post[] };
     } catch (error) {
       console.error("Error fetching posts:", error);
