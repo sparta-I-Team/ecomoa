@@ -1,5 +1,5 @@
 "use client";
-import { getBookmarkAnabada, getBookmarkPosts } from "@/api/user-action";
+import { getBookmarkPosts } from "@/api/user-action";
 import Like from "@/app/community/components/Like";
 import { MyBookmark } from "@/types/userInfoType";
 import { userStore } from "@/zustand/userStore";
@@ -12,7 +12,7 @@ import { ChevronLeft } from "lucide-react";
 const MyScrap = () => {
   const { user } = userStore();
   const [selected, setSelected] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  //   const [error, setError] = useState<string | null>(null);
 
   const handleSelect = (option: string) => {
     setSelected(option);
@@ -24,17 +24,13 @@ const MyScrap = () => {
     queryFn: () => getBookmarkPosts(user.id),
     enabled: !!user.id
   });
-  console.log("내가 작성한 자유게시판 게시글", myScrap);
 
   //   아나바다 게시판에서 스크랩한 게시물 가져오기
-  const { data: anabada, isLoading: anabadaLoading } = useQuery<
-    MyBookmark[] | null
-  >({
-    queryKey: ["myAnabadaScrap", user.id],
-    queryFn: () => getBookmarkAnabada(user.id),
-    enabled: !!user.id
-  });
-  console.log("아나바다ㅔ시판내용", anabada);
+  // const { data: anabada } = useQuery<MyBookmark[] | null>({
+  //   queryKey: ["myAnabadaScrap", user.id],
+  //   queryFn: () => getBookmarkAnabada(user.id),
+  //   enabled: !!user.id
+  // });
 
   if (isLoading) {
     return (
@@ -121,7 +117,7 @@ const MyScrap = () => {
       </div>
       <div className="flex flex-col h-[620px] overflow-y-auto mb-4">
         {isLoading && <p>로딩 중...</p>}
-        {error && <p className="text-red-500">{error}</p>}
+        {/* {error && <p className="text-red-500">{error}</p>} */}
         {myScrap?.map((scrap) => (
           <article
             key={scrap.bookmark_id}

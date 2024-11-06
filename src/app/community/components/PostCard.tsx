@@ -20,7 +20,7 @@ const PostCard = ({ post, type }: Props) => {
           <div className="flex-1">
             <div className="mb-4">
               <label className="bg-[#D9D9D9]">
-                {post.user_info.user_nickname}님
+                {post.user_info?.user_nickname}님
               </label>
               <time>{new Date(post.created_at).toLocaleDateString()}</time>
             </div>
@@ -81,7 +81,7 @@ const PostCard = ({ post, type }: Props) => {
           </label>
 
           <div className="mb-4 flex">
-            <label className="mr-1">{post.user_info.user_nickname}-</label>
+            <label className="mr-1">{post.user_info?.user_nickname}-</label>
             <time className="block">
               {new Date(post.created_at).toLocaleDateString()}
             </time>

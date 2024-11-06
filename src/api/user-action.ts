@@ -1,6 +1,11 @@
 "use server";
 
-import { Bookmarks, UserInfo, UserInfoNickname } from "@/types/userInfoType";
+import {
+  Bookmarks,
+  LikePosts,
+  UserInfo,
+  UserInfoNickname
+} from "@/types/userInfoType";
 import { createClient } from "@/utlis/supabase/server";
 
 export const getUserInfo = async (userId: string): Promise<UserInfo | null> => {
@@ -64,21 +69,6 @@ export const getMyPosts = async (userId: string, type?: string) => {
   return posts || [];
 };
 
-// 내가 쓴 아나바다 글 가져오기
-// export const getMyAnabada = async (userId: string) => {
-//   const supabase = createClient();
-//   const { data: posts, error } = await supabase
-//     .from("anabada")
-//     .select("*, user_info(*), comments(*)")
-//     .eq("user_id", userId);
-
-//   if (error) {
-//     console.error("내가 쓴 아나바다 가져오기 오류", error);
-//     return null;
-//   }
-//   return posts || [];
-// };
-
 // 닉네임 중복 검사
 export const checkNicknameAvailability = async (
   newNickname: string,
@@ -100,17 +90,37 @@ export const checkNicknameAvailability = async (
 };
 
 // 좋아요 게시글 가져오기
-export const getLikePosts = async (userId: string) => {
+export const getLikePosts = async (
+  userId: string,
+  type?: string
+): Promise<LikePosts[] | []> => {
   const supabase = createClient();
-  const { data: likePosts, error } = await supabase
+  const { data: likes, error } = await supabase
     .from("likes")
     .select("*, posts(*)")
     .eq("user_id", userId);
+  // .eq("params->>type", type);
 
   if (error) {
-    console.error("좋아요 게시글 가저오기 오류", error);
-    return null;
+    console.error("북마크 post 가져오기 오류", error);
+    return [];
   }
+
+  const likePosts = await Promise.all(
+    likes?.map(async (like) => {
+      const { data } = await supabase
+        .from("user_info")
+        .select("user_nickname")
+        .eq("user_id", like?.posts.user_id)
+        .single();
+
+      return {
+        ...like,
+        writername: data?.user_nickname
+      } as LikePosts;
+    }) || []
+  );
+
   return likePosts;
 };
 

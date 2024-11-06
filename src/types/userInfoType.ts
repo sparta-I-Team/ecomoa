@@ -98,7 +98,7 @@ export interface LikePosts {
   liked_at: string;
   updated_at: string;
   posts: {
-    like: number | null;
+    like: number;
     comment: number | null;
     post_id: string;
     user_id: string;
@@ -108,5 +108,20 @@ export interface LikePosts {
     updated_at: string;
     post_content: string;
     post_category: string | null;
+    // Post 타입과 일치하도록 누락된 속성 추가
+    location?: string;
+    price?: number;
+    params?: {
+      firstTag: boolean;
+      type?: "free" | "anabada";
+    };
+    user_info?: UserInfo;
   };
+  writername: string;
 }
+
+export interface TypeProps {
+  type: "free" | "anabada";
+}
+
+export type UserNicknameOnly = Pick<UserInfo, "user_nickname">;
