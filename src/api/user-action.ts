@@ -91,8 +91,8 @@ export const checkNicknameAvailability = async (
 
 // 좋아요 게시글 가져오기
 export const getLikePosts = async (
-  userId: string,
-  type?: string
+  userId: string
+  // type?: string
 ): Promise<LikePosts[] | []> => {
   const supabase = createClient();
   const { data: likes, error } = await supabase

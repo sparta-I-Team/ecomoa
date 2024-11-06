@@ -1,5 +1,4 @@
 import DeleteAccountButton from "../(auth)/login/components/DeleteAccountButton";
-import LogoutButton from "../(auth)/login/components/LogoutButton";
 import { getUser } from "@/api/auth-actions";
 import UserInfoCard from "./components/UserInfoCard";
 import MyPoint from "./components/MyPoint";
@@ -65,9 +64,7 @@ const Mypage = async () => {
           <ChevronRight />
         </div>
 
-        <div className="mb-[154px]">
-          <LogoutButton />
-        </div>
+        <div className="mb-[154px]">{/* <LogoutButton /> */}</div>
       </div>
     </div>
   );

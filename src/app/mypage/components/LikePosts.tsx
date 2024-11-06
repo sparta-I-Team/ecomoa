@@ -22,7 +22,7 @@ const Myposts = ({ type }: TypeProps) => {
   // 좋아요 게시글
   const { data: likePosts, isLoading } = useQuery<LikePosts[] | null>({
     queryKey: ["likePosts", user.id],
-    queryFn: () => getLikePosts(user.id, type),
+    queryFn: () => getLikePosts(user.id),
     enabled: !!user.id
   });
 
