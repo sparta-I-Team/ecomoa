@@ -34,7 +34,7 @@ const PostForm = ({ type = "free" }: Props) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="mb-4 p-2 border border-gray-300 rounded"
+            className="mb-4 p-2 border border-gray-300 rounded-[12px]"
           />
           <h4 className="font-semibold mb-4">내용</h4>
           <textarea
@@ -42,7 +42,7 @@ const PostForm = ({ type = "free" }: Props) => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
-            className="mb-4 p-2 border border-gray-300 rounded resize-none"
+            className="mb-4 p-2 border border-gray-300  rounded-[12px] resize-none"
           />
           <h4 className="font-semibold mb-4">사진(최대 3개 선택)</h4>
           <input
@@ -73,14 +73,14 @@ const PostForm = ({ type = "free" }: Props) => {
                     className="object-cover rounded"
                   />
                 ) : (
-                  <span className="text-gray-500">이미지 선택</span>
+                  <span className="text-gray-500">+</span>
                 )}
               </div>
             ))}
           </div>
           <button
             type="submit"
-            className="p-2 rounded w-[380px] h-[52px] bg-black text-white"
+            className="p-2 rounded-[40px] w-[380px] h-[52px] bg-[#DCECDC] text-[#6E7481] "
           >
             게시글 등록
           </button>
@@ -94,7 +94,7 @@ const PostForm = ({ type = "free" }: Props) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="mb-4 p-2 border border-gray-300 rounded"
+            className="mb-4 p-2 border border-gray-300 rounded-[12px]"
           />
           <h4 className="font-semibold mb-4">가격</h4>
           <input
@@ -103,7 +103,7 @@ const PostForm = ({ type = "free" }: Props) => {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             required
-            className="mb-4 p-2 border border-gray-300 rounded"
+            className="mb-4 p-2 border border-gray-300 rounded-[12px]"
           />
           <h4 className="font-semibold mb-4">상품 정보</h4>
           <textarea
@@ -111,7 +111,7 @@ const PostForm = ({ type = "free" }: Props) => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
-            className="mb-4 p-2 border border-gray-300 rounded resize-none"
+            className="mb-4 p-2 border border-gray-300 rounded-[12px] resize-none"
           />
           <h4 className="font-semibold mb-4">사진</h4>
           <input
@@ -131,7 +131,7 @@ const PostForm = ({ type = "free" }: Props) => {
               <div
                 key={index}
                 onClick={() => handleImageClick(index)}
-                className="w-[160px] h-[160px] bg-[#EDEEF0] flex items-center justify-center border border-gray-300 rounded cursor-pointer"
+                className="w-[160px] h-[160px] bg-[#EDEEF0] flex items-center justify-center border border-gray-300 rounded-[12px] cursor-pointer"
               >
                 {imagePreviews[index] ? (
                   <Image
@@ -142,7 +142,7 @@ const PostForm = ({ type = "free" }: Props) => {
                     className="object-cover rounded"
                   />
                 ) : (
-                  <span className="text-gray-500">이미지 선택</span>
+                  <span className="text-gray-500">+</span>
                 )}
               </div>
             ))}
@@ -153,11 +153,11 @@ const PostForm = ({ type = "free" }: Props) => {
             placeholder=" oo동"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="w-[832px] h-[66px] mb-4"
+            className="w-[832px] h-[66px] mb-4 rounded-[12px]"
           />
           <button
             type="submit"
-            className="p-2 rounded w-[380px] h-[52px] bg-black text-white"
+            className="p-2 text-[#6E7481] w-[380px] h-[52px] bg-[#DCECDC] rounded-[40px]"
           >
             게시글 등록
           </button>
