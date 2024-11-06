@@ -3,6 +3,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
+import Like from "../components/Like";
+import { AnaPost } from "@/types/Post";
 
 // Supabase 클라이언트 초기화
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -14,22 +16,9 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// Post 타입 정의
-interface Post {
-  user_info: { user_nickname: string };
-  post_id: string;
-  post_title: string;
-  post_content: string;
-  created_at: string;
-  like: number;
-  comment: number;
-  post_img?: string[]; // 이미지 배열
-  price: string; // 가격 추가
-}
-
 const Page = () => {
   const [selected, setSelected] = useState<string | null>(null);
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<AnaPost[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,9 +32,9 @@ const Page = () => {
       setLoading(true);
       setError(null);
       const { data, error } = await supabase
-        .from("anabada")
-        .select("*, user_info(user_nickname), post_img, price"); // price 필드 추가
-
+        .from("posts")
+        .select("*, user_info(user_nickname), post_img, price") 
+        .eq("params->type", '"anabada"');
       if (error) {
         console.error("Error fetching posts:", error);
         setError("게시글을 불러오는 데 실패했습니다.");
@@ -183,7 +172,7 @@ const Page = () => {
                 </div>
                 <div className="flex justify-between items-center mt-auto">
                   <div className="flex space-x-4">
-                    <label>♡ {post.like || 0}</label>
+                    <Like postId={post.post_id} />
                     <label>댓글 {post.comment || 0}</label>
                   </div>
                 </div>

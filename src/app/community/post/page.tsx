@@ -3,11 +3,11 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/utlis/supabase/client";
-import { useModalStore } from "@/zustand/modalStore";
 import { userStore } from "@/zustand/userStore";
 import { getUserInfo } from "@/api/user-action";
 import { UserInfo } from "@/types/userInfoType";
 import { Modal } from "@/components/shared/Modal";
+import { communityApi } from "@/api/communityApi";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -20,7 +20,6 @@ const supabase = createClient();
 
 const PostPage = () => {
   const [userinfo, setUserinfo] = useState<UserInfo | null>(null);
-  const [userNickname, setUserNickname] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState<File[]>([]);
@@ -28,11 +27,8 @@ const PostPage = () => {
     Array(3).fill("")
   );
   const [errorMessage, setErrorMessage] = useState("");
-  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
   // const [isModalVisible, setIsModalVisible] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const { openModal, closeModal } = useModalStore();
 
   const { user } = userStore();
 
@@ -98,7 +94,6 @@ const PostPage = () => {
     setContent("");
     setImages(Array(3).fill(null));
     setImagePreviews(Array(3).fill(""));
-    setUploadedImageUrls([]);
     setErrorMessage("");
   };
 
@@ -140,62 +135,18 @@ const PostPage = () => {
       .map((url) => `"${url}"`)
       .join(",")}}`;
 
-    const { error } = await supabase.from("posts").insert([
-      {
+    try {
+      await communityApi.create({
         user_id: userinfo.user_id,
-        post_title: title,
-        post_content: content,
-        created_at: new Date().toISOString(),
-        post_img: formattedUrls
-      }
-    ]);
+        title,
+        content,
+        formattedUrls
+      });
 
-    openModal(
-      <div>
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center relative w-[585px] h-[600px]">
-          <button
-            onClick={closeModal}
-            className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 border-none text-3xl"
-          >
-            &times; {/* X 아이콘 */}
-          </button>
-          <div className="p-12">
-            <h4 className="font-semibold mb-4 text-2xl">
-              게시글을 업로드 했어요
-            </h4>
-            {uploadedImageUrls[0] ? (
-              <Image
-                src={uploadedImageUrls[0]}
-                alt="등록한 이미지"
-                width={300}
-                height={260}
-                className="mb-4 max-w-full rounded"
-              />
-            ) : (
-              <div className="text-gray-500 ">등록된 이미지가 없습니다.</div>
-            )}
-            <h4 className=" py-2 px-3">위치</h4>
-            <h3>{"마이페이지 > 나의 게시글 > 자유게시판 "} </h3>
-            <Link
-              href="/community"
-              className="mt-4 p-2 bg-black text-white rounded "
-            >
-              업로드한 게시글 보러가기
-            </Link>
-          </div>
-        </div>
-      </div>,
-      "",
-      0
-    );
-
-    if (error) {
-      console.error("게시글 생성 오류:", error.message);
-      setErrorMessage("게시글 등록에 실패했습니다.");
-    } else {
       resetForm();
-      // setIsModalVisible(true);
-      setUploadedImageUrls(uploadedUrls);
+    } catch (error) {
+      console.error("게시글 생성 오류:", error);
+      setErrorMessage("게시글 등록에 실패했습니다.");
     }
   };
 
@@ -210,12 +161,6 @@ const PostPage = () => {
         <h3 className="text-lg font-bold mb-4">{"< 자유게시판 홈 "} </h3>
       </Link>
       <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD]"></div>
-      {userNickname && (
-        <div className="flex items-center mb-4">
-          <span className="font-semibold">{userNickname}님</span>
-          <time className="ml-4">{new Date().toLocaleDateString("ko-KR")}</time>
-        </div>
-      )}
       {errorMessage && <div className="text-red-600 mb-4">{errorMessage}</div>}
       <form onSubmit={handleSubmit} className="flex flex-col">
         <h4 className="font-semibold mb-4">제목</h4>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import Like from "../components/Like";
+import { Post } from "@/types/Post";
 
 // Supabase 클라이언트 초기화
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -14,18 +15,6 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-// Post 타입 정의
-interface Post {
-  user_info: { user_nickname: string };
-  post_id: string;
-  post_title: string;
-  post_content: string;
-  created_at: string;
-  like: number;
-  comment: number;
-  post_img?: string[]; // 배열로 수정
-}
 
 const Page = () => {
   const [selected, setSelected] = useState<string | null>(null);
@@ -44,8 +33,8 @@ const Page = () => {
       setError(null);
       const { data, error } = await supabase
         .from("posts")
-        .select("*, user_info(user_nickname), post_img");
-
+        .select("*, user_info(user_nickname), post_img")
+        .eq("params->type", '"free"');
       if (error) {
         console.error("Error fetching posts:", error);
         setError("게시글을 불러오는 데 실패했습니다.");
@@ -58,6 +47,8 @@ const Page = () => {
     fetchPosts();
   }, []);
 
+
+  // 검색하는 함수
   const filteredPosts = useMemo(() => {
     return posts.filter((post) =>
       post.post_title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -87,6 +78,7 @@ const Page = () => {
             </button>
           </Link>
         </div>
+        {/* 검색하는 인풋창 */}
         <input
           type="text"
           placeholder="키워드를 검색해 보세요"

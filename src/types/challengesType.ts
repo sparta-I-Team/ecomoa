@@ -19,6 +19,10 @@ export interface ChallengeOption {
   label: string;
 }
 
+export interface ChallengeOptionParent extends ChallengeOption {
+  image: string;
+  label2: string;
+}
 //API
 
 export interface InsertChallengeParams {
@@ -63,6 +67,7 @@ export interface LevelInfo {
   pointsToNextLevel: number;
   image: string;
   bg: string;
+  exp: string;
 }
 
 //이미지

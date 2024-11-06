@@ -96,30 +96,31 @@ export const useNickname = () => {
       closeModal();
 
       // 성공 모달은 여기서 열기
-      openModal(
-        <div className="w-[800px] h-[500px] rounded-[20px] flex flex-col justify-center items-center m-auto bg-white">
-          <div className="text-center w-[540px] h-[71px] text-[28px] font-wanted font-[600] leading-[48px] tracking-tight mb-[24px]">
-            <p>
-              <span className="text-[#5BCA11]">{data.nickname}</span> 님의
-              모아가 생성되었습니다.
-              <br />
-              포인트를 모아 다음 레벨로 성장시켜주세요!
+      openModal({
+        type: "custom",
+        content: (
+          <div className="w-[800px] h-[500px] rounded-[20px] flex flex-col justify-center items-center m-auto bg-white">
+            <div className="text-center w-[540px] h-[71px] text-[28px] font-wanted font-[600] leading-[48px] tracking-tight mb-[24px]">
+              <p>
+                <span className="text-[#5BCA11]">{data.nickname}</span> 님의
+                모아가 생성되었습니다.
+                <br />
+                포인트를 모아 다음 레벨로 성장시켜주세요!
+              </p>
+            </div>
+            <p className="text-[#6E7481] text-center font-wanted text-[14px] font-[600] leading-[21px] mt-[24px]">
+              데일리 챌린지를 하고 인증 글을 올리면 포인트를 Get
             </p>
+            <Image src={"/seed.png"} width={150} height={150} alt="seed" />
+            <button
+              onClick={onClickChallenge}
+              className="w-[380px] h-[52px] p-[11px_32px] rounded-[85px] text-[18px] bg-[#91F051] border-none mt-4"
+            >
+              데일리 챌린지 하러 가기
+            </button>
           </div>
-          <p className="text-[#6E7481] text-center font-wanted text-[14px] font-[600] leading-[21px] mt-[24px]">
-            데일리 챌린지를 하고 인증 글을 올리면 포인트를 Get
-          </p>
-          <Image src={"/seed.png"} width={150} height={150} alt="seed" />
-          <button
-            onClick={onClickChallenge}
-            className="w-[380px] h-[52px] p-[11px_32px] rounded-[85px] text-[18px] bg-[#91F051] border-none mt-4"
-          >
-            데일리 챌린지 하러 가기
-          </button>
-        </div>,
-        "",
-        0
-      );
+        )
+      });
     } catch (error) {
       console.error("닉네임 설정 오류:", error);
     }
