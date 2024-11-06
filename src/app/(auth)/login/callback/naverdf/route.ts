@@ -81,7 +81,9 @@ export async function GET(req: Request) {
   }
 
   // 로그인 성공 시 대시보드로 리다이렉트
-  return NextResponse.redirect(new URL("/", req.url));
+  return NextResponse.redirect(
+    new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/login/callback/naver`, req.url)
+  );
 }
 
 // Naver API에서 액세스 토큰을 얻는 함수
@@ -95,8 +97,8 @@ async function getNaverAccessToken(code: string) {
       grant_type: "authorization_code",
       client_id: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID!,
       client_secret: process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET!,
-      code: code,
-      redirect_uri: `${process.env.NEXT_PUBLIC_BASE_URL}/login/callback/naver`
+      code: code
+      // redirect_url: `${process.env.NEXT_PUBLIC_BASE_URL}/login/callback/naver`
     }).toString()
   });
 

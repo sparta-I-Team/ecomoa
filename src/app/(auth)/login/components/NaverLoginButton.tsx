@@ -5,7 +5,7 @@ import React from "react";
 const NaverLoginButton = () => {
   const handleNaverLogin = () => {
     const redirectUri = encodeURIComponent(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/login/callback/naver`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/login/callback/naverdf`
     );
     const naverClientId = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
     const state = "your_state_value"; // CSRF 공격 방지용 상태값
