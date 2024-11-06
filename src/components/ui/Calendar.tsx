@@ -115,6 +115,7 @@ const Calendar = () => {
 
   useEffect(() => {
     fetchMonthlyData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id, currentMonth]);
 
   if (error) {

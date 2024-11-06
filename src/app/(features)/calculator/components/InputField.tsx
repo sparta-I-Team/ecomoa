@@ -37,7 +37,8 @@ const InputField: React.FC<InputFieldProps> = ({
       <div className="h-[30px]">
         {errors[id] && (
           <small className="text-red-500">
-            {errors[id] && <small role="alert">{errors[id].message}</small>}
+            {/* 41번행 수정했어욥  */}
+            {errors[id] && <small role="alert">{errors[id]?.message}</small>}
           </small>
         )}
       </div>

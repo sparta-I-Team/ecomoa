@@ -43,6 +43,7 @@ export const useCommunity = () => {
       console.log(userInfo);
     };
     fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const handleImageChange = (
