@@ -129,14 +129,27 @@ const UserInfoCard = ({ user }: ProfileProps) => {
                     placeholder="닉네임을 입력하세요"
                     defaultValue={initialNickname}
                     onChange={handleChange}
+                    className="border-t-0 border-l-0 border-r-0 border-b-2 border-b-gray-200 outline-none"
                   />
-                  <button type="submit">저장</button>
-                  <button type="button" onClick={handleCancel}>
+                  <button
+                    type="submit"
+                    className="bg-[#00320F] text-[#FFF] p-2 border-none ml-1"
+                  >
+                    저장
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCancel}
+                    className="bg-[#00320F] text-[#FFF] p-2 border-none"
+                  >
                     취소
                   </button>
                 </div>
                 {errors.nickname && (
-                  <span role="alert" className="text-red-600">
+                  <span
+                    role="alert"
+                    className="text-red-600 text-[13px] mr-auto mt-1"
+                  >
                     {errors.nickname.message}
                   </span>
                 )}
