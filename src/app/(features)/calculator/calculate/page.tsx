@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useState } from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import InputField from "../components/InputField";
 import { FormData } from "@/types/calculate";
@@ -140,7 +140,7 @@ const Page = () => {
 
   return (
     <>
-      <Suspense fallback={<div>로딩 중...</div>}>
+      <div className="w-[1200px] mx-auto">
         <div className="mt-[76px] mb-[120px]">
           <Link href="/calculator">
             <p className="text-[16px]"> &lt; 탄소 계산기 홈</p>
@@ -221,7 +221,7 @@ const Page = () => {
             </button>
           </div>
         </form>
-      </Suspense>
+      </div>
     </>
   );
 };

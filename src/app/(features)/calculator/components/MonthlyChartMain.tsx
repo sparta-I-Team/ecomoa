@@ -97,7 +97,7 @@ const MonthlyChartMain: React.FC<MonthlyChartMainProps> = ({
 
   return (
     <div className="flex justify-center items-center w-full h-full">
-      <Bar data={data} options={options} plugins={[ChartDataLabels]} />;
+      <Bar data={data} options={options} plugins={[ChartDataLabels]} />
     </div>
   );
 };
