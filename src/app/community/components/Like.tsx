@@ -8,7 +8,7 @@ const Like = ({ postId }: Props) => {
   const { isLiked, handleToggleLike } = useLike(postId);
 
   return (
-    <button onClick={() => handleToggleLike()}>{isLiked ? "❤️" : "♡"}</button>
+    <button className="border-none font-bold text-[20px]" onClick={() => handleToggleLike()}>{isLiked ? "❤️" : "♡"}</button>
   );
 };
 

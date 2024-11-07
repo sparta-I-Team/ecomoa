@@ -40,7 +40,7 @@ const StatsSection = ({
               </p>
             </div>
           ) : (
-            <div className="flex flex-col gap-[20px] text-[40px] font-bold">
+            <div className="flex flex-col gap-[40px] text-[40px] font-bold">
               <p>오늘의 데일리 챌린지에</p>
               <p>참여해보세요!</p>
             </div>
