@@ -19,7 +19,7 @@ const MyPoint = async ({ user }: MyPointProps) => {
           {userInfo?.user_point}P
         </p>
       </div>
-      <div className="flex justify-center gap-3 mt-[15px]">
+      <div className="flex justify-center gap-3 mt-[60px]">
         <button className="flex flex-col justify-center items-center text-[#FFFFFF] font-wanted text-[18px] font-[500] leading-[0-18px] border-none w-[255px] h-[60px] p-[24px_16px] bg-[#00320F] rounded-[40px]">
           포인트 적립, 사용내역
         </button>

@@ -19,7 +19,7 @@ export const Challenge = () => {
       {step === 1 ? (
         <div className="flex flex-col gap-[200px]">
           <div className="h-full">
-            <div className="max-w-[1200px] mx-auto py-[52px]">
+            <div className="max-w-[1200px] mx-auto">
               <ChallengeHeader />
               <ChallengeSelection />
             </div>
