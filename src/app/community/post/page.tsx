@@ -10,7 +10,7 @@ const PostPage = () => {
   const { userInfo, errorMessage } = useCommunity();
 
   return (
-    <main>
+    <main className="w-[1200px] mx-auto">
       <Link href="/community">
         <h3 className="text-lg font-bold mb-4">{"< 자유게시판 홈 "} </h3>
       </Link>

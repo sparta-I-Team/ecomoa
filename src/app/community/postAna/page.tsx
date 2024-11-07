@@ -10,7 +10,7 @@ const PostFree = () => {
   const { userInfo, errorMessage } = useCommunity();
 
   return (
-    <div>
+    <div className="w-[1200px] mx-auto">
       <Link href="/community/anabada">
         <h3 className="text-lg font-bold mb-4">{"< 아나바다 시장 홈 "} </h3>
       </Link>

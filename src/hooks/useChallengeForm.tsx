@@ -234,7 +234,7 @@ export const useChallengeForm = () => {
       openModal({
         type: "custom",
         content: successModalContent,
-        autoClose: 2000
+        autoClose: 5000
       });
 
       setStep(1);

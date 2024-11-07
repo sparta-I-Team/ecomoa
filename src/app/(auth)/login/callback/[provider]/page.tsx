@@ -152,9 +152,9 @@ const AuthCallback = () => {
   return (
     <div>
       {/* 스켈레톤 UI (로딩처리) */}
-      <div>
+      <div className="w-[1200px] mx-auto mt-[50px] ">
         <section className="mb-[280px] h-[533px] mx-auto flex justify-center">
-          <div className="w-[1800px] bg-gray-200 animate-pulse rounded-lg" />
+          <div className="w-[1800px] bg-gray-200 animate-pulse rounded-3xl" />
         </section>
         <section className="flex flex-col items-center justify-center gap-[80px] mb-[280px]">
           <div className="w-[327px] h-[63.33px] bg-gray-200 animate-pulse rounded-md" />
