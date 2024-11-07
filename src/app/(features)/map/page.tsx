@@ -2,13 +2,13 @@
 import { Modal } from "@/components/shared/Modal";
 import { useModalStore } from "@/zustand/modalStore";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const { openModal, closeModal } = useModalStore();
 
-  useEffect(() => {
+  const handleRedirect = useCallback(() => {
     openModal({
       type: "alert",
       content: <>추후 업데이트 예정입니다</>,
@@ -20,9 +20,13 @@ const page = () => {
     }, 800);
 
     return () => clearTimeout(timer);
-  }, [router]);
+  }, [router, openModal, closeModal]);
+
+  useEffect(() => {
+    handleRedirect();
+  }, [handleRedirect]);
 
   return <Modal></Modal>;
 };
 
-export default page;
+export default Page;
