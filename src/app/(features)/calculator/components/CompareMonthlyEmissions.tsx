@@ -23,7 +23,6 @@ const CompareMonthlyEmissions = () => {
         5
       );
       setEmissionsData(data);
-      console.log(data);
     };
 
     const fetchMyData = async () => {
@@ -33,7 +32,6 @@ const CompareMonthlyEmissions = () => {
         5
       );
       setCurrentData(data);
-      console.log(data);
     };
     fetchData();
     fetchMyData();

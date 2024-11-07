@@ -21,7 +21,6 @@ export const challengesApi = {
         .limit(1)
         .single();
 
-      console.log(latestChallenge);
       if (fetchError && fetchError.code !== "PGRST116") {
         throw fetchError;
       }
@@ -32,12 +31,6 @@ export const challengesApi = {
           .format("YYYY-MM-DD");
 
         const todayDate = dayjs().tz("Asia/Seoul").format("YYYY-MM-DD");
-
-        console.log("Date check:", {
-          lastChallengeDate,
-          todayDate,
-          isSameDay: lastChallengeDate === todayDate
-        });
 
         if (lastChallengeDate === todayDate) {
           throw new Error(

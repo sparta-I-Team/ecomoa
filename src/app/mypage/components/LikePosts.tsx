@@ -9,6 +9,8 @@ import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { FreePostSkeleton } from "./FreePostSkeleton";
+import { AnabadaPostSkeleton } from "./AnabadaPostSkeleton";
 
 const Myposts = ({ type }: TypeProps) => {
   const { user } = userStore();
@@ -21,11 +23,11 @@ const Myposts = ({ type }: TypeProps) => {
 
   // 좋아요 게시글
   const { data: likePosts, isLoading } = useQuery<LikePosts[] | null>({
-    queryKey: ["likePosts", user.id],
+    queryKey: ["likePosts", user.id], // 통신 주소
     queryFn: () => getLikePosts(user.id),
     enabled: !!user.id
-  });
-
+  }); 
+ 
   const freePosts: LikePosts[] | undefined = likePosts?.filter(
     (post) => post.posts.params?.type === "free"
   );
@@ -35,16 +37,69 @@ const Myposts = ({ type }: TypeProps) => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center">
-        <p>Loading...</p>
+      <div className="flex flex-col w-[1200px]">
+        {/* 헤더 부분 스켈레톤 */}
+        <Link href={"/mypage"} className="border-b-slate-500 w-[1200]">
+          <div className="flex items-center mb-[20px] pt-[64.5px] border-b-2 border-#D5D7DD pb-2">
+            <ChevronLeft />
+            <p className="font-wanted text-[16px] font-[600]">마이페이지</p>
+          </div>
+        </Link>
+        {/* 네비게이션 바 */}
+        <div className="mb-[48px]">
+          <p className="text-[32px] font-[700] leading-[44.8px] tracking-[-0.2px]">
+            나의 좋아요
+          </p>
+          <p className="text-[#00691E] font-wanted text-[20px] font-[500] leading-[30px] tracking-[-0.2px]">
+            내가 좋아요한 게시글을 확인해보세요
+          </p>
+        </div>
+        <div className="flex mb-4">
+          {type === "free" ? (
+            <>
+              <Link href="/mypage/like/free" passHref>
+                <button className="w-[600px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-semibold flex items-center justify-center">
+                  자유 게시판
+                </button>
+              </Link>
+              <Link href="/mypage/like/anabada" passHref>
+                <button className="w-[600px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
+                  아나바다 시장
+                </button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/mypage/like/free" passHref>
+                <button className="w-[600px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
+                  자유 게시판
+                </button>
+              </Link>
+
+              <Link href="/mypage/like/anabada" passHref>
+                <button
+                  className="w-[600px] h-12 border-b-2 border-black border-t-0 border-l-0
+              border-r-0 font-semibold flex items-center justify-center"
+                >
+                  아나바다 시장
+                </button>
+              </Link>
+            </>
+          )}
+        </div>
+        {/* 게시글 리스트 스켈레톤 */}
+        <div className="flex flex-wrap h-[620px] overflow-y-auto mt-[30px] mb-4 gap-5">
+          {type === "anabada"
+            ? Array(8)
+                .fill(null)
+                .map((_, i) => <AnabadaPostSkeleton key={i} />)
+            : Array(4)
+                .fill(null)
+                .map((_, i) => <FreePostSkeleton key={i} />)}
+        </div>
       </div>
     );
   }
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div>
       <div className="flex flex-col w-[1200px]">

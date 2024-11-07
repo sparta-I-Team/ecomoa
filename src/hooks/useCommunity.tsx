@@ -39,8 +39,6 @@ export const useCommunity = () => {
     const fetch = async () => {
       const res = await getUserInfo(user.id);
       setUserInfo(res);
-
-      console.log(userInfo);
     };
     fetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -169,7 +167,7 @@ export const useCommunity = () => {
       });
       resetForm();
     } catch (error) {
-      console.log("게시글 작성 에러", error);
+      console.error("게시글 작성 에러", error);
     }
   };
 

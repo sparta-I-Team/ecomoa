@@ -356,7 +356,6 @@ export const loadMyRecentFiveMonthsEmissions = async (
     }
 
     const user_id = fetchedUser.id;
-    console.log(user_id);
 
     let startMonth = thisMonth - monthsToFetch + 1;
     let startYear = thisYear;

@@ -48,19 +48,11 @@ const Calendar = () => {
         .endOf("day")
         .format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
-      console.log("Date range:", {
-        startOfMonth,
-        endOfMonth,
-        userId: user.id
-      });
-
       const challengeData = await calendarApi.getByDateRange(
         startOfMonth,
         endOfMonth,
         user.id
       );
-
-      console.log("Received challenge data:", challengeData);
 
       const dataByDate: MonthlyData = {};
       challengeData.forEach((item) => {
@@ -94,11 +86,6 @@ const Calendar = () => {
         totalChallenges: challengeData.length
       };
 
-      console.log("Processed data:", {
-        dataByDate,
-        stats
-      });
-
       setMonthlyData(dataByDate);
       setMonthlyStats(stats);
     } catch (error) {
@@ -128,7 +115,7 @@ const Calendar = () => {
 
   return (
     <div className="mb-[100px]">
-      <div className="flex flex-col gap-[30px] mt-[116px]">
+      <div className="flex flex-col gap-[30px]">
         <p className="text-[20px] text-[#00691E]">
           연속 챌린지 참가에 도전해보세요!
         </p>

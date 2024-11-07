@@ -10,7 +10,7 @@ const LoginPage = () => {
       {/* <LoginForm /> */}
       <div className="flex flex-col items-center">
         <Image
-          src={"/logo.png"}
+          src={"/images/logo.png"}
           width={180}
           height={30}
           alt="ecomoa 로고"

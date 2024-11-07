@@ -33,7 +33,6 @@ const Page = () => {
           setPost(data[0]);
         } else {
           setErrorMessage("게시글이 없습니다.");
-          console.log("게시글이 없습니다.");
         }
       } catch (error) {
         setErrorMessage("게시글을 불러오는 데 오류가 발생했습니다.");

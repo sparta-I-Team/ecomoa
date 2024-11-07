@@ -2,8 +2,25 @@ import { useChallengeList, useUserChallengeList } from "@/hooks/useChallenge";
 import { calculateLevelInfo } from "@/utlis/challenge/levelCalculator";
 import { useEffect, useState } from "react";
 import { LevelInfo } from "@/types/challengesType";
+import { useQuery } from "@tanstack/react-query";
+import { getUserInfo } from "@/api/user-action";
+import { UserInfo } from "@/types/userInfoType";
 
 export const useChallengeDashboard = (userId: string) => {
+  const {
+    data: userInfo,
+    isLoading: isUserInfoLoading,
+    error: userInfoError
+  } = useQuery<UserInfo | null>({
+    queryKey: ["userInfo", userId],
+    queryFn: () => getUserInfo(userId),
+    enabled: !!userId, // userId가 있을 때만 실행
+    retry: 3,
+    staleTime: 1000 * 60 * 5,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true
+  });
+
   // 기존 데이터 페칭
   const {
     data: challengesData,
@@ -18,10 +35,15 @@ export const useChallengeDashboard = (userId: string) => {
   const [levelInfo, setLevelInfo] = useState<LevelInfo | null>(null);
 
   // 전체 로딩 상태 계산
-  const isLoading = isUserChallengeLoading || isChallengeListLoading || !userId;
+  const isLoading =
+    isUserChallengeLoading ||
+    isChallengeListLoading ||
+    isUserInfoLoading ||
+    !userId;
 
   // 오늘의 챌린지 계산
   // -> 오늘의 챌린지를 처음부터 api로 요청
+
   const today = new Date()
     .toLocaleDateString("ko-KR", {
       timeZone: "Asia/Seoul",
@@ -48,11 +70,7 @@ export const useChallengeDashboard = (userId: string) => {
       return;
     }
 
-    const totalPoints = challengesData.reduce(
-      (sum, challenge) => sum + challenge.point,
-      0
-    );
-    const calculatedLevelInfo = calculateLevelInfo(totalPoints);
+    const calculatedLevelInfo = calculateLevelInfo(userInfo?.user_point ?? 0);
     setLevelInfo(calculatedLevelInfo);
   }, [challengesData, isLoading]);
 
@@ -77,6 +95,8 @@ export const useChallengeDashboard = (userId: string) => {
     error,
     todayChallenge,
     levelInfo,
-    co2Difference
+    co2Difference,
+    userInfoError,
+    userInfo
   };
 };

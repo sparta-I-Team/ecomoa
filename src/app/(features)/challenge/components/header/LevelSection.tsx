@@ -14,7 +14,7 @@ const LevelSection = ({ levelInfo, isLoading }: LevelSectionProps) => {
 
   return (
     <section className="flex flex-col gap-4">
-      <div className="flex flex-col w-[585px] h-[319px] justify-end">
+      <div className="flex flex-col w-[585px] h-[319px] justify-end mt-[51px]">
         <figure
           className="relative flex h-[228px] w-full border rounded-3xl"
           style={{ backgroundColor: levelInfo.bg }}

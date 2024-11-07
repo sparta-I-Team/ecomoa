@@ -21,7 +21,6 @@ const Page = () => {
 
   const router = useRouter();
   const { user } = userStore();
-  console.log(user.id);
 
   const {
     register,
@@ -130,13 +129,10 @@ const Page = () => {
 
   const handleYearChange = (year: number) => {
     setThisYear(year);
-    console.log("Selected Year:", year);
   };
   const handleMonthChange = (month: number) => {
     setThisMonth(month);
-    console.log("Selected Month:", month);
   };
-  console.log(thisYear);
 
   return (
     <>
