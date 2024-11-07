@@ -54,7 +54,8 @@ const Main = () => {
               </div>
               <div className="w-[208px] h-[56px] px-8 bg-[#0d9c36] rounded-[85px]">
                 <Link href="/calculator/result-history-main">
-                  <div className="flex flex-col h-full text-[white] text-[20px] font-semibold justify-center items-center">
+                  {/* whitespace-nowrap 속성 추가했음 */}
+                  <div className="flex flex-col h-full text-[white] text-[20px] font-semibold justify-center items-center whitespace-nowrap">
                     히스토리 확인하기
                   </div>
                 </Link>

@@ -68,7 +68,7 @@ const YearMonthPicker: React.FC<YearSelectProps> = ({
                 onClick={() => handleYearClick(2020 + i)}
                 className={`dropdown-item ${
                   selectedYear === 2020 + i ? "selected" : ""
-                }`}
+                } whitespace-nowrap`}
               >
                 {2020 + i}년
               </div>
@@ -83,7 +83,7 @@ const YearMonthPicker: React.FC<YearSelectProps> = ({
                 onClick={() => handleMonthClick(i + 1)}
                 className={`dropdown-item ${
                   selectedMonth === i + 1 ? "selected" : ""
-                }`}
+                } whitespace-nowrap`}
               >
                 {String(i + 1).padStart(2, "0")}월
               </div>

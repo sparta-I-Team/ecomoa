@@ -1,14 +1,14 @@
 "use client";
+import { signout } from "@/api/auth-actions";
 import { createClient } from "@/utlis/supabase/client";
 import { userStore } from "@/zustand/userStore";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 
 const Header = () => {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(true);
-  const { loginUser } = userStore();
+  const { loginUser, user, logoutUser } = userStore();
   const pathname = usePathname();
 
   const navItems = [
@@ -18,8 +18,10 @@ const Header = () => {
     { href: "/community", label: "커뮤니티" }
   ];
 
-  const handleLogout = () => {
-    setIsUserLoggedIn(!isUserLoggedIn);
+  const handleLogout = async () => {
+    await signout();
+    logoutUser();
+    alert("로그아웃 되었습니다.");
   };
 
   const supabase = createClient();
@@ -73,18 +75,12 @@ const Header = () => {
           </div>
         </ul>
         <ul className="flex flex-row justify-center items-center space-x-4">
-          {isUserLoggedIn ? (
+          {!user.isAuthenticated ? (
             <>
               <li>
                 <Link href="/login" className="hover:text-gray-600">
                   로그인
                 </Link>
-                <button
-                  className="border-none hover:text-gray-600"
-                  onClick={handleLogout}
-                >
-                  테스트
-                </button>
               </li>
               <li>
                 <Link href="/signup" className="hover:text-gray-600">

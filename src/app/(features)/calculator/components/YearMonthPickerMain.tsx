@@ -62,7 +62,8 @@ const YearMonthPickerMain: React.FC<YearSelectProps> = ({
           onClick={toggleYearDropdown}
           className="w-[124px] h-[38px] bg-[#00320f] rounded-[12px] justify-start items-center gap-2.5 inline-flex text-white p-[12px]"
         >
-          <div className="text-[20px] font-medium ">
+          {/* whitespace-nowrap 속성 추가 */}
+          <div className="text-[20px] font-medium whitespace-nowrap">
             {selectedYear && selectedMonth
               ? `${selectedYear}년`
               : `${selectedYear}년`}
@@ -101,7 +102,8 @@ const YearMonthPickerMain: React.FC<YearSelectProps> = ({
           onClick={toggleMonthDropdown}
           className="w-[100px] h-[38px] bg-[#00320f] rounded-[12px] justify-start items-center gap-2.5 inline-flex text-white p-[12px]"
         >
-          <div className="text-[20px] font-medium ">
+          <div className="text-[20px] font-medium whitespace-nowrap">
+            {/* whitespace-nowrap 속성 추가 */}
             {selectedMonth
               ? `${String(selectedMonth).padStart(2, "0")}월`
               : "월 선택"}

@@ -44,7 +44,6 @@ export async function GET(req: Request) {
   }
 
   if (existingUser) {
-    console.log(existingUser);
 
     // 사용자가 이미 존재하는 경우 로그인
     const { error: loginError } = await supabase.auth.signInWithPassword({

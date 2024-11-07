@@ -98,7 +98,9 @@ export const getLikePosts = async (
   const { data: likes, error } = await supabase
     .from("likes")
     .select("*, posts(*)")
+    .eq("status", true)
     .eq("user_id", userId);
+
   // .eq("params->>type", type);
 
   if (error) {
@@ -224,7 +226,6 @@ export const updateAvatarUrl = async (userId: string, newAvatarUrl: string) => {
     console.error("프로필 업데이트 오류", error);
     return null;
   }
-  console.log("프로필 업데이트 성공");
   return data;
 };
 

@@ -20,6 +20,10 @@ export const useLike = (postId: string) => {
       queryClient.invalidateQueries({
         queryKey: ["likes", user.id, postId]
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["likePosts", user.id]
+      });
     }
   });
 

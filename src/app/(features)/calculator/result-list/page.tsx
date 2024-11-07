@@ -58,15 +58,20 @@ const ResultListPage = () => {
                     height={48}
                   />
                   <div className="flex flex-row justify-center items-center ml-5">
-                    <div>
+                    {/* whitespace-nowrap 속성 추가 */}
+                    <div className="whitespace-nowrap">
                       {data.year}년 {data.month}월 탄소 계산 결과표
                     </div>
                   </div>
-                  <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
+                  {/* div 하나 추가하고 거기에 CSS 속성 추가 */}
+                  <div className="flex items-center justify-center w-full">
+                    <div className="w-full h-[1px] bg-gray-300"></div>
+                  </div>
                 </div>
               ))
           ) : (
-            <div>데이터가 없습니다.</div>
+            // mt 속성 추가
+            <div className="mt-[50px]">데이터가 없습니다.</div>
           )}
         </div>
       </div>
