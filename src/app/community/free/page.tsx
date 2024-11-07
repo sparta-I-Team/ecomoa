@@ -21,7 +21,6 @@ const Page = () => {
     const getPosts = async () => {
       setLoading(true);
       const { data, error } = await communityApi.getPost("free");
-      console.log(data);
       if (error) {
         setError(error);
       } else {

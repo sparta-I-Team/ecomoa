@@ -26,7 +26,7 @@ export const Challenge = () => {
           </div>
           {/*  */}
           <div className="h-full bg-[#F2F9F2]">
-            <div className="max-w-[1200px] mx-auto">
+            <div className="max-w-[1200px] mx-auto pt-[106px]">
               <Calendar />
             </div>
           </div>

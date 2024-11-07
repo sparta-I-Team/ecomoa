@@ -11,6 +11,9 @@ import React, { useEffect, useState } from "react";
 import CompareMonthlyEmissions from "../components/CompareMonthlyEmissions";
 import Link from "next/link";
 import Image from "next/image";
+import { userStore } from "@/zustand/userStore";
+import { UserInfo } from "@/types/userInfoType";
+import { getUserInfo } from "@/api/user-action";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
@@ -20,6 +23,7 @@ const ResultPageMain = () => {
   const [myAllData, setMyAllData] = useState<MonthlyData[] | null>(null);
   const [myAllAvgData, setMyAllAvgData] = useState<number>(0);
   const [userTopData, setUserTopData] = useState<TopData | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   useEffect(() => {
     loadTotalUsersData(currentYear, currentMonth, setTotalAvgData);
@@ -27,6 +31,17 @@ const ResultPageMain = () => {
     loadMyAvgData(setMyAllAvgData);
     loadTopUsersData(setUserTopData);
   }, []);
+
+  const { user } = userStore();
+  console.log(userInfo);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await getUserInfo(user.id);
+      setUserInfo(res);
+    };
+    fetch();
+  }, [user]);
 
   return (
     <>
@@ -47,9 +62,18 @@ const ResultPageMain = () => {
         {/* 나의 탄소 히스토리 최상단 데이터 */}
         <div className="w-full h-[140px] px-[72px] bg-white rounded-2xl border border-[#dcecdc] justify-between items-center inline-flex mb-[80px]">
           <div className="flex flex-row items-center">
-            <div className="w-[100px] h-[100px] bg-red-200"></div>
+            <Image
+              src="/images/lv1.png"
+              alt="미리보기"
+              width={113}
+              height={84}
+              // className="w-[113px] h-[84px] cursor-pointer rounded-[12px]"
+              className="w-[113px] h-[84px] rounded-[12px]"
+            />{" "}
             <div className="ml-[31px]">
-              <div className="text-[28px] font-semibold">홍길동 님</div>
+              <div className="text-[28px] font-semibold">
+                {userInfo?.user_nickname}님
+              </div>
             </div>
           </div>
           <Link href="/calculator/result-list">
@@ -67,7 +91,7 @@ const ResultPageMain = () => {
         <div className="flex flex-row w-full h-[300px] rounded-[16px] justify-between items-center  px-[80px] mb-[24px] border border-[#dcecdc]">
           <div className="flex flex-col">
             <p className="text-black text-[36px] font-bold mb-[36px] ">
-              에코모아님의 평균 배출량
+              {userInfo?.user_nickname}님의 평균 배출량
             </p>
             <p className="text-[#0fce45] text-[48px] font-semibold mb-[40px]">
               {myAllAvgData.toFixed(2)}kg

@@ -22,7 +22,6 @@ const Myposts = ({ type }: TypeProps) => {
     queryFn: () => getMyPosts(user.id, type),
     enabled: !!user.id // user.id가 있을 때만 쿼리 실행
   });
-  // console.log("????????", myPosts);
 
   const handleSelect = (option: string) => {
     setSelected(option);

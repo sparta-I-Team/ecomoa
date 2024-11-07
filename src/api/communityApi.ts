@@ -39,7 +39,6 @@ export const communityApi = {
       if (error) {
         throw error;
       }
-      console.log("데이터", data);
       return { data: data as Post[] };
     } catch (error) {
       console.error("Error fetching posts:", error);

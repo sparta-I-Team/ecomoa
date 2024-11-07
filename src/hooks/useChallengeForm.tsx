@@ -91,9 +91,29 @@ export const useChallengeForm = () => {
   );
 
   const goBackModalContent = (
-    <div className="flex flex-col w-[585px] h-[300px] p-6">
-      <div className="flex flex-col justify-center mb-[60px]">
-        <figure className="mx-auto mb-[30px]">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "585px",
+        height: "300px",
+        padding: "24px"
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          marginBottom: "60px"
+        }}
+      >
+        <figure
+          style={{
+            margin: "0 auto",
+            marginBottom: "30px"
+          }}
+        >
           <Image
             src="/images/gobackImage.png"
             alt="뒤로가기 이미지"
@@ -101,20 +121,54 @@ export const useChallengeForm = () => {
             height={60}
           />
         </figure>
-        <div className="flex flex-col font-semibold text-[22px] justify-center items-center gap-[30px]">
-          <p className="">챌린지 인증을 취소하겠습니까?</p>
-          <p className="text-gray-800">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            fontWeight: 600,
+            fontSize: "22px",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "30px"
+          }}
+        >
+          <p>챌린지 인증을 취소하겠습니까?</p>
+          <p style={{ color: "#1F2937" }}>
             지금 인증하면{" "}
-            <span className="font-bold text-[#0D9C36]">
+            <span
+              style={{
+                fontWeight: 700,
+                color: "#0D9C36"
+              }}
+            >
               {selectedChallenges.length * 100}P
             </span>
             를 받을 수 있어요!
           </p>
         </div>
       </div>
-      <div className="flex w-full h-[60px] gap-[12px] justify-between">
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          height: "60px",
+          gap: "12px",
+          justifyContent: "space-between"
+        }}
+      >
         <button
-          className="w-1/2 bg-[#E8F3E8] rounded-full text-[#525660] border-none"
+          style={{
+            width: "50%",
+            backgroundColor: "#E8F3E8",
+            borderRadius: "9999px",
+            color: "#525660",
+            border: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            lineHeight: "1",
+            height: "60px"
+          }}
           onClick={() => {
             setStep(1);
             closeModal();
@@ -123,7 +177,18 @@ export const useChallengeForm = () => {
           다음에 인증할게요
         </button>
         <button
-          className="w-1/2 rounded-full bg-[#0D9C36] text-white border-none"
+          style={{
+            width: "50%",
+            backgroundColor: "#0D9C36",
+            borderRadius: "9999px",
+            color: "white",
+            border: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            lineHeight: "1",
+            height: "60px"
+          }}
           onClick={closeModal}
         >
           계속 작성할게요
@@ -181,9 +246,29 @@ export const useChallengeForm = () => {
         openModal({
           type: "custom",
           content: (
-            <div className="flex flex-col w-[585px] h-[300px] p-6">
-              <div className="flex flex-col justify-center mb-[60px]">
-                <figure className="mx-auto mb-[30px]">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "585px",
+                height: "300px",
+                padding: "24px"
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  marginBottom: "30px"
+                }}
+              >
+                <figure
+                  style={{
+                    margin: "0 auto",
+                    marginBottom: "30px"
+                  }}
+                >
                   <Image
                     src="/images/gobackImage.png"
                     alt="뒤로가기 이미지"
@@ -191,14 +276,44 @@ export const useChallengeForm = () => {
                     height={60}
                   />
                 </figure>
-                <div className="flex flex-col font-semibold text-[22px] justify-center items-center gap-[30px]">
-                  <p className="">오늘은 이미 챌린지에 참여하셨습니다.</p>
-                  <p className="text-gray-800">내일 다시 도전해주세요! 🌱</p>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    fontWeight: 600,
+                    fontSize: "22px",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "30px",
+                    marginTop: "30px"
+                  }}
+                >
+                  <p>오늘은 이미 챌린지에 참여하셨습니다.</p>
+                  <p style={{ color: "#1F2937" }}>내일 다시 도전해주세요! 🌱</p>
                 </div>
               </div>
-              <div className="flex w-full h-[60px] gap-[12px] justify-between">
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  height: "60px",
+                  gap: "12px",
+                  justifyContent: "space-between"
+                }}
+              >
                 <button
-                  className="w-full bg-[#0D9C36] rounded-full text-white border-none"
+                  style={{
+                    width: "100%",
+                    backgroundColor: "#0D9C36",
+                    borderRadius: "9999px",
+                    color: "white",
+                    border: "none",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    lineHeight: "1",
+                    height: "60px"
+                  }}
                   onClick={() => {
                     setStep(1);
                     closeModal();

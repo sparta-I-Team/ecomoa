@@ -105,7 +105,11 @@ const ProfileImgUpload = ({ userId }: ProfileImgUploadProps) => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col items-center"
     >
-      <label htmlFor="profileImage">
+      {/* 일단 주석처리 했음 밑에 라벨 지우고 주석 풀면 이전처럼 정상적으로 사용 가능 
+      * 그리고 이미지 className도 주석 풀고 바꿔줘야함
+       <label htmlFor="profileImage"> */}
+      <label>
+        {" "}
         {/* <Image
           src={previewImage || "/images/default-profile.jpg"}
           alt="미리보기"
@@ -125,7 +129,8 @@ const ProfileImgUpload = ({ userId }: ProfileImgUploadProps) => {
           alt="미리보기"
           width={113}
           height={84}
-          className="w-[113px] h-[84px] cursor-pointer rounded-[12px]"
+          // className="w-[113px] h-[84px] cursor-pointer rounded-[12px]"
+          className="w-[113px] h-[84px] rounded-[12px]"
         />
       </label>
       <input

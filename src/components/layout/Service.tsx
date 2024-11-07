@@ -3,7 +3,8 @@ import React from "react";
 
 const Service = () => {
   return (
-    <div className="">
+    // mt 속성 추가했음
+    <div className="mt-[50px]">
       {/* 메인 이미지 */}
       <section className="mb-[280px] mx-auto flex justify-center">
         <Image

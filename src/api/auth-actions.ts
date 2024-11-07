@@ -50,7 +50,7 @@ export const signout = async () => {
   if (error) {
     console.error("로그아웃 에러", error);
   }
-  redirect("/login");
+  redirect("/");
 };
 
 // 카카오 로그인
@@ -70,7 +70,6 @@ export const signInWithKakao = async () => {
   if (session) {
     // const userId = await signInParams(session?.user.id);
   }
-  console.log(data.url);
   return data.url;
 };
 
