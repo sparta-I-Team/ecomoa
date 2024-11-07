@@ -105,7 +105,7 @@ export const useChallengeForm = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          marginBottom: "60px"
+          marginBottom: "30px"
         }}
       >
         <figure
@@ -129,7 +129,7 @@ export const useChallengeForm = () => {
             fontSize: "22px",
             justifyContent: "center",
             alignItems: "center",
-            gap: "30px"
+            gap: "20px"
           }}
         >
           <p>챌린지 인증을 취소하겠습니까?</p>
@@ -260,13 +260,13 @@ export const useChallengeForm = () => {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
-                  marginBottom: "30px"
+                  marginBottom: "20px"
                 }}
               >
                 <figure
                   style={{
                     margin: "0 auto",
-                    marginBottom: "30px"
+                    marginBottom: "20px"
                   }}
                 >
                   <Image
@@ -284,7 +284,7 @@ export const useChallengeForm = () => {
                     fontSize: "22px",
                     justifyContent: "center",
                     alignItems: "center",
-                    gap: "30px",
+                    gap: "10px",
                     marginTop: "30px"
                   }}
                 >
