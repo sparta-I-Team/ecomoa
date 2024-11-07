@@ -20,12 +20,21 @@ const LevelSection = ({ levelInfo, isLoading }: LevelSectionProps) => {
           style={{ backgroundColor: levelInfo.bg }}
         >
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
-            <Image
-              src={levelInfo.image}
-              alt={levelInfo.name}
-              width={295}
-              height={319}
-            />
+            {levelInfo.name === "씨앗" || levelInfo.name === "클로비" ? (
+              <Image
+                src={levelInfo.image}
+                alt={levelInfo.name}
+                width={235}
+                height={280}
+              />
+            ) : (
+              <Image
+                src={levelInfo.image}
+                alt={levelInfo.name}
+                width={285}
+                height={280}
+              />
+            )}
           </div>
         </figure>
       </div>
