@@ -72,7 +72,7 @@ export const useChallengeDashboard = (userId: string) => {
 
     const calculatedLevelInfo = calculateLevelInfo(userInfo?.user_point ?? 0);
     setLevelInfo(calculatedLevelInfo);
-  }, [challengesData, isLoading]);
+  }, [challengesData, isLoading, userInfo?.user_point]);
 
   // CO2 차이 계산
   useEffect(() => {
