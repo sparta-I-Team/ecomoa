@@ -6,9 +6,9 @@ const Service = () => {
   return (
     <div className="w-[1200px] mx-auto mt-[50px]">
       {/* 메인 이미지 */}
-      <section className="mb-[280px] mx-auto flex justify-center">
+      <section className="mb-[280px] mx-auto flex justify-center relative">
         <Link href="/challenge">
-          <button className="cursor-pointer border-none absolute rounded-full w-[240px] h-[69px] left-[552px] top-[448px] bg-[#91F051] text-[20px] font-semibold">
+          <button className="cursor-pointer border-none absolute top-[318px] left-[322px] transform -translate-x-1/2 rounded-full w-[240px] h-[69px] bg-[#91F051] text-[20px] font-semibold">
             시작하기
           </button>
         </Link>
