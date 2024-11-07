@@ -64,7 +64,7 @@ const LoginForm = () => {
       className="w-full flex flex-col justify-center items-center gap-1 p-3"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h2 className="text-4xl font-normal mb-[60px]">로그인</h2>
+      {/* <h2 className="text-4xl font-normal mb-[60px]">로그인</h2> */}
       <div className="space-y-3">
         <input
           type="email"

@@ -4,7 +4,7 @@ import { useModalStore } from "@/zustand/modalStore";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const { openModal, closeModal } = useModalStore();
 
@@ -25,4 +25,4 @@ const page = () => {
   return <Modal></Modal>;
 };
 
-export default page;
+export default Page;
