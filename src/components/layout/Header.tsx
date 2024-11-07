@@ -76,34 +76,51 @@ const Header = () => {
         </ul>
         <ul className="flex flex-row justify-center items-center space-x-4">
           {!user.isAuthenticated ? (
-            <>
-              <li>
-                <Link href="/login" className="hover:text-gray-600">
-                  로그인
+            <ul className="flex flex-row justify-center items-center gap-[32px] text-white">
+              <li className="flex flex-row justify-center items-center gap-[9px]">
+                <figure className="w-[28px] h-[28px] rounded-full bg-[#00691E]"></figure>
+                <Link
+                  href="/mypage"
+                  className="text-[14px] hover:text-gray-300 "
+                >
+                  마이페이지
                 </Link>
               </li>
               <li>
-                <Link href="/signup" className="hover:text-gray-600">
-                  회원가입
+                <Link href="/login" className="hover:text-gray-300">
+                  <button className="border-none rounded text-[14px] bg-[#00691E] w-[80px] h-[28px] ">
+                    로그인
+                  </button>
                 </Link>
               </li>
-            </>
+            </ul>
           ) : (
-            <>
-              <li>
-                <Link href="/mypage" className="hover:text-gray-600">
+            <ul className="flex flex-row justify-center items-center gap-[32px] text-white">
+              <li className="flex flex-row justify-center items-center gap-[9px]">
+                <figure className="w-[28px] h-[28px] rounded-full bg-[#00691E]">
+                  <Image
+                    src="/images/profileLv1.png"
+                    alt="프로필 이미지"
+                    width={28}
+                    height={28}
+                  />
+                </figure>
+                <Link
+                  href="/mypage"
+                  className="text-[14px] hover:text-gray-300"
+                >
                   마이페이지
                 </Link>
               </li>
               <li>
                 <button
-                  className="border-none hover:text-gray-600"
+                  className="border-none rounded text-[14px] bg-[#00691E] w-[80px] h-[28px] hover:text-gray-300"
                   onClick={handleLogout}
                 >
                   로그아웃
                 </button>
               </li>
-            </>
+            </ul>
           )}
         </ul>
       </nav>
