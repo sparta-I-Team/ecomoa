@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { CircleX } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 
 const AuthCallback = () => {
   const router = useRouter();
@@ -110,10 +111,15 @@ const AuthCallback = () => {
                 <span className="text-[#6E7481] absolute top-[3.5rem] right-3 text-[16px]">
                   {inputLength}/20
                 </span>
+                {/* 에러 메세지 or 성공 메세지 */}
                 <p
                   role="alert"
                   className={`absolute top-24 left-1 text-[14px] z-50 ${
-                    errors.nickname ? "text-red-600" : "text-[#6E7481]"
+                    errors.nickname
+                      ? "text-red-600" // 에러 상태일 때 빨간색
+                      : inputLength > 0 && !errors.nickname
+                      ? "text-blue-600" // 성공 상태일 때 파란색
+                      : "text-gray-400" // 기본 상태일 때 회색
                   }`}
                 >
                   {errors.nickname ? (
@@ -125,10 +131,18 @@ const AuthCallback = () => {
                       />
                       {errors.nickname.message}
                     </div>
+                  ) : inputLength > 0 ? (
+                    <div className="font-wanted flex items-center leading-[21px] justify-center font-[500]">
+                      <CircleCheck
+                        className="text-[#179BFF] mr-1 w-5 h-5"
+                        stroke="#FFF"
+                        fill="#179BFF"
+                      />
+                      사용 가능한 닉네임 입니다
+                    </div>
                   ) : (
                     "이모지, 공백, 특수문자(-,_제외)를 사용할 수 없습니다."
                   )}
-                  {/* <div className="flex items-center">{errorMessage}</div> */}
                 </p>
               </div>
               <div className="flex flex-col items-center justify-center">

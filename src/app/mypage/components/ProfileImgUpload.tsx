@@ -8,13 +8,18 @@ import {
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
+import { LevelInfo } from "@/types/challengesType";
 
 interface ProfileImgUploadProps {
   userId: string;
   userAvatar?: string; // userAvatar를 선택적 prop으로 정의
+  levelInfo: LevelInfo;
 }
 
-const ProfileImgUpload = ({ userId }: ProfileImgUploadProps) => {
+const ProfileImgUpload = ({
+  userId,
+  levelInfo: pointInfo
+}: ProfileImgUploadProps) => {
   const { register, handleSubmit, setValue } = useForm();
   // const [previewImage, setPreviewImage] = useState<string | undefined>(
   //   userAvatar
@@ -125,12 +130,11 @@ const ProfileImgUpload = ({ userId }: ProfileImgUploadProps) => {
           className="w-[113px] h-[84px] cursor-pointer rounded-[12px]"
         /> */}
         <Image
-          src="/images/lv1.png"
-          alt="미리보기"
-          width={113}
+          src={pointInfo?.profile}
+          alt="레벨 이미지"
+          width={114}
           height={84}
-          // className="w-[113px] h-[84px] cursor-pointer rounded-[12px]"
-          className="w-[113px] h-[84px] rounded-[12px]"
+          className="w-[113px] h-[84px] rounded-[12px] mr-[16px]"
         />
       </label>
       <input

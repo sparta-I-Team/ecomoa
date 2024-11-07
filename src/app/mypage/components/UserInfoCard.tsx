@@ -13,6 +13,7 @@ import Filter from "badwords-ko";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { calculateLevelInfo } from "@/utlis/challenge/levelCalculator";
 import Image from "next/image";
+import { CircleCheck, CircleX } from "lucide-react";
 
 const filter = new Filter();
 
@@ -22,8 +23,7 @@ const nicknameSchema = z.object({
     .min(1, { message: "닉네임은 최소 1자 이상이어야 합니다." })
     .max(20, { message: "닉네임은 20자 이하이어야 합니다." })
     .regex(/^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ@_-]*$/, {
-      message:
-        "닉네임은 알파벳, 숫자, 한글, @, 밑줄 및 하이픈만 포함해야 합니다."
+      message: "이모지, 공백, 특수문자(-,_제외)를 사용할 수 없습니다."
     })
     .refine(
       async (nickname) => {
@@ -53,17 +53,17 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
   const [initialNickname, setInitialNickname] = useState("");
-  // const [nicknameAvailable, setNicknameAvailable] = useState(true);
-  // const [nicknameError, setNicknameError] = useState("");
-
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors }
   } = useForm<FormData>({
     resolver: zodResolver(nicknameSchema)
   });
+  const nicknameValue = watch("nickname") || ""; // 현재 닉네임 값
+  const inputLength = nicknameValue?.length || 0;
 
   const { data: userInfo } = useQuery<UserInfo | null>({
     queryKey: ["userInfo", user.id],
@@ -110,12 +110,17 @@ const UserInfoCard = ({ user }: ProfileProps) => {
     const nickname = e.target.value;
     setValue("nickname", nickname); // 입력된 닉네임을 상태에 반영
   };
-  const pointInfo = calculateLevelInfo(userInfo?.user_point ?? 0); // 널 병합 연산자
+
+  const levelInfo = calculateLevelInfo(userInfo?.user_point ?? 0); // 널 병합 연산자
 
   return (
     <section className="border border-[#DCECDC] rounded-[16px] w-[585px] h-[220px] flex flex-col items-center bg-[#FFF]">
       <div className="flex flex-row items-center gap-2 w-full p-5 justify-start">
-        <ProfileImgUpload userId={user.id} userAvatar={userInfo?.user_avatar} />
+        <ProfileImgUpload
+          userId={user.id}
+          userAvatar={userInfo?.user_avatar}
+          levelInfo={levelInfo}
+        />
         <div className="flex flex-row items-center gap-1">
           {isEditing ? (
             <form
@@ -123,7 +128,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
               className="flex items-center"
             >
               <div className="flex flex-col items-center justify-start">
-                <div className="flex justify-start gap-1">
+                <div className="relative flex justify-start gap-1">
                   <input
                     {...register("nickname", {})}
                     placeholder="닉네임을 입력하세요"
@@ -144,15 +149,41 @@ const UserInfoCard = ({ user }: ProfileProps) => {
                   >
                     취소
                   </button>
-                </div>
-                {errors.nickname && (
-                  <span
+
+                  {/* 닉네임 유효성 검사 */}
+                  <p
                     role="alert"
-                    className="text-red-600 text-[13px] mr-auto mt-1"
+                    className={`absolute top-[33px] left-[0px] text-[11px] z-50 ${
+                      errors.nickname
+                        ? "text-red-600" // 에러 상태일 때 빨간색
+                        : inputLength > 0 && !errors.nickname
+                        ? "text-blue-600" // 성공 상태일 때 파란색
+                        : "text-gray-400" // 기본 상태일 때 회색
+                    }`}
                   >
-                    {errors.nickname.message}
-                  </span>
-                )}
+                    {errors.nickname ? (
+                      <div className="font-wanted flex items-center leading=[21px] justify-center font-[500]">
+                        <CircleX
+                          className="text-[#FF361B] mr-1 w-5 h-5"
+                          stroke="#FFF"
+                          fill="#FF361B"
+                        />
+                        {errors.nickname.message}
+                      </div>
+                    ) : inputLength > 0 ? (
+                      <div className="font-wanted flex items-center leading-[21px] justify-center font-[500]">
+                        <CircleCheck
+                          className="text-[#179BFF] mr-1 w-5 h-5"
+                          stroke="#FFF"
+                          fill="#179BFF"
+                        />
+                        사용 가능한 닉네임 입니다
+                      </div>
+                    ) : (
+                      "이모지, 공백, 특수문자(-,_제외)를 사용할 수 없습니다."
+                    )}
+                  </p>
+                </div>
               </div>
             </form>
           ) : (
@@ -172,7 +203,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
           )}
         </div>
       </div>
-      <LevelGauge pointInfo={pointInfo} />
+      <LevelGauge levelInfo={levelInfo} />
     </section>
   );
 };

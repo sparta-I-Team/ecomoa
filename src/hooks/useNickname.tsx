@@ -103,8 +103,11 @@ export const useNickname = () => {
       openModal({
         type: "custom",
         content: (
-          <div className="z-0 flex items-center">
-            <form className="z-1 overflow-y-hidden w-[585px] rounded-[20px] flex flex-col justify-center items-center mx-auto bg-white">
+          <div className="flex items-center">
+            <form
+              className="z-1 overflow-y-hidden w-[585px] flex flex-col justify-center items-center mx-auto bg-white"
+              style={{ borderRadius: "11px" }}
+            >
               <div
                 className="flex items-center relative w-[585px] h-[341px] mb-6"
                 style={{ backgroundColor: "#CBF5CB", height: "341px" }}
@@ -114,9 +117,9 @@ export const useNickname = () => {
                   className="z-2 border-none absolute top-7 right-7 cursor-pointer text-white"
                 />
                 <Image
-                  src="/images/modalImage.png"
-                  width={392}
-                  height={204}
+                  src="/images/nicknameModal.png"
+                  width={585}
+                  height={341}
                   alt="modalImage"
                   className="mx-auto mt-[73px]"
                 />
