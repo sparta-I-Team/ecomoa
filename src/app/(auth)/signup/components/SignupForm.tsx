@@ -8,7 +8,6 @@ import { signup } from "@/api/auth-actions";
 import { SignupInput } from "@/types/authType";
 import Link from "next/link";
 import { checkEmailAbility } from "@/api/user-action";
-import { useState } from "react";
 
 // Zod 스키마 정의
 const signupSchema = z
@@ -30,13 +29,12 @@ const signupSchema = z
 
 const SignupForm = () => {
   const router = useRouter();
-  const [isEmailAvailable, setIsEmailAvailable] = useState<boolean | null>(
-    true
-  );
   const {
     register,
     handleSubmit,
     setError,
+    clearErrors,
+    trigger,
     formState: { errors }
   } = useForm<SignupInput>({
     resolver: zodResolver(signupSchema)
@@ -46,23 +44,20 @@ const SignupForm = () => {
     const email = event.target.value;
     if (email) {
       const available = await checkEmailAbility(email);
-      setIsEmailAvailable(available);
-      console.log("사용 가능한 이메일", isEmailAvailable);
-      if (!isEmailAvailable) {
+      if (!available) {
         setError("email", {
           type: "manual",
           message: "이미 사용 중인 이메일입니다."
         });
+      } else {
+        clearErrors("email"); // 오류 제거
       }
+      await trigger("email");
     }
   };
 
   const onSubmit: SubmitHandler<SignupInput> = async (data: SignupInput) => {
-    if (!isEmailAvailable) {
-      setError("email", {
-        type: "manual",
-        message: "이미 사용 중인 이메일입니다."
-      });
+    if (errors.email) {
       return;
     }
 

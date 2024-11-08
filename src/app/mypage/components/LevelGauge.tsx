@@ -5,7 +5,6 @@ interface LevelGaugeProps {
 }
 const LevelGauge = ({ levelInfo }: LevelGaugeProps) => {
   if (!levelInfo) return;
-  console.log(levelInfo);
   return (
     <section className="space-y-2 w-full flex flex-col justify-center items-center">
       {/* 레벨 */}
