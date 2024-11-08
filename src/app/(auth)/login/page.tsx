@@ -27,7 +27,7 @@ const LoginPage = () => {
 
         <LoginForm />
 
-        <div className="w-full mt-12 mb-6 flex items-center">
+        <div className="w-full mt-10 mb-6 flex items-center">
           <div className="flex-1 h-px bg-gray-300"></div>
           <p className="px-4 font-wanted text-base text-[#6E7481] font-medium">
             간편 가입 및 로그인

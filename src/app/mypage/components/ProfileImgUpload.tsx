@@ -1,12 +1,8 @@
 "use client";
 import { useState } from "react";
-import {
-  getUserInfo,
-  updateAvatarUrl,
-  uploadProfileImage
-} from "@/api/user-action";
+import { getUserInfo } from "@/api/user-action";
 import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { LevelInfo } from "@/types/challengesType";
 
@@ -20,12 +16,12 @@ const ProfileImgUpload = ({
   userId,
   levelInfo: pointInfo
 }: ProfileImgUploadProps) => {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, setValue } = useForm();
   // const [previewImage, setPreviewImage] = useState<string | undefined>(
   //   userAvatar
   // );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   // userAvatar가 변경될 때 previewImage를 초기화
   // useEffect(() => {
@@ -37,50 +33,50 @@ const ProfileImgUpload = ({
     queryFn: () => getUserInfo(userId)
   });
 
-  const { mutate } = useMutation({
-    mutationFn: async (newAvatarUrl: string) => {
-      const response = await updateAvatarUrl(userId, newAvatarUrl);
-      return response;
-    },
-    onSuccess: async () => {
-      queryClient.invalidateQueries({
-        queryKey: ["user", userId]
-      });
-      await refetch();
-      // if (updatedUser.data) {
-      //   setPreviewImage(updatedUser.data.user_avatar); // 새로운 아바타 URL로 업데이트 ++ 수정
-      // }
-      setSelectedFile(null);
-      window.alert("프로필 이미지가 성공적으로 업데이트되었습니다.");
-    },
-    onError: (error) => {
-      console.error("프로필 업데이트 오류:", error);
-      window.alert("프로필 이미지 업데이트에 실패했습니다.");
-    }
-  });
-  const onSubmit = async () => {
-    if (!selectedFile) return;
+  // const { mutate } = useMutation({
+  //   mutationFn: async (newAvatarUrl: string) => {
+  //     const response = await updateAvatarUrl(userId, newAvatarUrl);
+  //     return response;
+  //   },
+  //   onSuccess: async () => {
+  //     queryClient.invalidateQueries({
+  //       queryKey: ["user", userId]
+  //     });
+  //     await refetch();
+  //     // if (updatedUser.data) {
+  //     //   setPreviewImage(updatedUser.data.user_avatar); // 새로운 아바타 URL로 업데이트 ++ 수정
+  //     // }
+  //     setSelectedFile(null);
+  //     window.alert("프로필 이미지가 성공적으로 업데이트되었습니다.");
+  //   },
+  //   onError: (error) => {
+  //     console.error("프로필 업데이트 오류:", error);
+  //     window.alert("프로필 이미지 업데이트에 실패했습니다.");
+  //   }
+  // });
+  // const onSubmit = async () => {
+  //   if (!selectedFile) return;
 
-    const formData = new FormData();
-    formData.append("profileImage", selectedFile);
+  //   const formData = new FormData();
+  //   formData.append("profileImage", selectedFile);
 
-    try {
-      const response = await uploadProfileImage(userId, formData);
-      if (response) {
-        const { publicUrl } = response;
-        if (publicUrl) {
-          // 프리뷰 업데이트
-          // setPreviewImage(publicUrl);
-          // 아바타 URL 업데이트
-          mutate(publicUrl);
-        } else {
-          console.error("이미지 업로드에 실패했습니다.");
-        }
-      }
-    } catch (error) {
-      console.error("업로드 중 오류 발생:", error);
-    }
-  };
+  //   try {
+  //     const response = await uploadProfileImage(userId, formData);
+  //     if (response) {
+  //       const { publicUrl } = response;
+  //       if (publicUrl) {
+  //         // 프리뷰 업데이트
+  //         // setPreviewImage(publicUrl);
+  //         // 아바타 URL 업데이트
+  //         mutate(publicUrl);
+  //       } else {
+  //         console.error("이미지 업로드에 실패했습니다.");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("업로드 중 오류 발생:", error);
+  //   }
+  // };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -107,7 +103,7 @@ const ProfileImgUpload = ({
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      // onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col items-center"
     >
       {/* 일단 주석처리 했음 밑에 라벨 지우고 주석 풀면 이전처럼 정상적으로 사용 가능 
