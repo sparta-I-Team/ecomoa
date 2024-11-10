@@ -33,8 +33,7 @@ const SignupForm = () => {
     register,
     handleSubmit,
     setError,
-    clearErrors,
-    trigger,
+    clearErrors, // clearErrors 추가
     formState: { errors }
   } = useForm<SignupInput>({
     resolver: zodResolver(signupSchema)
@@ -43,33 +42,45 @@ const SignupForm = () => {
   const handleEmailBlur = async (event: React.FocusEvent<HTMLInputElement>) => {
     const email = event.target.value;
     if (email) {
-      const available = await checkEmailAbility(email);
-      if (!available) {
-        setError("email", {
-          type: "manual",
-          message: "이미 사용 중인 이메일입니다."
-        });
-      } else {
-        clearErrors("email"); // 오류 제거
+      try {
+        const available = await checkEmailAbility(email);
+        if (!available) {
+          setError("email", {
+            type: "manual",
+            message: "이미 존재하는 이메일입니다."
+          });
+        } else {
+          // 이메일 중복이 아니면 오류를 지운다
+          clearErrors("email");
+        }
+      } catch (error) {
+        console.error("이메일 중복 체크 오류:", error);
       }
-      await trigger("email");
     }
   };
 
   const onSubmit: SubmitHandler<SignupInput> = async (data: SignupInput) => {
+    // 이메일 중복 에러가 있을 경우, 회원가입 처리 하지 않음
     if (errors.email) {
+      alert(errors.email.message);
       return;
     }
-
     try {
       await signup(data);
       alert("회원가입이 완료되었습니다.");
       router.push("/login");
-    } catch (error) {
+    } catch (error: any) {
       console.error("회원가입 오류:", error);
+      // error가 'user_already_exists' 코드인지 확인
+      if (error.code === "user_already_exists") {
+        alert("이미 존재하는 이메일입니다.");
+      } else {
+        alert("회원가입 중 오류가 발생했습니다.");
+      }
     }
   };
 
+  console.log(errors.email?.message);
   return (
     <div className="font-wanted min-h-screen bg-[#EAFCDE] px-4">
       <form
@@ -108,6 +119,7 @@ const SignupForm = () => {
         <button
           type="submit"
           className="w-[584px] mt-[45px] h-16 bg-[#469B0D] p-2 rounded-md text-[#FFF]"
+          disabled={Object.keys(errors).length > 0}
         >
           회원가입
         </button>

@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FreePostSkeleton } from "./FreePostSkeleton";
 import { AnabadaPostSkeleton } from "./AnabadaPostSkeleton";
+import ReturnMypage from "./ReturnMypage";
 
 const Myposts = ({ type }: TypeProps) => {
   const { user } = userStore();
@@ -26,8 +27,8 @@ const Myposts = ({ type }: TypeProps) => {
     queryKey: ["likePosts", user.id], // 통신 주소
     queryFn: () => getLikePosts(user.id),
     enabled: !!user.id
-  }); 
- 
+  });
+
   const freePosts: LikePosts[] | undefined = likePosts?.filter(
     (post) => post.posts.params?.type === "free"
   );
@@ -39,18 +40,13 @@ const Myposts = ({ type }: TypeProps) => {
     return (
       <div className="flex flex-col w-[1200px]">
         {/* 헤더 부분 스켈레톤 */}
-        <Link href={"/mypage"} className="border-b-slate-500 w-[1200]">
-          <div className="flex items-center mb-[20px] pt-[64.5px] border-b-2 border-#D5D7DD pb-2">
-            <ChevronLeft />
-            <p className="font-wanted text-[16px] font-[600]">마이페이지</p>
-          </div>
-        </Link>
+        <ReturnMypage />
         {/* 네비게이션 바 */}
-        <div className="mb-[48px]">
+        <div className="my-[48px]">
           <p className="text-[32px] font-[700] leading-[44.8px] tracking-[-0.2px]">
             나의 좋아요
           </p>
-          <p className="text-[#00691E] font-wanted text-[20px] font-[500] leading-[30px] tracking-[-0.2px]">
+          <p className="mt-[12px] text-[#00691E] font-wanted text-[20px] font-[500] leading-[30px] tracking-[-0.2px]">
             내가 좋아요한 게시글을 확인해보세요
           </p>
         </div>
@@ -103,18 +99,13 @@ const Myposts = ({ type }: TypeProps) => {
   return (
     <div>
       <div className="flex flex-col w-[1200px]">
-        <Link href={"/mypage"} className="border-b-slate-500 w-[1200]">
-          <div className="flex items-center mb-[20px] pt-[64.5px] border-b-2 border-#D5D7DD pb-2">
-            <ChevronLeft />
-            <p className="font-wanted text-[16px] font-[600]">마이페이지</p>
-          </div>
-        </Link>
+        <ReturnMypage />
         {/* 네비게이션 바 */}
-        <div className="mb-[48px]">
+        <div className="my-[48px]">
           <p className="text-[32px] font-[700] leading-[44.8px] tracking-[-0.2px]">
             나의 좋아요
           </p>
-          <p className="text-[#00691E] font-wanted text-[20px] font-[500] leading-[30px] tracking-[-0.2px]">
+          <p className="mt-[12px] text-[#00691E] font-wanted text-[20px] font-[500] leading-[30px] tracking-[-0.2px]">
             내가 좋아요한 게시글을 확인해보세요
           </p>
         </div>
