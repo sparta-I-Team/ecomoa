@@ -9,6 +9,7 @@ import browserClient from "@/utlis/supabase/browserClient";
 import { useRouter } from "next/navigation";
 import { userStore } from "@/zustand/userStore";
 import YearMonthPickerMain from "../components/YearMonthPickerMain";
+import Link from "next/link";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
@@ -20,7 +21,6 @@ const Page = () => {
 
   const router = useRouter();
   const { user } = userStore();
-  console.log(user.id);
 
   const {
     register,
@@ -91,11 +91,6 @@ const Page = () => {
           console.error("데이터 업데이트 오류:", error);
           alert("데이터 업데이트 중 오류가 발생했습니다.");
         } else {
-          alert(
-            `전체 에너지원 CO₂ 발생 합계 : ${total.toFixed(
-              2
-            )} kg/월 ${thisYear}년도 ${thisMonth}달이 업데이트되었습니다.`
-          );
         }
       } else {
         const { error } = await browserClient.from("carbon_records").insert({
@@ -119,16 +114,12 @@ const Page = () => {
           console.error("데이터 삽입 오류:", error);
           alert("데이터 삽입 중 오류가 발생했습니다.");
         } else {
-          alert(
-            `전체 에너지원 CO₂ 발생 합계 : ${total.toFixed(
-              2
-            )} kg/월 ${thisYear}년도 ${thisMonth}달이 저장되었습니다.`
-          );
         }
       }
-
-      setIsLoading(false);
-      router.push("/calculator/result");
+      setTimeout(() => {
+        setIsLoading(false);
+        router.push(`/calculator/result/${thisYear}/${thisMonth}`);
+      }, 5000);
     } catch (err) {
       console.error("에러 발생:", err);
       alert("데이터 처리 중 오류가 발생했습니다.");
@@ -138,76 +129,95 @@ const Page = () => {
 
   const handleYearChange = (year: number) => {
     setThisYear(year);
-    console.log("Selected Year:", year);
   };
   const handleMonthChange = (month: number) => {
     setThisMonth(month);
-    console.log("Selected Month:", month);
   };
-  console.log(thisYear);
 
   return (
     <>
-      <div>탄소 배출량 계산하기</div>
-      <div>이번 달 이산화탄소 배출량이 얼마나 발생했을지 계산해봅시다</div>
-      <div className="flex">
-        <YearMonthPickerMain
-          thisYear={thisYear}
-          thisMonth={thisMonth}
-          onChangeYear={handleYearChange} // 연도 변경 핸들러 전달
-          onChangeMonth={handleMonthChange} // 월 변경 핸들러 전달
-          disabled={false}
-        />
+      <div className="w-[1200px] mx-auto">
+        <div className="mt-[76px] mb-[120px]">
+          <Link href="/calculator">
+            <p className="text-[16px]"> &lt; 탄소 계산기 홈</p>
+          </Link>
+          <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
+          <p className="text-[#32343a] text-[30px] font-semibold mb-[28px]">
+            탄소 배출량 계산하기
+          </p>
+          <p className=" text-[20px] font-normal text-[#00691E]">
+            이번 달 이산화탄소 배출량이 얼마나 발생했을지 계산해봅시다
+          </p>
+        </div>
+        <div className="flex mb-10">
+          <YearMonthPickerMain
+            thisYear={thisYear}
+            thisMonth={thisMonth}
+            onChangeYear={handleYearChange} // 연도 변경 핸들러 전달
+            onChangeMonth={handleMonthChange} // 월 변경 핸들러 전달
+            disabled={false}
+          />
+        </div>
+        <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col mb-[48px] gap-[10px]">
+            <InputField
+              id="electricity"
+              label="전기"
+              register={register}
+              errors={errors}
+              requiredMessage="사용한 전기량을 입력해주세요"
+              placeholder="에너지 사용량을 입력해주세요."
+              unit="kwh/월"
+            />
+            <InputField
+              id="water"
+              label="수도"
+              register={register}
+              errors={errors}
+              requiredMessage="사용한 수도량을 입력해주세요"
+              placeholder="에너지 사용량을 입력해주세요(숫자)"
+              unit="m³/월"
+            />
+            <InputField
+              id="gas"
+              label="가스"
+              register={register}
+              errors={errors}
+              requiredMessage="사용한 가스량을 입력해주세요"
+              placeholder="에너지 사용량을 입력해주세요(숫자)"
+              unit="m³/월"
+            />
+            <InputField
+              id="car"
+              label="자가용"
+              register={register}
+              errors={errors}
+              requiredMessage="연료종류 선택과 사용량을 모두 입력해주세요"
+              placeholder="에너지 사용량을 입력해주세요(숫자)"
+              unit="km/월"
+            />
+            <InputField
+              id="waste"
+              label="폐기물"
+              register={register}
+              errors={errors}
+              requiredMessage="폐기물량을 입력해주세요"
+              placeholder="에너지 사용량을 입력해주세요(숫자)"
+              unit="Kg/월"
+            />
+          </div>
+          <div className="flex justify-center mb-[126px]">
+            <button
+              type="submit"
+              className="w-[380px] h-[60px] px-4 py-6 bg-[#dcecdc] rounded-[40px] justify-center items-center gap-2.5 inline-flex border-none hover:bg-[#0d9c36]"
+            >
+              <div className="grow shrink basis-0 text-center text-[#6e7481] text-[18px] font-semibold hover:text-white">
+                계산하기
+              </div>
+            </button>
+          </div>
+        </form>
       </div>
-      <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <InputField
-          id="electricity"
-          label="전기"
-          register={register}
-          errors={errors}
-          requiredMessage="사용한 전기량을 입력해주세요"
-          placeholder="에너지 사용량을 입력해주세요(숫자)"
-          unit="kwh/월"
-        />
-
-        <InputField
-          id="water"
-          label="수도"
-          register={register}
-          errors={errors}
-          requiredMessage="사용한 수도량을 입력해주세요"
-          placeholder="에너지 사용량을 입력해주세요(숫자)"
-          unit="m³/월"
-        />
-        <InputField
-          id="gas"
-          label="가스"
-          register={register}
-          errors={errors}
-          requiredMessage="사용한 가스량을 입력해주세요"
-          placeholder="에너지 사용량을 입력해주세요(숫자)"
-          unit="m³/월"
-        />
-        <InputField
-          id="car"
-          label="자가용"
-          register={register}
-          errors={errors}
-          requiredMessage="연료종류 선택과 사용량을 모두 입력해주세요"
-          placeholder="에너지 사용량을 입력해주세요(숫자)"
-          unit="km/월"
-        />
-        <InputField
-          id="waste"
-          label="폐기물"
-          register={register}
-          errors={errors}
-          requiredMessage="폐기물량을 입력해주세요"
-          placeholder="에너지 사용량을 입력해주세요(숫자)"
-          unit="Kg/월"
-        />
-        <button type="submit">계산하기</button>
-      </form>
     </>
   );
 };

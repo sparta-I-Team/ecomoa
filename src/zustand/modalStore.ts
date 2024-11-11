@@ -1,22 +1,28 @@
-import { ModalStoreType } from "@/types/modal";
 import { create } from "zustand";
+import { ModalStoreType } from "@/types/modal";
 
-export const useModalStore = create<ModalStoreType>((set) => ({
+type ModalStore = ModalStoreType & {
+  openModal: (params: Partial<ModalStoreType>) => void;
+  closeModal: () => void;
+};
+
+export const useModalStore = create<ModalStore>((set) => ({
   isOpen: false,
-  modalContent: null,
-  type: "",
-  time: 0,
-  openModal: (content, type = "", time = 0) =>
-    set({
-      isOpen: true,
-      modalContent: content,
-      type,
-      time
-    }),
+  content: null,
+  type: "custom",
+  autoClose: undefined,
+  onConfirm: undefined,
+  onCancel: undefined,
+  buttonText: undefined,
+  openModal: (params) => set({ isOpen: true, ...params }),
   closeModal: () =>
     set({
       isOpen: false,
-      modalContent: null,
-      type: ""
+      content: null,
+      type: "custom",
+      autoClose: undefined,
+      onConfirm: undefined,
+      onCancel: undefined,
+      buttonText: undefined
     })
 }));

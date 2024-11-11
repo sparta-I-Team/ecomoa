@@ -1,17 +1,19 @@
 const LevelSectionSkeleton = () => {
   return (
-    <section>
-      <div className="w-[600px] h-[270px] bg-gray-200 animate-pulse rounded-3xl" />
-      <div className="space-y-2 mt-2">
-        <div className="flex flex-col">
-          <div className="h-6 bg-gray-200 rounded w-36 animate-pulse" />
-          <div className="h-4 bg-gray-200 rounded w-48 mt-1 animate-pulse" />
+    <section className="flex flex-col gap-4">
+      <div className="flex flex-col w-[585px] h-[319px] justify-end mt-[51px]">
+        <div className="relative flex h-[228px] w-full border rounded-3xl bg-gray-200 animate-pulse" />
+      </div>
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-row gap-[8px] items-center">
+          <div className="w-[113px] h-[32px] rounded-2xl bg-gray-200 animate-pulse" />
+          <div className="h-[14px] w-[200px] rounded bg-gray-200 animate-pulse" />
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-4">
-          <div className="bg-gray-300 rounded-full h-4 w-1/2 animate-pulse" />
-        </div>
-        <div className="flex justify-end">
-          <div className="h-3 bg-gray-200 rounded w-16 animate-pulse" />
+        <div className="flex w-[585px] flex-row items-center gap-3">
+          <div className="w-[476px] bg-gray-200 rounded-full">
+            <div className="h-4 w-1/2 bg-gray-300 rounded-full animate-pulse" />
+          </div>
+          <div className="w-[60px] h-[14px] rounded bg-gray-200 animate-pulse" />
         </div>
       </div>
     </section>

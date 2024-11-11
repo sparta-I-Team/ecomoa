@@ -1,6 +1,11 @@
 "use server";
 
-import { Bookmarks, UserInfo, UserInfoNickname } from "@/types/userInfoType";
+import {
+  Bookmarks,
+  LikePosts,
+  UserInfo,
+  UserInfoNickname
+} from "@/types/userInfoType";
 import { createClient } from "@/utlis/supabase/server";
 
 export const getUserInfo = async (userId: string): Promise<UserInfo | null> => {
@@ -48,16 +53,17 @@ export const updateNickname = async ({
   return { user_nickname: newNickname };
 };
 
-// 내가 쓴 글 가져오기
-export const getMyPosts = async (userId: string) => {
+// 내가 쓴 게시판 글 가져오기
+export const getMyPosts = async (userId: string, type?: string) => {
   const supabase = createClient();
   const { data: posts, error } = await supabase
     .from("posts")
-    .select("*")
-    .eq("user_id", userId);
+    .select("*, user_info(*)")
+    .eq("user_id", userId)
+    .eq("params->>type", type);
 
   if (error) {
-    console.error("내가 쓴 글 가져오기 오류", error);
+    console.error("내가 쓴 자유게시판 가져오기 오류", error);
     return null;
   }
   return posts || [];
@@ -84,18 +90,100 @@ export const checkNicknameAvailability = async (
 };
 
 // 좋아요 게시글 가져오기
-export const getLikePosts = async (userId: string) => {
+export const getLikePosts = async (
+  userId: string
+  // type?: string
+): Promise<LikePosts[] | []> => {
   const supabase = createClient();
   const { data: likes, error } = await supabase
     .from("likes")
     .select("*, posts(*)")
+    .eq("status", true)
+    .eq("user_id", userId);
+
+  // .eq("params->>type", type);
+
+  if (error) {
+    console.error("북마크 post 가져오기 오류", error);
+    return [];
+  }
+
+  const likePosts = await Promise.all(
+    likes?.map(async (like) => {
+      const { data } = await supabase
+        .from("user_info")
+        .select("user_nickname")
+        .eq("user_id", like?.posts.user_id)
+        .single();
+
+      return {
+        ...like,
+        writername: data?.user_nickname
+      } as LikePosts;
+    }) || []
+  );
+
+  return likePosts;
+};
+
+//  게시판에서 스크랩한 게시글 가져오기
+export const getBookmarkPosts = async (userId: string) => {
+  const supabase = createClient();
+  const { data: scraps, error } = await supabase
+    .from("bookmarks")
+    .select(
+      `*,  posts (
+        post_id,
+        post_title,
+        user_id,
+        post_img,
+        created_at,
+        updated_at,
+        post_content
+      ),
+      user_info (
+        user_id,
+        user_nickname,
+        user_avatar
+      )`
+    )
+    .eq("user_id", userId);
+
+  const updateScraps = await Promise.all(
+    scraps?.map(async (item) => {
+      const { data } = await supabase
+        .from("user_info")
+        .select("user_nickname")
+        .eq("user_id", item?.posts.user_id)
+        .single();
+
+      return {
+        ...item,
+        writername: data?.user_nickname
+      };
+    }) || []
+  );
+
+  if (error) {
+    console.error("북마크 post 가져오기 오류", error);
+    return null;
+  }
+  return updateScraps;
+};
+
+// 아나바다 게시판에서 스크랩한 글 가져오기
+export const getBookmarkAnabada = async (userId: string) => {
+  const supabase = createClient();
+  const { data: anabada, error } = await supabase
+    .from("anabada")
+    .select("*")
     .eq("user_id", userId);
 
   if (error) {
-    console.error("좋아요 post 가져오기 오류", error);
+    console.error("아나바다 북마크 post 가져오기 오류", error);
     return null;
   }
-  return likes;
+  return anabada;
 };
 
 // 스토리지에 프로필 이미지 업로드
@@ -138,7 +226,6 @@ export const updateAvatarUrl = async (userId: string, newAvatarUrl: string) => {
     console.error("프로필 업데이트 오류", error);
     return null;
   }
-  console.log("프로필 업데이트 성공");
   return data;
 };
 

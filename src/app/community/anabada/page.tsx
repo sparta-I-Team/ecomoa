@@ -12,7 +12,6 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   const handleSelect = (option: string) => {
     setSelected(option);
   };
@@ -21,7 +20,6 @@ const Page = () => {
     const getPosts = async () => {
       setLoading(true);
       const { data, error } = await communityApi.getPost("anabada");
-      console.log(data);
       if (error) {
         setError(error);
       } else {
@@ -41,14 +39,15 @@ const Page = () => {
   }, [posts, searchTerm]);
 
   return (
-    <div className="bg-[#F2F9F2] overflow-y-hidden overflow-x-hidden">
-      <div className="w-[1280px] mt-12">
+    <div className="bg-[#F2F9F2]">
+      <div className="w-[1200px] mx-auto">
         <label className="text-xl font-bold mb-4 mt-4">
           친환경 활동을 공유해 보세요
         </label>
         <div className="flex flex-col" style={{ width: "1200px" }}>
+          {/* <CommunityNav /> */}
           <div>
-            <div className="flex">
+            <div className="flex ">
               <Link href="/community" passHref>
                 <button className="w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
                   첼린지 인증
@@ -70,7 +69,7 @@ const Page = () => {
             <input
               type="text"
               placeholder="키워드를 검색해 보세요"
-              className="border-none mt-4 flex w-[380px] h-[52px] p-[19px_20px] flex-col justify-center items-start gap-[10px] flex-shrink-0 rounded-[40px] bg-[#DCECDC]"
+              className=" mt-4 flex w-[380px] h-[52px] p-[19px_20px] flex-col justify-center items-start gap-[10px] flex-shrink-0 rounded-[40px] bg-[#DCECDC]"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -114,18 +113,9 @@ const Page = () => {
                   <label>댓글순</label>
                 </div>
               </div>
-              {/* 이미지로 게시글 작성 버튼 추가 */}
-              <div className="relative">
-                <Link href="/community/postAna">
-                  <Image
-                    src="/community/addPost.png" // public/community/addPost.png 경로
-                    alt="게시글 작성"
-                    width={64} // 이미지의 크기 설정
-                    height={64} // 이미지의 크기 설정
-                    className=" fixed bottom-[52px] right-[32px] cursor-pointer"
-                  />
-                </Link>
-              </div>
+              <button className="ml-4  bg-[#DCECDC] h-10 w-36 rounded-[20px]">
+                <Link href="/community/postAna">게시글 작성</Link>
+              </button>
             </div>
             <div className="flex flex-col h-[620px] overflow-y-auto mb-4">
               {loading && <p>로딩 중...</p>}

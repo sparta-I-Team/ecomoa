@@ -8,6 +8,8 @@ import { useModalStore } from "@/zustand/modalStore";
 import { userStore } from "@/zustand/userStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { X } from "lucide-react";
+import { CircleX } from "lucide-react";
 
 const AuthCallback = () => {
   const router = useRouter();
@@ -16,6 +18,9 @@ const AuthCallback = () => {
   const { loginUser } = userStore();
   const { openModal } = useModalStore();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(
+    "이모지, 공백, 특수문자(-,_제외)를 사용할 수 없습니다."
+  );
 
   const {
     onSubmit,
@@ -26,6 +31,12 @@ const AuthCallback = () => {
     onClickClose,
     inputLength
   } = useNickname();
+
+  useEffect(() => {
+    if (errors.nickname) {
+      setErrorMessage(errors.nickname?.message ?? null);
+    }
+  }, [errors.nickname]);
 
   useEffect(() => {
     const handleAuth = async () => {
@@ -65,78 +76,85 @@ const AuthCallback = () => {
       //먼저 로그인된 상태인지 확인함
       // 로그인 중이라면 firstTag(닉네임 설정 여부)가 false일 때 닉네임 설정 모달창 오픈
       if (userInfo?.params?.firstTag === false) {
-        openModal(
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            // => 이 handleSubmit이 실행될 때 다음 모달창이 열리도록 설정해놨기 때문에 useNickName로직 확인 해야함
-            className="w-[800px] h-[500px] rounded-[20px] flex flex-col justify-center items-center m-auto bg-white"
-          >
-            <div className="relative w-full">
-              <button
-                type="button"
-                onClick={onClickClose}
-                className="absolute border-none -top-10 right-10 text-lg"
-              >
-                X
-              </button>
-            </div>
-            <div className="text-center h-[71px] mb-[78px] leading-[1.5] text-[32px] font-semibold">
-              <p className="">만나서 반갑습니다.</p>
-              <div className="flex flex-row text-center">
-                <p className="text-[#5BCA11]">닉네임</p>
-                <p>을 설정해주세요!</p>
+        openModal({
+          type: "custom",
+          content: (
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              // => 이 handleSubmit이 실행될 때 다음 모달창이 열리도록 설정해놨기 때문에 useNickName로직 확인 해야함
+              className="overflow-y-hidden w-[585px] h-[360px] rounded-[20px] flex flex-col justify-center items-center m-auto bg-white"
+            >
+              <div className="relative w-full h-full -pt-[100px]">
+                <X
+                  onClick={onClickClose}
+                  className="border-none absolute top-7 right-7 cursor-pointer"
+                />
               </div>
-            </div>
-            <div className="relative">
-              <input
-                type="text"
-                id="nickname"
-                className=" w-[400px] h-[56px] p-[0px_20px] rounded-[12px] border border-[#9c9c9c] mb-[74px] placeholder:text-[16px] flex justify-between items-center"
-                {...register("nickname")}
-                maxLength={20}
-                placeholder="ex. 홍길동"
-                onChange={handleChange}
-              />
-              {/* 글자 수 표시 */}
-              <span className="text-[#6E7481] absolute top-5 right-3 text-[16px]">
-                {inputLength}/20
-              </span>
-              <p
-                role="alert"
-                className={`absolute top-14 left-1 text-sm ${
-                  errors.nickname ? "text-red-600" : "text-[#6E7481]"
-                }`}
-              >
-                {errors.nickname
-                  ? errors.nickname.message
-                  : "모지, 특수문자(-,_제외)를 사용할 수 없습니다."}
-              </p>
-            </div>
-            <div className="flex flex-col items-center justify-center">
-              <button
-                type="submit"
-                className="w-[380px] h-[52px] p-[11px_32px] rounded-[85px] text-[18px] bg-[#91F051] border-none"
-              >
-                가입완료
-              </button>
-            </div>
-          </form>,
-          "",
-          0
-        );
+              <div className="font-wanted text-[24px] font-[600] leading-[36px] mt-[64px]">
+                <p className="text-center">만나서 반갑습니다.</p>
+                <p>
+                  <span className="text-[#0D9C36]">닉네임</span>을 설정해주세요!
+                </p>
+              </div>
+              <div className="relative">
+                <input
+                  type="text"
+                  id="nickname"
+                  className="w-[400px] h-[56px] p-[0px_20px] rounded-[12px] border-none bg-[#F3F3F3] mb-[74px] placeholder:text-[20px] placeholder:leading-[30px] flex justify-between items-center mt-[32px]"
+                  {...register("nickname")}
+                  maxLength={20}
+                  placeholder="ex. 홍길동"
+                  onChange={handleChange}
+                />
+                {/* 글자 수 표시 */}
+                <span className="text-[#6E7481] absolute top-[3.5rem] right-3 text-[16px]">
+                  {inputLength}/20
+                </span>
+                <p
+                  role="alert"
+                  className={`absolute top-24 left-1 text-[14px] z-50 ${
+                    errors.nickname ? "text-red-600" : "text-[#6E7481]"
+                  }`}
+                >
+                  {errors.nickname ? (
+                    <div className="font-wanted flex items-center leading=[21px] justify-center font-[500]">
+                      <CircleX
+                        className="text-[#FF361B] mr-1 w-5 h-5"
+                        stroke="#FFF"
+                        fill="#FF361B"
+                      />
+                      {errors.nickname.message}
+                    </div>
+                  ) : (
+                    "이모지, 공백, 특수문자(-,_제외)를 사용할 수 없습니다."
+                  )}
+                  {/* <div className="flex items-center">{errorMessage}</div> */}
+                </p>
+              </div>
+              <div className="flex flex-col items-center justify-center">
+                <button
+                  type="submit"
+                  className="mb-[32px] -mt-[15px] text-[#FFFFFF] font-wanted font-[600] text-[18px] w-[380px] h-[60px] p-[11px_32px] rounded-[40px] bg-[#0D9C36] border-none"
+                >
+                  가입완료
+                </button>
+              </div>
+            </form>
+          )
+        });
       } else {
         router.push("/");
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo, isAuthenticated]);
+  }, [userInfo, isAuthenticated, inputLength, errorMessage]);
 
   return (
     <div>
       {/* 스켈레톤 UI (로딩처리) */}
-      <div>
+      <div className="w-[1200px] mx-auto mt-[50px] ">
         <section className="mb-[280px] h-[533px] mx-auto flex justify-center">
-          <div className="w-[1800px] bg-gray-200 animate-pulse rounded-lg" />
+          <div className="w-[1800px] bg-gray-200 animate-pulse rounded-3xl" />
         </section>
         <section className="flex flex-col items-center justify-center gap-[80px] mb-[280px]">
           <div className="w-[327px] h-[63.33px] bg-gray-200 animate-pulse rounded-md" />

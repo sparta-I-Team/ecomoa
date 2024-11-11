@@ -1,22 +1,28 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Service = () => {
   return (
-    <div className="">
+    <div className="w-[1200px] mx-auto mt-[50px]">
       {/* 메인 이미지 */}
-      <section className="mb-[280px] mx-auto flex justify-center">
+      <section className="mb-[280px] mx-auto flex justify-center relative">
+        <Link href="/challenge">
+          <button className="cursor-pointer border-none absolute top-[318px] left-[322px] transform -translate-x-1/2 rounded-full w-[240px] h-[69px] bg-[#91F051] text-[20px] font-semibold">
+            시작하기
+          </button>
+        </Link>
         <Image
           src={"/service/frame1.png"}
-          width={1800}
+          width={1200}
           height={800}
           alt="main"
-          className="w-[1800px]"
+          className="w-full"
         />
       </section>
 
       {/* 로고 */}
-      <section className=" flex flex-col items-center justify-center gap-[80px] mb-[280px]">
+      <section className="flex flex-col items-center justify-center gap-[80px] mb-[280px]">
         <Image
           src={"/service/main-logo.png"}
           width={327}
@@ -35,10 +41,10 @@ const Service = () => {
       </section>
 
       {/* 캐릭터 소개 */}
-      <section className="w-full mb-[1800px] md:w-[1780px] md:mb-0 h-[739px] flex flex-col items-center mx-auto">
+      <section className="w-full mb-[280px] h-auto flex flex-col items-center mx-auto">
         <div>
-          <div className="w-[720px] space-y-[40px] mb-[80px] mx-auto">
-            <p className="font-wanted  text-[48px] font-[500] text-center leading-[72px] tracking-[-1.44px]">
+          <div className="w-full max-w-[720px] space-y-[40px] mb-[80px] mx-auto">
+            <p className="font-wanted text-[48px] font-[500] text-center leading-[72px] tracking-[-1.44px]">
               <span className="text-[#5BCA11] font-[800] ">MOA 캐릭터</span>
               들을 소개합니다
             </p>
@@ -48,32 +54,32 @@ const Service = () => {
               씨앗 모아부터 클로버 모아까지 같이 성장해나가요.
             </p>
           </div>
-          <div className="flex flex-col gap-5 md:flex-row justify-center items-center mx-auto">
+          <div className="flex flex-wrap gap-5 justify-center items-center mx-auto">
             <Image
               src={"/service/card1.png"}
-              width={430}
-              height={525}
+              width={285}
+              height={348}
               alt="character1"
               className="mx-auto"
             />
             <Image
               src={"/service/card2.png"}
-              width={430}
-              height={525}
+              width={285}
+              height={348}
               alt="character2"
               className="mx-auto"
             />
             <Image
               src={"/service/card3.png"}
-              width={430}
-              height={525}
+              width={285}
+              height={348}
               alt="character3"
               className="mx-auto"
             />
             <Image
               src={"/service/card4.png"}
-              width={430}
-              height={525}
+              width={285}
+              height={348}
               alt="character4"
               className="mx-auto"
             />
@@ -82,7 +88,7 @@ const Service = () => {
       </section>
 
       <section className="mx-auto mt-[280px]">
-        <p className="w-full font-wanted text-center font-[500] text-[48px] leading-[7d2px] tracking-[-0.72px]">
+        <p className="w-full font-wanted text-center font-[500] text-[48px] leading-[72px] tracking-[-0.72px]">
           당신의
           <span className="text-[#5BCA11] font-wanted text-[48px] font-[800] leading-[72px]">
             MOA
@@ -95,39 +101,43 @@ const Service = () => {
           씨앗 모아부터 클로바 모아까지 같이 성장해나가요.
         </p>
       </section>
-      <section className="mt-[80px] w-[748px] text-center mx-auto">
+
+      <section className="mt-[80px] w-full text-center mx-auto">
         <Image
           src={"/service/frame2.png"}
-          width={1032}
+          width={832}
           height={670}
           alt="character1"
+          className="mx-auto"
         />
       </section>
+
       <section className="text-center mx-auto mt-[280px]">
         <Image
           src={"/service/frame3.png"}
           width={938}
           height={632}
           alt="character1"
-          className="mx-auto"
+          className="mx-auto w-full"
         />
       </section>
+
       <section>
         <Image
           src={"/service/frame4.png"}
           width={801}
           height={685}
           alt="character1"
-          className="mx-auto mt-[277px]"
+          className="mx-auto mt-[277px] w-full"
         />
       </section>
 
       {/* 서비스 소개 */}
-      <section className="relative w-[1800px] h-[2056px] flex-none rounded-[80px] bg-gradient-to-b from-[#EAFCDE] to-transparent mt-[280px]">
+      <section className="mx-auto relative w-full rounded-[80px] bg-gradient-to-b from-[#EAFCDE] to-transparent mt-[280px]">
         <p className="pt-[80px] font-wanted text-center text-[#5BCA11] text-[36px] font-semibold leading-[54px] tracking-[-1.08px]">
           Our Service
         </p>
-        <div className=" ml-[360px]">
+        <div className="px-[40px]">
           <div className="font-wanted">
             <p className="text-[48px] font-[600] leading-[72px] mt-[175px]">
               데일리 탄소 절감 챌린지
@@ -138,27 +148,29 @@ const Service = () => {
               씨앗 모아부터 클로바 모아까지 같이 성장해나가요.
             </p>
           </div>
-          <div className=" flex gap-[30px] mt-[89px]">
+          <div className="flex flex-wrap gap-[30px] mt-[89px] justify-center">
             <Image
               src={"/service/step1.png"}
-              width={380}
-              height={500}
+              width={360}
+              height={472}
               alt="step1"
             />
             <Image
               src={"/service/step2.png"}
-              width={380}
-              height={500}
+              width={360}
+              height={472}
               alt="step2"
             />
             <Image
               src={"/service/step3.png"}
-              width={380}
-              height={500}
+              width={360}
+              height={472}
               alt="step3"
             />
           </div>
-          <p className="bg-[#C3C3C3] w-[820px] h-[390px] mt-[194px]">캘린더</p>
+          <p className="font-[600] text-[40px] font-wanted bg-[#C3C3C3] w-[820px] h-[390px] mt-[194px] text-center flex items-center justify-center mx-auto">
+            캘린더
+          </p>
           {/* 탄소 계산기 */}
           <p className="font-wanted text-[48px] font-[600] leading-[72px] mt-[133px]">
             탄소 계산기
@@ -169,41 +181,41 @@ const Service = () => {
             데이터를 통해 나의 실천이 환경에 얼마나 영향을 주는지 알 수 있어요.
           </p>
           {/* cal 이미지 */}
-          <div className="mt-[81px] flex flex-wrap gap-[26px]">
+          <div className="mt-[81px] flex flex-wrap gap-[26px] justify-center">
             <Image
               src={"/service/cal1.png"}
-              width={382}
-              height={235}
+              width={360}
+              height={221}
               alt="그래프를 통한 배출량 확인"
             />
             <Image
               src={"/service/cal2.png"}
-              width={382}
-              height={235}
+              width={360}
+              height={221}
               alt="그래프를 통한 배출량 확인"
             />
             <Image
               src={"/service/cal3.png"}
-              width={382}
-              height={235}
+              width={360}
+              height={221}
               alt="그래프를 통한 배출량 확인"
             />
             <Image
               src={"/service/cal4.png"}
-              width={382}
-              height={235}
+              width={360}
+              height={221}
               alt="그래프를 통한 배출량 확인"
             />
             <Image
               src={"/service/cal5.png"}
-              width={382}
-              height={235}
+              width={360}
+              height={221}
               alt="그래프를 통한 배출량 확인"
             />
             <Image
               src={"/service/cal6.png"}
-              width={382}
-              height={235}
+              width={360}
+              height={221}
               alt="그래프를 통한 배출량 확인"
             />
           </div>
@@ -238,10 +250,10 @@ const Service = () => {
             </p>
             <Image
               src={"/service/community.png"}
-              width={1200}
-              height={420}
+              width={1120}
+              height={392}
               alt="커뮤니티 소개"
-              className="mt-[89px] pb-[297px]"
+              className="mt-[89px] pb-[297px] mx-auto"
             />
           </div>
         </div>

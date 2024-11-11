@@ -50,8 +50,8 @@ const ThisMonthChart: React.FC<ThisMonthResultChartProps> = ({
         display: false // 범례 숨기기
       },
       title: {
-        display: true,
-        text: "이번달 탄소 배출량"
+        display: true
+        // text: "이번달 탄소 배출량"
       }
     },
     layout: {
@@ -73,12 +73,12 @@ const ThisMonthChart: React.FC<ThisMonthResultChartProps> = ({
           font: {
             size: 14
           }
-        }
+        },
+        barThickness: 60, // 바의 너비를 60px로 고정
+        categoryPercentage: 0.6, // 카테고리의 크기를 적당히 설정하여 간격을 조정
+        barPercentage: 0.8 // 바의 비율을 조정하여 간격을 적당히 만듦비율을 최대화
       }
-    },
-    barThickness: 60, // 바의 너비를 60px로 고정
-    categoryPercentage: 1, // 바 사이의 간격을 최소화
-    barPercentage: 1 // 각 바의 비율을 최대화
+    }
   };
 
   return (

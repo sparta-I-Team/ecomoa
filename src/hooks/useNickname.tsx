@@ -10,6 +10,7 @@ import { userStore } from "@/zustand/userStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Filter from "badwords-ko";
+import { X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -27,7 +28,7 @@ const nicknameSchema = z.object({
     .min(1, { message: "닉네임은 최소 1자 이상이어야 합니다." })
     .max(20, { message: "닉네임은 20자 이하이어야 합니다." })
     .regex(/^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ@_-]*$/, {
-      message: "모지, 특수문자(-,_제외)를 사용할 수 없습니다"
+      message: "이모지, 공백, 특수문자(-,_제외)를 사용할 수 없습니다"
     })
     .refine(
       async (nickname: string) => {
@@ -94,32 +95,61 @@ export const useNickname = () => {
       await mutateAsync({ userId: user.id, newNickname: data.nickname });
       setIsSuccess(true);
       closeModal();
+      if (errors.nickname) {
+        console.error("닉네임 유효성 검사 오류:", errors.nickname.message);
+      }
 
       // 성공 모달은 여기서 열기
-      openModal(
-        <div className="w-[800px] h-[500px] rounded-[20px] flex flex-col justify-center items-center m-auto bg-white">
-          <div className="text-center w-[540px] h-[71px] text-[28px] font-wanted font-[600] leading-[48px] tracking-tight mb-[24px]">
-            <p>
-              <span className="text-[#5BCA11]">{data.nickname}</span> 님의
-              모아가 생성되었습니다.
-              <br />
-              포인트를 모아 다음 레벨로 성장시켜주세요!
-            </p>
+      openModal({
+        type: "custom",
+        content: (
+          <div className="z-0 flex items-center">
+            <form className="z-1 overflow-y-hidden w-[585px] rounded-[20px] flex flex-col justify-center items-center mx-auto bg-white">
+              <div
+                className="flex items-center relative w-[585px] h-[341px] mb-6"
+                style={{ backgroundColor: "#CBF5CB", height: "341px" }}
+              >
+                <X
+                  onClick={onClickClose}
+                  className="z-2 border-none absolute top-7 right-7 cursor-pointer text-white"
+                />
+                <Image
+                  src="/images/modalImage.png"
+                  width={392}
+                  height={204}
+                  alt="modalImage"
+                  className="mx-auto mt-[73px]"
+                />
+              </div>
+
+              <div className="flex flex-col justify-center items-center h-[249px]">
+                <div className="font-wanted text-[24px] font-[600] leading-[36px] text-center w-[540px] h-[71px] mb-[27px]">
+                  <div className="text-[24px] font-[600] leading-[36px]">
+                    <p className="mt-[15px] mb-[32px]">
+                      <span className="text-[#0D9C36]">{data.nickname}</span>{" "}
+                      님의 모아가 생성되었습니다.
+                      <br />
+                      포인트를 모아 다음 레벨로 성장시켜주세요!
+                    </p>
+                  </div>
+                </div>
+                <div style={{ marginBottom: "33px" }}>
+                  <p className="text-[#525660] text-center font-wanted text-[16px] font-[500] leading-[24px]">
+                    데일리 챌린지를 하고 인증 글을 올리면 포인트를 Get
+                  </p>
+                </div>
+                {/* <Image src={"/seed.png"} width={150} height={150} alt="seed" /> */}
+                <button
+                  onClick={onClickChallenge}
+                  className="flex items-center justify-center w-[380px] h-[60px] p-[11px_32px] mb-[32px] text-[#FFFFFF] font-wanted font-[600] text-[18px] rounded-[40px] bg-[#0D9C36] border-none"
+                >
+                  데일리 챌린지 하러 가기
+                </button>
+              </div>
+            </form>
           </div>
-          <p className="text-[#6E7481] text-center font-wanted text-[14px] font-[600] leading-[21px] mt-[24px]">
-            데일리 챌린지를 하고 인증 글을 올리면 포인트를 Get
-          </p>
-          <Image src={"/seed.png"} width={150} height={150} alt="seed" />
-          <button
-            onClick={onClickChallenge}
-            className="w-[380px] h-[52px] p-[11px_32px] rounded-[85px] text-[18px] bg-[#91F051] border-none mt-4"
-          >
-            데일리 챌린지 하러 가기
-          </button>
-        </div>,
-        "",
-        0
-      );
+        )
+      });
     } catch (error) {
       console.error("닉네임 설정 오류:", error);
     }

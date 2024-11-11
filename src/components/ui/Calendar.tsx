@@ -6,11 +6,16 @@ import dayjs from "dayjs";
 import { MonthlyData, MonthlyStats } from "@/types/calendar";
 import { userStore } from "@/zustand/userStore";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+// dayjs 플러그인 설정
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const Calendar = () => {
   const { currentMonth, getDatesInMonth, handleMonthChange } = useCalendar();
   const { user } = userStore();
-
   const { weeks } = getDatesInMonth(0);
 
   const [monthlyData, setMonthlyData] = useState<MonthlyData>({});
@@ -19,38 +24,63 @@ const Calendar = () => {
     totalPoints: 0,
     totalChallenges: 0
   });
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // 현재 월의 데이터 가져오기
   const fetchMonthlyData = async () => {
-    if (!user.id) return;
+    if (!user?.id) {
+      setError("사용자 정보가 없습니다.");
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
 
     try {
-      const startOfMonth = currentMonth.startOf("month").format("YYYY-MM-DD");
-      const endOfMonth = currentMonth.endOf("month").format("YYYY-MM-DD");
+      // 한국 시간 기준으로 월의 시작과 끝을 계산
+      const startOfMonth = currentMonth
+        .startOf("month")
+        .startOf("day")
+        .format("YYYY-MM-DDTHH:mm:ss.SSSZ");
 
-      // 월간 챌린지 데이터 조회
+      const endOfMonth = currentMonth
+        .endOf("month")
+        .endOf("day")
+        .format("YYYY-MM-DDTHH:mm:ss.SSSZ");
+
       const challengeData = await calendarApi.getByDateRange(
         startOfMonth,
         endOfMonth,
         user.id
       );
 
-      // 데이터를 날짜별로 정리
       const dataByDate: MonthlyData = {};
       challengeData.forEach((item) => {
-        const date = item.created_at.split("T")[0];
-        dataByDate[date] = {
-          co2: item.co2 || 0,
-          point: item.point || 0,
-          challenge_count: 1
-        };
+        // UTC를 KST로 변환
+        const date = dayjs(item.created_at)
+          .tz("Asia/Seoul")
+          .format("YYYY-MM-DD");
+
+        if (!dataByDate[date]) {
+          dataByDate[date] = {
+            co2: 0,
+            point: 0,
+            challenge_count: 0
+          };
+        }
+
+        dataByDate[date].co2 += Number(item.co2) || 0;
+        dataByDate[date].point += Number(item.point) || 0;
+        dataByDate[date].challenge_count += 1;
       });
 
-      // 월간 통계
       const stats = {
-        totalCo2: challengeData.reduce((sum, item) => sum + (item.co2 || 0), 0),
+        totalCo2: challengeData.reduce(
+          (sum, item) => sum + (Number(item.co2) || 0),
+          0
+        ),
         totalPoints: challengeData.reduce(
-          (sum, item) => sum + (item.point || 0),
+          (sum, item) => sum + (Number(item.point) || 0),
           0
         ),
         totalChallenges: challengeData.length
@@ -59,22 +89,45 @@ const Calendar = () => {
       setMonthlyData(dataByDate);
       setMonthlyStats(stats);
     } catch (error) {
-      console.error("캘린더 데이터 요청 실패:", error);
+      console.error("Calendar data fetch error:", error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "데이터 로딩 중 오류가 발생했습니다."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchMonthlyData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, currentMonth]);
+  }, [user?.id, currentMonth]);
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-[400px] text-red-500">
+        {error}
+      </div>
+    );
+  }
 
   return (
-    <div>
-      {/* 헤더 */}
-      <div className="flex gap-4 mt-[100px] mb-8 items-center">
+    <div className="mb-[100px]">
+      <div className="flex flex-col gap-[30px]">
+        <p className="text-[20px] text-[#00691E]">
+          연속 챌린지 참가에 도전해보세요!
+        </p>
+        <h1 className="font-bold text-[32px]">
+          이번달 나의 탄소 절감 발자취를 확인해 보세요
+        </h1>
+      </div>
+
+      <div className="flex gap-4 mt-[76px] mb-8 items-center">
         <button
           onClick={() => handleMonthChange(-1)}
-          className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors"
+          className="w-10 h-10 flex items-center justify-center border-none transition-colors"
         >
           <ChevronLeft className="w-8 h-8" />
         </button>
@@ -83,77 +136,109 @@ const Calendar = () => {
         </span>
         <button
           onClick={() => handleMonthChange(1)}
-          className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors"
+          className="w-10 h-10 flex items-center justify-center border-none transition-colors"
         >
           <ChevronRight className="w-8 h-8" />
         </button>
       </div>
 
-      {/* 월별 통계 */}
-      <div className="flex flex-row w-full h-[70px] space-x-6">
-        <div className="flex flex-row justify-center items-center w-1/3 bg-gray-200 border-2 border-gray-300">
-          <p>탄소 절감량 {monthlyStats.totalCo2.toFixed(2)}kg</p>
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[90px] space-x-6">
+          Loading...
         </div>
-        <div className="flex flex-row justify-center items-center w-1/3 bg-gray-200 border-2 border-gray-300">
-          <p>포인트 수집 {monthlyStats.totalPoints}P</p>
+      ) : (
+        <div className="flex flex-row w-full h-[90px] space-x-6 text-white">
+          <div className="flex flex-row justify-around items-center w-1/3 bg-[#00320F] border-2 border-gray-300 rounded-xl">
+            <p className="font-medium text-[20px]">탄소 절감량</p>
+            <p className="font-semibold text-[26px]">
+              {monthlyStats.totalCo2.toFixed(2)}kg
+            </p>
+          </div>
+          <div className="flex flex-row justify-around items-center w-1/3 bg-[#00320F] border-2 border-gray-300 rounded-xl">
+            <p className="font-medium text-[20px]">포인트 수집</p>
+            <p className="font-semibold text-[26px]">
+              {monthlyStats.totalPoints}P
+            </p>
+          </div>
+          <div className="flex flex-row justify-around items-center w-1/3 bg-[#00320F] border-2 border-gray-300 rounded-xl">
+            <p className="font-medium text-[20px]">챌린지 참여</p>
+            <p className="font-semibold text-[26px]">
+              {monthlyStats.totalChallenges}건
+            </p>
+          </div>
         </div>
-        <div className="flex flex-row justify-center items-center w-1/3 bg-gray-200 border-2 border-gray-300">
-          <p>챌린지 참여 {monthlyStats.totalChallenges}건</p>
-        </div>
-      </div>
+      )}
 
-      {/* 캘린더 그리드 */}
-      <div className="flex flex-col justify-center py-[30px]">
-        <div className="grid grid-cols-7 mb-4">
+      <div className="flex flex-col justify-center mt-[18px]">
+        <div className="grid grid-cols-7 content-center h-[85px] px-[194px]">
           {DAY_OF_THE_WEEK.map((day) => (
-            <div key={day} className="text-center font-medium text-gray-600">
+            <div
+              key={day}
+              className={`
+                text-center 
+                font-semibold
+                text-[20px]
+                ${
+                  day === "토" || day === "일"
+                    ? "text-red-500"
+                    : "text-gray-600"
+                }
+              `}
+            >
               {day}
             </div>
           ))}
         </div>
 
-        <div className="space-y-2">
+        <div className="flex flex-col justify-center h-[832px] rounded-3xl">
           {weeks.map((week, weekIndex) => (
             <div
               key={weekIndex}
-              className="grid grid-cols-7 bg-gray-200 border-2 border-gray-300"
+              className="grid grid-cols-7 content-around px-[194px] h-[160px]"
             >
               {week.map(({ day, isInCurrentMonth }) => {
                 const dateStr = day.format("YYYY-MM-DD");
                 const dayData = monthlyData[dateStr];
-                const today = new Date();
                 const isToday =
-                  day.format("YYYY-MM-DD") ===
-                  dayjs(today).format("YYYY-MM-DD");
+                  day.format("YYYY-MM-DD") === dayjs().format("YYYY-MM-DD");
 
                 return (
                   <div
                     key={day.toString()}
                     className={`
-                      flex flex-col items-center p-4
+                      flex flex-col items-center rounded-2xl h-[110px] gap-[12px]
                       ${!isInCurrentMonth ? "text-gray-400" : ""}
-                      hover:bg-gray-300 transition-colors
-                      h-[110px]
                     `}
                   >
                     <div
                       className={`
                         flex items-center justify-center
-                        w-10 h-10
+                        w-[60px] h-[60px]
                         font-medium
-                        ${isToday ? "bg-red-500" : dayData ? "bg-gray-400" : ""}
-                        ${(isToday || dayData) && "rounded-full text-white"}
+                        text-[22px]
+                        ${
+                          isToday
+                            ? "bg-[#0D9C36] text-white"
+                            : dayData
+                            ? "bg-[#DCF7DC]"
+                            : isInCurrentMonth
+                            ? "bg-white rounded-full"
+                            : ""
+                        }
+                        ${(isToday || dayData) && "rounded-full"}
                       `}
                     >
                       {day.format("D")}
                     </div>
                     {dayData && (
-                      <>
-                        <p className="text-sm font-medium">
-                          {dayData.co2.toFixed(2)}kg
+                      <div className="flex flex-col">
+                        <p className="text-[12px] font-medium">
+                          -{dayData.co2.toFixed(2)}kg
                         </p>
-                        <p className="text-sm font-medium">+{dayData.point}P</p>
-                      </>
+                        <p className="text-[12px] font-medium text-[#0D9C36]">
+                          +{dayData.point}P
+                        </p>
+                      </div>
                     )}
                   </div>
                 );

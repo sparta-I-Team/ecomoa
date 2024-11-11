@@ -18,8 +18,13 @@ const PostCard = ({ post, type }: Props) => {
           key={post.post_id}
           className="w-full h-[220px] border-b flex flex-row p-4 mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-[0px_0px_40px_0px_rgba(0,0,0,0.02)]"
         >
-          <div className="flex-1 rounded-[12px] ">
-            {/* 게시글 제목 및 링크 */}
+          <div className="flex-1 rounded-[12px] gap-[20px]">
+            <div className="mb-4">
+              <label className="bg-[#D9D9D9]">
+                {post.user_info?.user_nickname}님
+              </label>
+              <time>{new Date(post.created_at).toLocaleDateString()}</time>
+            </div>
             <h2 className="text-xl font-semibold mb-2">
               <Link href={`/community/free/${post.post_id}`}>
                 {post.post_title}
@@ -61,7 +66,7 @@ const PostCard = ({ post, type }: Props) => {
       ) : (
         <article
           key={post.post_id}
-          className="flex flex-col justify-end items-start p-7 w-[276px] bg-white rounded-lg "
+          className="flex flex-col gap-[5px] justify-end items-start p-7 w-[276px] bg-white rounded-lg "
         >
           {post.post_img && post.post_img.length > 0 ? (
             <div className="flex-none w-[220px] h-[220px] mb-4">
@@ -78,7 +83,6 @@ const PostCard = ({ post, type }: Props) => {
               <span>이미지가 없습니다</span>
             </div>
           )}
-
           <p className="mb-2">{post.post_content}</p>
           <h2 className="text-xl font-semibold mb-2">
             <Link href={`/community/${type}/${post.post_id}`}>
@@ -90,15 +94,15 @@ const PostCard = ({ post, type }: Props) => {
             {post.price}원
           </label>
 
-          <div className="mb-4 flex">
-            <label className="mr-1">{post.user_info.user_nickname}-</label>
+          <div className="mb-4 flex gap-[5px] mt-[5px]">
+            <label className="mr-1">{post.user_info?.user_nickname}님</label>
             <time className="block">
               {new Date(post.created_at).toLocaleDateString()}
             </time>
           </div>
           <div className="flex justify-between items-center mt-auto">
             <div className="flex space-x-4">
-              <label>♡ {post.like || 0}</label>
+              <Like postId={post.post_id} />
               <label>댓글 {post.comment || 0}</label>
             </div>
           </div>

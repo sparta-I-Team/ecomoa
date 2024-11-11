@@ -24,10 +24,18 @@
   }
 }
 
+html {
+  height: 100%;
+}
 body {
+  height: 100%;
   color: var(--foreground);
   background: var(--background);
+  margin: 0;
+  leading-trim: both;
+  text-edge: cap alphabetic;
   font-family: Arial, Helvetica, sans-serif;
+  line-height: 80%;
 }
 
 input,

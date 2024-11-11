@@ -31,6 +31,40 @@ export const loadMyAllData = async (
   }
 };
 
+// 내 전체의 carbon_emissions 평균값
+export const loadMyAvgData = async (
+  setMyAllAvgData: React.Dispatch<React.SetStateAction<number>>
+) => {
+  setMyAllAvgData(0); // 기본값을 0으로 설정하여 상태를 초기화
+
+  const fetchedUser = await getUser();
+  if (fetchedUser) {
+    const { data, error } = await browserClient
+      .from("carbon_records")
+      .select("carbon_emissions")
+      .eq("user_id", fetchedUser.id);
+
+    if (error) {
+      console.error("데이터를 가지고 오지 못했습니다:", error);
+      setMyAllAvgData(0); // 오류 발생 시 0으로 설정
+      return;
+    }
+
+    if (data && Array.isArray(data) && data.length > 0) {
+      const totalEmission = data.reduce(
+        (sum, record) => sum + (record.carbon_emissions || 0),
+        0
+      );
+      const avgEmission = totalEmission / data.length;
+      setMyAllAvgData(avgEmission); // 평균값을 설정
+    } else {
+      setMyAllAvgData(0); // 데이터가 없으면 0으로 설정
+    }
+  } else {
+    setMyAllAvgData(0); // fetchedUser가 없으면 0으로 설정
+  }
+};
+
 // 이번달 기준 내 최신 data
 export const loadUserAndFetchData = async (
   // setUser: SetUserType,
@@ -175,6 +209,7 @@ interface MonthlyData {
   month: number;
 }
 
+// 5달치 평균 배출량
 export const loadRecentFiveMonthsEmissions = async (
   thisYear: number,
   thisMonth: number,
@@ -321,7 +356,6 @@ export const loadMyRecentFiveMonthsEmissions = async (
     }
 
     const user_id = fetchedUser.id;
-    console.log(user_id);
 
     let startMonth = thisMonth - monthsToFetch + 1;
     let startYear = thisYear;
@@ -449,5 +483,59 @@ export const loadMyRecentFiveMonthsEmissions = async (
   } catch (error) {
     console.error("데이터 로딩 중 오류 발생:", error);
     return null;
+  }
+};
+
+export interface TopData {
+  user_id: string;
+  carbon_emissions: number;
+}
+
+// 전체중에 제일 높은 데이터
+export const loadTopUsersData = async (
+  setTotalAvgData: React.Dispatch<React.SetStateAction<TopData | null>>
+) => {
+  const { data, error } = await browserClient
+    .from("carbon_records")
+    .select("user_id, carbon_emissions");
+
+  if (error) {
+    console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
+  } else if (data.length > 0) {
+    // 유저별로 carbon_emissions 평균값 계산
+    const userCarbonEmissionsMap: Record<
+      string,
+      { total: number; count: number }
+    > = {};
+
+    data.forEach((record) => {
+      const { user_id, carbon_emissions } = record;
+
+      if (!userCarbonEmissionsMap[user_id]) {
+        userCarbonEmissionsMap[user_id] = { total: 0, count: 0 };
+      }
+
+      userCarbonEmissionsMap[user_id].total += carbon_emissions;
+      userCarbonEmissionsMap[user_id].count += 1;
+    });
+
+    // 각 유저의 평균 carbon_emissions 값 계산
+    let topUser: TopData | null = null;
+    let highestAvgCarbonEmissions = 0;
+
+    Object.keys(userCarbonEmissionsMap).forEach((userId) => {
+      const { total, count } = userCarbonEmissionsMap[userId];
+      const avgCarbonEmissions = total / count;
+
+      if (avgCarbonEmissions > highestAvgCarbonEmissions) {
+        highestAvgCarbonEmissions = avgCarbonEmissions;
+        topUser = { user_id: userId, carbon_emissions: avgCarbonEmissions };
+      }
+    });
+
+    // 가장 높은 평균값을 가진 유저의 데이터를 상태에 설정
+    setTotalAvgData(topUser);
+  } else {
+    setTotalAvgData(null); // 데이터가 없을 경우 null로 설정
   }
 };

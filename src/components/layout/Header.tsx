@@ -1,16 +1,14 @@
 "use client";
+import { signout } from "@/api/auth-actions";
 import { createClient } from "@/utlis/supabase/client";
-import { useChallengeStore } from "@/zustand/challengeStore";
 import { userStore } from "@/zustand/userStore";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 
 const Header = () => {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(true);
-  const { setStep } = useChallengeStore();
-  const { loginUser } = userStore();
+  const { loginUser, user, logoutUser } = userStore();
   const pathname = usePathname();
 
   const navItems = [
@@ -20,12 +18,10 @@ const Header = () => {
     { href: "/community", label: "커뮤니티" }
   ];
 
-  const handleLogout = () => {
-    setIsUserLoggedIn(!isUserLoggedIn);
-  };
-
-  const handleSetStep = () => {
-    setStep(1);
+  const handleLogout = async () => {
+    await signout();
+    logoutUser();
+    alert("로그아웃 되었습니다.");
   };
 
   const supabase = createClient();
@@ -43,79 +39,88 @@ const Header = () => {
   });
 
   return (
-    <header className="">
+    <header className="bg-[#0D9C36]">
       <nav
         className="max-w-[1200px] mx-auto flex flex-row justify-between"
         aria-label="Main Navigation"
       >
-        <ul className="flex h-10">
+        <ul className="flex h-20">
           <li className="relative w-[100px] h-full">
             <Link href="/">
               <Image
-                src="/ecomoa.png"
+                src="/images/ecomoa2.png"
                 alt="에코모아로고"
                 fill
                 className="object-contain"
               />
             </Link>
           </li>
-          <div className="flex flex-row justify-center items-center space-x-4 ml-14 text-gray-400 text-sm">
+          <div className="flex flex-row justify-center items-center space-x-4 ml-14 text-white text-sm">
             {navItems.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   className={`p-2 rounded-full border transition-colors
                   ${
-                    pathname === item.href
-                      ? "border-green-500 text-green-500 font-bold"
-                      : "border-transparent text-gray-400 hover:text-gray-600 hover:border-green-200"
+                    pathname.includes(item.href)
+                      ? "border-white text-white font-bold"
+                      : "border-transparent text-white hover:text-gray-300 hover:border-gray-300"
                   }
                 `}
                 >
-                  <button className="border-none" onClick={handleSetStep}>
-                    {item.label}
-                  </button>
+                  {item.label}
                 </Link>
               </li>
             ))}
           </div>
         </ul>
         <ul className="flex flex-row justify-center items-center space-x-4">
-          {isUserLoggedIn ? (
-            <>
-              <li>
-                <Link href="/login" className="hover:text-gray-600">
-                  로그인
-                </Link>
-                <button
-                  className="border-none hover:text-gray-600"
-                  onClick={handleLogout}
+          {!user.isAuthenticated ? (
+            <ul className="flex flex-row justify-center items-center gap-[32px] text-white">
+              <li className="flex flex-row justify-center items-center gap-[9px]">
+                <figure className="w-[28px] h-[28px] rounded-full bg-[#00691E]"></figure>
+                <Link
+                  href="/mypage"
+                  className="text-[14px] hover:text-gray-300 "
                 >
-                  테스트
-                </button>
-              </li>
-              <li>
-                <Link href="/signup" className="hover:text-gray-600">
-                  회원가입
+                  마이페이지
                 </Link>
               </li>
-            </>
-          ) : (
-            <>
               <li>
-                <Link href="/mypage" className="hover:text-gray-600">
+                <Link href="/login" className="hover:text-gray-300">
+                  <button className="border-none rounded text-[14px] bg-[#00691E] w-[80px] h-[28px] ">
+                    로그인
+                  </button>
+                </Link>
+              </li>
+            </ul>
+          ) : (
+            <ul className="flex flex-row justify-center items-center gap-[32px] text-white">
+              <li className="flex flex-row justify-center items-center gap-[9px]">
+                <figure className="w-[28px] h-[28px] rounded-full bg-[#00691E]">
+                  <Image
+                    src="/images/profileLv1.png"
+                    alt="프로필 이미지"
+                    width={28}
+                    height={28}
+                  />
+                </figure>
+                <Link
+                  href="/mypage"
+                  className="text-[14px] hover:text-gray-300"
+                >
                   마이페이지
                 </Link>
               </li>
               <li>
                 <button
-                  className="border-none hover:text-gray-600"
+                  className="border-none rounded text-[14px] bg-[#00691E] w-[80px] h-[28px] hover:text-gray-300"
                   onClick={handleLogout}
                 >
                   로그아웃
                 </button>
               </li>
-            </>
+            </ul>
           )}
         </ul>
       </nav>

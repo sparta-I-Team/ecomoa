@@ -1,36 +1,225 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍀 **EcoMoa(에코모아)** 🍀
 
-## Getting Started
+![EcoMoa Logo](./public/service/frame1.png)
+<br><br>
 
-First, run the development server:
+## 📋 **프로젝트 소개 및 기획 의도** 📋
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+2024년 여름, 유난히 길고 덥고 습한 여름...  
+기후 이상 현상에 대한 우려가 커지며, 일회용품을 줄이고 플로깅을 실천하는 등 일상 속에서 친환경을 실천하려는 움직임이 많아졌습니다.
+
+**EcoMoa**는 이러한 흐름에 발맞춰, 사용자들이 지속적으로 환경 보호 활동에 참여하고,  
+탄소 절감을 위한 작은 실천들을 이어나가도록 독려하는 서비스입니다.  
+더 나은 환경을 위해 누구나 일상 속에서 쉽게 접근하고 참여할 수 있는 서비스를 목표로 기획했습니다.
+
+---
+
+<br><br>
+
+## 👨🏻‍💻 ** 11조 소개 ** 👩🏻‍💻
+
+### **프론트엔드 개발자**
+
+| 이름       | 직책   | 담당 업무             |
+| ---------- | ------ | --------------------- |
+| **장종호** | 팀장   | 탄소계산기, 지도      |
+| **노용철** | 부팀장 | 데일리 챌린지, 지도   |
+| **유재희** | 팀원   | 로그인, 회원가입, 홈  |
+| **장수인** | 팀원   | 커뮤니티, 실시간 채팅 |
+
+---
+
+### **디자이너**
+
+| 이름       | 담당 업무                        |
+| ---------- | -------------------------------- |
+| **이지솔** | 홈, 데일리 챌린지, 지도, 로그인  |
+| **나영은** | 탄소계산기, 커뮤니티, 마이페이지 |
+
+---
+
+<br><br>
+
+## 🛠 **주요 기능 (MVP)** 🛠
+
+### 1. **데일리 챌린지**
+
+일상 속에서 탄소 배출을 줄일 수 있는 다양한 활동을 챌린지 형태로 제공하여,  
+누구나 쉽게 접근하고 습관으로 만들 수 있도록 돕는 기능
+
+### 2. **탄소계산기**
+
+매달 사용한 전기, 가스, 수도, 연료 등의 소비량을 바탕으로 탄소 배출량을 계산해주고,  
+통계로 한눈에 확인할 수 있는 기능
+
+### 3. **친환경 가게 지도**
+
+서울에 위치한 제로웨이스트 숍, 친환경 제품 판매점 등을 손쉽게 찾을 수 있는 지도를 제공
+
+### 4. **챌린지 인증 및 아나바다 게시판**
+
+데일리 챌린지 인증과 더불어, 중고 물품을 거래할 수 있는 커뮤니티형 게시판을 제공하여  
+사용자 간 교류와 실천을 촉진
+
+---
+
+<br><br>
+
+## 🔗 **링크** 🔗
+
+- **배포 URL**: [EcoMoa 서비스 바로가기](https://i-team-nine.vercel.app/)
+- **팀 노션**: [팀 노션 페이지](https://www.notion.so/teamsparta/11-II-692f6521b2d64a53af7793164d9657fa)
+
+---
+
+<br><br>
+
+## 🔍 **기술적 의사결정** 🔍
+
+| **적용 기술** | **선택 이유**                                                     | **대안**                   | **의사결정 과정**                                   |
+| ------------- | ----------------------------------------------------------------- | -------------------------- | --------------------------------------------------- |
+| **Chart.js**  | 커스텀 가능, 여러가지 차트 병합 가능, 타입스크립트 지원           | `D3.js, Nivo` (라이브러리) | 차트의 커스터마이징과 병합 가능성 고려              |
+| **Zustand**   | 프로젝트 규모가 커짐에 따라 상태 관리 필요, 간편한 전역 상태 관리 | `Redux`                    | 과도한 props 전달을 피하고, 가벼운 상태 관리가 필요 |
+
+---
+
+<br><br>
+
+## 🚀 **트러블 슈팅** 🚀
+
+### 1. [모달 기능의 공통화 및 개선을 위한 리팩토링]
+
+```
+모달 기능이 공통화되지 않고 개별적으로 정의되어 코드 중복 및 통일성 부족 문제가 발생
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### 시도한 해결 방법
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+모달 타입(custom, autoClose, confirm 등)을 추가하고, 더 많은 설정 옵션을 제공하여 모달의 상태를 유연하게 제어할 수 있도록 리팩토링
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### 수정 후 코드
 
-## Learn More
+```typescript
+// 리팩토링된 Zustand 모달 스토어
+import { create } from "zustand";
+import { ModalStoreType } from "@/types/modal";
 
-To learn more about Next.js, take a look at the following resources:
+type ModalStore = ModalStoreType & {
+  openModal: (params: Partial<ModalStoreType>) => void;
+  closeModal: () => void;
+};
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+export const useModalStore = create<ModalStore>((set) => ({
+  isOpen: false,
+  content: null,
+  type: "custom", // 기본 타입 설정
+  autoClose: undefined, // 자동 닫힘 기능 추가
+  onConfirm: undefined, // 확인 버튼 클릭 시 처리할 핸들러
+  onCancel: undefined, // 취소 버튼 클릭 시 처리할 핸들러
+  buttonText: undefined, // 버튼 텍스트 설정
+  openModal: (params) => set({ isOpen: true, ...params }),
+  // 다양한 옵션을 받아서 상태 업데이트
+  closeModal: () =>
+    set({
+      isOpen: false,
+      content: null,
+      type: "custom",
+      autoClose: undefined,
+      onConfirm: undefined,
+      onCancel: undefined,
+      buttonText: undefined
+    })
+}));
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+<br><br>
 
-## Deploy on Vercel
+### 2. [미들웨어에서 무한 루프 발생]
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+미들웨어 리다이렉트 무한 반복으로 브라우저의 페이지 로드 실패, "ERR_TOO_MANY_REDIRECTS" 오류 발생
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### 시도한 해결 방법
+
+```
+/login 경로를 예외 처리하여, 해당 페이지로의 접근 시 미들웨어가 실행되지 않도록 수정
+```
+
+#### 수정 후 코드
+
+```typescript
+export const config = {
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|login|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"
+  ]
+};
+```
+
+---
+
+<br><br>
+
+## 🔜 **추후 개발 계획**
+
+1. **메인 홈 화면 컴포넌트 작업 및 인터렉티브 모션 추가**
+2. **친환경 지도 기능 추가**
+3. **반응형 작업 (모바일 지원)**
+4. **실시간 채팅 추가**
+
+---
+
+<br><br>
+
+## 💡 **개선 예정 기능**
+
+1. **공통 컴포넌트 및 공통 디자인 작업**
+
+   - 각자 맡은 부분을 개발하고, 디자이너와 실시간으로 작업하다 보니 공통화 작업이 미비하게 진행됨
+   - 유지보수 및 추가 작업의 효율성을 높이기 위해 고도화된 공통화 작업 예정
+
+2. **UT 기간 사용자 사용성 체크**
+   - 유저들의 피드백을 최대한 반영하여 개선 예정
+
+---
+
+<br><br>
+
+## 🛠 **예상되는 기술적 도전 과제**
+
+### 1. **Middleware 문제 해결**
+
+- `Middleware`가 정확하게 작동하지 않는 문제를 발견, 추후 학습 후 팀원들과 코드 리뷰 예정
+
+### 2. **실시간 채팅 기능 도전**
+
+- supabase에 실시간 데이터베이스 업데이트를 지원하는 `Realtime` 기능 사용 예정
+
+---
+
+<br><br>
+
+## ⚙️ **기술 스택** ⚙️
+
+### **Frontend**
+
+- **Next.js**
+- **React**
+- **TypeScript**
+- **Tailwind CSS**
+
+### **Backend**
+
+- **Supabase** (인증, 데이터베이스)
+
+### **DevOps**
+
+- **Vercel** (Next.js 호스팅 및 배포)
+- **GitHub** (버전 관리)
+
+### **Tools**
+
+- **Visual Studio Code** (개발 환경)
+- **Figma** (UI/UX 디자인)
