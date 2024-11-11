@@ -6,13 +6,15 @@ export interface SectionCardProps {
   title: string;
   usageValue: number | undefined;
   co2Value: number | undefined;
+  unit: string;
 }
 
 const SectionCard: React.FC<SectionCardProps> = ({
   logo,
   title,
   usageValue,
-  co2Value
+  co2Value,
+  unit
 }) => {
   return (
     <>
@@ -23,6 +25,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
             title={title}
             usageValue={usageValue}
             co2Value={co2Value}
+            unit={unit}
           />
         </div>
       </div>

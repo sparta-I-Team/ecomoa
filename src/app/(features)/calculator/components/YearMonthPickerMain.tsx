@@ -60,27 +60,29 @@ const YearMonthPickerMain: React.FC<YearSelectProps> = ({
         {/* 드롭다운 버튼 */}
         <button
           onClick={toggleYearDropdown}
-          className="w-[124px] h-[38px] bg-[#00320f] rounded-[12px] justify-start items-center gap-2.5 inline-flex text-white p-[12px]"
+          className="w-[162px] h-[60px] bg-[#00320f] rounded-[12px] justify-start items-center inline-flex text-white p-[12px]"
         >
           {/* whitespace-nowrap 속성 추가 */}
-          <div className="text-[20px] font-medium whitespace-nowrap">
-            {selectedYear && selectedMonth
-              ? `${selectedYear}년`
-              : `${selectedYear}년`}
-          </div>
-          <div>
-            <Image
-              src="/calculate/ic_round-expand-more.svg"
-              alt="YearPicker"
-              width={24}
-              height={24}
-            />
+          <div className="flex flex-row items-center mx-auto gap-[12px]">
+            <div className="text-[20px] font-medium whitespace-nowrap">
+              {selectedYear && selectedMonth
+                ? `${selectedYear}년`
+                : `${selectedYear}년`}
+            </div>
+            <div>
+              <Image
+                src="/calculate/ic_round-expand-more.svg"
+                alt="YearPicker"
+                width={24}
+                height={24}
+              />
+            </div>
           </div>
         </button>
 
         {/* 연도 드롭다운 */}
         {isYearDropdownOpen && (
-          <div className="absolute top-[100%] mt-[16px] flex flex-col w-[124px] bg-white rounded-xl text-[20px] z-10 border border-[#d5d7dd] text-center overflow-hidden">
+          <div className="absolute top-[100%] mt-[16px] flex flex-col w-[162px] bg-white rounded-xl text-[20px] z-10 border border-[#d5d7dd] text-center overflow-hidden">
             {Array.from({ length: currentYear - 2020 + 1 }, (_, i) => (
               <div
                 key={2020 + i}
@@ -97,30 +99,32 @@ const YearMonthPickerMain: React.FC<YearSelectProps> = ({
       </div>
 
       {/* 월 드롭다운 버튼 */}
-      <div className="relative flex flex-col gap-[16px]">
+      <div className="relative flex flex-col gap-[10px]">
         <button
           onClick={toggleMonthDropdown}
-          className="w-[100px] h-[38px] bg-[#00320f] rounded-[12px] justify-start items-center gap-2.5 inline-flex text-white p-[12px]"
+          className="w-[125px] h-[60px] bg-[#00320f] rounded-[12px] justify-start items-center inline-flex text-white p-[12px]"
         >
-          <div className="text-[20px] font-medium whitespace-nowrap">
-            {/* whitespace-nowrap 속성 추가 */}
-            {selectedMonth
-              ? `${String(selectedMonth).padStart(2, "0")}월`
-              : "월 선택"}
-          </div>
-          <div>
-            <Image
-              src="/calculate/ic_round-expand-more.svg"
-              alt="YearPicker"
-              width={24}
-              height={24}
-            />
+          <div className="flex flex-row items-center mx-auto gap-[12px]">
+            <div className="text-[20px] font-medium whitespace-nowrap">
+              {/* whitespace-nowrap 속성 추가 */}
+              {selectedMonth
+                ? `${String(selectedMonth).padStart(2, "0")}월`
+                : "월 선택"}
+            </div>
+            <div>
+              <Image
+                src="/calculate/ic_round-expand-more.svg"
+                alt="YearPicker"
+                width={24}
+                height={24}
+              />
+            </div>
           </div>
         </button>
 
         {/* 월 드롭다운 */}
         {isMonthDropdownOpen && (
-          <div className="absolute top-[100%] mt-[16px] flex flex-col w-[100px] bg-white rounded-xl text-[20px] z-10 border border-[#d5d7dd] text-center overflow-hidden">
+          <div className="absolute top-[100%] mt-[16px] flex flex-col w-[125px] bg-white rounded-xl text-[20px] z-10 border border-[#d5d7dd] text-center overflow-hidden">
             {Array.from({ length: 12 }, (_, i) => (
               <div
                 key={i + 1}

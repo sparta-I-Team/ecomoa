@@ -8,16 +8,15 @@ import SectionCard from "../../../components/SectionCard";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import TipCard from "../../../components/TipCard";
+import Loading from "../../../components/Loading";
 
 const currentMonth = new Date().getMonth() + 1;
+const MIN_LOADING_TIME = 3000; // 최소 로딩 시간 (3초)
 
 const ResultPage: React.FC = () => {
-  // const searchParams = useSearchParams(); // 쿼리 파라미터 가져오기
-  // const year = searchParams.get("year"); // year 파라미터 가져오기
-  // const month = searchParams.get("month"); // month 파라미터 가져오기
-
   const [currentData, setCurrentData] = useState<MonthlyData | null>(null);
   const [totalAvgData, setTotalAvgData] = useState<MonthlyData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const params = useParams();
   const year = params.year;
@@ -26,10 +25,32 @@ const ResultPage: React.FC = () => {
   // 나와 유저들의 data
   useEffect(() => {
     if (year && month) {
-      loadUserAndFetchData(Number(year), Number(month), setCurrentData);
-      loadTotalUsersData(Number(year), Number(month), setTotalAvgData);
+      const fetchStartTime = Date.now();
+
+      Promise.all([
+        loadUserAndFetchData(Number(year), Number(month), setCurrentData),
+        loadTotalUsersData(Number(year), Number(month), setTotalAvgData)
+      ])
+        .then(() => {
+          const timeElapsed = Date.now() - fetchStartTime;
+          const remainingTime = MIN_LOADING_TIME - timeElapsed;
+
+          if (remainingTime > 0) {
+            setTimeout(() => setIsLoading(false), remainingTime);
+          } else {
+            setIsLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.error("데이터 로드 실패:", error);
+          setIsLoading(false);
+        });
     }
   }, [year, month]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <>
       <div className="w-[1200px] mx-auto">
@@ -48,17 +69,17 @@ const ResultPage: React.FC = () => {
         <div>
           {/* 첫번째 section */}
           <div className="flex w-full h-[400px] rounded-[40px] justify-between items-center bg-[#00320F] px-[80px] mb-[140px]">
-            <div className="flex flex-row mt-[40px] ml-[42px] ">
+            <div className="flex flex-row ml-[42px]">
               <div className="flex flex-col">
-                <p className="text-[36px] font-bold text-white mb-[16px]">
+                <div className="text-[36px] font-bold text-white mb-[36px]">
                   {month !== null && currentMonth !== null
                     ? Number(month) === currentMonth
                       ? "이번 달"
                       : `${month}월`
                     : ""}{" "}
                   총 탄소 배출량은
-                </p>
-                <div className="text-[#0FCE45] text-[48px] font-semibold mt-[24px] mb-[32px]">
+                </div>
+                <div className="text-[#FFD64E] text-[48px] font-semibold mb-[40px]">
                   {currentData?.carbon_emissions}kg
                 </div>
                 <div className="text-[16px] text-white">
@@ -108,30 +129,35 @@ const ResultPage: React.FC = () => {
             title={"전기"}
             usageValue={currentData?.electricity_usage}
             co2Value={currentData?.electricity_co2}
+            unit="kwh/월"
           />
           <SectionCard
             logo={"/calculate/water_color.svg"}
             title={"수도"}
             usageValue={currentData?.water_usage}
             co2Value={currentData?.water_co2}
+            unit="m³/월"
           />
           <SectionCard
             logo={"/calculate/gas_color.svg"}
             title={"가스"}
             usageValue={currentData?.gas_usage}
             co2Value={currentData?.gas_co2}
+            unit="m³/월"
           />
           <SectionCard
             logo={"/calculate/car_color.svg"}
             title={"교통"}
             usageValue={currentData?.car_usage}
             co2Value={currentData?.car_co2}
+            unit="km/월"
           />
           <SectionCard
             logo={"/calculate/waste_color.svg"}
             title={"폐기물"}
             usageValue={currentData?.waste_volume}
             co2Value={currentData?.waste_co2}
+            unit="Kg/월"
           />
         </div>
         <div>
@@ -176,11 +202,9 @@ const ResultPage: React.FC = () => {
             />
           </div>
         </div>
-        <div className="flex justify-center mb-[126px]">
-          <button className="w-[380px] h-[60px] px-4 py-6 bg-[#dcecdc] rounded-[40px] justify-center items-center gap-2.5 inline-flex border-none hover:bg-[#0d9c36]">
-            <div className="grow shrink basis-0 text-center text-[#6e7481] text-[18px] font-semibold hover:text-white">
-              이미지로 저장
-            </div>
+        <div>
+          <button className="w-[380px] h-[60px] px-8 bg-[#E8F3E8] text-[#A1A7B4] rounded-[85px] text-[18px] font-semibold border-none hover:bg-[#0D9C36] hover:text-white">
+            <div className="grow shrink basis-0 text-center">이미지로 저장</div>
           </button>
         </div>
       </div>
