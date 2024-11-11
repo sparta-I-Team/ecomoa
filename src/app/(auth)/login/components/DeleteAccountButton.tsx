@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteUserInfo } from "@/api/auth-actions";
+import { deleteUserInfo, signout } from "@/api/auth-actions";
 import { deleteUser } from "@/api/delete-action";
 import { userStore } from "@/zustand/userStore";
 import { useRouter } from "next/navigation";
@@ -13,25 +13,20 @@ const DeleteAccountButton = ({ userId }: DeleteAccountProps) => {
   const router = useRouter();
   const { logoutUser } = userStore();
   const handleDeleteAccount = async () => {
-    try {
-      const isConfirmed = window.confirm("회원 탈퇴하시겠습니까?");
-      if (isConfirmed) {
-        logoutUser();
-        await deleteUser(userId);
-        await deleteUserInfo(userId);
-        router.push("/login");
-      }
-    } catch (error) {
-      alert("회원 탈퇴에 실패했습니다.");
-      console.error(error);
+    const isConfirmed = window.confirm("회원 탈퇴하시겠습니까?");
+    if (isConfirmed) {
+      await Promise.all([
+        deleteUser(userId),
+        deleteUserInfo(userId),
+        signout(),
+        logoutUser()
+      ]);
+      router.push("/"); // 페이지 이동 후
     }
   };
-
   return (
-    // className="text-[#000301] font-wanted text-[18px] font-[500] leading-normal tracking-[-0.18px]
-
     <button
-      className="border-none text-[#000301] font-wanted text-[18px] font-[500] leading-normal tracking-[-0.18px]"
+      className="flex items-center justify-center bg-[#0D9C36] rounded-[40px] h-[60px] text-[#FFF] p-[24px_16px] border-none text-[#000301] font-wanted text-[18px] font-[500] leading-normal tracking-[-0.18px]"
       onClick={handleDeleteAccount}
     >
       회원 탈퇴

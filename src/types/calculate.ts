@@ -19,6 +19,8 @@ export interface InputFieldProps {
   requiredMessage?: string;
   placeholder?: string;
   unit: string;
+  fuelType?: string;
+  setFuelType?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // 이번달 내 사용량

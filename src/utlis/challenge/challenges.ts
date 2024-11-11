@@ -77,6 +77,7 @@ export const LEVEL_CONFIG = {
     min: 0,
     max: 10000,
     image: "/images/seed.png",
+    profile: "/images/profile1.png",
     bg: "#321C00",
     exp: "#FFD64E"
   },
@@ -85,6 +86,7 @@ export const LEVEL_CONFIG = {
     min: 10000,
     max: 20000,
     image: "/images/sesac.png",
+    profile: "/images/profile2.png",
     bg: "#320008",
     exp: "#FF738F"
   },
@@ -93,6 +95,7 @@ export const LEVEL_CONFIG = {
     min: 20000,
     max: 30000,
     image: "/images/treemoa.png",
+    profile: "/images/profile3.png",
     bg: "#00320F",
     exp: "#0D9C36"
   },
@@ -101,6 +104,7 @@ export const LEVEL_CONFIG = {
     min: 30000,
     max: 40000,
     image: "/images/clover.png",
+    profile: "/images/profile4.png",
     bg: "#000132",
     exp: "#28B0FB"
   }

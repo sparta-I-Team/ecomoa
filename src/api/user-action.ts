@@ -89,6 +89,22 @@ export const checkNicknameAvailability = async (
   return data.length === 0; // 사용 가능하면 true, 중복이면 false
 };
 
+// 이메일 중복 검사
+export const checkEmailAbility = async (userEmail: string) => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("user_info")
+    .select("user_email")
+    .eq("user_email", userEmail)
+    .limit(1);
+
+  if (error) {
+    console.error("이메일 중복 검사 오류", error);
+    return null;
+  }
+  return data.length === 0; // 사용 가능하면 true, 중복이면 false
+};
+
 // 좋아요 게시글 가져오기
 export const getLikePosts = async (
   userId: string
@@ -187,47 +203,47 @@ export const getBookmarkAnabada = async (userId: string) => {
 };
 
 // 스토리지에 프로필 이미지 업로드
-export const uploadProfileImage = async (
-  userId: string,
-  formData: FormData
-) => {
-  const supabase = createClient();
-  const file = formData.get("profileImage") as File; // FormData에서 파일 가져오기
-  if (!file) return;
-  const filePath = `/${userId}/${file.name}`; // userId 폴더에 저장
-  // 스토리지 업로드
-  const { error } = await supabase.storage
-    .from("avatars")
-    .upload(filePath, file, {
-      cacheControl: "3600", // 캐시 제어 설정 (1시간)
-      upsert: true // 기존 파일이 있을 경우 덮어쓰기
-    });
+// export const uploadProfileImage = async (
+//   userId: string,
+//   formData: FormData
+// ) => {
+//   const supabase = createClient();
+//   const file = formData.get("profileImage") as File; // FormData에서 파일 가져오기
+//   if (!file) return;
+//   const filePath = `/${userId}/${file.name}`; // userId 폴더에 저장
+//   // 스토리지 업로드
+//   const { error } = await supabase.storage
+//     .from("avatars")
+//     .upload(filePath, file, {
+//       cacheControl: "3600", // 캐시 제어 설정 (1시간)
+//       upsert: true // 기존 파일이 있을 경우 덮어쓰기
+//     });
 
-  if (error) {
-    throw new Error("이미지 업로드 실패: " + error.message);
-  }
-  // 업로드한 파일의 공용 URL 가져오기
-  const publicUrl = supabase.storage
-    .from("avatars")
-    .getPublicUrl(filePath).data; // filePath를 사용하여 URL 생성
-  return publicUrl; // 업로드한 이미지의 공용 URL 반환
-};
+//   if (error) {
+//     throw new Error("이미지 업로드 실패: " + error.message);
+//   }
+//   // 업로드한 파일의 공용 URL 가져오기
+//   const publicUrl = supabase.storage
+//     .from("avatars")
+//     .getPublicUrl(filePath).data; // filePath를 사용하여 URL 생성
+//   return publicUrl; // 업로드한 이미지의 공용 URL 반환
+// };
 
 // 테이블에 프로필 이미지 업데이트
-export const updateAvatarUrl = async (userId: string, newAvatarUrl: string) => {
-  const supabase = createClient();
-  const { data, error } = await supabase
-    .from("user_info")
-    .update({ user_avatar: newAvatarUrl })
-    .eq("user_id", userId)
-    .select();
+// export const updateAvatarUrl = async (userId: string, newAvatarUrl: string) => {
+//   const supabase = createClient();
+//   const { data, error } = await supabase
+//     .from("user_info")
+//     .update({ user_avatar: newAvatarUrl })
+//     .eq("user_id", userId)
+//     .select();
 
-  if (error) {
-    console.error("프로필 업데이트 오류", error);
-    return null;
-  }
-  return data;
-};
+//   if (error) {
+//     console.error("프로필 업데이트 오류", error);
+//     return null;
+//   }
+//   return data;
+// };
 
 // 북마크
 export const getBookmarks = async (

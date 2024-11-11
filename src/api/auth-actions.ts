@@ -45,12 +45,14 @@ export const signup = async (signupInput: SignupInput) => {
 
 // 로그아웃
 export const signout = async () => {
+  console.log("signout함수 들어옴");
   const supabase = createClient();
   const { error } = await supabase.auth.signOut();
+  console.log("signout함수 나옴");
   if (error) {
     console.error("로그아웃 에러", error);
   }
-  redirect("/");
+  // redirect("/");
 };
 
 // 카카오 로그인
@@ -99,4 +101,5 @@ export const deleteUserInfo = async (userId: string) => {
   if (error) {
     console.error("회원탈퇴 user_info 정보 삭제 오류", error);
   }
+  return;
 };

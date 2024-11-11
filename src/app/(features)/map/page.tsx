@@ -1,32 +1,52 @@
 "use client";
-import { Modal } from "@/components/shared/Modal";
-import { useModalStore } from "@/zustand/modalStore";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect } from "react";
+import { Store } from "@/types/map";
+import { useState } from "react";
+import KakaoMap from "./components/kakaoMap";
+import StoreList from "./components/ui/StoreList";
+import StoreSkeleton from "./components/ui/StoreSkeleton";
+import MapSkeleton from "./components/ui/MapSkeleton";
+import { useStoreList } from "@/hooks/useMap";
 
 const Page = () => {
-  const router = useRouter();
-  const { openModal, closeModal } = useModalStore();
+  const [selectedStoreId, setSelectedStoreId] = useState<string | null>(null);
 
-  const handleRedirect = useCallback(() => {
-    openModal({
-      type: "alert",
-      content: <>추후 업데이트 예정입니다</>,
-      autoClose: 2000
-    });
-    const timer = setTimeout(() => {
-      closeModal();
-      router.push("/");
-    }, 800);
+  const { data: storeList, isLoading, error } = useStoreList();
 
-    return () => clearTimeout(timer);
-  }, [router, openModal, closeModal]);
+  const handleStoreClick = (store: Store) => {
+    setSelectedStoreId(store.store_id);
+  };
 
-  useEffect(() => {
-    handleRedirect();
-  }, [handleRedirect]);
+  if (error) {
+    return <div>데이터를 패치 오류</div>;
+  }
 
-  return <Modal></Modal>;
+  if (isLoading) {
+    return (
+      <div className="flex flex-row w-[1200px] mx-auto h-screen border border-gray-500">
+        <div className="w-1/3 border-r">
+          <StoreSkeleton />
+        </div>
+        <MapSkeleton />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-row w-[1200px] mx-auto h-screen border border-gray-500">
+      <div className="w-1/3 border-r">
+        <StoreList
+          stores={storeList || []}
+          onClick={handleStoreClick}
+          selectedStoreId={selectedStoreId}
+        />
+      </div>
+      <KakaoMap
+        storeList={storeList || []}
+        selectedStoreId={selectedStoreId}
+        onClick={handleStoreClick}
+      />
+    </div>
+  );
 };
 
 export default Page;
