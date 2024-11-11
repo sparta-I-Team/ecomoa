@@ -1,5 +1,6 @@
 "use client";
 
+import { signout } from "@/api/auth-actions";
 import { deleteUser } from "@/api/delete-action";
 import { userStore } from "@/zustand/userStore";
 import { useRouter } from "next/navigation";
@@ -15,10 +16,13 @@ const DeleteAccountButton = ({ userId }: DeleteAccountProps) => {
     const isConfirmed = window.confirm("회원 탈퇴하시겠습니까?");
     if (isConfirmed) {
       console.log("유저아이디ㅇㅇㅇㅇㅇ", userId);
-      await deleteUser(userId);
-      // router.push("/");
-      logoutUser();
-
+      await Promise.all([
+        deleteUser(userId),
+        // deleteUserInfo(userId),
+        signout(),
+        logoutUser()
+      ]);
+      router.refresh();
       // const response = await fetch("/api/auth", {
       //   method: "DELETE",
       //   headers: {
@@ -33,11 +37,11 @@ const DeleteAccountButton = ({ userId }: DeleteAccountProps) => {
       //   throw new Error("서버 오류 회원 탈퇴 실패 : ");
       // }
 
-      localStorage.removeItem("userInfo"); // 강제로 localStorage에서 삭제
-      userStore.persist.clearStorage(); // Zustand의 상태도 초기화
-      logoutUser();
+      // localStorage.removeItem("userInfo"); // 강제로 localStorage에서 삭제
+      // userStore.persist.clearStorage(); // Zustand의 상태도 초기화
+      // logoutUser();
 
-      router.push("/"); // 페이지 이동 후
+      // router.push("/"); // 페이지 이동 후
       setTimeout(() => {
         window.location.reload(); // 페이지 새로 고침
       }, 500); // 잠시 대기 후 새로 고침
