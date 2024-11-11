@@ -1,6 +1,6 @@
 "use client";
 
-import { signout } from "@/api/auth-actions";
+import { deleteUserInfo, signout } from "@/api/auth-actions";
 import { deleteUser } from "@/api/delete-action";
 import { userStore } from "@/zustand/userStore";
 import { useRouter } from "next/navigation";
@@ -15,43 +15,18 @@ const DeleteAccountButton = ({ userId }: DeleteAccountProps) => {
   const handleDeleteAccount = async () => {
     const isConfirmed = window.confirm("회원 탈퇴하시겠습니까?");
     if (isConfirmed) {
-      console.log("유저아이디ㅇㅇㅇㅇㅇ", userId);
       await Promise.all([
         deleteUser(userId),
-        // deleteUserInfo(userId),
+        deleteUserInfo(userId),
         signout(),
         logoutUser()
       ]);
-      router.refresh();
-      // const response = await fetch("/api/auth", {
-      //   method: "DELETE",
-      //   headers: {
-      //     "Content-Type": "application/json"
-      //   },
-      //   body: JSON.stringify({ userId })
-      // });
-
-      // console.log("response : ", response);
-
-      // if (!response.ok) {
-      //   throw new Error("서버 오류 회원 탈퇴 실패 : ");
-      // }
-
-      // localStorage.removeItem("userInfo"); // 강제로 localStorage에서 삭제
-      // userStore.persist.clearStorage(); // Zustand의 상태도 초기화
-      // logoutUser();
-
-      // router.push("/"); // 페이지 이동 후
-      setTimeout(() => {
-        window.location.reload(); // 페이지 새로 고침
-      }, 500); // 잠시 대기 후 새로 고침
+      router.push("/"); // 페이지 이동 후
     }
   };
   return (
-    // className="text-[#000301] font-wanted text-[18px] font-[500] leading-normal tracking-[-0.18px]
-
     <button
-      className="border-none text-[#000301] font-wanted text-[18px] font-[500] leading-normal tracking-[-0.18px]"
+      className="flex items-center justify-center bg-[#0D9C36] rounded-[40px] h-[60px] text-[#FFF] p-[24px_16px] border-none text-[#000301] font-wanted text-[18px] font-[500] leading-normal tracking-[-0.18px]"
       onClick={handleDeleteAccount}
     >
       회원 탈퇴

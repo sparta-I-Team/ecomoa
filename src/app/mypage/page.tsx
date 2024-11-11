@@ -1,4 +1,3 @@
-import DeleteAccountButton from "../(auth)/login/components/DeleteAccountButton";
 import { getUser } from "@/api/auth-actions";
 import UserInfoCard from "./components/UserInfoCard";
 import MyPoint from "./components/MyPoint";
@@ -9,7 +8,6 @@ const Mypage = async () => {
   const user = await getUser();
   if (!user) return;
   await getUserInfo(user.id);
-  const userId = user.id;
   return (
     // 최상위 div에 min-h-screen 추가
     <div className="w-full min-h-screen bg-[#F4FFF4]">
@@ -63,7 +61,12 @@ const Mypage = async () => {
         </Link>
 
         <div className="border-b-[#DCECDC] w-full h-[92px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center">
-          <DeleteAccountButton userId={userId} />
+          <Link
+            href={"/delete"}
+            className="text-[#000301] font-wanted text-[18px] font-[500] leading-normal tracking-[-0.18px]"
+          >
+            회원 탈퇴
+          </Link>
           <ChevronRight />
         </div>
 

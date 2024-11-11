@@ -7,8 +7,6 @@ import DeleteAccountButton from "../login/components/DeleteAccountButton";
 
 const DeletePage = () => {
   const { user } = userStore();
-  console.log(user.id);
-
   const [selectedReason, setSelectedReason] = useState("");
 
   const handleToggle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +30,7 @@ const DeletePage = () => {
           정말 탈퇴하시겠어요?
         </p>
         <section className="mt-[48px] flex justify-start items-center w-[1200px] h-[571px] bg-[#FFF]">
-          <form className="flex flex-col gap-[24px] ml-[56px]">
+          <div className="flex flex-col gap-[24px] ml-[56px]">
             <p className="font-wanted test-[24px] font-[600] leading-[33.6px] tracking-[-0.24ppx]">
               떠나시는 이유가 있을까요?
             </p>
@@ -202,7 +200,7 @@ const DeletePage = () => {
               <span>기타</span>
             </label>
             <DeleteAccountButton userId={user.id} />
-          </form>
+          </div>
         </section>
       </div>
     </div>

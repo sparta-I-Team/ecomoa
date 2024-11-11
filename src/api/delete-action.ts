@@ -9,6 +9,7 @@ const supabaseAdmin = createClient(
 
 // 회원탈퇴
 export const deleteUser = async (userId: string) => {
+  console.log("딜리트 유저 함수 들어옴");
   const { data, error } = await supabaseAdmin.auth.admin.deleteUser(userId);
   console.log("@@@@@@@@@@@@", data);
   console.log("#######", error);
