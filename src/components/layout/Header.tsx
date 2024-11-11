@@ -27,7 +27,7 @@ const Header = () => {
   const handleSetStep = () => {
     setStep(1);
   };
-  
+
   const supabase = createClient();
   supabase.auth.onAuthStateChange((event, session) => {
     if (event === "INITIAL_SESSION") {

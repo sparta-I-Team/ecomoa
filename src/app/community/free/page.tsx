@@ -1,3 +1,5 @@
+// components/Page.tsx
+
 "use client";
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
@@ -5,6 +7,7 @@ import { Post } from "@/types/community";
 import { communityApi } from "@/api/communityApi";
 import CommunityNav from "../components/CommunityNav";
 import PostCard from "../components/PostCard";
+import Image from "next/image";
 
 const Page = () => {
   const [selected, setSelected] = useState<string | null>(null);
@@ -21,7 +24,6 @@ const Page = () => {
     const getPosts = async () => {
       setLoading(true);
       const { data, error } = await communityApi.getPost("free");
-      console.log(data);
       if (error) {
         setError(error);
       } else {
@@ -40,17 +42,18 @@ const Page = () => {
   }, [posts, searchTerm]);
 
   return (
-    <div className="bg-[#F2F9F2]">
-      <label className="text-xl font-bold mb-4 mt-4">
+    <div className="bg-[#F2F9F2] overflow-x-hidden overflow-y-hidden mt-12">
+      <label className="text-xl font-bold mb-4 mt-12">
         친환경 활동을 공유해 보세요
       </label>
-      <div className="flex flex-col" style={{ width: "1200px" }}>
-        <CommunityNav />
-        <div className="bg-[#F4FFF4]">
+
+      <div className="bg-[#F4FFF4] overflow-y-hidden">
+        <div className="flex flex-col w-[1200px]">
+          <CommunityNav />
           <input
             type="text"
             placeholder="키워드를 검색해 보세요"
-            className="mt-4 flex w-[380px] h-[52px] p-[19px_20px] flex-col justify-center items-start gap-[10px] flex-shrink-0 rounded-[40px] bg-[#DCECDC]"
+            className="border-none mt-4 flex w-[380px] h-[52px] p-[19px_20px] flex-col justify-center items-start gap-[10px] flex-shrink-0 rounded-[40px] bg-[#DCECDC]"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -94,12 +97,10 @@ const Page = () => {
                 <label>댓글순</label>
               </div>
             </div>
-
-            <button className="ml-4 bg-[#DCECDC] h-10 w-36 rounded-[20px]">
-              <Link href="/community/post">게시글 작성</Link>
-            </button>
           </div>
+
           <div className="flex flex-col h-[620px] overflow-y-auto mb-4">
+            {/* 로딩 중 표시 */}
             {loading && <p>로딩 중...</p>}
             {error && <p className="text-red-500">{error}</p>}
             {filteredPosts.map((post) => (
@@ -107,6 +108,19 @@ const Page = () => {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* 고정된 이미지 버튼 */}
+      <div className="fixed bottom-[52px] right-[32px] z-10">
+        <Link href="/community/post">
+          <Image
+            src="/community/addPost.png" // public 폴더 안에 이미지 파일 위치
+            alt="게시글 작성"
+            width={64}
+            height={64}
+            className="cursor-pointer"
+          />
+        </Link>
       </div>
     </div>
   );

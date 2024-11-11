@@ -23,3 +23,11 @@ export interface PostCreateType {
   location: string;
   type: string;
 }
+
+export interface Comment {
+  comment_id: string;
+  comment_content: string;
+  user_id: string;
+  user_nickname: string;
+  created_at: string;
+}

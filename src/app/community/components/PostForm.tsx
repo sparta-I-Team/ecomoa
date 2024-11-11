@@ -80,7 +80,7 @@ const PostForm = ({ type = "free" }: Props) => {
           </div>
           <button
             type="submit"
-            className="p-2 rounded-[40px] w-[380px] h-[52px] bg-[#DCECDC] text-[#6E7481] "
+            className="p-2 rounded-[40px] w-[380px] h-[52px] bg-[#DCECDC] text-[#6E7481] border-none"
           >
             게시글 등록
           </button>
@@ -157,7 +157,7 @@ const PostForm = ({ type = "free" }: Props) => {
           />
           <button
             type="submit"
-            className="p-2 text-[#6E7481] w-[380px] h-[52px] bg-[#DCECDC] rounded-[40px]"
+            className="p-2 text-[#6E7481] w-[380px] h-[52px] bg-[#DCECDC] rounded-[40px] border-none"
           >
             게시글 등록
           </button>

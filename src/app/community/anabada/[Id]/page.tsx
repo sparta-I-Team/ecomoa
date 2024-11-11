@@ -6,9 +6,16 @@ import Slider from "react-slick";
 import { communityApi } from "@/api/communityApi";
 import { Post } from "@/types/community";
 
-const Page = () => {
+type Props = {
+  params: {
+    Id: string; // 동적 경로에서 받은 게시글 ID
+  };
+};
+
+const Page = ({ params }: Props) => {
   const [post, setPost] = useState<Post | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { Id } = params; // URL 파라미터에서 게시글 ID를 추출합니다.
 
   const settings = {
     dots: true,
@@ -19,21 +26,22 @@ const Page = () => {
   };
 
   useEffect(() => {
+    // if (!id) return; // id가 없으면 API 호출을 하지 않음
+    console.log("Id", Id);
     const fetchPost = async () => {
       try {
-        const { data, error } = await communityApi.getPost("anabada");
-
+        const { data, error } = await communityApi.getPostById(Id);
+        console.log("getPostById", data);
         if (error) {
           setErrorMessage(error);
           console.error("게시글을 불러오는 데 실패했습니다:", error);
           return;
         }
 
-        if (data && data.length > 0) {
-          setPost(data[0]);
+        if (data) {
+          setPost(data);
         } else {
           setErrorMessage("게시글이 없습니다.");
-          console.log("게시글이 없습니다.");
         }
       } catch (error) {
         setErrorMessage("게시글을 불러오는 데 오류가 발생했습니다.");
@@ -42,7 +50,7 @@ const Page = () => {
     };
 
     fetchPost();
-  }, []);
+  }, [Id]); // id가 변경될 때마다 API 호출
 
   if (errorMessage) {
     return (
@@ -60,16 +68,13 @@ const Page = () => {
     );
   }
 
-  // post.post_img가 undefined 또는 빈 배열일 경우 빈 배열로 초기화
   const images = post.post_img ?? [];
-
-  // 이미지를 슬라이드할지 말지 결정하는 변수
   const hasMultipleImages = images.length > 1;
 
   return (
     <main>
       <Link href="/community/anabada">
-        <h3 className="text-lg font-bold mb-2 mt-2">{"< 아나바다 시장 홈 "}</h3>
+        <h3 className="text-lg font-bold mb-2 mt-6">{"< 아나바다 시장 홈 "}</h3>
       </Link>
       <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD]"></div>
       <article className="flex">
