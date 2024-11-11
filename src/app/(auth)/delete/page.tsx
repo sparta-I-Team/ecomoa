@@ -8,6 +8,7 @@ import DeleteAccountButton from "../login/components/DeleteAccountButton";
 const DeletePage = () => {
   const { user } = userStore();
   console.log(user.id);
+
   const [selectedReason, setSelectedReason] = useState("");
 
   const handleToggle = (e: ChangeEvent<HTMLInputElement>) => {

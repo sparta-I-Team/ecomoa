@@ -99,4 +99,5 @@ export const deleteUserInfo = async (userId: string) => {
   if (error) {
     console.error("회원탈퇴 user_info 정보 삭제 오류", error);
   }
+  return;
 };

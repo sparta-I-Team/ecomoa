@@ -10,10 +10,16 @@ const supabaseAdmin = createClient(
 // 회원탈퇴
 export const deleteUser = async (userId: string) => {
   const { data, error } = await supabaseAdmin.auth.admin.deleteUser(userId);
-  if (error) {
-    console.error("회원 탈퇴 에러", error);
-  }
-  await supabaseAdmin.auth.signOut();
+  console.log("@@@@@@@@@@@@", data);
+  console.log("#######", error);
 
-  return data;
+  if (error) {
+    console.error("회원 탈퇴 에러:", error);
+  }
+
+  console.log("회원 탈퇴 성공:", data);
+  // const { error: authError } = await supabaseAdmin.auth.signOut();
+  //console.log("회원탈퇴 ㅁㅁㅁ ", a);
+
+  return true;
 };
