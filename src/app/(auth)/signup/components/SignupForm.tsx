@@ -69,14 +69,15 @@ const SignupForm = () => {
       await signup(data);
       alert("회원가입이 완료되었습니다.");
       router.push("/login");
-    } catch (error: any) {
+    } catch (error) {
       console.error("회원가입 오류:", error);
+      alert("회원가입 중 오류가 발생했습니다.");
       // error가 'user_already_exists' 코드인지 확인
-      if (error.code === "user_already_exists") {
-        alert("이미 존재하는 이메일입니다.");
-      } else {
-        alert("회원가입 중 오류가 발생했습니다.");
-      }
+      // if (error.code === "user_already_exists") {
+      //   alert("이미 존재하는 이메일입니다.");
+      // } else {
+      //   alert("회원가입 중 오류가 발생했습니다.");
+      // }
     }
   };
 
@@ -90,7 +91,7 @@ const SignupForm = () => {
         <h2 className="text-4xl font-normal mb-[60px]">회원가입</h2>
         <input
           type="email"
-          className="p-2 w-[584px] h-16 rounded-md borde border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold outline-none"
+          className="p-2 w-[584px] h-16 rounded-md border border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold outline-none"
           {...register("email")}
           placeholder="이메일"
           onBlur={handleEmailBlur} // 이메일 중복 검사

@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronLeft } from "lucide-react";
 
 const MyScrap = () => {
   const { user } = userStore();

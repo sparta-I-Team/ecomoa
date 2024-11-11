@@ -5,7 +5,6 @@ import PostCard from "@/app/community/components/PostCard";
 import { LikePosts, TypeProps } from "@/types/userInfoType";
 import { userStore } from "@/zustand/userStore";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
