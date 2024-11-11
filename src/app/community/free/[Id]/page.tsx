@@ -59,8 +59,10 @@ const PostDetailPage = ({ params }: Props) => {
   }
 
   return (
-    <div className="p-6 mt-6">
-      <Link href={"/community/free"}>{"< 자유게시판 "}</Link>
+    <div className="p-6 mt-6  mx-auto w-[1200px]">
+      <Link href={"/community/free"} className="mb-4 mt-4">
+        {"< 자유게시판 "}
+      </Link>
       <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD]"></div>
       <article>
         <label className="text-2xl font-semibold">{post.post_title}</label>

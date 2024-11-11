@@ -79,9 +79,9 @@ const ChallengeDetailPage = () => {
   const totalPoints = selectedCount * 100;
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 w-[1200px]  mx-auto">
       <Link href={"/community"}>{"< 첼린지 인증 "}</Link>
-      <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD]"></div>
+      <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
 
       <div className="flex items-center gap-2">
         <label className="flex p-[12px_16px] justify-center items-center gap-2.5 rounded-[4px] bg-[#0D9C36] text-white">
@@ -103,7 +103,7 @@ const ChallengeDetailPage = () => {
                 return (
                   <div key={category} className="mb-4">
                     <h3 className="font-semibold">{categoryName}</h3>
-                    <div className="flex flex-col space-y-2">
+                    <div className="flex flex-col space-y-2 mt-4">
                       {selectedIds.map((id) => {
                         const option = CHALLENGE_OPTIONS[category]?.find(
                           (opt) => opt.id === id

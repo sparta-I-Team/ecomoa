@@ -77,7 +77,6 @@ const Page = () => {
               </Link>
             </div>
 
-            {loading && <p>로딩 중...</p>}
             {error && <p className="text-red-500">{error}</p>}
             {challenges.map((challenge, index) => {
               const createdAtDate = new Date(challenge.created_at);

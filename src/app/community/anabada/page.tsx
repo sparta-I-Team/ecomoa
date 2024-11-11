@@ -2,9 +2,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { communityApi } from "@/api/communityApi";
-import PostCard from "../components/PostCard";
+// import PostCard from "../components/PostCard";
 import { Post } from "@/types/community";
-import Image from "next/image"; // Image 컴포넌트 추가
+import PostCard from "../components/PostCard";
 
 const Page = () => {
   const [selected, setSelected] = useState<string | null>(null);
@@ -40,7 +40,7 @@ const Page = () => {
 
   return (
     <div className="bg-[#F2F9F2]">
-      <div className="w-[1200px] mx-auto">
+      <div className="w-[1200px] mx-auto ">
         <label className="text-xl font-bold mb-4 mt-4">
           친환경 활동을 공유해 보세요
         </label>

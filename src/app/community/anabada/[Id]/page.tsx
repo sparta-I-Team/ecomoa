@@ -72,11 +72,11 @@ const Page = ({ params }: Props) => {
   const hasMultipleImages = images.length > 1;
 
   return (
-    <main>
+    <main className="w-[1200px]  mx-auto">
       <Link href="/community/anabada">
         <h3 className="text-lg font-bold mb-2 mt-6">{"< 아나바다 시장 홈 "}</h3>
       </Link>
-      <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD]"></div>
+      <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
       <article className="flex">
         {hasMultipleImages ? (
           <Slider {...settings}>
@@ -103,7 +103,7 @@ const Page = ({ params }: Props) => {
           )
         )}
 
-        <div className="flex flex-col ml-8 w-[585px]">
+        <div className="flex flex-col ml-8 w-[585px] gap-3">
           <label className="text-[22px] mb-2 text-[#000301]">
             {post.post_title}
           </label>
@@ -120,7 +120,7 @@ const Page = ({ params }: Props) => {
               상품정보
             </p>
             <p className="text-[14px] font-normal mb-5">{post.post_content}</p>
-            <label className="text-[#0D9C36]">거래 희망 지역</label>
+            <label className="text-[#0D9C36] mb-4">거래 희망 지역</label>
             <label className="mb-2 inline-block rounded-[32px] border w-[100px] border-[#D5D7DD] p-2">
               {post.location}
             </label>
