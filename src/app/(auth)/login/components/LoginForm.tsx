@@ -7,6 +7,7 @@ import { LoginInput } from "@/types/authType";
 import { useRouter } from "next/navigation";
 import { getUserInfo } from "@/api/user-action";
 import { userStore } from "@/zustand/userStore";
+import Link from "next/link";
 // Zod 스키마 정의
 const loginSchema = z.object({
   email: z
@@ -92,6 +93,12 @@ const LoginForm = () => {
       >
         로그인
       </button>
+      <Link
+        href={"/signup"}
+        className="mt-2 px-4 font-wanted text-base text-[#6E7481] font-medium"
+      >
+        이메일로 가입하기
+      </Link>
     </form>
   );
 };

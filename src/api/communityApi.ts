@@ -51,12 +51,13 @@ export const communityApi = {
     id: string
   ): Promise<{ data: Post | null; error?: string }> => {
     try {
+      console.log("id #:", id);
       const { data, error } = await supabase
         .from("posts")
         .select("*, user_info(user_nickname), post_img")
-        .eq("id", id)
+        .eq("post_id", id)
         .single();
-
+      console.log("supabase data :", data);
       if (error) {
         throw new Error(error.message);
       }
@@ -65,5 +66,29 @@ export const communityApi = {
     } catch {
       return { data: null, error: "게시글을 불러오는 데 실패했습니다." };
     }
+  },
+  // 댓글 추가하기
+  addComment: async (
+    post_id: string,
+    user_id: string,
+    comment_content: string
+  ) => {
+    const { data, error } = await supabase
+      .from("comments")
+      .insert([
+        {
+          post_id,
+          user_id,
+          comment_content,
+          created_at: new Date().toISOString()
+        }
+      ])
+      .single();
+
+    if (error) {
+      return { error: error.message, data: null };
+    }
+
+    return { data, error: null };
   }
 };

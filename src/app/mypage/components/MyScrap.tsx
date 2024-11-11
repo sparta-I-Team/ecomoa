@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronLeft } from "lucide-react";
 
 const MyScrap = () => {
   const { user } = userStore();
@@ -42,14 +41,14 @@ const MyScrap = () => {
 
   return (
     <div className="flex flex-col w-full">
-      <Link href={"/mypage"} className="border-b-slate-500 w-[1200]">
+      {/* <Link href={"/mypage"} className="border-b-slate-500 w-[1200]">
         <div className="flex items-center mb-[20px] pt-[64.5px]">
           <ChevronLeft />
           <span className="font-wanted text-[16px] font-[600] ">
             마이페이지
           </span>
         </div>
-      </Link>
+      </Link> */}
       <div className="mb-[48px]">
         <p className="text-[32px] font-[700] leading-[44.8px] tracking-[-0.2px]">
           나의 스크랩

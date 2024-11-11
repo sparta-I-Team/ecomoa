@@ -68,6 +68,7 @@ export interface LevelInfo {
   image: string;
   bg: string;
   exp: string;
+  profile: string;
 }
 
 //이미지

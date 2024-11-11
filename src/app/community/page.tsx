@@ -19,18 +19,18 @@ interface Challenge {
   image_urls: string[];
   user_id: string;
   created_at: string;
+  chall_id: string;
 }
 
 const Page = () => {
   const [challenges, setChallenges] = useState<Challenge[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchChallenges = async () => {
       const { data, error: fetchError } = await supabase
         .from("challenges")
-        .select("selected_options, image_urls, user_id, created_at");
+        .select("chall_id,selected_options, image_urls, user_id, created_at");
 
       if (fetchError) {
         console.error(
@@ -46,7 +46,6 @@ const Page = () => {
         });
         setChallenges(sortedData);
       }
-      setLoading(false);
     };
 
     fetchChallenges();
@@ -78,7 +77,6 @@ const Page = () => {
               </Link>
             </div>
 
-            {loading && <p>로딩 중...</p>}
             {error && <p className="text-red-500">{error}</p>}
             {challenges.map((challenge, index) => {
               const createdAtDate = new Date(challenge.created_at);
@@ -96,63 +94,72 @@ const Page = () => {
               const totalPoints = selectedCount * 100;
 
               return (
-                <article
-                  key={index}
-                  className="w-full h-[220px] border-b border-black flex flex-row p-4"
+                <Link
+                  href={`/community/challenge/${challenge.chall_id}`}
+                  key={challenge.chall_id}
                 >
-                  <div className="flex-1">
-                    <div className="mb-4">
-                      <label className="mr-2 bg-[#D9D9D9]">
-                        {totalPoints}p
-                      </label>
-                      <label>{formattedDate}</label>
-                      <div className="p-2 mt-2">
-                        {Object.entries(challenge.selected_options).map(
-                          (selected) => {
-                            const [category, selectedIds] = selected as [
-                              string,
-                              string[]
-                            ];
-                            return (
-                              <div key={category}>
-                                {selectedIds.map((id) => {
-                                  const option = CHALLENGE_OPTIONS[
-                                    category
-                                  ].find((opt) => opt.id === id);
-                                  return (
-                                    <span
-                                      className="mb-2 inline-block rounded-[32px] border border-[#D5D7DD] p-2"
-                                      key={id}
-                                    >
-                                      {option?.label}
-                                    </span>
-                                  );
-                                })}
-                              </div>
-                            );
-                          }
-                        )}
+                  <article
+                    key={index}
+                    className="w-full h-[220px] border-b border-black flex flex-row p-4"
+                  >
+                    <div className="flex-1">
+                      <div className="mb-4">
+                        <div className="flex items-center ">
+                          <label className=" flex p-2   items-center gap-2.5 rounded-[4px] bg-[#0D9C36] w-[50px] text-white">
+                            {totalPoints}P
+                          </label>
+                          <label className="ml-2 text-[#A1A7B4]">
+                            {formattedDate}
+                          </label>
+                        </div>
+                        <div className="p-2 mt-2 flex gap-4">
+                          {Object.entries(challenge.selected_options).map(
+                            (selected) => {
+                              const [category, selectedIds] = selected as [
+                                string,
+                                string[]
+                              ];
+                              return (
+                                <div key={category}>
+                                  {selectedIds.map((id) => {
+                                    const option = CHALLENGE_OPTIONS[
+                                      category
+                                    ].find((opt) => opt.id === id);
+                                    return (
+                                      <span
+                                        className="mb-2 inline-block rounded-[32px] border border-[#D5D7DD] p-2"
+                                        key={id}
+                                      >
+                                        {option?.label}
+                                      </span>
+                                    );
+                                  })}
+                                </div>
+                              );
+                            }
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex-none ml-4">
-                    {challenge.image_urls &&
-                      challenge.image_urls.length > 0 && (
-                        <div className="flex space-x-2">
-                          {challenge.image_urls.map((url, idx) => (
-                            <Image
-                              key={idx}
-                              src={url}
-                              alt={`Challenge ${idx + 1}`}
-                              width={160}
-                              height={160}
-                              className="object-cover"
-                            />
-                          ))}
-                        </div>
-                      )}
-                  </div>
-                </article>
+                    <div className="flex-none ml-4">
+                      {challenge.image_urls &&
+                        challenge.image_urls.length > 0 && (
+                          <div className="flex space-x-2">
+                            {challenge.image_urls.map((url, idx) => (
+                              <Image
+                                key={idx}
+                                src={url}
+                                alt={`Challenge ${idx + 1}`}
+                                width={160}
+                                height={160}
+                                className="object-cover"
+                              />
+                            ))}
+                          </div>
+                        )}
+                    </div>
+                  </article>
+                </Link>
               );
             })}
           </div>

@@ -32,7 +32,6 @@ const Page = () => {
     getPosts();
   }, []);
 
-
   // 검색하는 함수
   const filteredPosts = useMemo(() => {
     return posts.filter((post) =>
