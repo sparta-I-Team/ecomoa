@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import InputField from "../components/InputField";
 import { FormData } from "@/types/calculate";
 // import YearMonthPicker from "../components/YearMonthPicker";
-import Loading from "../components/Loading";
+// import Loading from "../components/Loading";
 import browserClient from "@/utlis/supabase/browserClient";
 import { useRouter } from "next/navigation";
 import { userStore } from "@/zustand/userStore";
@@ -15,9 +15,10 @@ const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
 
 const Page = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [thisYear, setThisYear] = useState<number | null>(currentYear);
   const [thisMonth, setThisMonth] = useState<number | null>(currentMonth);
+  const [fuelType, setFuelType] = useState(""); // 연료 타입 상태 추가
 
   const router = useRouter();
   const { user } = userStore();
@@ -28,9 +29,23 @@ const Page = () => {
     formState: { errors }
   } = useForm<FormData>();
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
+
+  // 연료 종류에 따른 계산식
+  const getCarCo2 = (car: number, fuelType: string): number => {
+    switch (fuelType) {
+      case "휘발유":
+        return (car / 16.04) * 2.097;
+      case "경유":
+        return (car / 15.35) * 2.582;
+      case "LPG":
+        return (car / 11.06) * 1.868;
+      default:
+        return 0;
+    }
+  };
 
   // 제출 버튼 submit
   const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -39,15 +54,16 @@ const Page = () => {
     const gas = Number(data.gas) || 0;
     const car = Number(data.car) || 0;
     const waste = Number(data.waste) || 0;
+    const selectedFuelType = fuelType || "휘발유"; // 현재 선택된 연료 타입 사용
 
     const total =
       electricity * 0.4781 +
       water * 0.237 +
       gas * 2.176 +
-      (car / 16.04) * 2.097 +
-      waste * 0.5573;
+      getCarCo2(car, selectedFuelType) +
+      +waste * 0.5573;
 
-    setIsLoading(true);
+    // setIsLoading(true)
 
     try {
       const { data: existingData, error: fetchError } = await browserClient
@@ -60,7 +76,7 @@ const Page = () => {
       if (fetchError) {
         console.error("기존 데이터 조회 오류:", fetchError);
         alert("기존 데이터 조회 중 오류가 발생했습니다.");
-        setIsLoading(false);
+        // setIsLoading(false);
         return;
       }
 
@@ -78,7 +94,7 @@ const Page = () => {
             gas_usage: gas,
             gas_co2: (gas * 2.176).toFixed(2),
             car_usage: car,
-            car_co2: ((car / 16.04) * 2.097).toFixed(2),
+            car_co2: getCarCo2(car, selectedFuelType).toFixed(2),
             waste_volume: waste,
             waste_co2: (waste * 0.5573).toFixed(2),
             carbon_emissions: total.toFixed(2)
@@ -102,7 +118,7 @@ const Page = () => {
           gas_usage: gas,
           gas_co2: (gas * 2.176).toFixed(2),
           car_usage: car,
-          car_co2: ((car / 16.04) * 2.097).toFixed(2),
+          car_co2: getCarCo2(car, selectedFuelType).toFixed(2),
           waste_volume: waste,
           waste_co2: (waste * 0.5573).toFixed(2),
           carbon_emissions: total.toFixed(2),
@@ -116,14 +132,14 @@ const Page = () => {
         } else {
         }
       }
-      setTimeout(() => {
-        setIsLoading(false);
-        router.push(`/calculator/result/${thisYear}/${thisMonth}`);
-      }, 5000);
+      // setTimeout(() => {
+      // setIsLoading(false);
+      router.push(`/calculator/result/${thisYear}/${thisMonth}`);
+      // }, 5000);
     } catch (err) {
       console.error("에러 발생:", err);
       alert("데이터 처리 중 오류가 발생했습니다.");
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -137,7 +153,7 @@ const Page = () => {
   return (
     <>
       <div className="w-[1200px] mx-auto">
-        <div className="mt-[76px] mb-[120px]">
+        <div className="mt-[76px] mb-[60px]">
           <Link href="/calculator">
             <p className="text-[16px]"> &lt; 탄소 계산기 홈</p>
           </Link>
@@ -166,7 +182,7 @@ const Page = () => {
               register={register}
               errors={errors}
               requiredMessage="사용한 전기량을 입력해주세요"
-              placeholder="에너지 사용량을 입력해주세요."
+              placeholder="사용하신 에너지 양을 입력해 주세요"
               unit="kwh/월"
             />
             <InputField
@@ -175,7 +191,7 @@ const Page = () => {
               register={register}
               errors={errors}
               requiredMessage="사용한 수도량을 입력해주세요"
-              placeholder="에너지 사용량을 입력해주세요(숫자)"
+              placeholder="사용하신 에너지 양을 입력해 주세요"
               unit="m³/월"
             />
             <InputField
@@ -184,7 +200,7 @@ const Page = () => {
               register={register}
               errors={errors}
               requiredMessage="사용한 가스량을 입력해주세요"
-              placeholder="에너지 사용량을 입력해주세요(숫자)"
+              placeholder="사용하신 에너지 양을 입력해 주세요"
               unit="m³/월"
             />
             <InputField
@@ -193,27 +209,27 @@ const Page = () => {
               register={register}
               errors={errors}
               requiredMessage="연료종류 선택과 사용량을 모두 입력해주세요"
-              placeholder="에너지 사용량을 입력해주세요(숫자)"
+              placeholder="사용하신 에너지 양을 입력해 주세요"
               unit="km/월"
+              fuelType={fuelType} // fuelType 전달
+              setFuelType={setFuelType} // setFuelType 전달
             />
             <InputField
               id="waste"
-              label="폐기물"
+              label="생활폐기물"
               register={register}
               errors={errors}
               requiredMessage="폐기물량을 입력해주세요"
-              placeholder="에너지 사용량을 입력해주세요(숫자)"
+              placeholder="버리시는 폐기물 양을 입력해주세요 "
               unit="Kg/월"
             />
           </div>
-          <div className="flex justify-center mb-[126px]">
+          <div className="mb-[126px]">
             <button
               type="submit"
-              className="w-[380px] h-[60px] px-4 py-6 bg-[#dcecdc] rounded-[40px] justify-center items-center gap-2.5 inline-flex border-none hover:bg-[#0d9c36]"
+              className="w-[380px] h-[60px] px-8 bg-[#E8F3E8] text-[#A1A7B4] rounded-[85px] text-[18px] font-semibold border-none hover:bg-[#0D9C36] hover:text-white"
             >
-              <div className="grow shrink basis-0 text-center text-[#6e7481] text-[18px] font-semibold hover:text-white">
-                계산하기
-              </div>
+              <div className="grow shrink basis-0 text-center">계산하기</div>
             </button>
           </div>
         </form>

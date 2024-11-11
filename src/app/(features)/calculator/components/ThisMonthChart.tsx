@@ -52,6 +52,15 @@ const ThisMonthChart: React.FC<ThisMonthResultChartProps> = ({
       title: {
         display: true
         // text: "이번달 탄소 배출량"
+      },
+      datalabels: {
+        align: "end" as const, // 타입 오류를 방지하기 위해 'as const' 추가
+        anchor: "end" as const, // 타입 오류를 방지하기 위해 'as const' 추가
+        color: "#32343a", // 레이블 색상 설정
+        font: {
+          size: 14 // 레이블 폰트 크기 설정
+        },
+        formatter: (value: number) => `${value} Kg` // 값 뒤에 "Kg" 추가
       }
     },
     layout: {
@@ -83,11 +92,7 @@ const ThisMonthChart: React.FC<ThisMonthResultChartProps> = ({
 
   return (
     <div className="flex justify-center items-center w-full h-full">
-      <Bar
-        data={data}
-        options={options}
-        plugins={[ChartDataLabels]} // 플러그인 등록
-      />
+      <Bar data={data} options={options} plugins={[ChartDataLabels]} />
     </div>
   );
 };
