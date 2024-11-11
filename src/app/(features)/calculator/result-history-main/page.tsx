@@ -14,9 +14,11 @@ import Image from "next/image";
 import { userStore } from "@/zustand/userStore";
 import { UserInfo } from "@/types/userInfoType";
 import { getUserInfo } from "@/api/user-action";
+import Loading from "../components/Loading";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
+const MIN_LOADING_TIME = 3000; // 최소 로딩 시간 (3초)
 
 const ResultPageMain = () => {
   const [totalAvgData, setTotalAvgData] = useState<MonthlyData | null>(null);
@@ -24,24 +26,53 @@ const ResultPageMain = () => {
   const [myAllAvgData, setMyAllAvgData] = useState<number>(0);
   const [userTopData, setUserTopData] = useState<TopData | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-
-  useEffect(() => {
-    loadTotalUsersData(currentYear, currentMonth, setTotalAvgData);
-    loadMyAllData(setMyAllData);
-    loadMyAvgData(setMyAllAvgData);
-    loadTopUsersData(setUserTopData);
-  }, []);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { user } = userStore();
-  console.log(userInfo);
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchStartTime = Date.now();
+
+    const getUserFetch = async () => {
       const res = await getUserInfo(user.id);
       setUserInfo(res);
     };
-    fetch();
+
+    const fetchData = async () => {
+      try {
+        await Promise.all([
+          loadTotalUsersData(currentYear, currentMonth, setTotalAvgData),
+          loadMyAllData(setMyAllData),
+          loadMyAvgData(setMyAllAvgData),
+          loadTopUsersData(setUserTopData),
+          getUserFetch()
+        ]).then(() => {
+          const timeElapsed = Date.now() - fetchStartTime;
+          const remainingTime = MIN_LOADING_TIME - timeElapsed;
+
+          if (remainingTime > 0) {
+            // 최소 로딩 시간이 남아있으면 setTimeout으로 추가 대기
+            setTimeout(() => setIsLoading(false), remainingTime);
+          } else {
+            setIsLoading(false);
+          }
+        });
+      } catch (error) {
+        console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
+      }
+    };
+
+    fetchData();
   }, [user]);
+
+  if (isLoading) {
+    return (
+      <Loading
+        message="탄소 배출량 히스토리 로딩 중"
+        subMessage="잠시만 기다려 주세요~!"
+      />
+    );
+  }
 
   return (
     <>
@@ -67,7 +98,6 @@ const ResultPageMain = () => {
               alt="미리보기"
               width={113}
               height={84}
-              // className="w-[113px] h-[84px] cursor-pointer rounded-[12px]"
               className="w-[113px] h-[84px] rounded-[12px]"
             />{" "}
             <div className="ml-[31px]">
@@ -97,7 +127,7 @@ const ResultPageMain = () => {
               {myAllAvgData.toFixed(2)}kg
             </p>
             <div className="text-[16px]">
-              탄소 배출량이 전체 평균 보다
+              탄소 배출량이 전체 평균 보다{" "}
               {totalAvgData && myAllAvgData ? (
                 myAllAvgData > 0 ? (
                   myAllAvgData > totalAvgData.carbon_emissions ? (
@@ -125,24 +155,25 @@ const ResultPageMain = () => {
           </div>
 
           {/* 프로그레스바 */}
-          <div>
-            <div className="relative w-[424px] h-[20px]">
+          <div className="flex w-[440px] h-[220px] justify-center bg-[#F5F5F5] rounded-[24px]">
+            <div className="relative mt-[115px]">
               {/* 프로그레스 바 */}
-              <Image
-                src="/calculate/progressbar.svg"
-                alt="progressbar"
-                width={424}
-                height={20}
-              />
+              <div className="flex flex-row gap-1">
+                <div className="w-[88px] h-[16px] rounded-full bg-[#BFCEFE]" />
+                <div className="w-[88px] h-[16px] rounded-full bg-[#9EB6FE]" />
+                <div className="w-[88px] h-[16px] rounded-full bg-[#7E9DFD]" />
+                <div className="w-[88px] h-[16px] rounded-full bg-[#5E85FD]" />
+              </div>
 
               {/* 최저와 최고 텍스트 */}
-              <span className="absolute left-0 top-6 text-xs text-gray-700 text-left">
-                최저 사용자 <br />0 kg
-              </span>
-              <span className="absolute right-0 top-6 text-xs text-gray-700 text-right">
-                최고 사용자 <br />
-                {userTopData?.carbon_emissions.toFixed(2)} kg
-              </span>
+              <div className="absolute left-0 top-6 text-[14px] text-gray-700 text-left">
+                <div>최저</div>
+                <div>0 kg</div>
+              </div>
+              <div className="absolute right-0 top-6 text-[14px] text-gray-700 text-right">
+                <div>최대</div>
+                <div>{userTopData?.carbon_emissions.toFixed(2)} kg</div>
+              </div>
 
               {/* progressbarBox */}
               <div
@@ -164,16 +195,36 @@ const ResultPageMain = () => {
                 }}
               >
                 <Image
-                  src="/calculate/pbBox.svg"
+                  src="/calculate/BarBox.svg"
                   alt="progressbarBox"
-                  width={110}
-                  height={54}
-                  className="relative top-[-70px]"
+                  width={120}
+                  height={51}
+                  className="relative top-[-60px]"
                 />
-                <span className="absolute flex justify-center items-center text-[18px] font-semibold top-[-55px]">
-                  {myAllAvgData.toFixed(2)} kg
-                </span>
-                <div className="absolute w-6 h-6 bg-black rounded-full top-[-2px]" />
+                <div className="absolute flex justify-center items-center text-[14px] font-semibold top-[-52px] text-white gap-[10px]">
+                  <div className="w-[28px] h-[28px] rounded-full bg- bg-yellow-300"></div>
+                  <span>{userInfo?.user_nickname}</span>
+                </div>
+                <div className="absolute top-[-5px]">
+                  <div
+                    className={`w-[26px] h-[26px] rounded-full flex items-center justify-center ${
+                      myAllAvgData &&
+                      userTopData?.carbon_emissions &&
+                      myAllAvgData / userTopData?.carbon_emissions < 0.25
+                        ? "bg-[#BFCEFE]"
+                        : userTopData?.carbon_emissions &&
+                          myAllAvgData / userTopData?.carbon_emissions < 0.5
+                        ? "bg-[#9EB6FE]"
+                        : userTopData?.carbon_emissions &&
+                          myAllAvgData / userTopData?.carbon_emissions < 0.75
+                        ? "bg-[#7E9DFD]"
+                        : "bg-[#5E85FD]"
+                    }`}
+                  >
+                    {" "}
+                    <div className="w-[14px] h-[14px] bg-white rounded-full" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -215,13 +266,13 @@ const ResultPageMain = () => {
             </div>
           </div>
           <Image
-            src={"/calculate/treeImg.svg"}
+            src={"/calculate/TreeImg.svg"}
             alt={"tree-image"}
             width={400}
             height={216}
           />
         </div>
-        <div>
+        <div className="mb-[80px]">
           <p className="text-[24px] font-semibold mb-[32px]">
             최근 5개월 배출량 추이
           </p>
