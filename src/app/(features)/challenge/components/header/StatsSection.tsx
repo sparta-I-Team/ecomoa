@@ -13,7 +13,7 @@ const StatsSection = ({
   isLoading
 }: StatsSectionProps) => {
   if (isLoading) {
-    return <StatsSectionSkeleton />;
+    return <StatsSectionSkeleton/>;
   }
 
   const today = new Date();
