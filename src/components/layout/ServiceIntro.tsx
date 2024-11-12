@@ -23,9 +23,9 @@ const ServiceIntro = () => {
 
       {/* section 1 */}
       <section className="h-[1022px]">
-        <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center ">
+        <div className="font-wanted font-[500] max-w-[1200px] mx-auto flex flex-col justify-center items-center">
           <h1 className="w-[466px] text-center text-[40px] font-[700] leading-[56px] tracking-[-0.4px] mt-[96px]">
-            탄소를 절감하며
+            탄소를 절감해서
             <br /> 에코모아를 키워주세요
           </h1>
           <h2 className="text-[#525660] test-[20px] font-[500] leading-[30px] tracking-[-0.2px] mt-[28px]">
@@ -42,7 +42,7 @@ const ServiceIntro = () => {
           </div>
           <button
             onClick={handleClick}
-            className="font-[600] w-[392px] h-[60px] rounded-[40px] p-[24px_16px] flex flex-col items-center justify-center gap-[10px] bg-[#0D9C36] text-[#FFF] mt-[40px]"
+            className="border-none fixed top-[80%] font-[600] w-[392px] h-[60px] rounded-[40px] p-[24px_16px] flex flex-col items-center justify-center gap-[10px] bg-[#0D9C36] text-[#FFF] mt-[40px]"
           >
             에코모아 시작하기
           </button>
@@ -51,7 +51,7 @@ const ServiceIntro = () => {
 
       {/* section 2 */}
       <section className="font-wanted h-[1300px] bg-[#F2F9F2] flex items-center">
-        <div className="w-[1200px] h-[980px] grid grid-cols-2 mx-auto">
+        <div className="w-[1200px] my-auto h-[980px] grid grid-cols-2 mx-auto place-content-center">
           {/* 첫 번째 내용 */}
           <div className="flex flex-col justify-center items-start gap-[24px]">
             <p className="text-[#00691E] text-[20px] font-[600] leading-[30px] tracking-[-0.2px]">
@@ -106,7 +106,7 @@ const ServiceIntro = () => {
           {/* 세 번째 내용 */}
           <div className="flex flex-col justify-center items-center">
             <Image
-              src={"/service/treeBack.png"}
+              src={"/service/treemoa.png"}
               alt="에코모아 캐릭터"
               width={600}
               height={400}
@@ -127,7 +127,7 @@ const ServiceIntro = () => {
             <h1 className="text-[#000301] text-[32px] font-[700] leading-[44.8px] tracking-[-0.32px]">
               데일리 챌린지 포인트를 모아서
               <br /> 당신의 모아 캐릭터를
-              <span className="text-[#0D9C36]">쑥쑥</span> 키워주세요
+              <span className="text-[#0D9C36]"> 쑥쑥</span> 키워주세요
             </h1>
           </div>
         </div>
@@ -136,7 +136,7 @@ const ServiceIntro = () => {
       {/* section 3 */}
       <section className="h-[835px]">
         <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center ">
-          <p className="text-[#00691E] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] mt-[140px]">
+          <p className="text-[#00691E] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] mt-[105px]">
             모아 캐릭터를 소개합니다
           </p>
           <h1 className="text-center text-[#000301] text-[32px] font-[700] leading-[44.8px] tracking-[-0.32px] mt-[24px]">
@@ -146,54 +146,74 @@ const ServiceIntro = () => {
             <span className="text-[#0D9C36]"> 클로바모아</span>까지 함께
             성장해나가요
           </h1>
-          <div className="flex gap-[32px] mt-[132px]">
+          <div className="flex items-center justify-center gap-[32px] mt-[132px]">
             <div className="flex flex-col items-center justify-center">
               <p className="mb-[23px] text-[#000301] text-[20px] font-[700] leading-[38px]">
                 LV.1 씨앗모아
               </p>
-              <Image
-                src={"/service/yellow.png"}
-                alt="씨앗모아"
-                width={280}
-                height={276}
-                className="rounded-[28px]"
-              />
+              <div className="w-[276px] h-[280px] border border-[#D5D7DD] rounded-[28px]">
+                <Image
+                  src={"/service/seedBrown.png"}
+                  alt="씨앗모아"
+                  width={280}
+                  height={276}
+                  className="rounded-t-[28px]"
+                />
+                <p className="h-[76px] flex justify-center items-center text-[#525660] font-wanted text-[16px] font-[600] leading-[24px]">
+                  가능성을 품고 있는 작은 씨앗
+                </p>
+              </div>
             </div>
             <div className="flex flex-col items-center justify-center">
               <p className="mb-[23px] text-[#000301] text-[20px] font-[700] leading-[38px]">
                 LV.2 새싹모아
               </p>
-              <Image
-                src={"/service/pink.png"}
-                alt="새싹모아"
-                width={280}
-                height={276}
-                className="rounded-[28px]"
-              />
+              <div className="w-[276px] h-[280px] border border-[#D5D7DD] rounded-[28px]">
+                <Image
+                  src={"/service/pink.png"}
+                  alt="씨앗모아"
+                  width={280}
+                  height={276}
+                  className="rounded-t-[28px]"
+                />
+                <p className="h-[76px] flex justify-center items-center text-[#525660] font-wanted text-[16px] font-[600] leading-[24px]">
+                  성장의 시작으로 돋아난 새싹
+                </p>
+              </div>
             </div>
             <div className="flex flex-col items-center justify-center">
               <p className="mb-[23px] text-[#000301] text-[20px] font-[700] leading-[38px]">
                 LV.3 트리모아
               </p>
-              <Image
-                src={"/service/green.png"}
-                alt="트리모아"
-                width={280}
-                height={276}
-                className="rounded-[28px]"
-              />
+              <div className="w-[276px] h-[280px] border border-[#D5D7DD] rounded-[28px]">
+                <Image
+                  src={"/service/green.png"}
+                  alt="씨앗모아"
+                  width={280}
+                  height={276}
+                  className="rounded-t-[28px]"
+                />
+                <p className="h-[76px] flex justify-center items-center text-[#525660] font-wanted text-[16px] font-[600] leading-[24px]">
+                  생명을 지키는 강인한 나무
+                </p>
+              </div>
             </div>
             <div className="flex flex-col items-center justify-center">
               <p className="mb-[23px] text-[#000301] text-[20px] font-[700] leading-[38px]">
                 LV.4 클로바모아
               </p>
-              <Image
-                src={"/service/blue.png"}
-                alt="클로바모아"
-                width={280}
-                height={276}
-                className="rounded-[28px]"
-              />
+              <div className="w-[276px] h-[280px] border border-[#D5D7DD] rounded-[28px]">
+                <Image
+                  src={"/service/blue.png"}
+                  alt="씨앗모아"
+                  width={280}
+                  height={276}
+                  className="rounded-t-[28px]"
+                />
+                <p className="h-[76px] flex justify-center items-center text-[#525660] font-wanted text-[16px] font-[600] leading-[24px]">
+                  결실을 맺은 행운의 네잎클로버
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -202,8 +222,8 @@ const ServiceIntro = () => {
       {/* section 4 */}
       <section className="h-[799px] bg-[rgba(94,133,253,0.10)]">
         <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-start ">
-          <p className="text-[#5E85FD] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] mt-[140px]">
-            챌린지에 도전해 보세요
+          <p className="text-[#5E85FD] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] mt-[105px]">
+            챌린지를 실천해보세요
           </p>
           <h1 className="text-center text-[40px] font-[700] leading-[56px] tracking-[-0.4px] mt-[24px]">
             데일리 탄소 절감 챌린지 이렇게 참여해요
@@ -228,7 +248,7 @@ const ServiceIntro = () => {
                 챌린지를 간단하게 인증해요
               </p>
               <Image
-                src={"/service/challenge2.png"}
+                src={"/service/step2.png"}
                 alt="챌린지 인증"
                 width={380}
                 height={320}
@@ -238,12 +258,12 @@ const ServiceIntro = () => {
             <div>
               <p className="font-wanted mt-[100px] text-[18px] font-[500] leading-[30px] text-[#525660] mb-[24px]">
                 <span className="text-[#5E85FD] font-[600]">STEP 3 </span>
-                포인트를 모아 모아서 캐릭터를 키워요
+                포인트를 모아서 모아 캐릭터를 키워요
               </p>
               <Image
                 src={"/service/challenge3.png"}
                 alt="챌린지 포인트 시스템"
-                width={461}
+                width={460}
                 height={320}
                 style={{ width: "461px", height: "320px" }}
               />
@@ -255,7 +275,7 @@ const ServiceIntro = () => {
       {/* section 5 */}
       <section className="h-[886px]">
         <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center">
-          <p className="text-center text-[#00691E] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] mt-[140px]">
+          <p className="text-center text-[#00691E] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] mt-[110px]">
             탄소 계산기로 관리하는 나의 탄소 배출량
           </p>
           <h1 className="text-[#000301] text-center text-[40px] font-[700] leading-[56px] tracking-[-0.4px] mt-[24px]">
@@ -308,7 +328,15 @@ const ServiceIntro = () => {
               친환경 소비를 경험해 보세요!
             </h1>
           </div>
-          <div className="w-[584px] h-[400px] bg-[#FFF] my-auto rounded-[40px]"></div>
+          <div className="w-[584px] h-[400px] bg-[#FFF] my-auto rounded-[40px]">
+            <Image
+              src={"/service/map.png"}
+              alt="탄소 절감 커뮤니티"
+              width={951}
+              height={535}
+              className="rounded-[40px]"
+            />
+          </div>
         </div>
       </section>
 

@@ -21,7 +21,10 @@ const DeleteAccountButton = ({ userId }: DeleteAccountProps) => {
         signout(),
         logoutUser()
       ]);
-      router.push("/"); // 페이지 이동 후
+      setTimeout(() => {
+        alert("회원 탈퇴가 완료되었습니다.");
+        router.push("/"); // 페이지 이동 후
+      }, 2000);
     }
   };
   return (
