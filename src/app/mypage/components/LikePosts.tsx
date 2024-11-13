@@ -16,8 +16,7 @@ const Myposts = ({ type }: TypeProps) => {
   const { user } = userStore();
   const [selected, setSelected] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  // const [error, setError] = useState<string | null>(null);
-  console.log(sortOrder);
+
   const handleSelect = (option: string) => {
     setSelected(option);
     setSortOrder(option === "latest" ? "desc" : "asc");
@@ -25,8 +24,8 @@ const Myposts = ({ type }: TypeProps) => {
 
   // 좋아요 게시글
   const { data: likePosts, isLoading } = useQuery<LikePosts[] | null>({
-    queryKey: ["likePosts", user.id], // 통신 주소
-    queryFn: () => getLikePosts(user.id),
+    queryKey: ["likePosts", user.id, sortOrder], // 통신 주소
+    queryFn: () => getLikePosts(user.id, type, sortOrder),
     enabled: !!user.id
   });
 
@@ -147,7 +146,6 @@ const Myposts = ({ type }: TypeProps) => {
         {/* 필터링 */}
         <div className="flex justify-between items-center mb-[20px]">
           <div className="flex space-x-4 mb-[10px]">
-            {/* <label>{likePosts?.length} 건</label> */}
             {type === "free" ? (
               <label className="text-[#00691E] font-[600] text-[16px] leading-[24px] tracking-[-0.16px]">
                 {freePosts?.length} 건

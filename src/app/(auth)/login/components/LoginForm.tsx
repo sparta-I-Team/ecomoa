@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { getUserInfo } from "@/api/user-action";
 import { userStore } from "@/zustand/userStore";
 import Link from "next/link";
+import { useState } from "react";
 // Zod 스키마 정의
 const loginSchema = z.object({
   email: z
@@ -32,6 +33,7 @@ const LoginForm = () => {
   });
 
   const onSubmit: SubmitHandler<LoginInput> = async (data: LoginInput) => {
+    const [saveEmail, setSaveEmail] = useState(false);
     try {
       const response = await login(data);
       const userInfo = await getUserInfo(response.session?.user.id as string);
@@ -62,14 +64,13 @@ const LoginForm = () => {
 
   return (
     <form
-      className="w-full flex flex-col justify-center items-center gap-1 p-3"
+      className="font-wanted flex flex-col justify-center items-center gap-1 p-3"
       onSubmit={handleSubmit(onSubmit)}
     >
-      {/* <h2 className="text-4xl font-normal mb-[60px]">로그인</h2> */}
       <div className="space-y-3">
         <input
           type="email"
-          className="p-2 w-[584px] h-16 rounded-md border border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold outline-none"
+          className="pl-[16px] py-[20.5px] w-[400px] h-[52px] rounded-[12px] border border-[#D7E8D7] placeholder:text-[#A1A7B4] placeholder:font-semibold outline-none"
           {...register("email")}
           placeholder="아이디"
         />
@@ -78,7 +79,7 @@ const LoginForm = () => {
         </p>
         <input
           type="password"
-          className="p-2 w-[584px] h-16 rounded-md border border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold outline-none"
+          className="pl-[16px] py-[20.5px] w-[400px] h-[52px] rounded-[12px] border border-[#D7E8D7] placeholder:text-[#A1A7B4] placeholder:font-semibold outline-none"
           {...register("password")}
           placeholder="비밀번호"
         />
@@ -86,19 +87,23 @@ const LoginForm = () => {
           {errors.password?.message}
         </p>
       </div>
+      {/* 아이디 저장 체크박스 */}
+      <div>
+        <label className="flex gap-[4px] flex items-center justify-center checked:bg-[#0D9C36] checked:border-transparent focus:outline-none cursor-pointer">
+          <input
+            type="checkbox"
+            className="appearance-none w-4 h-4 rounded-full"
+          />
+          아이디 저장
+        </label>
+      </div>
 
       <button
         type="submit"
-        className="w-[584px] mt-[45px] h-16 bg-[#469B0D] p-2 rounded-md text-[#FFF]"
+        className="w-[400px] h-[52px] mt-[45px] bg-[#0D9C36] border-none p-2 text-[18px] font-[600] text-[#FFF] rounded-[40px] leading-[27px] tracking-[-0.18px]"
       >
-        로그인
+        로그인 하기
       </button>
-      <Link
-        href={"/signup"}
-        className="mt-2 px-4 font-wanted text-base text-[#6E7481] font-medium"
-      >
-        이메일로 가입하기
-      </Link>
     </form>
   );
 };

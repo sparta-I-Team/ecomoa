@@ -6,8 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { signup } from "@/api/auth-actions";
 import { SignupInput } from "@/types/authType";
-import Link from "next/link";
+import { CheckCircle, CircleAlert, CircleCheck, CircleX } from "lucide-react";
 import { checkEmailAbility } from "@/api/user-action";
+import { error } from "console";
+import { useState } from "react";
 
 // Zod 스키마 정의
 const signupSchema = z
@@ -15,12 +17,17 @@ const signupSchema = z
     email: z.string().email({ message: "유효한 이메일을 입력해주세요." }),
     password: z
       .string()
-      .min(6, { message: "비밀번호는 최소 6자 이상이어야 합니다." })
+      .min(8, { message: "비밀번호는 최소 8자 이상이어야 합니다." })
+      .max(20, { message: "비밀번호는 최대 20자 이하여야 합니다." })
       .regex(/[A-Za-z]/, { message: "영문자를 최소 1자 이상 포함해야 합니다." })
+      .regex(/\d/, { message: "숫자를 최소 1자 이상 포함해야 합니다." })
+      .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/, {
+        message: "특수문자를 최소 1자 이상 포함해야 합니다."
+      })
       .nonempty({ message: "비밀번호를 입력해주세요." }),
     passwordConfirm: z
       .string()
-      .nonempty({ message: "비밀번호를 입력해주세요." })
+      .nonempty({ message: "비밀번호가 일치하지 않습니다." })
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: "비밀번호가 일치하지 않습니다.",
@@ -29,10 +36,15 @@ const signupSchema = z
 
 const SignupForm = () => {
   const router = useRouter();
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState<
+    string | null
+  >(null); // 추가
   const {
     register,
     handleSubmit,
     setError,
+    setValue,
     clearErrors, // clearErrors 추가
     formState: { errors }
   } = useForm<SignupInput>({
@@ -59,6 +71,24 @@ const SignupForm = () => {
     }
   };
 
+  // 패스워드 확인
+  const handlePasswordConfirmChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const confirmPassword = event.target.value;
+    const password = (document.getElementById("password") as HTMLInputElement)
+      .value;
+    setValue("passwordConfirm", confirmPassword);
+    if (confirmPassword === password) {
+      setPasswordConfirmMessage("비밀번호가 일치합니다.");
+
+      clearErrors("passwordConfirm"); // 오류 초기화
+    } else {
+      setPasswordConfirmMessage(null);
+      setError("passwordConfirm", { message: "비밀번호가 일치하지 않습니다." });
+    }
+  };
+
   const onSubmit: SubmitHandler<SignupInput> = async (data: SignupInput) => {
     // 이메일 중복 에러가 있을 경우, 회원가입 처리 하지 않음
     if (errors.email) {
@@ -72,66 +102,126 @@ const SignupForm = () => {
     } catch (error) {
       console.error("회원가입 오류:", error);
       alert("회원가입 중 오류가 발생했습니다.");
-      // error가 'user_already_exists' 코드인지 확인
-      // if (error.code === "user_already_exists") {
-      //   alert("이미 존재하는 이메일입니다.");
-      // } else {
-      //   alert("회원가입 중 오류가 발생했습니다.");
-      // }
     }
   };
 
-  console.log(errors.email?.message);
   return (
-    <div className="font-wanted min-h-screen bg-[#EAFCDE] px-4">
+    <div className="font-wanted min-h-screen px-4">
       <form
-        className="w-full flex flex-col justify-center items-center gap-1 p-3 my-auto"
+        className="w-full max-w-[1200px] flex flex-col items-start"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h2 className="text-4xl font-normal mb-[60px]">회원가입</h2>
-        <input
-          type="email"
-          className="p-2 w-[584px] h-16 rounded-md border border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold outline-none"
-          {...register("email")}
-          placeholder="이메일"
-          onBlur={handleEmailBlur} // 이메일 중복 검사
-        />
-        <p role="alert" className="text-sm text-red-600">
-          {errors.email?.message}
-        </p>
-        <input
-          type="password"
-          className="p-2 w-[584px] h-16 rounded-md borde border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold outline-none"
-          {...register("password")}
-          placeholder="비밀번호"
-        />
-        <p role="alert" className="text-sm text-red-600">
-          {errors.password?.message}
-        </p>
-        <input
-          type="password"
-          className="p-2 w-[584px] h-16 rounded-md borde border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold outline-none"
-          {...register("passwordConfirm")}
-          placeholder="비밀번호 확인"
-        />
-        <p role="alert" className="text-sm text-red-600">
-          {errors.passwordConfirm?.message}
-        </p>
+        <label className="text-[#000301] text-[14px] font-wanted font-[600] tracking-[-0.14px] flex flex-col items-start gap-[12px]">
+          이메일 주소
+          <input
+            type="email"
+            {...register("email")}
+            className="pl-[16px] py-[20.5px] w-[1200px] h-[52px] rounded-[12px] bg-[#F5F5F5] border-none placeholder:text-[#A1A7B4] placeholder:font-[400] outline-none"
+            placeholder="ecomoa@naver.com"
+            onBlur={handleEmailBlur} // 이메일 중복 검사
+          />
+          <div className="font-wanted flex items-center justify-center leading-[21px] font-[500]">
+            {errors.email?.message && (
+              <p
+                role="alert"
+                className="text-sm text-[#FF361B] mb-[10px] flex justify-center items-center font-[500] leading-[21px] tracking-[-0.14px]"
+              >
+                <CircleAlert
+                  className="text-[#FF361B] mr-1 w-5 h-5"
+                  stroke="#FFF"
+                  fill="#FF361B"
+                />
+                {errors.email?.message}
+              </p>
+            )}
+          </div>
+        </label>
+
+        <label className="text-[#000301] text-[14px] font-wanted font-[600] tracking-[-0.14px] flex flex-col items-start gap-[12px]">
+          비밀번호
+          <input
+            id="password"
+            type="password"
+            className="w-[1200px] bg-[#F5F5F5] pl-[16px] py-[20.5px] h-[52px] rounded-[12px] border-none placeholder:text-[#A1A7B4] placeholder:font-[400] outline-none"
+            {...register("password")}
+            placeholder="영문, 숫자, 특수문자 8~20 자리"
+          />
+          <div className="font-wanted flex items-center justify-center leading=[21px] font-[500]">
+            {errors.password?.message && (
+              <p
+                role="alert"
+                className="text-sm text-[#FF361B] mb-[10px] flex justify-center items-center font-[500] leading-[21px] tracking-[-0.14px]"
+              >
+                <CircleAlert
+                  className="text-[#FF361B] mr-1 w-5 h-5"
+                  stroke="#FFF"
+                  fill="#FF361B"
+                />
+                {errors.password?.message}
+              </p>
+            )}
+          </div>
+        </label>
+
+        <label className="text-[#000301] text-[14px] font-wanted font-[600] tracking-[-0.14px] flex flex-col items-start gap-[12px]">
+          비밀번호 확인
+          <input
+            type="password"
+            className={`w-[1200px] bg-[#F5F5F5] pl-[16px] py-[20.5px] h-[52px] rounded-[12px] border placeholder:text-[#A1A7B4] placeholder:font-[400] outline-none 
+              ${errors.passwordConfirm ? "border-[#FF361B]" : "border-none"}`}
+            {...register("passwordConfirm")}
+            placeholder="비밀번호 확인"
+            onChange={handlePasswordConfirmChange}
+          />
+          {passwordConfirmMessage ? (
+            <p className="text-sm text-[#179BFF] mb-[10px] flex justify-center items-center font-[500] leading-[21px] tracking-[-0.14px]">
+              <CircleCheck
+                className="text-[#FFF] mr-1 w-5 h-5"
+                stroke="#FFF"
+                fill="#179BFF"
+              />
+              {passwordConfirmMessage}
+            </p>
+          ) : (
+            errors.passwordConfirm && (
+              <p
+                role="alert"
+                className="text-sm text-[#FF361B] mb-[10px] flex justify-center items-center font-[500] leading-[21px] tracking-[-0.14px]"
+              >
+                <CircleAlert
+                  className="text-[#FF361B] mr-1 w-5 h-5"
+                  stroke="#FFF"
+                  fill="#FF361B"
+                />
+                {errors.passwordConfirm?.message}
+              </p>
+            )
+          )}
+          {/* <div className="font-wanted flex items-center justify-center leading=[21px] font-[500]">
+            {errors.passwordConfirm?.message && (
+              <p
+                role="alert"
+                className="text-sm text-[#FF361B] mb-[10px] flex justify-center items-center font-[500] leading-[21px] tracking-[-0.14px]"
+              >
+                <CircleAlert
+                  className="text-[#FF361B] mr-1 w-5 h-5"
+                  stroke="#FFF"
+                  fill="#FF361B"
+                />
+                {errors.passwordConfirm?.message}
+              </p>
+            )}
+          </div> */}
+        </label>
+
         <button
           type="submit"
-          className="w-[584px] mt-[45px] h-16 bg-[#469B0D] p-2 rounded-md text-[#FFF]"
+          className="w-[400px] h-[52px] mt-[45px] bg-[#0D9C36] border-none p-2 text-[18px] font-[600] text-[#FFF] rounded-[40px] leading-[27px] tracking-[-0.18px]"
           disabled={Object.keys(errors).length > 0}
         >
-          회원가입
+          회원가입 하기
         </button>
       </form>
-      <div className="w-full flex items-center mt-2">
-        <div className="flex-1 h-px bg-gray-300"></div>
-        <p className="px-4 font-wanted text-base text-[#6E7481] font-medium">
-          <Link href={"/login"}>로그인으로 이동</Link>
-        </p>
-        <div className="flex-1 h-px bg-gray-300"></div>
-      </div>
     </div>
   );
 };

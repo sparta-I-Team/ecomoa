@@ -2,16 +2,24 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Lottie, { LottieRef, useLottie } from "lottie-react";
+import lottieJson1 from "../../../public/service/Graphic1.json";
+import lottieJson2 from "../../../public/service/Graphic2.json";
+import lottieJson4 from "../../../public/service/Graphic4.json";
+import lottieJson5 from "../../../public/service/Graphic5.json";
+import lottieJson10 from "../../../public/service/Graphic10.json";
 
 const ServiceIntro = () => {
   const router = useRouter();
+
   const handleClick = () => {
     router.push("/login");
   };
 
+  // AOS 세팅
   useEffect(() => {
     AOS.init({
       // duration: 1000,
@@ -22,6 +30,51 @@ const ServiceIntro = () => {
       AOS.refresh();
     };
   }, []);
+
+  // 로티
+  const lottieRef5 = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const { View } = useLottie({
+    animationData: lottieJson2,
+    loop: false
+    // autoplay: false
+  });
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsVisible(entry.isIntersecting);
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.9 // 섹션이 90% 이상 보일 때 isVisible이 true로 설정됨
+      }
+    );
+
+    if (lottieRef5.current) {
+      observer.observe(lottieRef5.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (isVisible) {
+      // isVisible이 true일 때만 애니메이션 자동 재생
+      handleLottieAnimation();
+    }
+  }, [isVisible]);
+
+  const handleLottieAnimation = () => {
+    // 이 부분에서 play()를 직접 사용하지 않고 isVisible 상태로만 제어
+    if (isVisible) {
+      // Lottie 애니메이션을 상태로 재생시키기
+      setIsVisible(false); // 한 번 실행 후 false로 돌려서 반복 실행 방지
+    }
+  };
 
   return (
     <>
@@ -45,17 +98,24 @@ const ServiceIntro = () => {
             매일매일 간단한 탄소절감 챌린지를 수행하며 에코모아를 키워요!
           </h2>
           <div className="w-[1200px] h-[500px] rounded-[40px] bg-[#EDEEF0] mt-[60px]">
-            <Image
+            {/* <Image
               src={"/service/main.png"}
               alt="에코모아 서비스 화면"
               width={1200}
               height={500}
               style={{ width: "1200px", height: "500px" }}
-            />
+            /> */}
+            <div className="rounded-[40px] overflow-hidden">
+              <Lottie
+                animationData={lottieJson1}
+                loop={false}
+                className="w-full h-full"
+              />
+            </div>
           </div>
           <button
             onClick={handleClick}
-            className="z-10 border-none fixed top-[80%] font-[600] w-[392px] h-[60px] rounded-[40px] p-[24px_16px] flex flex-col items-center justify-center gap-[10px] bg-[#0D9C36] text-[#FFF] mt-[40px]"
+            className="z-10 border-none fixed top-[80%] font-[600] w-[392px] h-[60px] rounded-[40px] p-[24px_16px] flex flex-col items-center justify-center gap-[10px] bg-[#0D9C36] text-[#FFF] mt-[52px]"
           >
             에코모아 시작하기
           </button>
@@ -137,13 +197,6 @@ const ServiceIntro = () => {
             className="relative flex flex-col justify-center items-center"
           >
             {/* <Image
-              src={"/service/treemoa.png"}
-              alt="에코모아 캐릭터"
-              width={600}
-              height={400}
-              className="rounded-[40px]"
-            /> */}
-            <Image
               src={"/service/before.png"}
               alt="에코모아 캐릭터"
               width={600}
@@ -159,7 +212,14 @@ const ServiceIntro = () => {
               data-aos="fade-up"
               data-aos-easing="ease-in-out"
               data-aos-duration="1800"
-            />
+            /> */}
+            <div className="rounded-[40px] overflow-hidden">
+              <Lottie
+                animationData={lottieJson5}
+                loop={true}
+                className="w-full h-full"
+              />
+            </div>
           </div>
           {/* 네 번째 내용 */}
           <div
@@ -393,13 +453,20 @@ const ServiceIntro = () => {
         >
           {/* 차트 1 */}
           <div>
-            <div className="border border-[#D5D7DD] w-[584px] h-[400px] p-[97px_160px_57px_160px] rounded-[40px]">
-              <Image
+            <div className="border border-[#D5D7DD] w-[584px] h-[400px] p-[40px] rounded-[40px]">
+              {/* <Image
                 src={"/service/chart1.png"}
                 alt="탄소 배출량 비교"
                 width={584}
                 height={400}
-              />
+              /> */}
+              <div className="rounded-[40px] overflow-hidden w-full h-full">
+                <Lottie
+                  animationData={lottieJson4}
+                  loop={true}
+                  className="w-full h-full"
+                />
+              </div>
             </div>
             <p className="font-wanted text-center mt-[31px] text-[#525660] text-[20px] font-[500] leading-[30px]">
               “헉 지난달보다 2kg 더 배출했네, 다음달에는 더 줄여야겠어!”
@@ -408,13 +475,21 @@ const ServiceIntro = () => {
           {/* 차트 2 */}
           <div>
             <div className="flex justify-center items-center border border-[#D5D7DD] rounded-[40px]">
-              <Image
+              {/* <Image
                 src={"/service/chart2.png"}
                 alt="탄소 배출량 비교"
                 width={584}
                 height={400}
                 className="p-[121px_64px]"
-              />
+              /> */}
+
+              <div className="rounded-[40px] overflow-hidden">
+                <Lottie
+                  animationData={lottieJson10}
+                  loop={true}
+                  className="w-full h-full"
+                />
+              </div>
             </div>
             <p className="font-wanted text-center mt-[31px] text-[#525660] text-[20px] font-[500] leading-[30px]">
               “와 나는 탄소 배출량이 적은 편이구나! 매우 뿌듯하네”
@@ -555,12 +630,29 @@ const ServiceIntro = () => {
             </h1>
           </div>
           <div className="w-[1200px] h-[500px] rounded-[40px] bg-[#CBF5CB] mt-[74px] mb-[176px]">
-            <Image
+            {/* <Image
               src={"/service/main2.png"}
               alt="에코모아 서비스 화면"
               width={1200}
               height={500}
-            />
+            /> */}
+            <div className="rounded-[40px] overflow-hidden">
+              <div
+                className="rounded-[40px] overflow-hidden"
+                data-aos="fade-left"
+                data-aos-once="true"
+                data-aos-duration="1000"
+                ref={lottieRef5}
+              >
+                {/* <Lottie
+                  animationData={lottieJson2}
+                  loop={false}
+                  className="w-full h-full"
+                  lottieRef={lottieRef5}
+                /> */}
+                {View}
+              </div>
+            </div>
           </div>
         </div>
       </section>

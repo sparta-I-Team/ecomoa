@@ -128,24 +128,42 @@ export const checkEmailAbility = async (userEmail: string) => {
 
 // 좋아요 게시글 가져오기
 export const getLikePosts = async (
-  userId: string
+  userId: string,
+  type?: string,
+  sortOrder: "asc" | "desc" = "desc"
 ): Promise<LikePosts[] | []> => {
   const supabase = createClient();
-  const { data: likes, error } = await supabase
+  const { data: likes, error: likeError } = await supabase
     .from("likes")
     .select("*, posts(*)")
     .eq("status", true)
-    .eq("user_id", userId);
-  // .order("posts.created_at", { ascending: sortOrder === "asc" });
+    .eq("user_id", userId)
+    .order("liked_at", { ascending: sortOrder === "asc" });
   // .eq("params->>type", type);
 
-  if (error) {
-    console.error("북마크 post 가져오기 오류", error);
+  if (likeError) {
+    console.error("likes 테이블 정보 가져오기 오류", likeError);
     return [];
   }
 
+  // 좋아요한 포스트 id 배열
+  // const postIds = likes.map((like) => like.post_id);
+
+  // 포스트 테이블에서 관련 정보 가져오기(정렬 추가)
+  // const { data: posts, error: postsError } = await supabase
+  //   .from("posts")
+  //   .select("*")
+  //   .in("post_id", postIds)
+  //   .eq("params->>type", type)
+  //   .order("created_at", { ascending: sortOrder === "asc" });
+  // if (postsError) {
+  //   console.error("posts 테이블 정보 가져오기 오류", postsError);
+  //   return [];
+  // }
+
   const likePosts = await Promise.all(
     likes?.map(async (like) => {
+      // const post = posts.find((p) => p.post_id === like.post_id);
       const { data } = await supabase
         .from("user_info")
         .select("user_nickname")
@@ -154,6 +172,7 @@ export const getLikePosts = async (
 
       return {
         ...like,
+        // posts: post || {},
         writername: data?.user_nickname
       } as LikePosts;
     }) || []
