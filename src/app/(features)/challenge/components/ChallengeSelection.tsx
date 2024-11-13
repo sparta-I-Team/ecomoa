@@ -5,12 +5,16 @@ import BlackAutoWidthButton from "./ui/BlackAutoWidthButton";
 import { CHALLENGES } from "@/utlis/challenge/challenges";
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { useChallengeDashboard } from "@/hooks/useChallengeDashboard";
+import { userStore } from "@/zustand/userStore";
+import ChallengeSelectionSkeleton from "./ui/ChallengeSelectionSkeleton";
 
 export const ChallengeSelection = () => {
   const { handleSubmit } = useForm();
   const { setStep, setSelectedChallenges } = useChallengeStore();
   const [selected, setSelected] = useState<string[]>([]);
-
+  const { user } = userStore();
+  const { isLoading } = useChallengeDashboard(user.id);
   const onSubmit = () => {
     if (selected.length === 0) {
       alert("최소 하나의 챌린지를 선택해주세요.");
@@ -26,6 +30,7 @@ export const ChallengeSelection = () => {
     );
   };
 
+  if (isLoading) return <ChallengeSelectionSkeleton />;
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-10 mx-auto">
       <h1 className="font-semibold text-[16px] ">데일리 탄소 절감 챌린지</h1>

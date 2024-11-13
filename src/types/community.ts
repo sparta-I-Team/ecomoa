@@ -19,7 +19,7 @@ export interface PostCreateType {
   title: string;
   content: string;
   formattedUrls: string;
-  price: string;
+  price: number;
   location: string;
   type: string;
 }

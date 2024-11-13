@@ -1,5 +1,3 @@
-import { ChallengeData } from "@/types/challengesType";
-
 const StatsSectionSkeleton = () => {
   return (
     <div className="w-[524px] h-[175px]">

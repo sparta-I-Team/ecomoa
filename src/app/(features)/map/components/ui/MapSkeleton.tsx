@@ -1,6 +1,6 @@
 const MapSkeleton = () => {
   return (
-    <div className="w-2/3 h-screen bg-gray-100 animate-pulse flex items-center justify-center">
+    <div className="w-2/3 h-[822px] ml-[30px] rounded-[16px] bg-gray-100 animate-pulse flex items-center justify-center">
       <div className="text-gray-400 flex flex-col items-center">
         <svg
           className="w-16 h-16 mb-4"

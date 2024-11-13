@@ -41,7 +41,7 @@ export const ChallengeForm = () => {
               month: "long",
               day: "numeric",
               weekday: "long"
-            })}{" "}
+            })}
             데일리 챌린지
           </p>
         </div>

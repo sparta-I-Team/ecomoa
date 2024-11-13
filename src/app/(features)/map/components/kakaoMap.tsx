@@ -50,7 +50,7 @@ const KakaoMap = ({ storeList, selectedStoreId, onClick }: KakaoMapProps) => {
   }, [selectedStoreId, storeList]);
 
   return (
-    <div className="w-2/3 h-screen">
+    <div className="w-2/3 h-[822px] ml-[30px]">
       {isMapLoaded && (
         <Map
           ref={mapRef}
@@ -59,8 +59,9 @@ const KakaoMap = ({ storeList, selectedStoreId, onClick }: KakaoMapProps) => {
             lng: 126.978656
           }}
           style={{
-            width: "100%",
-            height: "100%"
+            width: "792px",
+            height: "100%",
+            borderRadius: "16px"
           }}
           level={level}
           draggable={true}
@@ -73,16 +74,16 @@ const KakaoMap = ({ storeList, selectedStoreId, onClick }: KakaoMapProps) => {
                 key={store.store_id}
                 position={{ lat: store.lat, lng: store.lon }}
                 onClick={() => onClick(store)}
-                // image={{
-                //   src:
-                //     selectedStoreId === store.store_id
-                //       ? "선택된 마커 이미지로 넣음녀 됨"
-                //       : "기본 마커",
-                //   size: {
-                //     width: 24,
-                //     height: 35
-                //   }
-                // }}
+                image={{
+                  src:
+                    selectedStoreId === store.store_id
+                      ? "/images/selectedMarker.png "
+                      : "/images/marker.png",
+                  size: {
+                    width: 40,
+                    height: 46
+                  }
+                }}
               >
                 {selectedStoreId === store.store_id && (
                   <div className="p-2 w-[280px]" style={{ border: "none" }}>
