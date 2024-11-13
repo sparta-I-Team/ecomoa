@@ -2,6 +2,7 @@
 import {
   loadMyAllData,
   loadMyAvgData,
+  loadRecentFiveMonthsEmissions,
   loadTopUsersData,
   loadTotalUsersData,
   TopData
@@ -15,6 +16,7 @@ import { userStore } from "@/zustand/userStore";
 import { UserInfo } from "@/types/userInfoType";
 import { getUserInfo } from "@/api/user-action";
 import Loading from "../components/Loading";
+import HistoryCompareCard from "../components/HistoryCompareCard";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
@@ -25,6 +27,7 @@ const ResultPageMain = () => {
   const [myAllData, setMyAllData] = useState<MonthlyData[] | null>(null);
   const [myAllAvgData, setMyAllAvgData] = useState<number>(0);
   const [userTopData, setUserTopData] = useState<TopData | null>(null);
+  const [userAllData, setUserAllData] = useState<MonthlyData[] | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -42,9 +45,14 @@ const ResultPageMain = () => {
       try {
         await Promise.all([
           loadTotalUsersData(currentYear, currentMonth, setTotalAvgData),
-          loadMyAllData(setMyAllData),
+          loadMyAllData(setMyAllData, null),
           loadMyAvgData(setMyAllAvgData),
           loadTopUsersData(setUserTopData),
+          loadRecentFiveMonthsEmissions(currentYear, currentMonth, 2).then(
+            (data) => {
+              setUserAllData(data);
+            }
+          ),
           getUserFetch()
         ]).then(() => {
           const timeElapsed = Date.now() - fetchStartTime;
@@ -278,6 +286,12 @@ const ResultPageMain = () => {
           </p>
           <div className="w-full h-[400px] flex justify-center items-center border border-[#DCECDC] rounded-[15px]">
             <CompareMonthlyEmissions />
+          </div>
+          <div>
+            <HistoryCompareCard
+              myAllData={myAllData}
+              userAllData={userAllData}
+            />
           </div>
         </div>
       </div>

@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import InputField from "../components/InputField";
 import { FormData } from "@/types/calculate";
-// import YearMonthPicker from "../components/YearMonthPicker";
-// import Loading from "../components/Loading";
 import browserClient from "@/utlis/supabase/browserClient";
 import { useRouter } from "next/navigation";
 import { userStore } from "@/zustand/userStore";
@@ -15,7 +13,6 @@ const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
 
 const Page = () => {
-  // const [isLoading, setIsLoading] = useState(false);
   const [thisYear, setThisYear] = useState<number | null>(currentYear);
   const [thisMonth, setThisMonth] = useState<number | null>(currentMonth);
   const [fuelType, setFuelType] = useState(""); // 연료 타입 상태 추가
@@ -28,10 +25,6 @@ const Page = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<FormData>();
-
-  // if (isLoading) {
-  //   return <Loading />;
-  // }
 
   // 연료 종류에 따른 계산식
   const getCarCo2 = (car: number, fuelType: string): number => {

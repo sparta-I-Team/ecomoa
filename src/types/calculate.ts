@@ -81,6 +81,7 @@ export interface MonthlyData {
   waste_volume: number;
   waste_co2: number;
   carbon_emissions: number;
+  created_at?: string;
 }
 
 export interface ThisMonthChartProps {

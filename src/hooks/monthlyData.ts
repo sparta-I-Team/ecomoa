@@ -1,18 +1,25 @@
 import { getUser } from "@/api/auth-actions";
+import { MonthlyData } from "@/types/calculate";
 import browserClient from "@/utlis/supabase/browserClient";
-
-// type SetUserType = (userId: string | null) => void; // setUser의 타입 정의
 
 // 내 전체 데이터
 export const loadMyAllData = async (
-  setMyAllData: React.Dispatch<React.SetStateAction<MonthlyData[] | null>>
+  setMyAllData: React.Dispatch<React.SetStateAction<MonthlyData[] | null>>,
+  selectedYear: number | null
 ) => {
   const fetchedUser = await getUser();
   if (fetchedUser) {
-    const { data, error } = await browserClient
+    let query = browserClient
       .from("carbon_records")
-      .select("*")
+      .select("*, created_at")
       .eq("user_id", fetchedUser.id);
+
+    // selectedYear가 null이 아닐 때만 연도 필터 추가
+    if (selectedYear !== null) {
+      query = query.eq("year", selectedYear);
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       console.error("Error fetching data:", error);
@@ -21,11 +28,7 @@ export const loadMyAllData = async (
     }
 
     // 가져온 데이터를 상태에 업데이트
-    if (data && Array.isArray(data) && data.length > 0) {
-      setMyAllData(data); // 데이터가 있을 경우 업데이트
-    } else {
-      setMyAllData(null); // 데이터가 없으면 null로 설정
-    }
+    setMyAllData(data && data.length > 0 ? data : null); // 데이터가 없으면 null로 설정
   } else {
     setMyAllData(null); // fetchedUser가 없으면 null로 설정
   }
@@ -193,21 +196,21 @@ export const loadTotalUsersData = async (
 };
 
 // 5달치 평균 배출량 fetch
-interface MonthlyData {
-  water_usage: number;
-  water_co2: number;
-  gas_usage: number;
-  gas_co2: number;
-  electricity_usage: number;
-  electricity_co2: number;
-  waste_volume: number;
-  waste_co2: number;
-  carbon_emissions: number;
-  car_usage: number;
-  car_co2: number;
-  year: number;
-  month: number;
-}
+// interface MonthlyData {
+//   water_usage: number;
+//   water_co2: number;
+//   gas_usage: number;
+//   gas_co2: number;
+//   electricity_usage: number;
+//   electricity_co2: number;
+//   waste_volume: number;
+//   waste_co2: number;
+//   carbon_emissions: number;
+//   car_usage: number;
+//   car_co2: number;
+//   year: number;
+//   month: number;
+// }
 
 // 5달치 평균 배출량
 export const loadRecentFiveMonthsEmissions = async (
@@ -539,3 +542,27 @@ export const loadTopUsersData = async (
     setTotalAvgData(null); // 데이터가 없을 경우 null로 설정
   }
 };
+
+// export const loadUserAvgData = async () => {
+//   const fetchedUser = await getUser();
+//   if (fetchedUser) {
+//     const { data, error } = await browserClient
+//       .from("carbon_records")
+//       .select("carbon_emissions");
+
+//     if (error) {
+//       console.error("Error fetching data:", error);
+//       setMyAllData(null); // 오류 발생 시 null로 설정
+//       return;
+//     }
+
+//     // 가져온 데이터를 상태에 업데이트
+//     if (data && Array.isArray(data) && data.length > 0) {
+//       setMyAllData(data); // 데이터가 있을 경우 업데이트
+//     } else {
+//       setMyAllData(null); // 데이터가 없으면 null로 설정
+//     }
+//   } else {
+//     setMyAllData(null); // fetchedUser가 없으면 null로 설정
+//   }
+// };
