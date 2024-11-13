@@ -2,14 +2,27 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const ServiceIntro = () => {
   const router = useRouter();
-
   const handleClick = () => {
-    router.push("/challenge");
+    router.push("/login");
   };
+
+  useEffect(() => {
+    AOS.init({
+      // duration: 1000,
+      once: true
+    });
+    return () => {
+      // AOS 인스턴스를 종료하여 메모리 누수 방지
+      AOS.refresh();
+    };
+  }, []);
+
   return (
     <>
       <Head>
@@ -42,7 +55,7 @@ const ServiceIntro = () => {
           </div>
           <button
             onClick={handleClick}
-            className="border-none fixed top-[80%] font-[600] w-[392px] h-[60px] rounded-[40px] p-[24px_16px] flex flex-col items-center justify-center gap-[10px] bg-[#0D9C36] text-[#FFF] mt-[40px]"
+            className="z-10 border-none fixed top-[80%] font-[600] w-[392px] h-[60px] rounded-[40px] p-[24px_16px] flex flex-col items-center justify-center gap-[10px] bg-[#0D9C36] text-[#FFF] mt-[40px]"
           >
             에코모아 시작하기
           </button>
@@ -53,7 +66,13 @@ const ServiceIntro = () => {
       <section className="font-wanted h-[1300px] bg-[#F2F9F2] flex items-center">
         <div className="w-[1200px] my-auto h-[980px] grid grid-cols-2 mx-auto place-content-center">
           {/* 첫 번째 내용 */}
-          <div className="flex flex-col justify-center items-start gap-[24px]">
+          <div
+            data-aos="fade-in"
+            data-aos-offset="400" //  500px 만큼 스크롤을 내려야 애니메이션 시작
+            data-aos-easing="ease-in-out"
+            data-aos-duration="1500"
+            className="flex flex-col justify-center items-start gap-[24px]"
+          >
             <p className="text-[#00691E] text-[20px] font-[600] leading-[30px] tracking-[-0.2px]">
               탄소 절감 어렵지 않아요
             </p>
@@ -64,7 +83,13 @@ const ServiceIntro = () => {
           </div>
           {/* 두 번째 내용 */}
           <div className="flex flex-col justify-center items-center">
-            <div className="w-[608px] flex flex-wrap items-center justify-center gap-[16px]">
+            <div
+              data-aos="fade-up"
+              data-aos-offset="500"
+              data-aos-easing="ease-in-out"
+              data-aos-duration="1000"
+              className="w-[608px] flex flex-wrap items-center justify-center gap-[16px]"
+            >
               <Image
                 src={"/service/chal1.png"}
                 alt="탄소 절감 챌린지"
@@ -104,17 +129,46 @@ const ServiceIntro = () => {
             </div>
           </div>
           {/* 세 번째 내용 */}
-          <div className="flex flex-col justify-center items-center">
-            <Image
+          <div
+            data-aos="fade-up"
+            data-aos-offset="400"
+            data-aos-easing="ease-in-out"
+            data-aos-duration="1000"
+            className="relative flex flex-col justify-center items-center"
+          >
+            {/* <Image
               src={"/service/treemoa.png"}
               alt="에코모아 캐릭터"
               width={600}
               height={400}
               className="rounded-[40px]"
+            /> */}
+            <Image
+              src={"/service/before.png"}
+              alt="에코모아 캐릭터"
+              width={600}
+              height={400}
+              className="rounded-[40px] relative"
+            />
+            <Image
+              src={"/service/arrow.png"}
+              alt="에코모아 캐릭터"
+              width={507}
+              height={140}
+              className="rounded-[40px] absolute top-[50px] left-[40px]"
+              data-aos="fade-up"
+              data-aos-easing="ease-in-out"
+              data-aos-duration="1800"
             />
           </div>
           {/* 네 번째 내용 */}
-          <div className="w-[600px] flex flex-col justify-center items-start ml-[100px] gap-[24px]">
+          <div
+            data-aos="fade-in"
+            data-aos-offset="400"
+            data-aos-easing="ease-in-out"
+            data-aos-duration="1500"
+            className="w-[600px] flex flex-col justify-center items-start ml-[100px] gap-[24px]"
+          >
             <Image
               src={"/service/stamp.png"}
               alt="에코모아 챌린지 스탬프"
@@ -136,17 +190,31 @@ const ServiceIntro = () => {
       {/* section 3 */}
       <section className="h-[835px]">
         <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center ">
-          <p className="text-[#00691E] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] mt-[105px]">
-            모아 캐릭터를 소개합니다
-          </p>
-          <h1 className="text-center text-[#000301] text-[32px] font-[700] leading-[44.8px] tracking-[-0.32px] mt-[24px]">
-            탄소 절감으로 모은 포인트로 캐릭터를 키울 수 있어요
-            <br />
-            <span className="text-[#0D9C36]">씨앗모아</span>부터
-            <span className="text-[#0D9C36]"> 클로바모아</span>까지 함께
-            성장해나가요
-          </h1>
-          <div className="flex items-center justify-center gap-[32px] mt-[132px]">
+          <div
+            className="text-center"
+            data-aos="fade-in"
+            data-aos-offset="400"
+            data-aos-easing="ease-in-out"
+            data-aos-duration="1500"
+          >
+            <p className="text-[#00691E] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] mt-[105px]">
+              모아 캐릭터를 소개합니다
+            </p>
+            <h1 className="text-center text-[#000301] text-[32px] font-[700] leading-[44.8px] tracking-[-0.32px] mt-[24px]">
+              탄소 절감으로 모은 포인트로 캐릭터를 키울 수 있어요
+              <br />
+              <span className="text-[#0D9C36]">씨앗모아</span>부터
+              <span className="text-[#0D9C36]"> 클로바모아</span>까지 함께
+              성장해나가요
+            </h1>
+          </div>
+          <div
+            data-aos="fade-up"
+            data-aos-offset="400" //  500px 만큼 스크롤을 내려야 애니메이션 시작
+            data-aos-easing="ease-in-out"
+            data-aos-duration="1500"
+            className="flex items-center justify-center gap-[32px] mt-[132px]"
+          >
             <div className="flex flex-col items-center justify-center">
               <p className="mb-[23px] text-[#000301] text-[20px] font-[700] leading-[38px]">
                 LV.1 씨앗모아
@@ -222,23 +290,37 @@ const ServiceIntro = () => {
       {/* section 4 */}
       <section className="h-[799px] bg-[rgba(94,133,253,0.10)]">
         <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-start ">
-          <p className="text-[#5E85FD] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] mt-[105px]">
-            챌린지를 실천해보세요
-          </p>
-          <h1 className="text-center text-[40px] font-[700] leading-[56px] tracking-[-0.4px] mt-[24px]">
-            데일리 탄소 절감 챌린지 이렇게 참여해요
-          </h1>
-          <div className="w-[1200px] flex justify-center items-center gap-[15px]">
+          <div
+            data-aos="fade-in"
+            data-aos-offset="400"
+            data-aos-easing="ease-in-out"
+            data-aos-duration="1500"
+          >
+            <p className="text-[#5E85FD] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] mt-[105px]">
+              챌린지를 실천해보세요
+            </p>
+            <h1 className="text-center text-[40px] font-[700] leading-[56px] tracking-[-0.4px] mt-[24px]">
+              데일리 탄소 절감 챌린지 이렇게 참여해요
+            </h1>
+          </div>
+          <div
+            data-aos="fade-up"
+            data-aos-offset="400"
+            data-aos-easing="ease-in-out"
+            data-aos-duration="1500"
+            className="w-[1200px] flex justify-center items-center gap-[15px]"
+          >
             <div>
               <p className="mx-auto mt-[100px] text-[20px] font-[500] leading-[30px] text-[#525660] mb-[24px]">
                 <span className="text-[#5E85FD] font-[600]">STEP 1 </span>챌린지
                 항목들을 선택해요
               </p>
               <Image
-                src={"/service/challenge1.png"}
+                src={"/service/step1.png"}
                 alt="챌린지"
                 width={380}
                 height={320}
+                className="rounded-[40px]"
                 style={{ width: "380px", height: "320px" }}
               />
             </div>
@@ -252,6 +334,7 @@ const ServiceIntro = () => {
                 alt="챌린지 인증"
                 width={380}
                 height={320}
+                className="rounded-[40px]"
                 style={{ width: "380px", height: "320px" }}
               />
             </div>
@@ -260,13 +343,26 @@ const ServiceIntro = () => {
                 <span className="text-[#5E85FD] font-[600]">STEP 3 </span>
                 포인트를 모아서 모아 캐릭터를 키워요
               </p>
-              <Image
-                src={"/service/challenge3.png"}
-                alt="챌린지 포인트 시스템"
-                width={460}
-                height={320}
-                style={{ width: "461px", height: "320px" }}
-              />
+              <div className="relative">
+                <Image
+                  src={"/service/step.png"}
+                  alt="챌린지 포인트 시스템"
+                  width={380}
+                  height={320}
+                  className="rounded-[40px]"
+                />
+                <Image
+                  data-aos="fade-down"
+                  data-aos-offset="400"
+                  data-aos-easing="ease-in-out"
+                  data-aos-duration="1500"
+                  src={"/service/step-point.png"}
+                  alt="챌린지 포인트 시스템"
+                  width={180}
+                  height={72}
+                  className="absolute -right-[60px] -top-[10px]"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -274,7 +370,13 @@ const ServiceIntro = () => {
 
       {/* section 5 */}
       <section className="h-[886px]">
-        <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center">
+        <div
+          data-aos="fade-in"
+          data-aos-offset="400"
+          data-aos-easing="ease-in-out"
+          data-aos-duration="1500"
+          className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center"
+        >
           <p className="text-center text-[#00691E] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] mt-[110px]">
             탄소 계산기로 관리하는 나의 탄소 배출량
           </p>
@@ -282,7 +384,13 @@ const ServiceIntro = () => {
             탄소 계산기로 매월 탄소 배출량을 정확히 관리해요
           </h1>
         </div>
-        <div className="w-[1200px] h-[680px] grid grid-cols-2 mx-auto mt-[100px] gap-[32px]">
+        <div
+          data-aos="fade-up"
+          data-aos-offset="400"
+          data-aos-easing="ease-in-out"
+          data-aos-duration="1500"
+          className="w-[1200px] h-[680px] grid grid-cols-2 mx-auto mt-[100px] gap-[32px]"
+        >
           {/* 차트 1 */}
           <div>
             <div className="border border-[#D5D7DD] w-[584px] h-[400px] p-[97px_160px_57px_160px] rounded-[40px]">
@@ -317,7 +425,13 @@ const ServiceIntro = () => {
 
       {/* section 6 */}
       <section className="font-wanted h-[680px] bg-[#F2F9F2]">
-        <div className="w-[1200px] h-[680px] grid grid-cols-2 mx-auto">
+        <div
+          data-aos="fade-in"
+          data-aos-offset="500"
+          data-aos-easing="ease-in-out"
+          data-aos-duration="1500"
+          className="w-[1200px] h-[680px] grid grid-cols-2 mx-auto"
+        >
           <div className="flex flex-col items-start justify-center gap-[24px]">
             <p className="text-[#00691E] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] ">
               친환경 가게 찾기 Map
@@ -328,7 +442,13 @@ const ServiceIntro = () => {
               친환경 소비를 경험해 보세요!
             </h1>
           </div>
-          <div className="w-[584px] h-[400px] bg-[#FFF] my-auto rounded-[40px]">
+          <div
+            data-aos="fade-up"
+            data-aos-offset="500"
+            data-aos-easing="ease-in-out"
+            data-aos-duration="1500"
+            className="w-[584px] h-[400px] bg-[#FFF] my-auto rounded-[40px]"
+          >
             <Image
               src={"/service/map.png"}
               alt="탄소 절감 커뮤니티"
@@ -342,8 +462,20 @@ const ServiceIntro = () => {
 
       {/* section 7*/}
       <section className="font-wanted h-[680px]">
-        <div className="w-[1200px] h-[680px] grid grid-cols-2 mx-auto">
-          <div className="w-[584px] h-[400px] bg-[#FFF] my-auto rounded-[40px]">
+        <div
+          data-aos="fade-in"
+          data-aos-offset="400"
+          data-aos-easing="ease-in-out"
+          data-aos-duration="1500"
+          className="w-[1200px] h-[680px] grid grid-cols-2 mx-auto"
+        >
+          <div
+            data-aos="fade-up"
+            data-aos-offset="500"
+            data-aos-easing="ease-in-out"
+            data-aos-duration="1500"
+            className="w-[584px] h-[400px] bg-[#FFF] my-auto rounded-[40px]"
+          >
             <Image
               src={"/service/community.png"}
               alt="탄소 절감 커뮤니티"
@@ -368,7 +500,13 @@ const ServiceIntro = () => {
 
       {/* section 8*/}
       <section className="font-wanted h-[680px] bg-[rgba(255,125,111,0.10)]">
-        <div className="w-[1200px] h-[680px] grid grid-cols-2 mx-auto">
+        <div
+          data-aos="fade-in"
+          data-aos-offset="400"
+          data-aos-easing="ease-in-out"
+          data-aos-duration="1500"
+          className="w-[1200px] h-[680px] grid grid-cols-2 mx-auto"
+        >
           <div className="flex flex-col items-start justify-center gap-[24px]">
             <h1 className="text-[#FF7D6F] text-[20px] font-[600] leading-[30px] tracking-[-0.2px] ">
               아나바다 시장
@@ -379,7 +517,13 @@ const ServiceIntro = () => {
               자원도 아끼고, 돈도 절약해요!
             </p>
           </div>
-          <div className="w-[584px] h-[400px] bg-[#FFF] my-auto rounded-[40px]">
+          <div
+            data-aos="fade-up"
+            data-aos-offset="500"
+            data-aos-easing="ease-in-out"
+            data-aos-duration="1500"
+            className="w-[584px] h-[400px] bg-[#FFF] my-auto rounded-[40px]"
+          >
             <Image
               src={"/service/anabada.png"}
               alt="아나바다 시장"
@@ -394,14 +538,22 @@ const ServiceIntro = () => {
       {/* section 9 */}
       <section className="h-[799px]">
         <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center ">
-          <p className="text-center text-[40px] font-[700] leading-[56px] tracking-[-0.4px] mt-[140px]">
-            에코모아와 함께
-            <br />
-            탄소 절감에 참여해 주세요!
-          </p>
-          <h1 className="text-[#525660] text-[20px] font-[500] leading-[38px] tracking-[-0.2px] mt-[28px]">
-            모아들과 지속가능한 미래를 꿈꿔요
-          </h1>
+          <div
+            data-aos="fade-in"
+            data-aos-offset="400"
+            data-aos-easing="ease-in-out"
+            data-aos-duration="1500"
+            className="text-center"
+          >
+            <p className="text-center text-[40px] font-[700] leading-[56px] tracking-[-0.4px] mt-[140px]">
+              에코모아와 함께
+              <br />
+              탄소 절감에 참여해 주세요!
+            </p>
+            <h1 className="text-[#525660] text-[20px] font-[500] leading-[38px] tracking-[-0.2px] mt-[28px]">
+              모아들과 지속가능한 미래를 꿈꿔요
+            </h1>
+          </div>
           <div className="w-[1200px] h-[500px] rounded-[40px] bg-[#CBF5CB] mt-[74px] mb-[176px]">
             <Image
               src={"/service/main2.png"}

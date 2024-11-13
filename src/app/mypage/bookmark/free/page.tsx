@@ -8,7 +8,7 @@ const FreeBookmarkPage = async () => {
     <>
       <div className="w-full bg-[#F4FFF4] ">
         <div className="w-[1200px] mx-auto">
-          <MyScrap />
+          <MyScrap type="free" />
         </div>
       </div>
     </>

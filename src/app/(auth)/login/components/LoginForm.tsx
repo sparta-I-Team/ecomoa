@@ -69,7 +69,7 @@ const LoginForm = () => {
       <div className="space-y-3">
         <input
           type="email"
-          className="p-2 w-[584px] h-16 rounded-md borde border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold"
+          className="p-2 w-[584px] h-16 rounded-md border border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold outline-none"
           {...register("email")}
           placeholder="아이디"
         />
@@ -78,7 +78,7 @@ const LoginForm = () => {
         </p>
         <input
           type="password"
-          className="p-2 w-[584px] h-16 rounded-md border border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold"
+          className="p-2 w-[584px] h-16 rounded-md border border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold outline-none"
           {...register("password")}
           placeholder="비밀번호"
         />

@@ -32,9 +32,24 @@ export const updateNickname = async ({
   newNickname: string;
 }): Promise<UserInfoNickname | null> => {
   const supabase = createClient();
+
+  // userInfo 가져오기
+  const { data: userInfo, error: fetchError } = await supabase
+    .from("user_info")
+    .select("*")
+    .eq("user_id", userId)
+    .single();
+  if (fetchError) {
+    console.error("유저 정보 조회 오류", fetchError);
+    return null;
+  }
+
   const { error } = await supabase
     .from("user_info")
-    .update({ user_nickname: newNickname, params: { firstTag: true } })
+    .update({
+      user_nickname: newNickname,
+      params: { ...userInfo.params, firstTag: true }
+    })
     .eq("user_id", userId)
     .select();
 
@@ -54,13 +69,18 @@ export const updateNickname = async ({
 };
 
 // 내가 쓴 게시판 글 가져오기
-export const getMyPosts = async (userId: string, type?: string) => {
+export const getMyPosts = async (
+  userId: string,
+  type?: string,
+  sortOrder: "asc" | "desc" = "desc"
+) => {
   const supabase = createClient();
   const { data: posts, error } = await supabase
     .from("posts")
     .select("*, user_info(*)")
     .eq("user_id", userId)
-    .eq("params->>type", type);
+    .eq("params->>type", type)
+    .order("created_at", { ascending: sortOrder === "asc" });
 
   if (error) {
     console.error("내가 쓴 자유게시판 가져오기 오류", error);
@@ -96,6 +116,7 @@ export const checkEmailAbility = async (userEmail: string) => {
     .from("user_info")
     .select("user_email")
     .eq("user_email", userEmail)
+    .neq("params->>is_deleted", "true") // 탈퇴한 경우 중복 검사 안 걸리게
     .limit(1);
 
   if (error) {
@@ -108,7 +129,6 @@ export const checkEmailAbility = async (userEmail: string) => {
 // 좋아요 게시글 가져오기
 export const getLikePosts = async (
   userId: string
-  // type?: string
 ): Promise<LikePosts[] | []> => {
   const supabase = createClient();
   const { data: likes, error } = await supabase
@@ -116,7 +136,7 @@ export const getLikePosts = async (
     .select("*, posts(*)")
     .eq("status", true)
     .eq("user_id", userId);
-
+  // .order("posts.created_at", { ascending: sortOrder === "asc" });
   // .eq("params->>type", type);
 
   if (error) {
@@ -202,49 +222,6 @@ export const getBookmarkAnabada = async (userId: string) => {
   return anabada;
 };
 
-// 스토리지에 프로필 이미지 업로드
-// export const uploadProfileImage = async (
-//   userId: string,
-//   formData: FormData
-// ) => {
-//   const supabase = createClient();
-//   const file = formData.get("profileImage") as File; // FormData에서 파일 가져오기
-//   if (!file) return;
-//   const filePath = `/${userId}/${file.name}`; // userId 폴더에 저장
-//   // 스토리지 업로드
-//   const { error } = await supabase.storage
-//     .from("avatars")
-//     .upload(filePath, file, {
-//       cacheControl: "3600", // 캐시 제어 설정 (1시간)
-//       upsert: true // 기존 파일이 있을 경우 덮어쓰기
-//     });
-
-//   if (error) {
-//     throw new Error("이미지 업로드 실패: " + error.message);
-//   }
-//   // 업로드한 파일의 공용 URL 가져오기
-//   const publicUrl = supabase.storage
-//     .from("avatars")
-//     .getPublicUrl(filePath).data; // filePath를 사용하여 URL 생성
-//   return publicUrl; // 업로드한 이미지의 공용 URL 반환
-// };
-
-// 테이블에 프로필 이미지 업데이트
-// export const updateAvatarUrl = async (userId: string, newAvatarUrl: string) => {
-//   const supabase = createClient();
-//   const { data, error } = await supabase
-//     .from("user_info")
-//     .update({ user_avatar: newAvatarUrl })
-//     .eq("user_id", userId)
-//     .select();
-
-//   if (error) {
-//     console.error("프로필 업데이트 오류", error);
-//     return null;
-//   }
-//   return data;
-// };
-
 // 북마크
 export const getBookmarks = async (
   userId: string
@@ -261,33 +238,3 @@ export const getBookmarks = async (
   }
   return bookmarks;
 };
-
-// 회원가입시 params 컬럼
-// export const signInParams = async (userId: string) => {
-//   const supabase = createClient();
-//   const { error } = await supabase
-//     .from("user_info")
-//     .update({
-//       params: { firstTag: false }
-//     })
-//     .eq("user_id", userId);
-
-//   if (error) {
-//     console.error(error);
-//   }
-// };
-
-// 닉네임 수정 완료 params 함수
-// export const UpdateNicknameParams = async (userId: string) => {
-//   const supabase = createClient();
-//   const { error } = await supabase
-//     .from("user_info")
-//     .update({
-//       params: { firstTag: true }
-//     })
-//     .eq("user_id", userId);
-
-//   if (error) {
-//     console.error(error);
-//   }
-// };
