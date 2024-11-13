@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import YearPicker from "../components/YearPicker";
 
-const currentYear = new Date().getFullYear();
+// const currentYear = new Date().getFullYear();
 
 const ResultListPage = () => {
   const [myAllData, setMyAllData] = useState<MonthlyData[] | null>(null);
@@ -26,7 +26,7 @@ const ResultListPage = () => {
   return (
     <>
       <div className="w-[1200px] mx-auto">
-        <div className="mt-[76px] mb-[80px]">
+        <div className="mt-[76px] mb-[48px]">
           <Link href="/calculator/result-history-main">
             <p className="text-[16px]"> &lt; 탄소 계산기 홈</p>
           </Link>
@@ -66,26 +66,32 @@ const ResultListPage = () => {
                 }
                 return b.year - a.year;
               })
-              .map((data) => (
+              .map((data, index) => (
                 <Link
                   key={new Date(data.created_at as string).toISOString()}
                   href={`/calculator/result/${data.year}/${data.month}`}
                 >
                   <div className="flex flex-row w-[1120px] h-[92px] p-[24px]">
                     <Image
-                      src={"/calculate/electricity_color.svg"}
+                      src={
+                        index % 2 === 0
+                          ? "/calculate/History_Icon_Blue.svg"
+                          : "/calculate/History_Icon_Red.svg"
+                      }
                       alt={"electricity_color"}
                       width={48}
                       height={48}
                     />
-                    <div className="flex flex-row justify-center items-center ml-5">
-                      <div>
+                    <div className="flex flex-col justify-center ml-5 gap-[16px]">
+                      <div className="text-[20px] font-semibold">
                         {data.year}년 {data.month}월 탄소 계산 결과표
                       </div>
-                      {format(
-                        new Date(data.created_at as string),
-                        "yyyy. MM. dd"
-                      )}
+                      <div className="text-[#A1A7B4]">
+                        {format(
+                          new Date(data.created_at as string),
+                          "yyyy. MM. dd"
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-center w-full">

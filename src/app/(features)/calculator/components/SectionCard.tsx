@@ -7,6 +7,8 @@ export interface SectionCardProps {
   usageValue: number | undefined;
   co2Value: number | undefined;
   unit: string;
+  isHighest: boolean;
+  isLowest: boolean;
 }
 
 const SectionCard: React.FC<SectionCardProps> = ({
@@ -14,7 +16,9 @@ const SectionCard: React.FC<SectionCardProps> = ({
   title,
   usageValue,
   co2Value,
-  unit
+  unit,
+  isHighest,
+  isLowest
 }) => {
   return (
     <>
@@ -26,6 +30,8 @@ const SectionCard: React.FC<SectionCardProps> = ({
             usageValue={usageValue}
             co2Value={co2Value}
             unit={unit}
+            isHighest={isHighest}
+            isLowest={isLowest}
           />
         </div>
       </div>

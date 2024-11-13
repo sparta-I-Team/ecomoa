@@ -20,7 +20,6 @@ import HistoryCompareCard from "../components/HistoryCompareCard";
 
 const currentYear = new Date().getFullYear();
 const currentMonth = new Date().getMonth() + 1;
-const MIN_LOADING_TIME = 3000; // 최소 로딩 시간 (3초)
 
 const ResultPageMain = () => {
   const [totalAvgData, setTotalAvgData] = useState<MonthlyData | null>(null);
@@ -34,8 +33,6 @@ const ResultPageMain = () => {
   const { user } = userStore();
 
   useEffect(() => {
-    const fetchStartTime = Date.now();
-
     const getUserFetch = async () => {
       const res = await getUserInfo(user.id);
       setUserInfo(res);
@@ -54,19 +51,13 @@ const ResultPageMain = () => {
             }
           ),
           getUserFetch()
-        ]).then(() => {
-          const timeElapsed = Date.now() - fetchStartTime;
-          const remainingTime = MIN_LOADING_TIME - timeElapsed;
+        ]);
 
-          if (remainingTime > 0) {
-            // 최소 로딩 시간이 남아있으면 setTimeout으로 추가 대기
-            setTimeout(() => setIsLoading(false), remainingTime);
-          } else {
-            setIsLoading(false);
-          }
-        });
+        // 모든 데이터가 성공적으로 패칭되면 로딩 상태를 false로 변경
+        setIsLoading(false);
       } catch (error) {
         console.error("데이터를 불러오는 중 오류가 발생했습니다:", error);
+        setIsLoading(false); // 오류가 발생한 경우에도 로딩을 종료
       }
     };
 

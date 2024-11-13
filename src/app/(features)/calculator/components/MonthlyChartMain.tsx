@@ -20,12 +20,12 @@ interface MonthlyChartMainProps {
   currentData: MonthlyData[] | null;
 }
 
-type CustomDataLabelsContext = {
+export interface CustomDataLabelsContext {
   chart: ChartJS;
   datasetIndex: number;
   dataIndex: number;
   dataset: ChartDataset;
-};
+}
 
 const MonthlyChartMain: React.FC<MonthlyChartMainProps> = ({
   emissionsData,
