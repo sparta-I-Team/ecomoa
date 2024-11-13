@@ -98,13 +98,6 @@ const ServiceIntro = () => {
             매일매일 간단한 탄소절감 챌린지를 수행하며 에코모아를 키워요!
           </h2>
           <div className="w-[1200px] h-[500px] rounded-[40px] bg-[#EDEEF0] mt-[60px]">
-            {/* <Image
-              src={"/service/main.png"}
-              alt="에코모아 서비스 화면"
-              width={1200}
-              height={500}
-              style={{ width: "1200px", height: "500px" }}
-            /> */}
             <div className="rounded-[40px] overflow-hidden">
               <Lottie
                 animationData={lottieJson1}
