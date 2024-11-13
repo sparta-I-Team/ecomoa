@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Providers from "@/components/shared/providers";
 import Script from "next/script";
+import Footer from "@/components/layout/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,12 +35,15 @@ export default function RootLayout({
         <div>
           <Header />
         </div>
-        <div className="h-full">
+        <div>
           <Script
             src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"
             strategy="beforeInteractive"
           />
           <Providers>{children}</Providers>
+        </div>
+        <div>
+          <Footer />
         </div>
       </body>
     </html>

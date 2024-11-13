@@ -195,22 +195,38 @@ export const loadTotalUsersData = async (
   }
 };
 
-// 5달치 평균 배출량 fetch
-// interface MonthlyData {
-//   water_usage: number;
-//   water_co2: number;
-//   gas_usage: number;
-//   gas_co2: number;
-//   electricity_usage: number;
-//   electricity_co2: number;
-//   waste_volume: number;
-//   waste_co2: number;
-//   carbon_emissions: number;
-//   car_usage: number;
-//   car_co2: number;
-//   year: number;
-//   month: number;
-// }
+// 유저 전체의 carbon_emissions 평균값
+export const loadUsersAvgData = async (
+  setUserAvgData: React.Dispatch<React.SetStateAction<number>>
+) => {
+  setUserAvgData(0);
+
+  const fetchedUser = await getUser();
+  if (fetchedUser) {
+    const { data, error } = await browserClient
+      .from("carbon_records")
+      .select("carbon_emissions");
+
+    if (error) {
+      console.error("데이터를 가지고 오지 못했습니다:", error);
+      setUserAvgData(0);
+      return;
+    }
+
+    if (data && Array.isArray(data) && data.length > 0) {
+      const totalEmission = data.reduce(
+        (sum, record) => sum + (record.carbon_emissions || 0),
+        0
+      );
+      const avgEmission = totalEmission / data.length;
+      setUserAvgData(avgEmission); // 평균값을 설정
+    } else {
+      setUserAvgData(0);
+    }
+  } else {
+    setUserAvgData(0);
+  }
+};
 
 // 5달치 평균 배출량
 export const loadRecentFiveMonthsEmissions = async (

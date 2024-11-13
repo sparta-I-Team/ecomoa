@@ -15,6 +15,7 @@ export const calculateLevelInfo = (totalPoints: number): LevelInfo => {
         maxPoints: levelRange,
         pointsToNextLevel,
         profile: config.profile,
+        profileSmall: config.profileSmall, // profileSmall 키 추가했습니다
         image: config.image,
         bg: config.bg,
         exp: config.exp
@@ -29,6 +30,7 @@ export const calculateLevelInfo = (totalPoints: number): LevelInfo => {
     maxPoints: 20000,
     pointsToNextLevel: 0,
     profile: LEVEL_CONFIG[4].profile,
+    profileSmall: LEVEL_CONFIG[4].profileSmall, // profileSmall 키 추가했습니다
     image: LEVEL_CONFIG[4].image,
     bg: LEVEL_CONFIG[4].bg,
     exp: LEVEL_CONFIG[4].exp
