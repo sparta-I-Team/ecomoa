@@ -29,7 +29,7 @@ export const useBookmark = (storeId: string) => {
 
   return {
     isBookmarked,
-    handleToggleBookmark: () => {
+    handleToggleBookmark: async () => {
       bookmarkMutation.mutate();
     }
   };
