@@ -83,7 +83,7 @@ const ChallengeDetailPage = ({ params }: Props) => {
   const totalPoints = selectedCount * 100;
 
   return (
-    <div className="mt-8 w-[1200px]  mx-auto">
+    <div className="mt-8 w-[1200px]  mx-auto mb-4">
       <Link href={"/community"}>{"< 첼린지 인증 "}</Link>
       <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
 

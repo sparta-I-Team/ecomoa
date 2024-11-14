@@ -10,14 +10,14 @@ const Footer = () => {
             <div className="flex flex-col">
               <h3 className="font-semibold">ecomoa</h3>
               <ul className="flex flex-row mt-2 gap-4">
-                <li className="w-[66px]">개발자1</li>
-                <li className="w-[66px]">개발자1</li>
-                <li className="w-[66px]">개발자1</li>
-                <li className="w-[66px]">개발자1</li>
+                <li className="w-[66px]">장종호</li>
+                <li className="w-[66px]">노용철</li>
+                <li className="w-[66px]">유재희</li>
+                <li className="w-[66px]">장수인</li>
               </ul>
               <ul className="flex flex-row mt-2 gap-4">
-                <li className="w-[66px]">디자이너1</li>
-                <li className="w-[66px]">디자이너2</li>
+                <li className="w-[66px]">이지솔</li>
+                <li className="w-[66px]">나영은</li>
               </ul>
             </div>
           </div>
