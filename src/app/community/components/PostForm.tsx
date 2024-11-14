@@ -1,3 +1,4 @@
+import { Modal } from "@/components/shared/Modal";
 import { useCommunity } from "@/hooks/useCommunity";
 import Image from "next/image";
 import React from "react";
@@ -27,7 +28,7 @@ const PostForm = ({ type = "free" }: Props) => {
     <div>
       {type === "free" ? (
         <form onSubmit={(e) => handleSubmit(e, type)} className="flex flex-col">
-          <h4 className="font-semibold mb-4">제목</h4>
+          <h4 className="font-semibold mb-4 mt-2">제목</h4>
           <input
             type="text"
             placeholder="제목을 입력해주세요"
@@ -42,7 +43,7 @@ const PostForm = ({ type = "free" }: Props) => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
-            className="mb-4 p-2 border border-gray-300  rounded-[12px] resize-none"
+            className="mb-4 p-2 border border-gray-300  rounded-[12px] resize-none leading-tight"
           />
           <h4 className="font-semibold mb-4">사진(최대 3개 선택)</h4>
           <input
@@ -65,13 +66,15 @@ const PostForm = ({ type = "free" }: Props) => {
                 className="w-[160px] h-[160px] bg-[#EDEEF0] flex items-center justify-center border border-gray-300 rounded cursor-pointer"
               >
                 {imagePreviews[index] ? (
-                  <Image
-                    src={imagePreviews[index]}
-                    alt={`Preview ${index + 1}`}
-                    width={160}
-                    height={160}
-                    className="object-cover rounded"
-                  />
+                  <div className=" w-[160px] h-[160px]">
+                    <Image
+                      src={imagePreviews[index]}
+                      alt={`Preview ${index + 1}`}
+                      width={160}
+                      height={160}
+                      className="object-fill rounded w-full h-full"
+                    />
+                  </div>
                 ) : (
                   <span className="text-gray-500">+</span>
                 )}
@@ -80,7 +83,7 @@ const PostForm = ({ type = "free" }: Props) => {
           </div>
           <button
             type="submit"
-            className="p-2 rounded-[40px] w-[380px] h-[52px] bg-[#DCECDC] text-[#6E7481] border-none"
+            className="p-2 rounded-[40px] w-[380px] h-[52px] bg-[#DCECDC] border-none  hover:bg-[#0D9C36] text-white"
           >
             게시글 등록
           </button>
@@ -101,7 +104,7 @@ const PostForm = ({ type = "free" }: Props) => {
             type="text"
             placeholder=" ₩ 가격을 입력해주세요"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => setPrice(Number(e.target.value))}
             required
             className="mb-4 p-2 border border-gray-300 rounded-[12px]"
           />
@@ -111,7 +114,7 @@ const PostForm = ({ type = "free" }: Props) => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
-            className="mb-4 p-2 border border-gray-300 rounded-[12px] resize-none"
+            className="mb-4 p-2 border border-gray-300 rounded-[12px] resize-none leading-tight"
           />
           <h4 className="font-semibold mb-4">사진</h4>
           <input
@@ -127,7 +130,7 @@ const PostForm = ({ type = "free" }: Props) => {
             className="hidden"
           />
           <div className="flex gap-2 mb-4">
-            {Array.from({ length: 3 }).map((_, index) => (
+            {Array.from({ length: 1 }).map((_, index) => (
               <div
                 key={index}
                 onClick={() => handleImageClick(index)}
@@ -139,7 +142,7 @@ const PostForm = ({ type = "free" }: Props) => {
                     alt={`Preview ${index + 1}`}
                     width={160}
                     height={160}
-                    className="object-cover rounded"
+                    className="object-cover w-full h-full"
                   />
                 ) : (
                   <span className="text-gray-500">+</span>
@@ -157,12 +160,13 @@ const PostForm = ({ type = "free" }: Props) => {
           />
           <button
             type="submit"
-            className="p-2 text-[#6E7481] w-[380px] h-[52px] bg-[#DCECDC] rounded-[40px] border-none"
+            className="p-2 text-white w-[380px] h-[52px] bg-[#DCECDC] rounded-[40px] border-none  hover:bg-[#0D9C36]"
           >
             게시글 등록
           </button>
         </form>
       )}
+      <Modal />
     </div>
   );
 };

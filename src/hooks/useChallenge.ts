@@ -4,13 +4,28 @@ import { userStore } from "@/zustand/userStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useChallengeMutation = () => {
-  const queryClient = useQueryClient();
   const { user } = userStore();
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: challengesApi.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["challenges"] });
       queryClient.invalidateQueries({ queryKey: ["userInfo", user.id] });
+    }
+  });
+};
+
+export const useChallengeUpdateMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: challengesApi.update,
+    onSuccess: (_, challenge) => {
+      queryClient.invalidateQueries({
+        queryKey: ["challenge", challenge.challengeId]
+      });
+      queryClient.invalidateQueries({ queryKey: ["challenges"] });
     }
   });
 };
@@ -28,6 +43,26 @@ export const useUserChallengeList = (userId: string) => {
     queryFn: () => challengesApi.readByUserId(userId),
     enabled: !!userId
   });
+};
 
-  // 오늘의 챌린지 가져오기
+export const useGetChallenge = (challengeId: string) => {
+  return useQuery<ChallengeData>({
+    queryKey: ["challenge", challengeId],
+    queryFn: async () => {
+      const data = await challengesApi.readByChallengeId(challengeId);
+      return data;
+    },
+    enabled: !!challengeId
+  });
+};
+
+export const useDeleteChallenge = (challengeId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => challengesApi.delete(challengeId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["challenge", challengeId] });
+      queryClient.invalidateQueries({ queryKey: ["challenges"] });
+    }
+  });
 };

@@ -6,9 +6,9 @@ const AnabadaBookmarkPage = async () => {
   if (!user) return;
   return (
     <>
-      <div className="w-full bg-[#F4FFF4] ">
+      <div className="w-full bg-[#E8F3E8] ">
         <div className="w-[1200px] mx-auto">
-          <MyScrap />
+          <MyScrap type="anabada" />
         </div>
       </div>
     </>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import Image from "next/image";
 import { CHALLENGE_OPTIONS } from "@/utlis/challenge/challenges";
+import { Modal } from "@/components/shared/Modal";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -52,13 +53,13 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="bg-[#F2F9F2]">
+    <div className="bg-[#E8F3E8] py-[52px]">
       <div className="w-[1200px] mx-auto">
         <div>
-          <label className="text-xl font-bold mb-4 mt-4">
+          <label className="text-[#000301] leading-[140%] font-wanted-sans text-[26px] font-bold tracking-[-0.26px] ">
             친환경 활동을 공유해 보세요
           </label>
-          <div className="flex flex-col" style={{ width: "1200px" }}>
+          <div className="flex flex-col w-full mt-4">
             <div className="flex mb-4">
               <Link href="/community" passHref>
                 <button className="w-[400px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-bold flex items-center justify-center">
@@ -95,7 +96,7 @@ const Page = () => {
 
               return (
                 <Link
-                  href={`/community/challenge/${challenge.chall_id}`}
+                  href={`/community/${challenge.chall_id}`}
                   key={challenge.chall_id}
                 >
                   <article
@@ -165,6 +166,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <Modal />
     </div>
   );
 };

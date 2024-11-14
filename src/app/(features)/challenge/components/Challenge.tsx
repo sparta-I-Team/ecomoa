@@ -1,11 +1,11 @@
 "use client";
 import { Modal } from "@/components/shared/Modal";
-import { ChallengeForm } from "./ChallengeForm";
 import { ChallengeSelection } from "./ChallengeSelection";
 import ChallengeHeader from "./ChallengeHeader";
 import { useChallengeStore } from "@/zustand/challengeStore";
 import Calendar from "@/components/ui/Calendar";
 import { useEffect } from "react";
+import ChallengeForm from "./ChallengeForm";
 
 export const Challenge = () => {
   const { step, setStep } = useChallengeStore();
@@ -25,7 +25,7 @@ export const Challenge = () => {
             </div>
           </div>
           {/*  */}
-          <div className="h-full bg-[#F2F9F2]">
+          <div className="h-full bg-[#E8F3E8]">
             <div className="max-w-[1200px] mx-auto pt-[106px]">
               <Calendar />
             </div>

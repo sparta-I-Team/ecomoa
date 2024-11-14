@@ -1,4 +1,7 @@
-import { InsertChallengeParams } from "@/types/challengesType";
+import {
+  InsertChallengeParams,
+  UpdateChallengeParams
+} from "@/types/challengesType";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -122,5 +125,100 @@ export const challengesApi = {
 
     if (error) throw error;
     return data;
+  },
+
+  readByChallengeId: async (challengeId: string) => {
+    const { data, error } = await supabase
+      .from("challenges")
+      .select(
+        `
+        *,
+        user_info:user_id (
+          user_nickname
+        )
+      `
+      )
+      .eq("chall_id", challengeId)
+      .single();
+
+    if (error) throw error;
+    return data;
+  },
+
+  update: async (params: UpdateChallengeParams) => {
+    try {
+      // 삭제할 이미지 처리
+      if (params.deletedImages?.length) {
+        for (const imageUrl of params.deletedImages) {
+          const fileName = imageUrl.split("/").pop();
+          if (fileName) {
+            const { error: deleteError } = await supabase.storage
+              .from("challenges")
+              .remove([fileName]);
+
+            if (deleteError) throw deleteError;
+          }
+        }
+      }
+
+      // 새로운 이미지 업로드
+      const newImageUrls = await Promise.all(
+        params.images.map(async (file) => {
+          const fileName = `${Date.now()}_${file.name}`;
+          const { error } = await supabase.storage
+            .from("challenges")
+            .upload(fileName, file);
+
+          if (error) throw error;
+
+          const {
+            data: { publicUrl }
+          } = supabase.storage.from("challenges").getPublicUrl(fileName);
+
+          return publicUrl;
+        })
+      );
+
+      // 기존 이미지와 새 이미지 합치기
+      const finalImageUrls = [
+        ...(params.existingImages || []),
+        ...newImageUrls
+      ];
+
+      // 챌린지 데이터 업데이트
+      const { data: updatedChallenge, error: updateError } = await supabase
+        .from("challenges")
+        .update({
+          content: params.content,
+          image_urls: finalImageUrls,
+          selected_options: params.selectedOptions,
+          updated_at: new Date().toISOString()
+        })
+        .eq("chall_id", params.challengeId)
+        .select()
+        .single();
+
+      if (updateError) throw updateError;
+
+      return updatedChallenge;
+    } catch (error) {
+      console.error("챌린지 수정 오류:", error);
+      throw error;
+    }
+  },
+  delete: async (challengeId: string) => {
+    try {
+      const { error } = await supabase
+        .from("challenges")
+        .delete()
+        .eq("chall_id", challengeId);
+
+      if (error) throw error;
+
+      return { success: true };
+    } catch (error) {
+      console.error("챌린지 삭제 중 오류:", error);
+      throw error;
+    }
   }
 };

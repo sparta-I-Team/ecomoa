@@ -83,17 +83,19 @@ const YearMonthPickerMain: React.FC<YearSelectProps> = ({
         {/* 연도 드롭다운 */}
         {isYearDropdownOpen && (
           <div className="absolute top-[100%] mt-[16px] flex flex-col w-[162px] bg-white rounded-xl text-[20px] z-10 border border-[#d5d7dd] text-center overflow-hidden">
-            {Array.from({ length: currentYear - 2020 + 1 }, (_, i) => (
-              <div
-                key={2020 + i}
-                onClick={() => handleYearClick(2020 + i)}
-                className={`dropdown-item py-[16px] ${
-                  selectedYear === 2020 + i
-                } w-full hover:bg-[#E8F3E8]`}
-              >
-                {2020 + i}년
-              </div>
-            ))}
+            {Array.from({ length: currentYear - 2020 + 1 }, (_, i) => 2020 + i)
+              .sort((a, b) => b - a)
+              .map((year) => (
+                <div
+                  key={year}
+                  onClick={() => handleYearClick(year)}
+                  className={`dropdown-item py-[16px] ${
+                    selectedYear === year
+                  } w-full hover:bg-[#E8F3E8]`}
+                >
+                  {year}년
+                </div>
+              ))}
           </div>
         )}
       </div>

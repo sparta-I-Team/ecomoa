@@ -2,6 +2,7 @@
 import { Store } from "@/types/map";
 import { useEffect, useRef, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
+import MapController from "./ui/MapController";
 
 interface KakaoMapProps {
   storeList: Store[];
@@ -13,6 +14,10 @@ const KakaoMap = ({ storeList, selectedStoreId, onClick }: KakaoMapProps) => {
   const [isMapLoaded, setIsMapLoaded] = useState<boolean>(false);
   const [level, setLevel] = useState<number>(8);
   const mapRef = useRef<kakao.maps.Map>(null);
+  const [userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -49,8 +54,51 @@ const KakaoMap = ({ storeList, selectedStoreId, onClick }: KakaoMapProps) => {
     setLevel(3);
   }, [selectedStoreId, storeList]);
 
+  // 현재 위치 가져오기 함수
+  const getCurrentLocation = () => {
+    console.log(navigator.geolocation);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+
+          setUserLocation({ lat, lng });
+
+          if (mapRef.current) {
+            const moveLatLng = new kakao.maps.LatLng(lat, lng);
+            mapRef.current.setCenter(moveLatLng);
+            setLevel(5);
+          }
+        },
+        (error) => {
+          console.error("현재 위치를 가져올 수 없습니다:", error);
+          alert("위치 정보를 가져올 수 없습니다. 위치 권한을 확인해주세요.");
+        }
+      );
+    } else {
+      alert("이 브라우저에서는 위치 정보를 지원하지 않습니다.");
+    }
+  };
+
+  const handleZoomIn = () => {
+    if (mapRef.current && level > 1) {
+      const newLevel = level - 1;
+      mapRef.current.setLevel(newLevel);
+      setLevel(newLevel);
+    }
+  };
+
+  const handleZoomOut = () => {
+    if (mapRef.current && level < 14) {
+      const newLevel = level + 1;
+      mapRef.current.setLevel(newLevel);
+      setLevel(newLevel);
+    }
+  };
+
   return (
-    <div className="w-2/3 h-screen">
+    <div className="w-2/3 h-[822px] ml-[30px] relative">
       {isMapLoaded && (
         <Map
           ref={mapRef}
@@ -59,30 +107,43 @@ const KakaoMap = ({ storeList, selectedStoreId, onClick }: KakaoMapProps) => {
             lng: 126.978656
           }}
           style={{
-            width: "100%",
-            height: "100%"
+            width: "792px",
+            height: "100%",
+            borderRadius: "16px"
           }}
           level={level}
           draggable={true}
           zoomable={true}
           onZoomChanged={(map) => setLevel(map.getLevel())}
         >
+          {/* 현재 위치 마커 */}
+          {userLocation && (
+            <MapMarker
+              position={userLocation}
+              image={{
+                src: "/images/selectedMarker.png",
+                size: { width: 40, height: 46 }
+              }}
+            />
+          )}
+
+          {/* 스토어 마커들 */}
           {level <= 5 &&
             storeList?.map((store) => (
               <MapMarker
                 key={store.store_id}
                 position={{ lat: store.lat, lng: store.lon }}
                 onClick={() => onClick(store)}
-                // image={{
-                //   src:
-                //     selectedStoreId === store.store_id
-                //       ? "선택된 마커 이미지로 넣음녀 됨"
-                //       : "기본 마커",
-                //   size: {
-                //     width: 24,
-                //     height: 35
-                //   }
-                // }}
+                image={{
+                  src:
+                    selectedStoreId === store.store_id
+                      ? "/images/selectedMarker.png"
+                      : "/images/marker.png",
+                  size: {
+                    width: 40,
+                    height: 46
+                  }
+                }}
               >
                 {selectedStoreId === store.store_id && (
                   <div className="p-2 w-[280px]" style={{ border: "none" }}>
@@ -108,6 +169,12 @@ const KakaoMap = ({ storeList, selectedStoreId, onClick }: KakaoMapProps) => {
             ))}
         </Map>
       )}
+
+      <MapController
+        onZoomIn={handleZoomIn}
+        onZoomOut={handleZoomOut}
+        onCurrentLocation={getCurrentLocation}
+      />
     </div>
   );
 };

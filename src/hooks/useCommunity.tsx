@@ -7,6 +7,7 @@ import { userStore } from "@/zustand/userStore";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -31,8 +32,8 @@ export const useCommunity = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [location, setLocation] = useState(""); // 지역명 상태 추가
-  const [price, setPrice] = useState(""); // 가격 상태 추가
-
+  const [price, setPrice] = useState<number>(0); // 가격 상태 추가
+  const router = useRouter();
   const { user } = userStore();
   const { openModal, closeModal } = useModalStore();
   useEffect(() => {
@@ -61,10 +62,12 @@ export const useCommunity = () => {
   };
 
   const handleImageClick = (index: number) => {
+    if (index >= 3) {
+      return; // 최대 3개까지만 이미지 선택
+    }
     fileInputRef.current?.setAttribute("data-index", index.toString());
     fileInputRef.current?.click();
   };
-
   const resetForm = () => {
     setTitle("");
     setContent("");
@@ -72,7 +75,7 @@ export const useCommunity = () => {
     setImagePreviews(Array(3).fill(""));
     setUploadedImageUrls([]);
     setErrorMessage("");
-    setPrice("");
+    setPrice(0);
     setLocation("");
   };
 
@@ -85,6 +88,26 @@ export const useCommunity = () => {
       setErrorMessage("사용자가 인증되지 않았습니다.");
       return;
     }
+
+    openModal({
+      type: "custom",
+      content: (
+        <div className="bg-white p-6 rounded-lg shadow-lg text-center relative w-[585px] h-[600px]">
+          <button
+            onClick={handleCloseModal}
+            className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 border-none text-3xl"
+          >
+            &times; {/* X 아이콘 */}
+          </button>
+          <div className="p-12">
+            <h4 className="font-semibold mb-4 text-2xl">
+              게시글을 업로드 중이에요
+            </h4>
+            <div>이미지 업로드 및 게시글 작성 중...</div>
+          </div>
+        </div>
+      )
+    });
 
     const uploadedUrls: string[] = [];
 
@@ -119,7 +142,7 @@ export const useCommunity = () => {
     //imageUpload 할 때 아래처럼 해야함
     //글 작성이 완료되면 커뮤니티 메인페이지로 라우팅처리 (useRouter 사용하기)
     try {
-      await communityApi.create({
+      const getData = await communityApi.create({
         user_id: user.id,
         title,
         content,
@@ -131,36 +154,49 @@ export const useCommunity = () => {
       openModal({
         type: "custom",
         content: (
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center relative w-[585px] h-[600px]">
+          <div className="bg-white  rounded-lg shadow-lg text-center relative w-[585px] h-[600px]">
             <button
               onClick={handleCloseModal}
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 border-none text-3xl"
             >
               &times; {/* X 아이콘 */}
             </button>
-            <div className="p-12">
-              <h4 className="font-semibold mb-4 text-2xl">
-                게시글을 업로드 했어요
-              </h4>
-              {uploadedUrls[0] ? (
-                <Image
-                  src={uploadedUrls[0]}
-                  alt="등록한 이미지"
-                  width={300}
-                  height={260}
-                  className="mb-4 max-w-full rounded"
-                />
-              ) : (
-                <div className="text-gray-500 ">등록된 이미지가 없습니다.</div>
-              )}
-              <h4 className=" py-2 px-3">위치</h4>
-              <h3>{"마이페이지 > 나의 게시글 > 아나바다 시장 "} </h3>
-              <Link
-                href="/community/anabada"
-                className="mt-4 p-2 bg-black text-white rounded "
-              >
-                업로드한 게시글 보러가기
-              </Link>
+            <div className="">
+              <Image
+                src={"/community/upload.png"}
+                alt="등록한 이미지"
+                width={585}
+                height={300}
+                className="mb-4 max-w-full rounded"
+              />
+              <div className="p-6">
+                <h4 className="font-semibold mb-4 text-2xl">
+                  게시글을 업로드 했어요
+                </h4>
+                <div className="flex h-[32px] py-[15px] px-[16px] justify-center items-center gap-[10px] rounded-[4px] bg-[#EDEEF0]">
+                  <h4 className="text-[#00691E] text-center font-wanted-sans text-[14px] font-medium tracking-[-0.14px] leading-normal ">
+                    위치
+                  </h4>
+                  <h3 className="text-[#000301] text-center font-wanted-sans text-[14px] font-normal tracking-[-0.14px] leading-normal">
+                    {type === "free"
+                      ? "마이페이지 > 나의 게시글 > 자유게시판 "
+                      : "마이페이지 > 나의 게시글 > 아나바다 시장 "}
+                  </h3>
+                </div>
+                <div className="my-6" style={{ margin: 20 }}>
+                  <Link
+                    href={
+                      type === "free"
+                        ? `/community/free/${getData.post_id}`
+                        : `/community/anabada/${getData.post_id}`
+                    }
+                    className="flex w-[513px] h-[60px] p-[24px_16px] justify-center items-center gap-[10px] flex-shrink-0 rounded-[40px] text-white bg-[#0D9C36] font-[Wanted Sans] text-[18px] font-semibold leading-normal tracking-[-0.18px] "
+                    onClick={closeModal}
+                  >
+                    업로드한 게시글 보러가기
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         )
@@ -172,6 +208,7 @@ export const useCommunity = () => {
   };
 
   const handleCloseModal = () => {
+    router.push("/community/anabada");
     closeModal();
     setUploadedImageUrls([]);
   };

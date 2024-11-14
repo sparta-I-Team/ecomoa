@@ -110,7 +110,6 @@ const UserInfoCard = ({ user }: ProfileProps) => {
     const nickname = e.target.value;
     setValue("nickname", nickname); // 입력된 닉네임을 상태에 반영
   };
-
   const levelInfo = calculateLevelInfo(userInfo?.user_point ?? 0); // 널 병합 연산자
 
   return (

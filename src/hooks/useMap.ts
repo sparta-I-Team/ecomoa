@@ -9,3 +9,7 @@ export const useStoreList = () => {
     retry: 3
   });
 };
+
+export const useSaveStore = () => {
+  
+}

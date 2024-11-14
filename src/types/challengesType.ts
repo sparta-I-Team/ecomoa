@@ -10,8 +10,10 @@ export interface ChallengeFormInputs {
 export interface ChallengeStoreType {
   step: 1 | 2;
   selectedChallenges: string[];
+  initialChallenges: string[];
   setStep: (step: 1 | 2) => void;
   setSelectedChallenges: (challenges: string[]) => void;
+  setInitialChallenges: (challenges: string[]) => void;
 }
 
 export interface ChallengeOption {
@@ -35,11 +37,7 @@ export interface InsertChallengeParams {
 }
 
 interface ChallengeOptions {
-  bike?: string[];
-  disposable?: string[];
-  files?: string[];
-  transport?: string[];
-  [key: string]: string[] | undefined;
+  [key: string]: string[];
 }
 
 interface UserInfo {
@@ -59,6 +57,7 @@ export interface ChallengeData {
   user_info: UserInfo;
 }
 
+// profileSmall 키 추가했습니다
 export interface LevelInfo {
   level: number;
   name: string;
@@ -69,6 +68,7 @@ export interface LevelInfo {
   bg: string;
   exp: string;
   profile: string;
+  profileSmall: string;
 }
 
 //이미지
@@ -76,4 +76,10 @@ export interface LevelInfo {
 export interface ImageValidation {
   isValid: boolean;
   message?: string;
+}
+export interface UpdateChallengeParams
+  extends Omit<InsertChallengeParams, "carbon" | "point"> {
+  challengeId: string;
+  deletedImages?: string[];
+  existingImages?: string[];
 }

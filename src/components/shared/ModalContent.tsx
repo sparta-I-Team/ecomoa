@@ -1,8 +1,15 @@
 import { useModalStore } from "@/zustand/modalStore";
 
 export const ModalContent = () => {
-  const { content, type, onConfirm, onCancel, closeModal, buttonText } =
-    useModalStore();
+  const {
+    content,
+    type,
+    onConfirm,
+    onCancel,
+    closeModal,
+    buttonText,
+    className
+  } = useModalStore();
 
   switch (type) {
     case "alert":
@@ -47,7 +54,11 @@ export const ModalContent = () => {
 
     case "custom":
       return (
-        <div className="flex flex-col justify-center min-w-[400px] min-h-[360px]">
+        <div
+          className={`flex flex-col justify-center overflow-auto max-h-[90vh] ${
+            className || "min-w-[400px] min-h-[360px]"
+          }`}
+        >
           {content}
         </div>
       );

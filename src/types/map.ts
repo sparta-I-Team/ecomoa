@@ -11,3 +11,5 @@ export interface Store {
   updated_at: string;
   store_id: string;
 }
+
+export type SortType = 'distance' | 'popularity' | null;
