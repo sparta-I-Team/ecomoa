@@ -129,7 +129,7 @@ const EditPostModal = ({
               name="post_content"
               value={editedPost.post_content || ""}
               onChange={handleInputChange}
-              className="mt-4 w-full mb-4 p-2 border border-gray-300 rounded-md"
+              className="mt-4 w-full mb-4 p-2 border border-gray-300 rounded-md leading-normal"
               rows={5}
             />
             <label>사진</label>

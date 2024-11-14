@@ -133,10 +133,9 @@ const PostDetailPage = ({ params }: Props) => {
           <label>{new Date(post.created_at).toLocaleDateString()}</label>
           <div className="flex space-x-4 text-gray-600">
             <label>♡ {post.like}</label>
-            <label>스크랩 </label>
           </div>
         </div>
-        <p className="mt-4">{post.post_content}</p>
+        <p className="mt-4 leading-normal">{post.post_content}</p>
 
         {post.post_img &&
         Array.isArray(post.post_img) &&
@@ -144,7 +143,7 @@ const PostDetailPage = ({ params }: Props) => {
           <div>
             <div className="flex mt-6 gap-4">
               {post.post_img.map((img, index) => (
-                <div key={index} className="max-w-[168px]">
+                <div key={index} className="max-w-[168px] max-h-[168px]">
                   <Image
                     src={img}
                     alt={`게시글 이미지 ${index + 1}`}

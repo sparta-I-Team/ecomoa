@@ -21,7 +21,9 @@ const PostCard = ({ post, type }: Props) => {
             <div className="flex-1 rounded-[12px] ">
               <h2 className="text-xl font-semibold mb-2">{post.post_title}</h2>
 
-              <p className="mt-4  leading-normal">{post.post_content}</p>
+              <p className="mt-4  leading-normal ellipsis-multi-line">
+                {post.post_content}
+              </p>
 
               <div className="mb-4 mt-4 text-[#A1A7B4]">
                 <label>{post.user_info.user_nickname}.</label>
