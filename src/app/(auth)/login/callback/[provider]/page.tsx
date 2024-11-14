@@ -150,7 +150,7 @@ const AuthCallback = () => {
                   type="submit"
                   className="mb-[32px] -mt-[15px] text-[#FFFFFF] font-wanted font-[600] text-[18px] w-[380px] h-[60px] p-[11px_32px] rounded-[40px] bg-[#0D9C36] border-none"
                 >
-                  가입완료
+                  설정하기
                 </button>
               </div>
             </form>

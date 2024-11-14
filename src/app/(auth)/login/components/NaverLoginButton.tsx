@@ -23,6 +23,7 @@ const NaverLoginButton = () => {
         width={400}
         height={52}
         alt="naver_login_btn"
+        className="w-[full] sm:w-[400px]"
       />
     </button>
   );

@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <>
-      <div className="relative w-full h-[245px]  bg-red-200 ">
+      <footer className="relative w-full h-[245px] bg-[#F2F9F2] ">
         <div className="flex flex-col w-[1200px] mx-auto py-[40px]">
           <div className="flex flex-col items-start space-y-4">
             <h2 className="text-[16px] font-bold">React Team 11</h2>
@@ -26,7 +26,7 @@ const Footer = () => {
             <div>{`\u00A9 ${new Date().getFullYear()} ecomoa. All rights reserved.`}</div>
           </div>
         </div>
-      </div>
+      </footer>
     </>
   );
 };

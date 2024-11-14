@@ -16,17 +16,18 @@ import { FreePostSkeleton } from "./FreePostSkeleton";
 const Myposts = ({ type }: TypeProps) => {
   const { user } = userStore();
   const [selected, setSelected] = useState<string | null>(null);
-  // const [error, setError] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc"); // 기본값은 최신순
 
   // 내가 작성한 게시글 가져오기
   const { data: myPosts, isLoading } = useQuery<Post[] | null>({
-    queryKey: ["myPosts", user.id, type],
-    queryFn: () => getMyPosts(user.id, type),
+    queryKey: ["myPosts", user.id, type, sortOrder],
+    queryFn: () => getMyPosts(user.id, type, sortOrder),
     enabled: !!user.id // user.id가 있을 때만 쿼리 실행
   });
 
   const handleSelect = (option: string) => {
     setSelected(option);
+    setSortOrder(option === "latest" ? "desc" : "asc");
   };
 
   if (isLoading) {
@@ -107,7 +108,7 @@ const Myposts = ({ type }: TypeProps) => {
           {type === "free" ? (
             <>
               <Link href="/mypage/post/free" passHref>
-                <button className="w-[600px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-semibold flex items-center justify-center">
+                <button className="w-[600px] h-12 border-b-2 border-[#00320F] border-t-0 border-l-0 border-r-0 font-semibold flex items-center justify-center">
                   자유 게시판
                 </button>
               </Link>
@@ -127,7 +128,7 @@ const Myposts = ({ type }: TypeProps) => {
 
               <Link href="/mypage/post/anabada" passHref>
                 <button
-                  className="w-[600px] h-12 border-b-2 border-black border-t-0 border-l-0
+                  className="w-[600px] h-12 border-b-2 border-[#00320F] border-t-0 border-l-0
               border-r-0 font-semibold flex items-center justify-center"
                 >
                   아나바다 시장
@@ -136,9 +137,12 @@ const Myposts = ({ type }: TypeProps) => {
             </>
           )}
         </div>
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex space-x-4">
-            <label>{myPosts?.length} 건</label>
+        {/* 필터링 */}
+        <div className="flex justify-between items-center mb-[20px]">
+          <div className="flex space-x-4 mb-[10px]">
+            <label className="text-[#00691E] font-[600] text-[16px] leading-[24px] tracking-[-0.16px]">
+              {myPosts?.length} 건
+            </label>
             <div
               onClick={() => handleSelect("latest")}
               className="cursor-pointer flex items-center"
@@ -146,47 +150,41 @@ const Myposts = ({ type }: TypeProps) => {
               {selected === "latest" && (
                 <span className="text-black mr-1">✔</span>
               )}
-              <label>최신순</label>
+              <label
+                className={
+                  selected === "latest" ? "text-black" : "text-[#A1A7B4]"
+                }
+              >
+                최신순
+              </label>
             </div>
             <div
-              onClick={() => handleSelect("popular")}
+              onClick={() => handleSelect("oldest")}
               className="cursor-pointer flex items-center"
             >
-              {selected === "popular" && (
+              {selected === "oldest" && (
                 <span className="text-black mr-1">✔</span>
               )}
-              <label>인기순</label>
-            </div>
-            <div
-              onClick={() => handleSelect("likes")}
-              className="cursor-pointer flex items-center"
-            >
-              {selected === "likes" && (
-                <span className="text-black mr-1">✔</span>
-              )}
-              <label>좋아요</label>
-            </div>
-            <div
-              onClick={() => handleSelect("comments")}
-              className="cursor-pointer flex items-center"
-            >
-              {selected === "comments" && (
-                <span className="text-black mr-1">✔</span>
-              )}
-              <label>댓글순</label>
+              <label
+                className={
+                  selected === "oldest" ? "text-black" : "text-[#A1A7B4]"
+                }
+              >
+                오래된순
+              </label>
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap h-[620px] overflow-y-auto mb-4 gap-5">
+
+        <div className="flex flex-wrap overflow-y-auto gap-[12px]">
           {isLoading && <p>로딩 중...</p>}
-          {/* {error && <p className="text-red-500">{error}</p>} */}
           {myPosts?.map((post) =>
             type === "anabada" ? (
               <PostCard key={post.post_id} post={post} type={"anabada"} />
             ) : (
               <article
                 key={post.post_id}
-                className="pl-[28px] pt-[28px] w-full h-[205px] rounded-[12px] bg-[#FFF] border border-[#E8F3E8] flex flex-row p-4"
+                className="pl-[28px] pt-[28px] w-full h-[205px] rounded-[12px] bg-[#FFF] border border-[#E8F3E8] flex flex-row p-4 justify-start"
                 style={{ boxShadow: "0px 0px 40px 0px rgba(0, 0, 0, 0.02)" }}
               >
                 <div className="flex-1">
@@ -229,6 +227,7 @@ const Myposts = ({ type }: TypeProps) => {
                   </div>
                 )}
               </article>
+              // <PostCard key={post.post_id} post={post} type={"free"} />
             )
           )}
         </div>
