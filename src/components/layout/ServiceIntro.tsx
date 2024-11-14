@@ -587,7 +587,7 @@ const ServiceIntro = () => {
       </section>
 
       {/* section 9 */}
-      <section className="h-[799px]">
+      <section className="h-[1000px]">
         <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center ">
           <div
             data-aos="fade-in"
