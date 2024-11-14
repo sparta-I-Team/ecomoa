@@ -15,16 +15,17 @@ import ReturnMypage from "./ReturnMypage";
 const Myposts = ({ type }: TypeProps) => {
   const { user } = userStore();
   const [selected, setSelected] = useState<string | null>(null);
-  // const [error, setError] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
   const handleSelect = (option: string) => {
     setSelected(option);
+    setSortOrder(option === "latest" ? "desc" : "asc");
   };
 
   // 좋아요 게시글
   const { data: likePosts, isLoading } = useQuery<LikePosts[] | null>({
-    queryKey: ["likePosts", user.id], // 통신 주소
-    queryFn: () => getLikePosts(user.id),
+    queryKey: ["likePosts", user.id, sortOrder], // 통신 주소
+    queryFn: () => getLikePosts(user.id, type, sortOrder),
     enabled: !!user.id
   });
 
@@ -53,7 +54,7 @@ const Myposts = ({ type }: TypeProps) => {
           {type === "free" ? (
             <>
               <Link href="/mypage/like/free" passHref>
-                <button className="w-[600px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-semibold flex items-center justify-center">
+                <button className="w-[600px] h-12 border-b-2 border-[#00320F] border-t-0 border-l-0 border-r-0 font-semibold flex items-center justify-center">
                   자유 게시판
                 </button>
               </Link>
@@ -73,7 +74,7 @@ const Myposts = ({ type }: TypeProps) => {
 
               <Link href="/mypage/like/anabada" passHref>
                 <button
-                  className="w-[600px] h-12 border-b-2 border-black border-t-0 border-l-0
+                  className="w-[600px] h-12 border-b-2 border-[#00320F] border-t-0 border-l-0
               border-r-0 font-semibold flex items-center justify-center"
                 >
                   아나바다 시장
@@ -141,9 +142,19 @@ const Myposts = ({ type }: TypeProps) => {
             </>
           )}
         </div>
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex space-x-4">
-            <label>{likePosts?.length} 건</label>
+
+        {/* 필터링 */}
+        <div className="flex justify-between items-center mb-[20px]">
+          <div className="flex space-x-4 mb-[10px]">
+            {type === "free" ? (
+              <label className="text-[#00691E] font-[600] text-[16px] leading-[24px] tracking-[-0.16px]">
+                {freePosts?.length} 건
+              </label>
+            ) : (
+              <label className="text-[#00691E] font-[600] text-[16px] leading-[24px] tracking-[-0.16px]">
+                {anabadaPosts?.length} 건
+              </label>
+            )}
             <div
               onClick={() => handleSelect("latest")}
               className="cursor-pointer flex items-center"
@@ -151,38 +162,33 @@ const Myposts = ({ type }: TypeProps) => {
               {selected === "latest" && (
                 <span className="text-black mr-1">✔</span>
               )}
-              <label>최신순</label>
+              <label
+                className={
+                  selected === "latest" ? "text-black" : "text-[#A1A7B4]"
+                }
+              >
+                최신순
+              </label>
             </div>
             <div
-              onClick={() => handleSelect("popular")}
+              onClick={() => handleSelect("oldest")}
               className="cursor-pointer flex items-center"
             >
-              {selected === "popular" && (
+              {selected === "oldest" && (
                 <span className="text-black mr-1">✔</span>
               )}
-              <label>인기순</label>
-            </div>
-            <div
-              onClick={() => handleSelect("likes")}
-              className="cursor-pointer flex items-center"
-            >
-              {selected === "likes" && (
-                <span className="text-black mr-1">✔</span>
-              )}
-              <label>좋아요</label>
-            </div>
-            <div
-              onClick={() => handleSelect("comments")}
-              className="cursor-pointer flex items-center"
-            >
-              {selected === "comments" && (
-                <span className="text-black mr-1">✔</span>
-              )}
-              <label>댓글순</label>
+              <label
+                className={
+                  selected === "oldest" ? "text-black" : "text-[#A1A7B4]"
+                }
+              >
+                오래된순
+              </label>
             </div>
           </div>
         </div>
-        <div className="flex flex-wrap h-[620px] overflow-y-auto mb-4 gap-5">
+
+        <div className="flex flex-wrap overflow-y-auto mb-4 gap-5">
           {isLoading && <p>로딩 중...</p>}
           {type === "anabada"
             ? // 아나바다 타입인 경우 PostCard를 렌더링

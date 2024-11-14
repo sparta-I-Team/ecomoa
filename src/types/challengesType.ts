@@ -57,6 +57,7 @@ export interface ChallengeData {
   user_info: UserInfo;
 }
 
+// profileSmall 키 추가했습니다
 export interface LevelInfo {
   level: number;
   name: string;
@@ -67,6 +68,7 @@ export interface LevelInfo {
   bg: string;
   exp: string;
   profile: string;
+  profileSmall: string;
 }
 
 //이미지

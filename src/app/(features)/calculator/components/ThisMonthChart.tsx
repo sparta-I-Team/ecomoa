@@ -11,6 +11,8 @@ import {
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { ThisMonthResultChartProps } from "@/types/calculate";
+import { CustomDataLabelsContext } from "./MonthlyChartMain";
+import { ScriptableScaleContext } from "chart.js";
 
 ChartJS.register(
   CategoryScale,
@@ -31,13 +33,15 @@ const ThisMonthChart: React.FC<ThisMonthResultChartProps> = ({
       {
         label: "탄소 배출량 비교",
         data: [
-          totalAvgData?.carbon_emissions || 0, // "평균" 위치 값
-          currentData?.carbon_emissions || 0 // "내 배출량" 위치 값
+          totalAvgData?.carbon_emissions || 0, // "유저 평균 "
+          currentData?.carbon_emissions || 0 // "내 배출량 "
         ],
-        backgroundColor: ["#D9D9D9", "#5BCA11"],
-        borderColor: ["#D9D9D9", "#5BCA11"],
+        backgroundColor: ["#A1A7B4", "#0D9C36"],
+        borderColor: ["#A1A7B4", "#0D9C36"],
         borderWidth: 1,
-        borderRadius: [8, 8] // 각각의 바 위쪽 모서리 둥글게
+        borderRadius: [8, 8],
+        categoryPercentage: 0.9,
+        barPercentage: 0.6
       }
     ]
   };
@@ -51,14 +55,23 @@ const ThisMonthChart: React.FC<ThisMonthResultChartProps> = ({
       },
       title: {
         display: true
-        // text: "이번달 탄소 배출량"
       },
       datalabels: {
-        align: "end" as const, // 타입 오류를 방지하기 위해 'as const' 추가
-        anchor: "end" as const, // 타입 오류를 방지하기 위해 'as const' 추가
-        color: "#32343a", // 레이블 색상 설정
+        align: "end" as const,
+        anchor: "end" as const,
         font: {
-          size: 14 // 레이블 폰트 크기 설정
+          size: 16,
+          weight: 600
+        },
+        color: (context: CustomDataLabelsContext) => {
+          const dataset = context.chart.data.datasets[context.datasetIndex];
+          const lastIndex = dataset.data.length - 1;
+
+          // "내 배출량"에 해당하는 텍스트의 색상을 바꿈
+          if (context.dataIndex === lastIndex && context.datasetIndex === 0) {
+            return "#0D9C36"; // "내 배출량" 텍스트 색상을 초록색으로
+          }
+          return "#A1A7B4"; // 나머지 데이터는 기본 색상
         },
         formatter: (value: number) => `${value} Kg` // 값 뒤에 "Kg" 추가
       }
@@ -68,24 +81,32 @@ const ThisMonthChart: React.FC<ThisMonthResultChartProps> = ({
     },
     scales: {
       y: {
-        display: false, // y축 숨기기
+        display: false,
         grid: {
-          display: false // y축의 격자선 숨기기
+          display: false
         }
       },
       x: {
         display: true,
         grid: {
-          display: false // x축의 격자선 숨기기
+          display: false
         },
         ticks: {
           font: {
-            size: 14
+            size: 14,
+            weight: 600
+          },
+          // x축 레이블 색상을 지정하는 부분
+          color: (context: ScriptableScaleContext) => {
+            const labels = ["평균", "내 배출량"];
+            const label = labels[context.index];
+
+            if (label === "내 배출량") {
+              return "#0D9C36";
+            }
+            return "#A1A7B4";
           }
-        },
-        barThickness: 60, // 바의 너비를 60px로 고정
-        categoryPercentage: 0.6, // 카테고리의 크기를 적당히 설정하여 간격을 조정
-        barPercentage: 0.8 // 바의 비율을 조정하여 간격을 적당히 만듦비율을 최대화
+        }
       }
     }
   };

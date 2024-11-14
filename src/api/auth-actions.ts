@@ -45,14 +45,11 @@ export const signup = async (signupInput: SignupInput) => {
 
 // 로그아웃
 export const signout = async () => {
-  console.log("signout함수 들어옴");
   const supabase = createClient();
   const { error } = await supabase.auth.signOut();
-  console.log("signout함수 나옴");
   if (error) {
     console.error("로그아웃 에러", error);
   }
-  // redirect("/");
 };
 
 // 카카오 로그인
@@ -102,4 +99,33 @@ export const deleteUserInfo = async (userId: string) => {
     console.error("회원탈퇴 user_info 정보 삭제 오류", error);
   }
   return;
+};
+
+// 탈퇴 사유 저장
+export const deleteReason = async (userId: string, reason: string) => {
+  const supabase = createClient();
+
+  // 기존 params 데이터 가져오기
+  const { data, error: fetchError } = await supabase
+    .from("user_info")
+    .select("params")
+    .eq("user_id", userId)
+    .single();
+
+  if (fetchError) {
+    console.error("params 데이터 가져오기 실패", fetchError);
+    return;
+  }
+
+  // 탈퇴 사유 업데이트
+  const { error } = await supabase
+    .from("user_info")
+    .update({
+      params: { ...data.params, is_deleted: true, delete_reason: reason }
+    })
+    .eq("user_id", userId);
+  if (error) {
+    console.error("탈퇴 사유 업데이트 실패", error);
+    return;
+  }
 };

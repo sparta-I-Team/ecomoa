@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import PostForm from "../components/PostForm";
 import { useCommunity } from "@/hooks/useCommunity";
-import { Modal } from "@/components/shared/Modal";
 
 const PostFree = () => {
   const { userInfo, errorMessage } = useCommunity();
@@ -23,7 +22,6 @@ const PostFree = () => {
       )}
       {errorMessage && <div className="text-red-600 mb-4">{errorMessage}</div>}
       <PostForm type="anabada" />
-      <Modal />
     </div>
   );
 };

@@ -71,6 +71,7 @@ export const CHALLENGE_OPTIONS: Record<string, ChallengeOption[]> = {
   ]
 };
 
+// profileSmall 키 추가했습니다
 export const LEVEL_CONFIG = {
   1: {
     name: "씨앗",
@@ -78,6 +79,7 @@ export const LEVEL_CONFIG = {
     max: 10000,
     image: "/images/seed.png",
     profile: "/images/profile1.png",
+    profileSmall: "/images/profileSmall1.png",
     bg: "#321C00",
     exp: "#FFD64E"
   },
@@ -87,6 +89,7 @@ export const LEVEL_CONFIG = {
     max: 20000,
     image: "/images/sesac.png",
     profile: "/images/profile2.png",
+    profileSmall: "/images/profileSmall2.png",
     bg: "#320008",
     exp: "#FF738F"
   },
@@ -96,6 +99,7 @@ export const LEVEL_CONFIG = {
     max: 30000,
     image: "/images/treemoa.png",
     profile: "/images/profile3.png",
+    profileSmall: "/images/profileSmall3.png",
     bg: "#00320F",
     exp: "#0D9C36"
   },
@@ -105,6 +109,7 @@ export const LEVEL_CONFIG = {
     max: 40000,
     image: "/images/clover.png",
     profile: "/images/profile4.png",
+    profileSmall: "/images/profileSmall4.png",
     bg: "#000132",
     exp: "#28B0FB"
   }

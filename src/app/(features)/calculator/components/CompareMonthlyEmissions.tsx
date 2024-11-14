@@ -52,12 +52,12 @@ const CompareMonthlyEmissions = () => {
         </div>
 
         {/* 차트 부분 */}
-        <div className="relative w-[1000px] h-[245px] z-0 mt-[68px]">
+        <div className="relative w-[1000px] h-[300px] z-0 mt-[68px]">
           <MonthlyChartMain
             emissionsData={emissionsData}
             currentData={currentData}
           />
-          <div className="w-[200px] h-[270px] bg-[#ff7d6f33] rounded-[12px] right-0 top-[-40px] absolute z-[-10]" />
+          <div className="w-[200px] h-[300px] bg-[#ff7d6f33] rounded-[12px] right-0 top-[-20px] absolute z-[-10]" />
         </div>
       </div>
     </>

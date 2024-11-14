@@ -5,17 +5,37 @@ import { Check } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import DeleteAccountButton from "../login/components/DeleteAccountButton";
 
+// 선택 사유에 대한 텍스트 매핑
+const reasonConfig = {
+  "not-use": "사용을 잘 안하게 돼요",
+  lessBenefit: "사용 혜택이 적어요",
+  difficult: "사용이 어려워요",
+  privacy: "개인정보 보호를 위해 삭제할 정보가 있어요",
+  another: "다른 계정이 있어요",
+  expectation: "기타"
+};
+type AccountDeletionReason =
+  | "not-use"
+  | "lessBenefit"
+  | "difficult"
+  | "privacy"
+  | "another"
+  | "expectation"
+  | "";
+
 const DeletePage = () => {
   const { user } = userStore();
-  const [selectedReason, setSelectedReason] = useState("");
+  const [selectedReason, setSelectedReason] = useState<
+    AccountDeletionReason | ""
+  >("not-use");
 
   const handleToggle = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // 선택된 이유가 이미 선택되어 있으면 선택 해제, 아니면 선택
+    // 선택된 이유가 이미 선택되어 있으면 선택 해제
     if (selectedReason === value) {
       setSelectedReason(""); // 선택 해제
     } else {
-      setSelectedReason(value); // 새로 선택
+      setSelectedReason(value as AccountDeletionReason); // 새로 선택
     }
   };
 
@@ -199,7 +219,13 @@ const DeletePage = () => {
               </div>
               <span>기타</span>
             </label>
-            <DeleteAccountButton userId={user.id} />
+            <DeleteAccountButton
+              userId={user.id}
+              selectedReason={
+                selectedReason ? reasonConfig[selectedReason] : ""
+              }
+              disabled={!selectedReason}
+            />
           </div>
         </section>
       </div>

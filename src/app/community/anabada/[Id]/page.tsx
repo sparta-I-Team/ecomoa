@@ -1,21 +1,22 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Slider from "react-slick";
 import { communityApi } from "@/api/communityApi";
 import { Post } from "@/types/community";
+import { userStore } from "@/zustand/userStore";
+import { useRouter } from "next/navigation";
+import EditPostModal from "../../components/EditPostModal";
+import { useModalStore } from "@/zustand/modalStore";
+import { Modal } from "@/components/shared/Modal";
 
-type Props = {
-  params: {
-    Id: string; // 동적 경로에서 받은 게시글 ID
-  };
-};
-
-const Page = ({ params }: Props) => {
+const Page = ({ params }: { params: { Id: string } }) => {
   const [post, setPost] = useState<Post | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const { Id } = params; // URL 파라미터에서 게시글 ID를 추출합니다.
+  const { openModal, closeModal } = useModalStore();
+  const { Id } = params;
+  const router = useRouter();
 
   const settings = {
     dots: true,
@@ -25,32 +26,30 @@ const Page = ({ params }: Props) => {
     slidesToScroll: 1
   };
 
+  const { user } = userStore();
+
   useEffect(() => {
-    // if (!id) return; // id가 없으면 API 호출을 하지 않음
-    console.log("Id", Id);
     const fetchPost = async () => {
       try {
         const { data, error } = await communityApi.getPostById(Id);
-        console.log("getPostById", data);
         if (error) {
           setErrorMessage(error);
-          console.error("게시글을 불러오는 데 실패했습니다:", error);
           return;
         }
 
         if (data) {
-          setPost(data);
+          setPost(data); // post 상태 업데이트
         } else {
           setErrorMessage("게시글이 없습니다.");
         }
       } catch (error) {
         setErrorMessage("게시글을 불러오는 데 오류가 발생했습니다.");
-        console.error("게시글을 가져오는 데 오류가 발생했습니다:", error);
+        console.log("error", error);
       }
     };
 
     fetchPost();
-  }, [Id]); // id가 변경될 때마다 API 호출
+  }, [Id]);
 
   if (errorMessage) {
     return (
@@ -71,36 +70,109 @@ const Page = ({ params }: Props) => {
   const images = post.post_img ?? [];
   const hasMultipleImages = images.length > 1;
 
+  const canEdit = user.isAuthenticated && post.user_id === user.id;
+
+  // 수정 버튼 클릭 시 모달 열기
+  const handleEditClick = () => {
+    if (post) {
+      openModal({
+        type: "custom",
+        content: (
+          <EditPostModal
+            type="anabada"
+            onClose={closeModal}
+            post={post}
+            onSave={(updatedPost) => {
+              handleSavePost(updatedPost);
+              closeModal();
+            }}
+          />
+        )
+      });
+    }
+  };
+
+  // 수정된 게시글 저장
+  const handleSavePost = async (editedPost: Post) => {
+    try {
+      // 게시글 정보를 업데이트
+      const { error } = await communityApi.update(editedPost);
+
+      if (error) {
+        throw error;
+      }
+
+      // 상태 업데이트 및 모달 닫기
+      setPost(editedPost);
+      console.log("게시글 수정 성공:", editedPost);
+    } catch (error) {
+      // 오류 처리
+      console.error("게시글 수정 실패:", error);
+      alert("게시글 수정에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const handleDeletePost = async (post: Post) => {
+    const confirmed = window.confirm("정말 삭제 하시겠습니까?");
+    console.log("컨펌", confirmed);
+    if (confirmed) {
+      try {
+        const { error } = await communityApi.delete(post);
+        if (error) {
+          throw error;
+        }
+        alert("게시글이 삭제 되었습니다.");
+        router.push("/community/anabada");
+      } catch (error) {
+        console.error("게시글 삭제 실패:", error);
+        alert("게시글 삭제에 실패했습니다. 다시 시도해주세요.");
+      }
+    }
+  };
+
   return (
-    <main className="w-[1200px]  mx-auto">
+    <main className="w-[1200px] mx-auto">
       <Link href="/community/anabada">
-        <h3 className="text-lg font-bold mb-2 mt-6">{"< 아나바다 시장 홈 "}</h3>
+        <h3 className="font-[Wanted Sans] text-base font-semibold mt-4">
+          {"< 아나바다 시장 홈 "}
+        </h3>
       </Link>
       <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
       <article className="flex">
         {hasMultipleImages ? (
           <Slider {...settings}>
             {images.map((img, index) => (
-              <Image
-                key={index}
-                src={img}
-                alt={`게시글 이미지 ${index + 1}`}
-                width={585}
-                height={585}
-                priority
-              />
+              <div key={index} className="w-[585px] h-[585px]">
+                <Image
+                  src={img}
+                  alt={`게시글 이미지 ${index + 1}`}
+                  width={585}
+                  height={585}
+                  priority
+                  className="w-full h-full object-cover"
+                />
+              </div>
             ))}
           </Slider>
-        ) : (
-          images.length > 0 && (
+        ) : images.length > 0 ? (
+          <div className="w-[585px] h-[585px]">
             <Image
               src={images[0]}
               alt="게시글 이미지"
               width={585}
               height={585}
               priority
+              className="object-fit w-full h-full "
             />
-          )
+          </div>
+        ) : (
+          // 이미지가 없으면 회색 배경을 사용
+          <div
+            className="bg-gray-300 w-[585px] h-[585px] flex items-center justify-center"
+            style={{ backgroundColor: "#D5D7DD" }}
+          >
+            <p className="text-gray-500">등록된 이미지가 없습니다</p>
+          </div>
         )}
 
         <div className="flex flex-col ml-8 w-[585px] gap-3">
@@ -111,17 +183,17 @@ const Page = ({ params }: Props) => {
           <div className="flex text-base text-gray-500 tracking-tight">
             <label>{post.user_info?.user_nickname}</label>
             <time>{new Date(post.created_at).toLocaleDateString()}</time>
-            <div className="ml-2">- ♡ {post.like || 0}</div>
-            <div className="ml-2">- 댓글 {post.comment || 0}</div>
+            <div className="ml-2">· ♡ {post.like || 0}</div>
+            <div className="ml-2">· 댓글 {post.comment || 0}</div>
           </div>
           <div className="mb-4 mt-4 w-[585px] h-px bg-[#D5D7DD]"></div>
-          <div className=" w-[585px] flex flex-col h-full">
+          <div className="w-[585px] flex flex-col h-full">
             <p className="text-[14px] text-[#0D9C36] font-semibold mb-4">
               상품정보
             </p>
             <p className="text-[14px] font-normal mb-5">{post.post_content}</p>
-            <label className="text-[#0D9C36] mb-4">거래 희망 지역</label>
-            <label className="mb-2 inline-block rounded-[32px] border w-[100px] border-[#D5D7DD] p-2">
+            <label className="text-[#0D9C36] mb-4 ">거래 희망 지역</label>
+            <label className="mt-4 mb-2 inline-block rounded-[32px] border w-[100px] border-[#D5D7DD] p-2">
               {post.location}
             </label>
 
@@ -136,6 +208,24 @@ const Page = ({ params }: Props) => {
           </div>
         </div>
       </article>
+      <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
+      <div>
+        {canEdit && (
+          <div>
+            <button onClick={handleEditClick} className="mt-4 border-none mr-2">
+              수정하기
+            </button>
+
+            <button
+              onClick={() => handleDeletePost(post)}
+              className="  mt-4  border-none"
+            >
+              삭제하기
+            </button>
+          </div>
+        )}
+      </div>
+      <Modal />
     </main>
   );
 };

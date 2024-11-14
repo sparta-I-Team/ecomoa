@@ -28,24 +28,22 @@ export async function GET(req: Request) {
     );
   }
 
-  // Supabase에서 사용자를 가져옵니다.
-  const { data: existingUser, error: fetchUserError } = await supabase
-    .from("user_info")
-    .select("*")
-    .eq("user_email", userData.email)
-    .single();
+  // Supabase auth에서 사용자 정보를 가져옵니다.
+  const {
+    data: { users },
+    error: listUsersError
+  } = await supabase.auth.admin.listUsers();
 
-  if (fetchUserError && fetchUserError.code !== "PGRST116") {
-    console.error("Failed to fetch user:", fetchUserError);
+  if (listUsersError) {
+    console.error("Failed to listUser:", listUsersError);
     return NextResponse.json(
-      { error: fetchUserError.message },
+      { error: listUsersError.message },
       { status: 500 }
     );
   }
+  const existingUser = users.find((user) => user.email === userData.email);
 
   if (existingUser) {
-
-    // 사용자가 이미 존재하는 경우 로그인
     const { error: loginError } = await supabase.auth.signInWithPassword({
       email: userData.email,
       password: "temporary-password" // 임시 비밀번호

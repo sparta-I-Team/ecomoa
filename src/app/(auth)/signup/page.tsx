@@ -1,29 +1,30 @@
 import React from "react";
 import SignupForm from "./components/SignupForm";
-import Image from "next/image";
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 
 const SignupPage = () => {
   return (
-    <div className="min-h-screen bg-[#EAFCDE] px-4">
-      <div className="mx-auto max-w-md flex flex-col items-center pt-12 sm:pt-20">
-        <Image
-          src={"/images/logo.png"}
-          width={180}
-          height={30}
-          alt="ecomoa 로고"
-          className="mb-8"
-        />
-
-        <div className="space-y-1 mb-10">
-          <h1 className="font-wanted text-3xl font-semibold text-center leading-tight">
-            에코모아에 가입하고
-          </h1>
-          <h1 className="font-wanted text-3xl font-semibold text-center leading-tight">
-            탄소 절감 혜택을 누려보세요!
-          </h1>
+    <div className="min-h-screen bg-[#FFF] px-4">
+      <div className="w-[1200px] mx-auto">
+        <div className="flex items-center mb-[20px] pt-[76px]">
+          <ChevronLeft />
+          <Link href={"/login"} className="text-[#525660]">
+            <span className="font-wanted text-[16px] font-[600]">
+              로그인 홈
+            </span>
+          </Link>
         </div>
-
-        <SignupForm />
+        <div className=" w-full border-b border-b-[#D5D7DD]"></div>
+        <p className="mt-[48px] font-wanted text-[32px] font-[700] leading-[44.8px] tracking-[-0.32px] text-[#000301]">
+          이메일 회원가입
+        </p>
+        <p className="text-[#00691E] font-wanted text-[20px] font-[500] leading-[30px] tracking-[-0.2px] mt-[24px]">
+          가입을 위한 이메일 정보를 입력해주세요
+        </p>
+        <div className="mx-auto max-w-md flex flex-col items-center mt-[120px]">
+          <SignupForm />
+        </div>
       </div>
     </div>
   );

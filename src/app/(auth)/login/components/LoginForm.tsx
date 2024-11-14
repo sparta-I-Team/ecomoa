@@ -7,7 +7,8 @@ import { LoginInput } from "@/types/authType";
 import { useRouter } from "next/navigation";
 import { getUserInfo } from "@/api/user-action";
 import { userStore } from "@/zustand/userStore";
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import { CheckIcon, CircleAlert } from "lucide-react";
 // Zod 스키마 정의
 const loginSchema = z.object({
   email: z
@@ -16,25 +17,44 @@ const loginSchema = z.object({
     .nonempty({ message: "이메일을 입력해주세요." }),
   password: z
     .string()
-    .min(6, { message: "비밀번호는 최소 6자 이상이어야 합니다." })
+    .min(8, { message: "비밀번호는 최소 8자 이상이어야 합니다." })
+    .max(20, { message: "비밀번호는 최대 20자 이하여야 합니다." })
     .nonempty({ message: "비밀번호를 입력해주세요." })
 });
 
 const LoginForm = () => {
   const { loginUser } = userStore();
+  const [saveEmail, setSaveEmail] = useState(false);
   const router = useRouter();
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema)
   });
 
+  useEffect(() => {
+    // localStorage에 저장된 이메일 불러오기
+    const savedEmail = localStorage.getItem("savedEmail");
+    if (savedEmail) {
+      setValue("email", savedEmail);
+      setSaveEmail(true); // 체크박스 상태 설정
+    }
+  }, [setValue]);
+
   const onSubmit: SubmitHandler<LoginInput> = async (data: LoginInput) => {
     try {
       const response = await login(data);
       const userInfo = await getUserInfo(response.session?.user.id as string);
+
+      // 아이디 저장 로컬스토리지 업데이트
+      if (saveEmail) {
+        localStorage.setItem("savedEmail", data.email);
+      } else {
+        localStorage.removeItem("savedEmail");
+      }
 
       // zustand 스토어에 로그인 유저 정보 저장
       loginUser({
@@ -60,45 +80,93 @@ const LoginForm = () => {
     }
   };
 
+  const handleCheckboxChange = () => {
+    setSaveEmail(!saveEmail);
+  };
+
   return (
     <form
-      className="w-full flex flex-col justify-center items-center gap-1 p-3"
+      className="font-wanted flex flex-col justify-center items-center gap-1 p-3"
       onSubmit={handleSubmit(onSubmit)}
     >
-      {/* <h2 className="text-4xl font-normal mb-[60px]">로그인</h2> */}
       <div className="space-y-3">
-        <input
-          type="email"
-          className="p-2 w-[584px] h-16 rounded-md borde border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold"
-          {...register("email")}
-          placeholder="아이디"
-        />
-        <p role="alert" className="text-sm text-red-600">
-          {errors.email?.message}
-        </p>
-        <input
-          type="password"
-          className="p-2 w-[584px] h-16 rounded-md border border-[#5BCA11] placeholder:text-gray-600 placeholder:font-semibold"
-          {...register("password")}
-          placeholder="비밀번호"
-        />
-        <p role="alert" className="text-sm text-red-600">
-          {errors.password?.message}
-        </p>
+        <div className="flex flex-col items-start gap-1">
+          <input
+            type="email"
+            className="pl-[16px] py-[20.5px] w-[400px] h-[52px] rounded-[12px] border border-[#D7E8D7] placeholder:text-[#A1A7B4] placeholder:font-semibold outline-none"
+            {...register("email")}
+            placeholder="아이디"
+          />
+          <div className="font-wanted flex items-center justify-center leading-[21px] font-[500]">
+            {errors.email?.message && (
+              <p
+                role="alert"
+                className="text-sm text-[#FF361B] mb-[10px] flex justify-center items-center font-[500] leading-[21px] tracking-[-0.14px]"
+              >
+                <CircleAlert
+                  className="text-[#FF361B] mr-1 w-5 h-5"
+                  stroke="#FFF"
+                  fill="#FF361B"
+                />
+                {errors.email?.message}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="flex flex-col items-start gap-1">
+          <input
+            type="password"
+            className="pl-[16px] py-[20.5px] w-[400px] h-[52px] rounded-[12px] border border-[#D7E8D7] placeholder:text-[#A1A7B4] placeholder:font-semibold outline-none"
+            {...register("password")}
+            placeholder="비밀번호"
+          />
+          <div className="font-wanted flex items-center justify-center leading-[21px] font-[500]">
+            {errors.password?.message && (
+              <p
+                role="alert"
+                className="text-sm text-[#FF361B] mb-[10px] flex justify-center items-center font-[500] leading-[21px] tracking-[-0.14px]"
+              >
+                <CircleAlert
+                  className="text-[#FF361B] mr-1 w-5 h-5"
+                  stroke="#FFF"
+                  fill="#FF361B"
+                />
+                {errors.password?.message}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* 아이디 저장 체크박스 */}
+      <div className="w-full mt-[12px]">
+        <label className="flex items-center cursor-pointer">
+          <div className="relative">
+            <input
+              type="checkbox"
+              className="relative appearance-none bg-[#E8F3E8] w-[16px] h-[16px] border-none rounded-full cursor-pointer checked:bg-[#0D9C36] focus:outline-none transition-all"
+              checked={saveEmail}
+              onChange={handleCheckboxChange}
+            />
+            {/* 체크 상태에 따라 아이콘 변경 */}
+            {saveEmail && (
+              <CheckIcon
+                strokeWidth={3}
+                className="w-[16px] h-[16px] text-[#FFF] absolute top-0"
+              />
+            )}
+          </div>
+          <span className="ml-2 text-gray-700">아이디 저장</span>
+        </label>
       </div>
 
       <button
         type="submit"
-        className="w-[584px] mt-[45px] h-16 bg-[#469B0D] p-2 rounded-md text-[#FFF]"
+        className="w-[400px] h-[62px] mt-[48px] sm:mt-[45px] bg-[#0D9C36] border-none p-2 text-[18px] font-[600] text-[#FFF] rounded-[40px] leading-[27px] tracking-[-0.18px]"
       >
-        로그인
+        로그인 하기
       </button>
-      <Link
-        href={"/signup"}
-        className="mt-2 px-4 font-wanted text-base text-[#6E7481] font-medium"
-      >
-        이메일로 가입하기
-      </Link>
     </form>
   );
 };
