@@ -52,7 +52,7 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="bg-[#F2F9F2]">
+    <div className=" bg-[#F2F9F2]">
       <div className="w-[1200px] mx-auto">
         <div>
           <label className="text-xl font-bold mb-4 mt-4">
@@ -95,7 +95,7 @@ const Page = () => {
 
               return (
                 <Link
-                  href={`/community/challenge/${challenge.chall_id}`}
+                  href={`/community/${challenge.chall_id}`}
                   key={challenge.chall_id}
                 >
                   <article

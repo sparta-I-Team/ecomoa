@@ -13,4 +13,5 @@ export interface ModalStoreType {
   onConfirm?: () => void;
   onCancel?: () => void;
   buttonText?: ButtonText;
+  className?: string | null;
 }

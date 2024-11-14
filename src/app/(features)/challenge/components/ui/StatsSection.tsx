@@ -1,5 +1,5 @@
 import { ChallengeData } from "@/types/challengesType";
-import StatsSectionSkeleton from "../ui/StatsSectionSkeleton";
+import StatsSectionSkeleton from "./StatsSectionSkeleton";
 
 interface StatsSectionProps {
   todayChallenge: ChallengeData | undefined;
@@ -13,7 +13,7 @@ const StatsSection = ({
   isLoading
 }: StatsSectionProps) => {
   if (isLoading) {
-    return <StatsSectionSkeleton />;
+    return <StatsSectionSkeleton/>;
   }
 
   const today = new Date();

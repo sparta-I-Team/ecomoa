@@ -40,7 +40,7 @@ const Page = () => {
   }, [posts, searchTerm]);
 
   return (
-    <div className="bg-[#F2F9F2]">
+    <div className="h-full bg-[#F2F9F2]">
       <div className="w-[1200px] mx-auto">
         {" "}
         <label className="text-xl font-bold mb-4 mt-4">

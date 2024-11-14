@@ -1,7 +1,7 @@
 import { useChallengeDashboard } from "@/hooks/useChallengeDashboard";
 import React from "react";
-import LevelSection from "./header/LevelSection";
-import StatsSection from "./header/StatsSection";
+import LevelSection from "./ui/LevelSection";
+import StatsSection from "./ui/StatsSection";
 import { userStore } from "@/zustand/userStore";
 
 const ChallengeHeader = () => {

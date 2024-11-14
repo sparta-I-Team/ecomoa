@@ -101,7 +101,7 @@ const PostForm = ({ type = "free" }: Props) => {
             type="text"
             placeholder=" ₩ 가격을 입력해주세요"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => setPrice(Number(e.target.value))}
             required
             className="mb-4 p-2 border border-gray-300 rounded-[12px]"
           />

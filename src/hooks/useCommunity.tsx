@@ -31,7 +31,7 @@ export const useCommunity = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [location, setLocation] = useState(""); // 지역명 상태 추가
-  const [price, setPrice] = useState(""); // 가격 상태 추가
+  const [price, setPrice] = useState(0); // 가격 상태 추가
 
   const { user } = userStore();
   const { openModal, closeModal } = useModalStore();
@@ -72,7 +72,7 @@ export const useCommunity = () => {
     setImagePreviews(Array(3).fill(""));
     setUploadedImageUrls([]);
     setErrorMessage("");
-    setPrice("");
+    setPrice(0);
     setLocation("");
   };
 

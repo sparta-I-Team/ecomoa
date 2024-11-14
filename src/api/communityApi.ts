@@ -22,7 +22,8 @@ export const communityApi = {
         post_img: formattedUrls,
         price,
         location,
-        params: { type }
+        params: { type, isDeleted: false }
+        // 타입 옆에
       }
     ]);
 
@@ -35,7 +36,7 @@ export const communityApi = {
       const { data, error } = await supabase
         .from("posts")
         .select("*, user_info(user_nickname), post_img")
-        .eq("params", JSON.stringify({ type }));
+        .eq("params", JSON.stringify({ type, isDeleted: false }));
       if (error) {
         throw error;
       }
@@ -90,5 +91,34 @@ export const communityApi = {
     }
 
     return { data, error: null };
+  },
+
+  update: async (editedPost: Post) => {
+    const { error } = await supabase
+      .from("posts")
+      .update({
+        post_title: editedPost.post_title,
+        price: editedPost.price,
+        post_content: editedPost.post_content,
+        location: editedPost.location
+      })
+      .eq("post_id", editedPost.post_id);
+
+    if (error) {
+      throw error;
+    }
+    return { error };
+  },
+  delete: async (post: Post) => {
+    const { error } = await supabase
+      .from("posts")
+      .update({
+        params: { type: post.params.type, isDeleted: true }
+      })
+      .eq("post_id", post.post_id);
+    if (error) {
+      throw error;
+    }
+    return { error };
   }
 };

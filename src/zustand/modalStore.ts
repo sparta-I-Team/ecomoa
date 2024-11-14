@@ -14,6 +14,7 @@ export const useModalStore = create<ModalStore>((set) => ({
   onConfirm: undefined,
   onCancel: undefined,
   buttonText: undefined,
+  className: null,
   openModal: (params) => set({ isOpen: true, ...params }),
   closeModal: () =>
     set({
@@ -23,6 +24,7 @@ export const useModalStore = create<ModalStore>((set) => ({
       autoClose: undefined,
       onConfirm: undefined,
       onCancel: undefined,
-      buttonText: undefined
+      buttonText: undefined,
+      className: null
     })
 }));

@@ -1,6 +1,6 @@
 import { LevelInfo } from "@/types/challengesType";
 import Image from "next/image";
-import LevelSectionSkeleton from "../ui/LevelSectionSkeleton";
+import LevelSectionSkeleton from "./LevelSectionSkeleton";
 
 interface LevelSectionProps {
   levelInfo: LevelInfo | null;

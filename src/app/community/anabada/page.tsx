@@ -39,12 +39,12 @@ const Page = () => {
   }, [posts, searchTerm]);
 
   return (
-    <div className="bg-[#F2F9F2]">
+    <div className="bg-[#F2F9F2] py-[52px] overflow-y-hidden">
       <div className="w-[1200px] mx-auto ">
         <label className="text-xl font-bold mb-4 mt-4">
           친환경 활동을 공유해 보세요
         </label>
-        <div className="flex flex-col" style={{ width: "1200px" }}>
+        <div className="flex flex-col w-full">
           {/* <CommunityNav /> */}
           <div>
             <div className="flex ">

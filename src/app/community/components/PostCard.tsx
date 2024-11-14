@@ -63,7 +63,7 @@ const PostCard = ({ post, type }: Props) => {
                   alt="Post image"
                   width={220}
                   height={220}
-                  className="object-contain h-full rounded"
+                  className="object-cover h-full w-full rounded"
                 />
               </div>
             ) : (
