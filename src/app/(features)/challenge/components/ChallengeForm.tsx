@@ -1,12 +1,16 @@
 import Select from "./form/Select";
 import ImageUpload from "./form/ImageUpload";
 import BlackAutoWidthButton from "./ui/BlackAutoWidthButton";
-import { Modal } from "@/components/shared/Modal";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useChallengeForm } from "@/hooks/useChallengeForm";
 import { ChevronLeft } from "lucide-react";
+import { ChallengeData } from "@/types/challengesType";
 
-export const ChallengeForm = () => {
+interface Props {
+  initialData?: ChallengeData;
+}
+
+const ChallengeForm = ({ initialData }: Props) => {
   const {
     selectedOptions,
     register,
@@ -15,14 +19,25 @@ export const ChallengeForm = () => {
     handleOptionToggle,
     onSubmit,
     handleOpenGoBackModal,
-    challengeMutation
-  } = useChallengeForm();
+    challengeMutation,
+    updateMutation,
+    isEditMode
+  } = useChallengeForm({ initialData });
 
-  const { previews, imageFiles, handleImageChange, handleDeleteImage } =
-    useImageUpload(6);
+  const {
+    previews,
+    imageFiles,
+    existingImages,
+    deletedImages,
+    handleImageChange,
+    handleDeleteImage,
+    handleDeleteExistingImage
+  } = useImageUpload(6, initialData?.image_urls);
+
+  const mutation = isEditMode ? updateMutation : challengeMutation;
 
   return (
-    <div className="mx-auto">
+    <div>
       <button
         onClick={handleOpenGoBackModal}
         className="flex flex-row items-center text-[16px] font-bold mb-4 text-[#525660] hover:text-gray-400 transition-colors border-none"
@@ -31,18 +46,23 @@ export const ChallengeForm = () => {
       </button>
       <hr />
       <form
-        onSubmit={handleSubmit((data) => onSubmit(data, imageFiles))}
+        onSubmit={handleSubmit((data) =>
+          onSubmit(data, imageFiles, isEditMode ? deletedImages : undefined)
+        )}
         className="rounded-lg mt-9"
       >
         <div className="mb-[40px]">
           <p className="text-gray-600 font-semibold text-[24px]">
-            {new Date().toLocaleDateString("ko-KR", {
+            {(isEditMode
+              ? new Date(initialData!.created_at)
+              : new Date()
+            ).toLocaleDateString("ko-KR", {
               year: "numeric",
               month: "long",
               day: "numeric",
               weekday: "long"
             })}
-            데일리 챌린지
+            {isEditMode ? " 데일리 챌린지 수정" : " 데일리 챌린지"}
           </p>
         </div>
 
@@ -58,6 +78,8 @@ export const ChallengeForm = () => {
           errors={errors}
           previews={previews}
           onDelete={handleDeleteImage}
+          existingImages={existingImages}
+          onDeleteExisting={handleDeleteExistingImage}
         />
 
         <div className="mt-6">
@@ -78,13 +100,22 @@ export const ChallengeForm = () => {
 
         <BlackAutoWidthButton
           className="px-4 py-3 bg-[#0D9C36]"
-          text={challengeMutation.isPending ? "제출 중..." : "인증 완료"}
+          text={
+            mutation.isPending
+              ? isEditMode
+                ? "수정 중..."
+                : "제출 중..."
+              : isEditMode
+              ? "수정 완료"
+              : "인증 완료"
+          }
           type="submit"
           onClick={() => {}}
-          disabled={challengeMutation.isPending}
+          disabled={mutation.isPending}
         />
       </form>
-      <Modal />
     </div>
   );
 };
+
+export default ChallengeForm;

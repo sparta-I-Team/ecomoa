@@ -44,8 +44,8 @@ const Header = () => {
         className="max-w-[1200px] mx-auto flex flex-row justify-between"
         aria-label="Main Navigation"
       >
-        <ul className="flex h-20">
-          <li className="relative w-[100px] h-full">
+        <ul className="flex justify-center items-center h-20">
+          <li className="relative w-[100px] h-[20px]">
             <Link href="/">
               <Image
                 src="/images/ecomoa2.png"

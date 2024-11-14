@@ -1,7 +1,8 @@
 import { Store } from "@/types/map";
 import { useModalStore } from "@/zustand/modalStore";
-import Image from "next/image";
 import React from "react";
+import SaveStoreModal from "../../modal/SavaStoreModal";
+import { useBookmark } from "@/hooks/useBookmark";
 
 interface Props {
   store: Store;
@@ -11,54 +12,19 @@ interface Props {
 
 const StoreCard = ({ store, selectedStoreId, onClick }: Props) => {
   const { openModal, closeModal } = useModalStore();
+  const { isBookmarked, handleToggleBookmark } = useBookmark(store.store_id);
 
-  const handleSaveStore = () => {
+  const handleSaveStore = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    handleToggleBookmark();
     openModal({
       type: "custom",
       content: (
-        <div className="flex flex-col items-center w-[585px] relative">
-          <button
-            onClick={closeModal}
-            className="absolute top-4 right-4 p-2 border-none rounded-full"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="text-gray-600"
-            >
-              <path
-                d="M18 6L6 18M6 6l12 12"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-          <figure className="block">
-            <Image
-              src="/images/save.png"
-              alt="챌린지 완료 이미지"
-              width={585}
-              height={341}
-              className="rounded-xl"
-            />
-          </figure>
-          <div className="flex flex-col justify-center items-center gap-[28px] mt-[54px]">
-            <h2 className="text-[24px] font-semibold">저장했어요</h2>
-            <div className="p-3 rounded bg-gray-200 text-[14px]">
-              <p>
-                <span className="text-[#00691E]">위치</span> 친환경 가게 Map{" "}
-                {">"} 저장한 가게
-              </p>
-            </div>
-          </div>
-          <button className="text-[16px] text-white font-bold p-6 w-[513px] rounded-full bg-[#0D9C36] mt-[46px] mb-[32px]">
-            저장한 가게 보러가기
-          </button>
-        </div>
+        <SaveStoreModal
+          onViewSaved={() => {
+            closeModal();
+          }}
+        />
       )
     });
   };
@@ -83,12 +49,14 @@ const StoreCard = ({ store, selectedStoreId, onClick }: Props) => {
       </div>
       <div className="flex flex-row gap-[8px] justify-end">
         <button
-          className="p-3 text-white bg-[#0D9C36] rounded-[32px] text-[14px]"
+          className={`w-[80px] h-[32px] text-white ${
+            isBookmarked ? "bg-[#03551a]" : "bg-[#0D9C36]"
+          } rounded-[32px] text-[12px] flex justify-center items-center`}
           onClick={handleSaveStore}
         >
-          저장하기
+          {isBookmarked ? "저장됨" : "저장하기"}
         </button>
-        <button className="p-3 text-white bg-[#00691E] rounded-[32px] text-[14px]">
+        <button className="h-[32px] p-3 text-white bg-[#00691E] rounded-[32px] text-[12px] whitespace-nowrap flex justify-center items-center">
           다녀온 가게
         </button>
       </div>

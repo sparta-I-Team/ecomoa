@@ -18,12 +18,12 @@ async function Page() {
         </div>
 
         <Suspense
-        // fallback={
-        //   <div className="flex flex-row">
-        //     <MapLeftAreaSkeleton />
-        //     <MapSkeleton />
-        //   </div>
-        // }
+          fallback={
+            <div className="flex flex-row">
+              <MapLeftAreaSkeleton />
+              <MapSkeleton />
+            </div>
+          }
         >
           <MapClient initialStores={initialStores} />
         </Suspense>

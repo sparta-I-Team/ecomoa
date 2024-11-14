@@ -1,5 +1,5 @@
 import { ChallengeData } from "@/types/challengesType";
-import StatsSectionSkeleton from "../ui/StatsSectionSkeleton";
+import StatsSectionSkeleton from "./StatsSectionSkeleton";
 
 interface StatsSectionProps {
   todayChallenge: ChallengeData | undefined;

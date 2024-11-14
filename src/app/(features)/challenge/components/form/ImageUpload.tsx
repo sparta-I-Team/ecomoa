@@ -1,3 +1,4 @@
+// components/form/ImageUpload.tsx
 import { ChallengeFormInputs } from "@/types/challengesType";
 import { Plus } from "lucide-react";
 import Image from "next/image";
@@ -11,6 +12,8 @@ interface Props {
   previews: string[];
   onDelete: (index: number) => void;
   maxImages?: number;
+  existingImages?: string[];
+  onDeleteExisting?: (index: number) => void;
 }
 
 const ImageUpload = ({
@@ -19,15 +22,19 @@ const ImageUpload = ({
   errors,
   previews,
   onDelete,
-  maxImages = 6
+  maxImages = 6,
+  existingImages = [],
+  onDeleteExisting 
 }: Props) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const previewPlaceholders = Array(maxImages).fill(null);
+  const totalImages = existingImages.length + previews.length;
+  const remainingSlots = maxImages - totalImages;
+  const previewPlaceholders = Array(remainingSlots).fill(null);
 
   const registerProps = register("images");
 
   const handlePreviewClick = (index: number) => {
-    if (!previews[index]) {
+    if (!previews[index] && remainingSlots > 0) {
       fileInputRef.current?.click();
     }
   };
@@ -53,41 +60,72 @@ const ImageUpload = ({
         <p className="text-red-500 text-sm">{errors.images.message}</p>
       )}
 
-      <h1 className="font-bold text-[14px] mb-2">사진</h1>
+      <h1 className="font-bold text-[14px] mb-2">
+        사진 ({totalImages}/{maxImages})
+      </h1>
       <div className="grid grid-cols-6 gap-[48px]">
+        {/* 기존 이미지 표시 */}
+        {existingImages.map((url, index) => (
+          <div
+            key={`existing-${index}`}
+            className="relative h-[160px] rounded-lg overflow-hidden"
+          >
+            <Image
+              src={url}
+              alt={`기존 이미지 ${index + 1}`}
+              fill
+              className="object-cover"
+            />
+            {onDeleteExisting && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDeleteExisting(index);
+                }}
+                className="absolute top-2 right-2 px-2 rounded-full bg-gray-400/80 hover:bg-gray-500/80 text-white transition-colors"
+              >
+                ×
+              </button>
+            )}
+          </div>
+        ))}
+
+        {/* 새 이미지 미리고비 */}
+        {previews.map((preview, index) => (
+          <div
+            key={`preview-${index}`}
+            className="relative h-[160px] rounded-lg overflow-hidden"
+          >
+            <Image
+              src={preview}
+              alt={`미리보기 ${index + 1}`}
+              fill
+              className="object-cover"
+            />
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(index);
+              }}
+              className="absolute top-2 right-2 px-2 rounded-full bg-gray-400/80 hover:bg-gray-500/80 text-white transition-colors"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+
+        {/* 남은 슬롯 */}
         {previewPlaceholders.map((_, index) => (
           <div
-            key={index}
+            key={`placeholder-${index}`}
             onClick={() => handlePreviewClick(index)}
-            className="relative h-[160px]  rounded-lg overflow-hidden bg-[#F5F5F5]
-              cursor-pointer hover:bg-gray-200 transition-colors"
+            className="relative h-[160px] rounded-lg overflow-hidden bg-[#F5F5F5] cursor-pointer hover:bg-gray-200 transition-colors"
           >
-            {previews[index] ? (
-              <>
-                <Image
-                  src={previews[index]}
-                  alt={`미리보기 ${index + 1}`}
-                  fill
-                  className="object-cover w-full h-full"
-                />
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDelete(index);
-                  }}
-                  className="absolute top-2 right-2 px-2 rounded-full bg-gray-400/80 
-                    hover:bg-gray-500/80 text-white transition-colors"
-                >
-                  ×
-                </button>
-              </>
-            ) : (
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
-                <div className="bg-white rounded-full w-[30px] h-[30px] p-2">
-                  <Plus className="w-full h-full" />
-                </div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+              <div className="bg-white rounded-full w-[30px] h-[30px] p-2">
+                <Plus className="w-full h-full" />
               </div>
-            )}
+            </div>
           </div>
         ))}
       </div>

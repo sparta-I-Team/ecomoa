@@ -1,9 +1,9 @@
 "use client";
 import { SortType, Store } from "@/types/map";
 import { useState, useEffect, ChangeEvent } from "react";
-import StoreCard from "./ui/StoreCard";
 import { Check, Search } from "lucide-react";
-
+import { calculateDistance } from "@/utlis/map/distance";
+import StoreCard from "./ui/StoreCard";
 interface StoreListProps {
   stores: Store[];
   onClick: (store: Store) => void;
@@ -15,7 +15,15 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [sortType, setSortType] = useState<SortType>(null);
   const [activeTab, setActiveTab] = useState("recommended");
+  const [userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [storesWithDistance, setStoresWithDistance] = useState<
+    (Store & { distance?: number })[]
+  >([]);
 
+  // 검색어 디바운싱
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
@@ -26,22 +34,84 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
     };
   }, [searchTerm]);
 
-  const filteredStores = stores.filter(
-    (store) =>
-      store.store_name
-        .toLowerCase()
-        .includes(debouncedSearchTerm.toLowerCase()) ||
-      store.road_address
-        .toLowerCase()
-        .includes(debouncedSearchTerm.toLowerCase())
-  );
+  // 위치 정보 가져오기
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+        },
+        (error) => {
+          console.error("위치 정보를 가져올 수 없습니다:", error);
+        }
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    const storesWithDistanceCalculated = stores.map((store) => ({
+      ...store,
+      distance: userLocation
+        ? calculateDistance(
+            userLocation.lat,
+            userLocation.lng,
+            store.lat,
+            store.lon
+          )
+        : undefined
+    }));
+
+    setStoresWithDistance(storesWithDistanceCalculated);
+  }, [stores, userLocation]);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
   const handleSortClick = (type: SortType) => {
-    setSortType(sortType === type ? null : type);
+    if (type === "distance" && !userLocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+          setSortType(type);
+        },
+        () => {
+          alert("위치 정보 제공에 동의해야 가까운 순 정렬이 가능합니다.");
+        }
+      );
+    } else {
+      setSortType(sortType === type ? null : type);
+    }
+  };
+
+  const getSortedStores = () => {
+    let sortedStores = [...storesWithDistance];
+
+    // 검색어 필터링
+    sortedStores = sortedStores.filter(
+      (store) =>
+        store.store_name
+          .toLowerCase()
+          .includes(debouncedSearchTerm.toLowerCase()) ||
+        store.road_address
+          .toLowerCase()
+          .includes(debouncedSearchTerm.toLowerCase())
+    );
+
+    // 거리순 정렬
+    if (sortType === "distance" && userLocation) {
+      sortedStores.sort(
+        (a, b) => (a.distance || Infinity) - (b.distance || Infinity)
+      );
+    }
+
+    return sortedStores;
   };
 
   const TABS = [
@@ -49,6 +119,8 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
     { id: "saved", label: "저장한 가게" },
     { id: "visited", label: "다녀온 가게" }
   ];
+
+  const sortedAndFilteredStores = getSortedStores();
 
   return (
     <div className="min-w-[380px] h-[822px] flex flex-col">
@@ -59,20 +131,20 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 px-4 py-3 text-sm font-medium relative border-none 
-          ${
-            activeTab === tab.id
-              ? "text-[#00320F] font-semibold"
-              : "text-gray-500 hover:text-gray-700"
-          }
-        `}
+                ${
+                  activeTab === tab.id
+                    ? "text-[#00320F] font-semibold"
+                    : "text-gray-500 hover:text-gray-700"
+                }
+              `}
             >
               {tab.label}
               <div
                 className={`
-            absolute bottom-0 left-0 w-full h-[2px] 
-            transition-colors duration-300 ease-in-out
-            ${activeTab === tab.id ? "bg-[#00320F]" : "bg-gray-200"}
-          `}
+                  absolute bottom-0 left-0 w-full h-[2px] 
+                  transition-colors duration-300 ease-in-out
+                  ${activeTab === tab.id ? "bg-[#00320F]" : "bg-gray-200"}
+                `}
               />
             </button>
           ))}
@@ -95,7 +167,9 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
       </div>
 
       <div className="flex h-[20px] flex-row gap-[24px] text-[14px] p-2 items-center mb-[4px]">
-        <p className="w-[40px] font-bold text-[#00691E]">{filteredStores.length}건</p>
+        <p className="w-[40px] font-bold text-[#00691E]">
+          {sortedAndFilteredStores.length}건
+        </p>
         <button
           onClick={() => handleSortClick("distance")}
           className={`border-none flex items-center gap-[2px] transition-colors
@@ -112,12 +186,12 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
         <button
           onClick={() => handleSortClick("popularity")}
           className={`border-none flex items-center gap-[2px] transition-colors
-            ${
-              sortType === "popularity"
-                ? "text-black font-bold"
-                : "text-gray-300"
-            }
-          `}
+                    ${
+                      sortType === "popularity"
+                        ? "text-black font-bold"
+                        : "text-gray-300"
+                    }
+                  `}
         >
           {sortType === "popularity" && (
             <Check size={16} className="text-black font-bold" />
@@ -127,7 +201,7 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
       </div>
 
       <div className="flex-1 overflow-y-auto p-2 space-y-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
-        {filteredStores.map((store) => (
+        {sortedAndFilteredStores.map((store) => (
           <StoreCard
             key={store.store_id}
             store={store}

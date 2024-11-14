@@ -1,22 +1,35 @@
-import { useMemo, useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useModalStore } from "@/zustand/modalStore";
 import { useChallengeStore } from "@/zustand/challengeStore";
 import { userStore } from "@/zustand/userStore";
-import { useChallengeMutation } from "@/hooks/useChallenge";
+import {
+  useChallengeMutation,
+  useChallengeUpdateMutation
+} from "@/hooks/useChallenge";
 import { calculateTotalCarbon } from "@/utlis/challenge/calculateCarbon";
 import { CHALLENGES } from "@/utlis/challenge/challenges";
-import { ChallengeFormInputs } from "@/types/challengesType";
-import Image from "next/image";
+import { ChallengeFormInputs, ChallengeData } from "@/types/challengesType";
+import SuccessModal from "@/app/(features)/challenge/components/modal/SuccessModal";
+import AlreadySubmittedModal from "@/app/(features)/challenge/components/modal/AlreadySubmittedModal";
+import GoBackModal from "@/app/(features)/challenge/components/modal/GoBackModal";
 
-export const useChallengeForm = () => {
+interface UseChallengeFormProps {
+  initialData?: ChallengeData;
+}
+
+export const useChallengeForm = ({
+  initialData
+}: UseChallengeFormProps = {}) => {
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, string[]>
-  >({});
-  const { selectedChallenges, setStep } = useChallengeStore();
+  >(initialData?.selected_options || {});
+  const { selectedChallenges, setStep, setInitialChallenges } =
+    useChallengeStore();
   const { user } = userStore();
   const { openModal, closeModal } = useModalStore();
   const challengeMutation = useChallengeMutation();
+  const updateMutation = useChallengeUpdateMutation();
 
   const {
     register,
@@ -24,7 +37,19 @@ export const useChallengeForm = () => {
     formState: { errors },
     setError,
     clearErrors
-  } = useForm<ChallengeFormInputs>();
+  } = useForm<ChallengeFormInputs>({
+    defaultValues: {
+      content: initialData?.content || "",
+      selectedOptions: initialData?.selected_options || {}
+    }
+  });
+
+  useEffect(() => {
+    if (initialData) {
+      const challengeIds = Object.keys(initialData.selected_options);
+      setInitialChallenges(challengeIds);
+    }
+  }, [initialData, setInitialChallenges]);
 
   const handleOptionToggle = (challengeId: string, optionId: string) => {
     setSelectedOptions((prev) => {
@@ -50,175 +75,12 @@ export const useChallengeForm = () => {
       return updatedOptions;
     });
   };
-  const successModalContent = useMemo(
-    () => (
-      <div className="flex flex-col items-center w-[585px] relative">
-        <button
-          onClick={closeModal}
-          className="absolute top-4 right-4 p-2 border-none rounded-full"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            className="text-gray-600"
-          >
-            <path
-              d="M18 6L6 18M6 6l12 12"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-        <figure className="block">
-          <Image
-            src="/images/complete.png"
-            alt="챌린지 완료 이미지"
-            width={615}
-            height={422}
-            className="rounded-xl"
-          />
-        </figure>
-        <div className="flex flex-col justify-center items-center gap-[30px] mt-[40px]">
-          <h2 className="text-[24px] font-semibold">챌린지 인증 완료했어요!</h2>
-          <p className="text-[24px] font-semibold">
-            총{" "}
-            <span className="text-[#0D9C36]">
-              {selectedChallenges.length * 100}
-            </span>
-            P를 모았어요!
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2 justify-center mt-4 w-full p-6">
-          {CHALLENGES.filter((c) => selectedChallenges.includes(c.id)).map(
-            (ch) => (
-              <div
-                key={ch.id}
-                className="rounded-full bg-[#0D9C36] p-2 text-sm text-white shadow-sm whitespace-nowrap"
-                title={ch.label}
-              >
-                {ch.label}
-              </div>
-            )
-          )}
-        </div>
-      </div>
-    ),
-    [selectedChallenges]
-  );
 
-  const goBackModalContent = (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "585px",
-        height: "300px",
-        padding: "24px"
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          marginBottom: "60px"
-        }}
-      >
-        <figure
-          style={{
-            margin: "0 auto",
-            marginBottom: "30px"
-          }}
-        >
-          <Image
-            src="/images/gobackImage.png"
-            alt="뒤로가기 이미지"
-            width={60}
-            height={60}
-          />
-        </figure>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            fontWeight: 600,
-            fontSize: "22px",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "30px"
-          }}
-        >
-          <p>챌린지 인증을 취소하겠습니까?</p>
-          <p style={{ color: "#1F2937" }}>
-            지금 인증하면{" "}
-            <span
-              style={{
-                fontWeight: 700,
-                color: "#0D9C36"
-              }}
-            >
-              {selectedChallenges.length * 100}P
-            </span>
-            를 받을 수 있어요!
-          </p>
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          height: "60px",
-          gap: "12px",
-          justifyContent: "space-between"
-        }}
-      >
-        <button
-          style={{
-            width: "50%",
-            backgroundColor: "#E8F3E8",
-            borderRadius: "9999px",
-            color: "#525660",
-            border: "none",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            lineHeight: "1",
-            height: "60px"
-          }}
-          onClick={() => {
-            setStep(1);
-            closeModal();
-          }}
-        >
-          다음에 인증할게요
-        </button>
-        <button
-          style={{
-            width: "50%",
-            backgroundColor: "#0D9C36",
-            borderRadius: "9999px",
-            color: "white",
-            border: "none",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            lineHeight: "1",
-            height: "60px"
-          }}
-          onClick={closeModal}
-        >
-          계속 작성할게요
-        </button>
-      </div>
-    </div>
-  );
-
-  // onSubmit 함수
-  const onSubmit = async (data: ChallengeFormInputs, imageFiles: File[]) => {
+  const onSubmit = async (
+    data: ChallengeFormInputs,
+    imageFiles: File[],
+    deletedImages?: string[]
+  ) => {
     try {
       const unselectedChallenges = selectedChallenges.filter((challengeId) => {
         return (
@@ -240,129 +102,94 @@ export const useChallengeForm = () => {
         return;
       }
 
-      const totalCarbon = calculateTotalCarbon(selectedChallenges);
+      if (initialData) {
+        await updateMutation.mutateAsync({
+          userId: user.id,
+          challengeId: initialData.chall_id,
+          content: data.content,
+          selectedOptions,
+          images: imageFiles,
+          deletedImages,
+          existingImages: initialData.image_urls.filter((url) =>
+            deletedImages?.includes(url) ? false : true
+          )
+        });
 
-      await challengeMutation.mutateAsync({
-        userId: user.id,
-        content: data.content,
-        images: imageFiles,
-        selectedOptions,
-        carbon: totalCarbon,
-        point: selectedChallenges.length * 100
-      });
+        openModal({
+          type: "alert",
+          content: "챌린지가 성공적으로 수정되었습니다.",
+          autoClose: 2000
+        });
+      } else {
+        const totalCarbon = calculateTotalCarbon(selectedChallenges);
 
-      openModal({
-        type: "custom",
-        content: successModalContent,
-        autoClose: 5000
-      });
+        await challengeMutation.mutateAsync({
+          userId: user.id,
+          content: data.content,
+          images: imageFiles,
+          selectedOptions,
+          carbon: totalCarbon,
+          point: selectedChallenges.length * 100
+        });
+
+        openModal({
+          type: "custom",
+          content: (
+            <SuccessModal
+              onClose={closeModal}
+              selectedChallenges={selectedChallenges}
+            />
+          ),
+          autoClose: 5000
+        });
+      }
 
       setStep(1);
     } catch (error) {
       if (
+        !initialData &&
         error instanceof Error &&
         error.message.includes("이미 오늘의 챌린지를 제출")
       ) {
         openModal({
           type: "custom",
           content: (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "585px",
-                height: "300px",
-                padding: "24px"
+            <AlreadySubmittedModal
+              onGoBack={() => {
+                setStep(1);
+                closeModal();
               }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  marginBottom: "30px"
-                }}
-              >
-                <figure
-                  style={{
-                    margin: "0 auto",
-                    marginBottom: "30px"
-                  }}
-                >
-                  <Image
-                    src="/images/gobackImage.png"
-                    alt="뒤로가기 이미지"
-                    width={60}
-                    height={60}
-                  />
-                </figure>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    fontWeight: 600,
-                    fontSize: "22px",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "30px",
-                    marginTop: "30px"
-                  }}
-                >
-                  <p>오늘은 이미 챌린지에 참여하셨습니다.</p>
-                  <p style={{ color: "#1F2937" }}>내일 다시 도전해주세요! 🌱</p>
-                </div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  height: "60px",
-                  gap: "12px",
-                  justifyContent: "space-between"
-                }}
-              >
-                <button
-                  style={{
-                    width: "100%",
-                    backgroundColor: "#0D9C36",
-                    borderRadius: "9999px",
-                    color: "white",
-                    border: "none",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    lineHeight: "1",
-                    height: "60px"
-                  }}
-                  onClick={() => {
-                    setStep(1);
-                    closeModal();
-                  }}
-                >
-                  다음에 인증하기
-                </button>
-              </div>
-            </div>
+            />
           )
         });
       } else {
-        openModal({
-          type: "alert",
-          content:
-            error instanceof Error
-              ? error.message
-              : "챌린지 등록에 실패했습니다.",
-          autoClose: 2000
-        });
+        // openModal({
+        //   type: "alert",
+        //   content:
+        //     error instanceof Error
+        //       ? error.message
+        //       : "챌린지 등록에 실패했습니다.",
+        //   autoClose: 2000
+        // });
+        console.error("오류입니다.");
       }
     }
   };
 
-  // handleOpenGoBackModal
   const handleOpenGoBackModal = () =>
     openModal({
       type: "custom",
-      content: goBackModalContent
+      content: (
+        <GoBackModal
+          onClose={closeModal}
+          onGoBack={() => {
+            setStep(1);
+            closeModal();
+          }}
+          point={selectedChallenges.length * 100}
+          isEditMode={!!initialData}
+        />
+      )
     });
 
   return {
@@ -372,7 +199,9 @@ export const useChallengeForm = () => {
     errors,
     handleOptionToggle,
     onSubmit,
-    handleOpenGoBackModal,
-    challengeMutation
+    challengeMutation,
+    updateMutation,
+    isEditMode: !!initialData,
+    handleOpenGoBackModal
   };
 };
