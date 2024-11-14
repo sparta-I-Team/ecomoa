@@ -14,7 +14,7 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [sortType, setSortType] = useState<SortType>(null);
-  const [activeTab, setActiveTab] = useState("recommended");
+  const [activeTab, setActiveTab] = useState("all");
   const [userLocation, setUserLocation] = useState<{
     lat: number;
     lng: number;
@@ -115,7 +115,7 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
   };
 
   const TABS = [
-    { id: "recommended", label: "추천 가게" },
+    { id: "all", label: "전체" },
     { id: "saved", label: "저장한 가게" },
     { id: "visited", label: "다녀온 가게" }
   ];
@@ -129,7 +129,12 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
           {TABS.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                // setActiveTab(tab.id);
+                if (tab.id !== "all") {
+                  alert("업데이트 예정입니다.");
+                }
+              }}
               className={`flex-1 px-4 py-3 text-sm font-medium relative border-none 
                 ${
                   activeTab === tab.id
@@ -184,7 +189,10 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
           가까운순
         </button>
         <button
-          onClick={() => handleSortClick("popularity")}
+          onClick={() => {
+            alert("업데이트 예정입니다.")
+            // handleSortClick("popularity")
+          }}
           className={`border-none flex items-center gap-[2px] transition-colors
                     ${
                       sortType === "popularity"

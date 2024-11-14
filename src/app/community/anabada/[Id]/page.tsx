@@ -125,7 +125,12 @@ const Page = ({ params }: Props) => {
               {post.location}
             </label>
 
-            <button className="bg-[#0D9C36] text-white font-normal rounded-[40px] mt-auto flex justify-center items-center gap-[10px] w-[380px] h-[52px] p-[24px] px-[16px]">
+            <button
+              onClick={() => {
+                alert("업데이트 예정입니다.");
+              }}
+              className="bg-[#0D9C36] text-white font-normal rounded-[40px] mt-auto flex justify-center items-center gap-[10px] w-[380px] h-[52px] p-[24px] px-[16px]"
+            >
               채팅하기
             </button>
           </div>

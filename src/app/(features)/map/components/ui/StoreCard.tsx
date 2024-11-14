@@ -66,7 +66,13 @@ const StoreCard = ({ store, selectedStoreId, onClick }: Props) => {
         >
           {isBookmarked ? "저장됨" : "저장하기"}
         </button>
-        <button className="h-[32px] p-3 text-white bg-[#00691E] rounded-[32px] text-[12px] whitespace-nowrap flex justify-center items-center">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            alert("업데이트 예정입니다.");
+          }}
+          className="h-[32px] p-3 text-white bg-[#00691E] rounded-[32px] text-[12px] whitespace-nowrap flex justify-center items-center"
+        >
           다녀온 가게
         </button>
       </div>
