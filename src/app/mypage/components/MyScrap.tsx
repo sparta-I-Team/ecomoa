@@ -15,14 +15,6 @@ import { FreePostSkeleton } from "./FreePostSkeleton";
 const MyScrap = ({ type }: TypeProps) => {
   const { user } = userStore();
   const [selected, setSelected] = useState<string | null>(null);
-  // const [error, setError] = useState<string | null>(null);
-
-  // 내가 작성한 게시글 가져오기
-  // const { data: myPosts, isLoading } = useQuery<Post[] | null>({
-  //   queryKey: ["myPosts", user.id, type],
-  //   queryFn: () => getMyPosts(user.id, type),
-  //   enabled: !!user.id // user.id가 있을 때만 쿼리 실행
-  // });
 
   // 스크랩 게시글 가져오기
   const { data: myBookmark, isLoading } = useQuery({
@@ -30,21 +22,6 @@ const MyScrap = ({ type }: TypeProps) => {
     queryFn: () => getBookmarkPosts(user.id),
     enabled: !!user.id
   });
-
-  console.log(myBookmark);
-  // 자유게시판에서 스크랩한 게시물 가져오기
-  // const { data: myScrap, isLoading } = useQuery<MyBookmark[] | null>({
-  //   queryKey: ["myScrap", user.id],
-  //   queryFn: () => getBookmarkPosts(user.id),
-  //   enabled: !!user.id
-  // });
-
-  //   아나바다 게시판에서 스크랩한 게시물 가져오기
-  // const { data: anabada } = useQuery<MyBookmark[] | null>({
-  //   queryKey: ["myAnabadaScrap", user.id],
-  //   queryFn: () => getBookmarkAnabada(user.id),
-  //   enabled: !!user.id
-  // });
 
   const handleSelect = (option: string) => {
     setSelected(option);
@@ -208,45 +185,47 @@ const MyScrap = ({ type }: TypeProps) => {
                 className="pl-[28px] pt-[28px] w-full h-[205px] rounded-[12px] bg-[#FFF] border border-[#E8F3E8] flex flex-row p-4"
                 style={{ boxShadow: "0px 0px 40px 0px rgba(0, 0, 0, 0.02)" }}
               >
-                <div className="flex-1">
-                  <h2 className="text-xl font-semibold mb-2">
-                    <Link
-                      className="font-wanted text-[18px] font-[700] leading-[27px] tracking-[-0.18px] mt-[28px] mb-[20px]"
-                      href={`/community/free/${post.post_id}`}
-                    >
-                      {post.post_title}
-                    </Link>
-                  </h2>
-                  <p>{post.post_content}</p>
+                <Link href={`/community/free/${post.post_id}`}>
+                  <div className="flex-1">
+                    <h2 className="text-xl font-semibold mb-2">
+                      <Link
+                        className="font-wanted text-[18px] font-[700] leading-[27px] tracking-[-0.18px] mt-[28px] mb-[20px]"
+                        href={`/community/free/${post.post_id}`}
+                      >
+                        {post.post_title}
+                      </Link>
+                    </h2>
+                    <p>{post.post_content}</p>
 
-                  <div className="mb-4 mt-5">
-                    <label className="mt-[16px] text-[#8A91A1] mr-[14px]">
-                      {post.user_info.user_nickname}님
-                    </label>
-                    <time className="text-[#8A91A1]">
-                      {new Date(post.created_at).toLocaleDateString()}
-                    </time>
-                  </div>
+                    <div className="mb-4 mt-5">
+                      <label className="mt-[16px] text-[#8A91A1] mr-[14px]">
+                        {post.user_info.user_nickname}님
+                      </label>
+                      <time className="text-[#8A91A1]">
+                        {new Date(post.created_at).toLocaleDateString()}
+                      </time>
+                    </div>
 
-                  <div className="flex justify-between items-center mt-[35px]">
-                    <div className="flex space-x-4">
-                      <Like postId={post.post_id} />
-                      <label>댓글 {post.comment || 0}</label>
+                    <div className="flex justify-between items-center mt-[35px]">
+                      <div className="flex space-x-4">
+                        <Like postId={post.post_id} />
+                        <label>댓글 {post.comment || 0}</label>
+                      </div>
                     </div>
                   </div>
-                </div>
-                {post.post_img && post.post_img.length > 0 && (
-                  <div className="flex-none w-[160px] h-[160px] ml-4 flex flex-wrap gap-1 rounded-[12px]">
-                    <Image
-                      key={0}
-                      src={post.post_img[0]}
-                      alt="Post image"
-                      width={160}
-                      height={160}
-                      className="object-contain h-full rounded"
-                    />
-                  </div>
-                )}
+                  {post.post_img && post.post_img.length > 0 && (
+                    <div className="flex-none w-[160px] h-[160px] ml-4 flex flex-wrap gap-1 rounded-[12px]">
+                      <Image
+                        key={0}
+                        src={post.post_img[0]}
+                        alt="Post image"
+                        width={160}
+                        height={160}
+                        className="object-contain h-full rounded"
+                      />
+                    </div>
+                  )}
+                </Link>
               </article>
             )
           )}

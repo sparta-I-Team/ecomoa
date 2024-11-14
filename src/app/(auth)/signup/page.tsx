@@ -1,6 +1,5 @@
 import React from "react";
 import SignupForm from "./components/SignupForm";
-import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 

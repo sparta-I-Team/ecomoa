@@ -45,7 +45,7 @@ const Mypage = async () => {
           className="border-b-[#DCECDC] w-full h-[92px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center"
         >
           <p className="text-[#000301] font-wanted text-[18px] font-[500] leading-normal tracking-[-0.18px]">
-            나의 스크랩
+            나의 좋아요
           </p>
           <ChevronRight />
         </Link>

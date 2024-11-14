@@ -6,9 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { signup } from "@/api/auth-actions";
 import { SignupInput } from "@/types/authType";
-import { CheckCircle, CircleAlert, CircleCheck, CircleX } from "lucide-react";
+import { CircleAlert, CircleCheck } from "lucide-react";
 import { checkEmailAbility } from "@/api/user-action";
-import { error } from "console";
 import { useState } from "react";
 
 // Zod 스키마 정의
@@ -36,7 +35,6 @@ const signupSchema = z
 
 const SignupForm = () => {
   const router = useRouter();
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState<
     string | null
   >(null); // 추가

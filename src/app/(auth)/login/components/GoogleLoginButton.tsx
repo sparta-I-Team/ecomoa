@@ -37,6 +37,7 @@ const GoogleLoginButton = () => {
           width={400}
           height={52}
           alt="google_login_btn"
+          className="w-[full] sm:w-[400px]"
         />
       </button>
     </div>

@@ -7,9 +7,8 @@ import { LoginInput } from "@/types/authType";
 import { useRouter } from "next/navigation";
 import { getUserInfo } from "@/api/user-action";
 import { userStore } from "@/zustand/userStore";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { CircleAlert } from "lucide-react";
+import { CheckIcon, CircleAlert } from "lucide-react";
 // Zod 스키마 정의
 const loginSchema = z.object({
   email: z
@@ -142,20 +141,29 @@ const LoginForm = () => {
 
       {/* 아이디 저장 체크박스 */}
       <div className="w-full mt-[12px]">
-        <label className="flex gap-[4px] items-start justify-start checked:bg-[#0D9C36] checked:border-transparent focus:outline-none cursor-pointer">
-          <input
-            type="checkbox"
-            className="rounded-full text-[14px]"
-            checked={saveEmail}
-            onChange={handleCheckboxChange}
-          />
-          아이디 저장
+        <label className="flex items-center cursor-pointer">
+          <div className="relative">
+            <input
+              type="checkbox"
+              className="relative appearance-none bg-[#E8F3E8] w-[16px] h-[16px] border-none rounded-full cursor-pointer checked:bg-[#0D9C36] focus:outline-none transition-all"
+              checked={saveEmail}
+              onChange={handleCheckboxChange}
+            />
+            {/* 체크 상태에 따라 아이콘 변경 */}
+            {saveEmail && (
+              <CheckIcon
+                strokeWidth={3}
+                className="w-[16px] h-[16px] text-[#FFF] absolute top-0"
+              />
+            )}
+          </div>
+          <span className="ml-2 text-gray-700">아이디 저장</span>
         </label>
       </div>
 
       <button
         type="submit"
-        className="w-[400px] h-[52px] mt-[45px] bg-[#0D9C36] border-none p-2 text-[18px] font-[600] text-[#FFF] rounded-[40px] leading-[27px] tracking-[-0.18px]"
+        className="w-[400px] h-[62px] mt-[48px] sm:mt-[45px] bg-[#0D9C36] border-none p-2 text-[18px] font-[600] text-[#FFF] rounded-[40px] leading-[27px] tracking-[-0.18px]"
       >
         로그인 하기
       </button>

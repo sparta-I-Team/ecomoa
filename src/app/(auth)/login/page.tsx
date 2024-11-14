@@ -2,17 +2,14 @@ import Image from "next/image";
 import GoogleLoginButton from "./components/GoogleLoginButton";
 import KaKaoLoginButton from "./components/KaKaoLoginButton";
 import NaverLoginButton from "./components/NaverLoginButton";
-import LoginForm from "./components/LoginForm";
 import Link from "next/link";
 
 const LoginPage = () => {
   return (
     <div
-      className="min-h-screen bg-[#F2F9F2] px-4"
+      className="min-h-screen bg-[#F2F9F2] px-4 bg-none sm:bg-[url('/images/background.png')] sm:bg-no-repeat sm:bg-cover sm:bg-center"
       style={{
-        backgroundImage: "url('/images/background.png')",
         backgroundSize: "2421px 1255px",
-        backgroundRepeat: "no-repeat",
         backgroundPosition: "-245px 90px"
       }}
     >
@@ -34,9 +31,7 @@ const LoginPage = () => {
           </h1>
         </div>
 
-        {/* <LoginForm /> */}
-
-        <div className="w-full mt-[88px] mb-[30px] flex items-center">
+        <div className="w-full mt-[130px] sm:mt-[88px] mb-[30px] flex items-center">
           <div className="flex-1 h-px bg-gray-300"></div>
           <p className="leading-[24px] px-4 font-wanted text-base text-[#525660] font-extrabold">
             간편 가입 및 로그인

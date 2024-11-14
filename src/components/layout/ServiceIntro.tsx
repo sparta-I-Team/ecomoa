@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Lottie, { LottieRef, useLottie } from "lottie-react";
+import Lottie, { useLottie } from "lottie-react";
 import lottieJson1 from "../../../public/service/Graphic1.json";
 import lottieJson2 from "../../../public/service/Graphic2.json";
 import lottieJson4 from "../../../public/service/Graphic4.json";
@@ -101,7 +101,7 @@ const ServiceIntro = () => {
             <div className="rounded-[40px] overflow-hidden">
               <Lottie
                 animationData={lottieJson1}
-                loop={false}
+                loop={true}
                 className="w-full h-full"
               />
             </div>
@@ -189,23 +189,6 @@ const ServiceIntro = () => {
             data-aos-duration="1000"
             className="relative flex flex-col justify-center items-center"
           >
-            {/* <Image
-              src={"/service/before.png"}
-              alt="에코모아 캐릭터"
-              width={600}
-              height={400}
-              className="rounded-[40px] relative"
-            />
-            <Image
-              src={"/service/arrow.png"}
-              alt="에코모아 캐릭터"
-              width={507}
-              height={140}
-              className="rounded-[40px] absolute top-[50px] left-[40px]"
-              data-aos="fade-up"
-              data-aos-easing="ease-in-out"
-              data-aos-duration="1800"
-            /> */}
             <div className="rounded-[40px] overflow-hidden">
               <Lottie
                 animationData={lottieJson5}

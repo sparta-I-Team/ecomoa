@@ -5,11 +5,9 @@ import Image from "next/image";
 const EmailLoginPage = () => {
   return (
     <div
-      className="min-h-screen bg-[#F2F9F2] px-4"
+      className="min-h-screen bg-[#F2F9F2] px-4 bg-none sm:bg-[url('/images/background.png')] sm:bg-no-repeat sm:bg-cover sm:bg-center"
       style={{
-        backgroundImage: "url('/images/background.png')",
         backgroundSize: "2421px 1255px",
-        backgroundRepeat: "no-repeat",
         backgroundPosition: "-245px 90px"
       }}
     >
@@ -30,7 +28,7 @@ const EmailLoginPage = () => {
           </h1>
         </div>
 
-        <div className="w-full mt-[88px] flex items-center mb-[20px]">
+        <div className="w-full mt-[130px] sm:mt-[88px] flex items-center mb-[20px]">
           <div className="flex-1 h-px bg-gray-300"></div>
           <p className="text-[16px] leading-[24px] px-4 font-wanted text-base text-[#525660] font-extrabold">
             이메일 로그인하기
