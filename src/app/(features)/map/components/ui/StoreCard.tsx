@@ -16,17 +16,27 @@ const StoreCard = ({ store, selectedStoreId, onClick }: Props) => {
 
   const handleSaveStore = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    handleToggleBookmark();
-    openModal({
-      type: "custom",
-      content: (
-        <SaveStoreModal
-          onViewSaved={() => {
-            closeModal();
-          }}
-        />
-      )
-    });
+    if (!isBookmarked) {
+      try {
+        await handleToggleBookmark();
+
+        openModal({
+          type: "custom",
+          content: (
+            <SaveStoreModal
+              onViewSaved={() => {
+                closeModal();
+              }}
+            />
+          )
+        });
+      } catch (error) {
+        console.error("저장 실패:", error);
+        alert("저장에 실패했습니다. 다시 시도해주세요.");
+      }
+    } else {
+      await handleToggleBookmark();
+    }
   };
   return (
     <div
