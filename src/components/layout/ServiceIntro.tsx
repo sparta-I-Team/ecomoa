@@ -13,10 +13,23 @@ import lottieJson5 from "../../../public/service/Graphic5.json";
 import lottieJson10 from "../../../public/service/Graphic10.json";
 
 const ServiceIntro = () => {
+  const lastSectionRef = useRef(null); // 마지막 섹션을 위한 ref
+  const [isLastSectionVisible, setIsLastSectionVisible] = useState(false); // 마지막 섹션 노출 여부
   const router = useRouter();
 
   const handleClick = () => {
     router.push("/login");
+  };
+
+  const getButtonStyle = () => {
+    const baseStyle =
+      "z-10 border-none font-[600] w-[392px] h-[60px] rounded-[40px] p-[24px_16px] gap-[10px] bg-[#0D9C36] text-[#FFF] hover:bg-[#00691E] transition-colors duration-200";
+
+    if (isLastSectionVisible) {
+      return `${baseStyle}`;
+    }
+    // 스크롤 중에는 fixed top-[80%]로 고정
+    return `${baseStyle} fixed top-[80%]`;
   };
 
   // AOS 세팅
@@ -39,6 +52,23 @@ const ServiceIntro = () => {
     loop: false
     // autoplay: false
   });
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsLastSectionVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1 // 10% 이상 보이면 감지
+      }
+    );
+
+    if (lastSectionRef.current) {
+      observer.observe(lastSectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -106,12 +136,6 @@ const ServiceIntro = () => {
               />
             </div>
           </div>
-          <button
-            onClick={handleClick}
-            className="z-10 border-none fixed top-[80%] font-[600] w-[392px] h-[60px] rounded-[40px] p-[24px_16px] flex flex-col items-center justify-center gap-[10px] bg-[#0D9C36] text-[#FFF] mt-[52px]"
-          >
-            에코모아 시작하기
-          </button>
         </div>
       </section>
 
@@ -587,8 +611,8 @@ const ServiceIntro = () => {
       </section>
 
       {/* section 9 */}
-      <section className="h-[1000px]">
-        <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center ">
+      <section ref={lastSectionRef}>
+        <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center relative">
           <div
             data-aos="fade-in"
             data-aos-offset="400"
@@ -605,13 +629,7 @@ const ServiceIntro = () => {
               모아들과 지속가능한 미래를 꿈꿔요
             </h1>
           </div>
-          <div className="w-[1200px] h-[500px] rounded-[40px] bg-[#CBF5CB] mt-[74px] mb-[176px]">
-            {/* <Image
-              src={"/service/main2.png"}
-              alt="에코모아 서비스 화면"
-              width={1200}
-              height={500}
-            /> */}
+          <div className="w-[1200px] h-[500px] rounded-[40px] bg-[#CBF5CB] mt-[74px] mb-[40px]">
             <div className="rounded-[40px] overflow-hidden">
               <div
                 className="rounded-[40px] overflow-hidden"
@@ -620,15 +638,17 @@ const ServiceIntro = () => {
                 data-aos-duration="1000"
                 ref={lottieRef5}
               >
-                {/* <Lottie
-                  animationData={lottieJson2}
-                  loop={false}
-                  className="w-full h-full"
-                  lottieRef={lottieRef5}
-                /> */}
                 {View}
               </div>
             </div>
+          </div>
+          <div className="flex flex-col items-center justify-center mb-[134px]">
+            <button
+              onClick={handleClick}
+              className={getButtonStyle()} // getButtonStyle 함수 적용
+            >
+              에코모아 시작하기
+            </button>
           </div>
         </div>
       </section>

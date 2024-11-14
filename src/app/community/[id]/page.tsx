@@ -83,7 +83,7 @@ const ChallengeDetailPage = ({ params }: Props) => {
   const totalPoints = selectedCount * 100;
 
   return (
-    <div className="mt-8 w-[1200px]  mx-auto">
+    <div className="mt-8 w-[1200px]  mx-auto mb-4">
       <Link href={"/community"}>{"< 첼린지 인증 "}</Link>
       <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
 
@@ -92,12 +92,12 @@ const ChallengeDetailPage = ({ params }: Props) => {
           {totalPoints}P
         </label>
         <label>{formattedDate}</label>
-        <label>데일리 첼린지</label>
+        <label>데일리 챌린지</label>
       </div>
 
       <article className="mb-8">
         <div className="mb-4">
-          <div className="p-2 mt-2 flex flex-col gap-4">
+          <div className="mt-4 flex flex-col gap-4">
             {Object.entries(
               challenge.selected_options as Record<string, string[]>
             ).map(([category, selectedIds]) => {
@@ -108,15 +108,15 @@ const ChallengeDetailPage = ({ params }: Props) => {
               return (
                 <div key={category} className="mb-4">
                   <h3 className="font-semibold">{categoryName}</h3>
-                  <div className="flex flex-col space-y-2 mt-4">
+                  <div className="flex flex-row flex-wrap items-center gap-[4px] mt-4">
                     {(selectedIds as string[]).map((id) => {
                       const option = (
                         CHALLENGE_OPTIONS[category] as ChallengeOption[]
-                      )?.find((opt) => opt.id === id);
+                      ).find((opt) => opt.id === id);
                       return (
                         <label
                           key={id}
-                          className="mb-2 inline-block rounded-[32px] border border-[#D5D7DD] p-2 w-fit"
+                          className="flex  rounded-[32px] border border-[#D5D7DD] p-2"
                         >
                           {option?.label}
                         </label>
@@ -131,28 +131,41 @@ const ChallengeDetailPage = ({ params }: Props) => {
 
         <div className="flex mb-4">
           <div className="flex space-x-2">
-            {(challenge.image_urls as string[]).map((url, idx) => (
-              <Image
-                key={idx}
-                src={url}
-                alt={`Challenge ${idx + 1}`}
-                width={180}
-                height={180}
-                className="object-cover rounded-[12px]"
-              />
-            ))}
+            {challenge.image_urls && challenge.image_urls.length > 0 ? (
+              challenge.image_urls.map((url, idx) => (
+                <Image
+                  key={idx}
+                  src={url}
+                  alt={`Challenge ${idx + 1}`}
+                  width={180}
+                  height={180}
+                  className="object-cover rounded-[12px]"
+                />
+              ))
+            ) : (
+              <div className="flex-none w-[220px] h-[220px] mb-4 bg-gray-200 flex items-center justify-center">
+                <span>이미지가 없습니다</span>
+              </div>
+            )}
           </div>
         </div>
       </article>
 
+      <div className="mt-6">
+        <h1 className="font-bold text-[14px] mb-2">챌린지 내용</h1>
+        <div className="w-full p-4 border rounded-lg min-h-[80px] bg-[#F5F5F5] border-none focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500">
+          {challenge.content}
+        </div>
+      </div>
+      <hr className="my-[10px]"/>
       {canEdit && (
-        <div>
+        <div className="flex flex-row gap-[4px] justify-end mt-[10px]">
           <button
             onClick={() =>
               openModal({
                 type: "custom",
                 content: <ChallengeForm initialData={challenge} />,
-                className: "w-[1200px] h-[800px] p-6"
+                className: "w-[1200px] h-[800px] px-6"
               })
             }
             className="w-[80px] h-[32px] rounded text-[14px]"

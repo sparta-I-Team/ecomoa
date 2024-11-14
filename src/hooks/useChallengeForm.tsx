@@ -44,6 +44,7 @@ export const useChallengeForm = ({
     }
   });
 
+  const totalPoint = selectedChallenges.length * 100;
   useEffect(() => {
     if (initialData) {
       const challengeIds = Object.keys(initialData.selected_options);
@@ -129,7 +130,7 @@ export const useChallengeForm = ({
           images: imageFiles,
           selectedOptions,
           carbon: totalCarbon,
-          point: selectedChallenges.length * 100
+          point: totalPoint
         });
 
         openModal({
@@ -186,7 +187,7 @@ export const useChallengeForm = ({
             setStep(1);
             closeModal();
           }}
-          point={selectedChallenges.length * 100}
+          point={totalPoint}
           isEditMode={!!initialData}
         />
       )
@@ -202,6 +203,7 @@ export const useChallengeForm = ({
     challengeMutation,
     updateMutation,
     isEditMode: !!initialData,
-    handleOpenGoBackModal
+    handleOpenGoBackModal,
+    totalPoint
   };
 };
