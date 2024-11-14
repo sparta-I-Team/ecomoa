@@ -130,10 +130,10 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
             <button
               key={tab.id}
               onClick={() => {
-                // setActiveTab(tab.id);
                 if (tab.id !== "all") {
-                  alert("업데이트 예정입니다.");
+                  return alert("업데이트 예정입니다.");
                 }
+                setActiveTab(tab.id);
               }}
               className={`flex-1 px-4 py-3 text-sm font-medium relative border-none 
                 ${
@@ -190,7 +190,7 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
         </button>
         <button
           onClick={() => {
-            alert("업데이트 예정입니다.")
+            alert("업데이트 예정입니다.");
             // handleSortClick("popularity")
           }}
           className={`border-none flex items-center gap-[2px] transition-colors

@@ -31,7 +31,7 @@ const Mypage = async () => {
         </Link>
 
         <Link
-          href={"/calculator/result-list"}
+          href={"/mypage/history"}
           className="border-b-[#DCECDC] w-full h-[92px] p-[39px_40px] border-b border-gray-400 flex justify-between items-center"
         >
           <p className="text-[#000301] font-wanted text-[18px] font-[500] leading-normal tracking-[-0.18px]">
