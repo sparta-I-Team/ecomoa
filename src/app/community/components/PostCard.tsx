@@ -21,9 +21,9 @@ const PostCard = ({ post, type }: Props) => {
             <div className="flex-1 rounded-[12px] ">
               <h2 className="text-xl font-semibold mb-2">{post.post_title}</h2>
 
-              <p>{post.post_content}</p>
+              <p className="mt-4  leading-normal">{post.post_content}</p>
 
-              <div className="mb-4 text-[#A1A7B4]">
+              <div className="mb-4 mt-4 text-[#A1A7B4]">
                 <label>{post.user_info.user_nickname}.</label>
                 <time>{new Date(post.created_at).toLocaleDateString()}</time>
               </div>
@@ -31,7 +31,7 @@ const PostCard = ({ post, type }: Props) => {
               <div className="flex justify-between items-center mt-auto">
                 <div className="flex space-x-4">
                   <Like postId={post.post_id} />
-                  <label>댓글 {post.comment || 0}</label>
+                  {/* <label>댓글 {post.comment || 0}</label> */}
                 </div>
               </div>
             </div>
@@ -44,7 +44,7 @@ const PostCard = ({ post, type }: Props) => {
                   alt="Post image"
                   width={160}
                   height={160}
-                  className="object-contain h-full rounded"
+                  className="object-cover w-full h-full "
                 />
               </div>
             )}
@@ -58,13 +58,15 @@ const PostCard = ({ post, type }: Props) => {
           >
             {post.post_img && post.post_img.length > 0 ? (
               <div className="flex-none w-[220px] h-[220px] mb-4">
-                <Image
-                  src={post.post_img[0]}
-                  alt="Post image"
-                  width={220}
-                  height={220}
-                  className="object-contain h-full rounded"
-                />
+                <div className="w-[220px] h-[220px]">
+                  <Image
+                    src={post.post_img[0]}
+                    alt="Post image"
+                    width={220}
+                    height={220}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
               </div>
             ) : (
               <div className="flex-none w-[220px] h-[220px] mb-4 bg-gray-200 flex items-center justify-center">
@@ -87,8 +89,7 @@ const PostCard = ({ post, type }: Props) => {
             </div>
             <div className="flex justify-between items-center mt-auto">
               <div className="flex space-x-4">
-                <label>♡ {post.like || 0}</label>
-                <label>댓글 {post.comment || 0}</label>
+                <label>♡</label>
               </div>
             </div>
           </article>

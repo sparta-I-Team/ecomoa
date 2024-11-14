@@ -5,7 +5,7 @@ import { ChevronLeft } from "lucide-react";
 
 const MyChallengePage = () => {
   return (
-    <div className=" bg-[#F4FFF4]">
+    <div className=" bg-[#E8F3E8]">
       <div className="max-w-[1200px] mx-auto">
         {/*  */}
         <Link href={"/mypage"} className="border-b-slate-500 w-[1200]">

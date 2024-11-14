@@ -12,3 +12,11 @@ export interface Post {
 export interface AnaPost extends Post {
   price: string;
 }
+
+export interface UpdatePost {
+  post_title: string;
+  price: number;
+  post_content: string;
+  location: string;
+  post_id: string;
+}
