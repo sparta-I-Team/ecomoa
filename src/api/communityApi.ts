@@ -1,4 +1,4 @@
-import { Post, PostCreateType } from "@/types/community";
+import { Challenge, Post, PostCreateType } from "@/types/community";
 import { createClient } from "@/utlis/supabase/client";
 
 const supabase = createClient();
@@ -28,8 +28,20 @@ export const communityApi = {
     ]);
 
     if (error) throw error;
-    return data;
+    console.log("data? :", data);
+
+    const { data: postData, error: postDataError } = await supabase
+      .from("posts")
+      .select("post_id")
+      .eq("user_id", user_id)
+      .eq("post_title", title)
+      .single();
+    if (postDataError) {
+      throw postDataError;
+    }
+    return postData;
   },
+
   // 읽어오는 메서드
   getPost: async (type: string) => {
     try {
@@ -100,7 +112,9 @@ export const communityApi = {
         post_title: editedPost.post_title,
         price: editedPost.price,
         post_content: editedPost.post_content,
-        location: editedPost.location
+
+        location: editedPost.location,
+        post_img: editedPost.post_img
       })
       .eq("post_id", editedPost.post_id);
 
@@ -116,6 +130,33 @@ export const communityApi = {
         params: { type: post.params.type, isDeleted: true }
       })
       .eq("post_id", post.post_id);
+    if (error) {
+      throw error;
+    }
+    return { error };
+  },
+  updateForChallenge: async (updatedChallenge: Challenge) => {
+    const { error } = await supabase
+      .from("challenges")
+      .update({
+        selected_options: updatedChallenge.selected_options,
+        image_urls: updatedChallenge.image_urls,
+        content: updatedChallenge.content
+      })
+      .eq("chall_id", updatedChallenge.chall_id);
+
+    if (error) {
+      throw error;
+    }
+    return { error };
+  },
+  deleteForChallenge: async (deletedChallenge: Challenge) => {
+    const { error } = await supabase
+      .from("challenges")
+      .update({
+        params: { type: deletedChallenge.params.type, isDeleted: true }
+      })
+      .eq("chall_id", deletedChallenge.chall_id);
     if (error) {
       throw error;
     }

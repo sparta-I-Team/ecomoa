@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; // MouseEvent 임포트
 import Image from "next/image";
 import { communityApi } from "@/api/communityApi";
 import { Post } from "@/types/community";
@@ -65,16 +65,17 @@ const PostDetailPage = ({ params }: Props) => {
 
   const canEdit = user.isAuthenticated && post.user_id === user.id;
 
-
   const handleEditClick = () => {
     if (post) {
       openModal({
         type: "custom",
         content: (
           <EditPostModal
+            type="free"
             post={post}
+            onClose={closeModal}
             onSave={(updatedPost) => {
-              handleSavePost(updatedPost);
+              handleSavePost(updatedPost); // onSave 수정
               closeModal();
             }}
           />
@@ -83,7 +84,10 @@ const PostDetailPage = ({ params }: Props) => {
     }
   };
 
-  const handleSavePost = async (editedPost: Post | null) => {
+  // 수정된 게시글 저장 처리
+  const handleSavePost = async (
+    editedPost: Post | null // MouseEvent 제거, 이제 클릭 이벤트는 EditPostModal에서 처리
+  ) => {
     if (!editedPost) return; // editedPost가 null인 경우 처리
 
     try {
@@ -121,7 +125,7 @@ const PostDetailPage = ({ params }: Props) => {
       <Link href={"/community/free"} className="mb-4 mt-4">
         {"< 자유게시판 "}
       </Link>
-      <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD]"></div>
+      <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
       <article>
         <label className="text-2xl font-semibold">{post.post_title}</label>
         <div className="flex mt-4 mb-2 text-sm text-gray-600">
@@ -129,10 +133,9 @@ const PostDetailPage = ({ params }: Props) => {
           <label>{new Date(post.created_at).toLocaleDateString()}</label>
           <div className="flex space-x-4 text-gray-600">
             <label>♡ {post.like}</label>
-            <label>스크랩 </label>
           </div>
         </div>
-        <p className="mt-4">{post.post_content}</p>
+        <p className="mt-4 leading-normal">{post.post_content}</p>
 
         {post.post_img &&
         Array.isArray(post.post_img) &&
@@ -140,26 +143,26 @@ const PostDetailPage = ({ params }: Props) => {
           <div>
             <div className="flex mt-6 gap-4">
               {post.post_img.map((img, index) => (
-                <div key={index} className="max-w-[168px]">
+                <div key={index} className="max-w-[168px] max-h-[168px]">
                   <Image
                     src={img}
                     alt={`게시글 이미지 ${index + 1}`}
                     width={168}
                     height={168}
-                    className="w-full h-full object-cover p-2"
+                    className="w-full h-full object-cover p-2 rounded-[12px]"
                   />
                 </div>
               ))}
             </div>
-            <div className="flex justify-between mt-10">
+            <div className="relative flex justify-between mt-10">
               <input
                 type="text"
                 placeholder="댓글을 입력해주세요"
-                className="rounded-[16px] bg-[#CBF5CB] w-[1080px] h-[70px] leading-[40px] px-4 border-none text-[#A1A7B4]"
+                className="rounded-[16px] bg-[#CBF5CB] w-[1200px] h-[70px] leading-[40px] px-4 border-none text-[#A1A7B4]"
               />
               <button
                 type="submit"
-                className="bg-[#0D9C36] border-none rounded-[12px] text-white"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#0D9C36] border-none rounded-[12px] text-white px-6 py-2 font-wanted-sans text-[16px] font-medium leading-[24px] tracking-[-0.16px]"
               >
                 댓글 등록
               </button>
@@ -169,7 +172,6 @@ const PostDetailPage = ({ params }: Props) => {
           post.post_img &&
           typeof post.post_img === "string" &&
           post.post_img !== "" && (
-            // post_img가 문자열이고 빈 문자열이 아닐 때만 렌더링
             <div className="max-w-[168px]">
               <Image
                 src={post.post_img}
@@ -184,14 +186,18 @@ const PostDetailPage = ({ params }: Props) => {
       </article>
       <div>
         {canEdit && (
-          <button
-            onClick={handleEditClick}
-            className="text-[#0D9C36] font-bold mt-4 border-none"
-          >
-            수정하기
-          </button>
+          <div>
+            <button onClick={handleEditClick} className="  mt-4 border-none ">
+              수정하기
+            </button>
+            <button
+              onClick={() => handleDeletePost(post)}
+              className="mt-4  border-none"
+            >
+              삭제하기
+            </button>
+          </div>
         )}
-        <button onClick={() => handleDeletePost(post)}>삭제하기</button>
       </div>
       <Modal />
     </div>
