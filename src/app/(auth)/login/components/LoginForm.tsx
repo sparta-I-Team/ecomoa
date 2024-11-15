@@ -86,14 +86,14 @@ const LoginForm = () => {
 
   return (
     <form
-      className="font-wanted flex flex-col justify-center items-center gap-1 p-3"
+      className="font-wanted flex flex-col justify-center items-center gap-1 md:p-3"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="space-y-3">
+      <div className="space-y-[12px]">
         <div className="flex flex-col items-start gap-1">
           <input
             type="email"
-            className="pl-[16px] py-[20.5px] w-[400px] h-[52px] rounded-[12px] border border-[#D7E8D7] placeholder:text-[#A1A7B4] placeholder:font-semibold outline-none"
+            className="pl-[16px] py-[20.5px] w-[322px] mx-auto md:w-[400px] h-[52px] rounded-[12px] border border-[#D7E8D7] placeholder:text-[#A1A7B4] placeholder:font-semibold outline-none"
             {...register("email")}
             placeholder="아이디"
           />
@@ -117,7 +117,7 @@ const LoginForm = () => {
         <div className="flex flex-col items-start gap-1">
           <input
             type="password"
-            className="pl-[16px] py-[20.5px] w-[400px] h-[52px] rounded-[12px] border border-[#D7E8D7] placeholder:text-[#A1A7B4] placeholder:font-semibold outline-none"
+            className="pl-[16px] py-[20.5px] w-[322px] mx-auto md:w-[400px] h-[52px] rounded-[12px] border border-[#D7E8D7] placeholder:text-[#A1A7B4] placeholder:font-semibold outline-none"
             {...register("password")}
             placeholder="비밀번호"
           />
@@ -141,7 +141,7 @@ const LoginForm = () => {
 
       {/* 아이디 저장 체크박스 */}
       <div className="w-full mt-[12px]">
-        <label className="flex items-center cursor-pointer">
+        <label className="flex items-center cursor-pointer ml-[5px] md:ml-0">
           <div className="relative">
             <input
               type="checkbox"
@@ -157,13 +157,13 @@ const LoginForm = () => {
               />
             )}
           </div>
-          <span className="ml-2 text-gray-700">아이디 저장</span>
+          <span className="text-[12px] ml-2 text-gray-700">아이디 저장</span>
         </label>
       </div>
 
       <button
         type="submit"
-        className="w-[400px] h-[62px] mt-[48px] sm:mt-[45px] bg-[#0D9C36] border-none p-2 text-[18px] font-[600] text-[#FFF] rounded-[40px] leading-[27px] tracking-[-0.18px]"
+        className="w-[332px] md:w-[400px] h-[62px] mt-[48px] sm:mt-[45px] bg-[#0D9C36] border-none p-2 text-[18px] font-[600] text-[#FFF] rounded-[40px] leading-[25.2px] md:leading-[27px] tracking-[-0.18px]"
       >
         로그인 하기
       </button>

@@ -104,9 +104,9 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="font-wanted min-h-screen px-4">
+    <div className="font-wanted min-h-screen px-[20px] md:px-4">
       <form
-        className="w-full max-w-[1200px] flex flex-col items-start"
+        className="max-w-[360px] md:max-w-[1200px] flex flex-col items-start gap-[36px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <label className="text-[#000301] text-[14px] font-wanted font-[600] tracking-[-0.14px] flex flex-col items-start gap-[12px]">
@@ -114,7 +114,7 @@ const SignupForm = () => {
           <input
             type="email"
             {...register("email")}
-            className="pl-[16px] py-[20.5px] w-[1200px] h-[52px] rounded-[12px] bg-[#F5F5F5] border-none placeholder:text-[#A1A7B4] placeholder:font-[400] outline-none"
+            className="w-[320px] md:w-[1200px] h-[68px] md:h-[52px] rounded-[12px] bg-[#F5F5F5] pl-[16px] py-[20.5px] border-none placeholder:text-[#A1A7B4] placeholder:font-[400] outline-none"
             placeholder="ecomoa@naver.com"
             onBlur={handleEmailBlur} // 이메일 중복 검사
           />
@@ -140,7 +140,7 @@ const SignupForm = () => {
           <input
             id="password"
             type="password"
-            className="w-[1200px] bg-[#F5F5F5] pl-[16px] py-[20.5px] h-[52px] rounded-[12px] border-none placeholder:text-[#A1A7B4] placeholder:font-[400] outline-none"
+            className="w-[320px] md:w-[1200px] bg-[#F5F5F5] pl-[16px] py-[20.5px] h-[68px] md:h-[52px] rounded-[12px] border-none placeholder:text-[#A1A7B4] placeholder:font-[400] outline-none"
             {...register("password")}
             placeholder="영문, 숫자, 특수문자 8~20 자리"
           />
@@ -165,7 +165,7 @@ const SignupForm = () => {
           비밀번호 확인
           <input
             type="password"
-            className={`w-[1200px] bg-[#F5F5F5] pl-[16px] py-[20.5px] h-[52px] rounded-[12px] border placeholder:text-[#A1A7B4] placeholder:font-[400] outline-none 
+            className={`w-[320px] md:w-[1200px] bg-[#F5F5F5] pl-[16px] py-[20.5px] h-[68px]] md:h-[52px] rounded-[12px] border placeholder:text-[#A1A7B4] placeholder:font-[400] outline-none 
               ${errors.passwordConfirm ? "border-[#FF361B]" : "border-none"}`}
             {...register("passwordConfirm")}
             placeholder="비밀번호 확인"
@@ -195,26 +195,11 @@ const SignupForm = () => {
               </p>
             )
           )}
-          {/* <div className="font-wanted flex items-center justify-center leading=[21px] font-[500]">
-            {errors.passwordConfirm?.message && (
-              <p
-                role="alert"
-                className="text-sm text-[#FF361B] mb-[10px] flex justify-center items-center font-[500] leading-[21px] tracking-[-0.14px]"
-              >
-                <CircleAlert
-                  className="text-[#FF361B] mr-1 w-5 h-5"
-                  stroke="#FFF"
-                  fill="#FF361B"
-                />
-                {errors.passwordConfirm?.message}
-              </p>
-            )}
-          </div> */}
         </label>
 
         <button
           type="submit"
-          className="w-[400px] h-[52px] mt-[45px] bg-[#0D9C36] border-none p-2 text-[18px] font-[600] text-[#FFF] rounded-[40px] leading-[27px] tracking-[-0.18px]"
+          className="w-[320px] md:w-[400px] h-[52px] mt-[45px] bg-[#0D9C36] border-none p-2 text-[18px] font-[600] text-[#FFF] rounded-[40px] leadidng-[25.2px] md:leading-[27px] tracking-[-0.18px]"
           disabled={Object.keys(errors).length > 0}
         >
           회원가입 하기

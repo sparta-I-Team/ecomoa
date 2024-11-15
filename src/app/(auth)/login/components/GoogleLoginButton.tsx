@@ -32,13 +32,14 @@ const GoogleLoginButton = () => {
         onClick={signInWithGoogle}
         className="border-none btn btn-primary rounded-xl"
       >
-        <Image
-          src={"/images/google.png"}
-          width={400}
-          height={52}
-          alt="google_login_btn"
-          className="w-[full] sm:w-[400px]"
-        />
+        <div className="w-[322px] md:w-[400px]">
+          <Image
+            src={"/images/google.png"}
+            width={400}
+            height={52}
+            alt="google_login_btn"
+          />
+        </div>
       </button>
     </div>
   );
