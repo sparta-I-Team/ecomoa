@@ -91,7 +91,7 @@ const PostCard = ({ post, type }: Props) => {
             </div>
             <div className="flex justify-between items-center mt-auto">
               <div className="flex space-x-4">
-                <label>♡</label>
+                <Like postId={post.post_id} />
               </div>
             </div>
           </article>

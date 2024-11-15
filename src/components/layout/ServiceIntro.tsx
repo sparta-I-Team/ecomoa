@@ -22,8 +22,9 @@ const ServiceIntro = () => {
   };
 
   const getButtonStyle = () => {
-    const baseStyle = "z-10 border-none font-[600] w-[392px] h-[60px] rounded-[40px] p-[24px_16px] gap-[10px] bg-[#0D9C36] text-[#FFF] hover:bg-[#00691E] transition-colors duration-200";
-  
+    const baseStyle =
+      "z-10 border-none font-[600] w-[392px] h-[60px] rounded-[40px] p-[24px_16px] gap-[10px] bg-[#0D9C36] text-[#FFF] hover:bg-[#00691E] transition-colors duration-200";
+
     if (isLastSectionVisible) {
       return `${baseStyle}`;
     }
@@ -642,13 +643,13 @@ const ServiceIntro = () => {
             </div>
           </div>
           <div className="flex flex-col items-center justify-center mb-[134px]">
-          <button
-            onClick={handleClick}
-            className={getButtonStyle()} // getButtonStyle 함수 적용
-          >
-            에코모아 시작하기
-          </button>
-            </div>
+            <button
+              onClick={handleClick}
+              className={getButtonStyle()} // getButtonStyle 함수 적용
+            >
+              에코모아 시작하기
+            </button>
+          </div>
         </div>
       </section>
     </>
