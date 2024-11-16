@@ -88,10 +88,12 @@ const ChallengeDetailPage = ({ params }: Props) => {
       <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
 
       <div className="flex items-center gap-2">
-        <label className="flex p-[12px_16px] justify-center items-center gap-2.5 rounded-[4px] bg-[#0D9C36] text-white">
-          {totalPoints}P
-        </label>
-        <label>{formattedDate}</label>
+        <div className="flex flex-col md:flex-row">
+          <label className="flex p-[12px_16px] justify-center items-center gap-2.5 rounded-[4px] bg-[#0D9C36] text-white">
+            {totalPoints}P
+          </label>
+          <label>{formattedDate}</label>
+        </div>
         <label>데일리 첼린지</label>
       </div>
 

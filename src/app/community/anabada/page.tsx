@@ -97,13 +97,23 @@ const Page = () => {
             </div>
           </div>
           <div className="bg-[#E8F3E8]">
-            <input
-              type="text"
-              placeholder="키워드를 검색해 보세요"
-              className="border-none mt-4 flex w-[380px] h-[52px] p-[19px_20px] flex-col justify-center items-start gap-[10px] flex-shrink-0 rounded-[40px] bg-[#DCECDC]"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+            <div className="relative w-[380px] h-[52px] mt-4">
+              <input
+                type="text"
+                placeholder="키워드를 검색해 보세요"
+                className="border-none w-[380px] h-[52px] pl-[20px] rounded-[40px] bg-[#D7E8D7]"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <div className="absolute right-[20px] top-1/2 transform -translate-y-1/2">
+                <Image
+                  src="/community/search.png"
+                  alt="검색"
+                  width={24}
+                  height={24}
+                />
+              </div>
+            </div>
             <div className="flex justify-between items-center mb-4">
               <div className="flex space-x-4">
                 <label className="text-[#00691E] text-base font-semibold leading-6">
@@ -162,7 +172,7 @@ const Page = () => {
                   alt="게시글 작성"
                   width={64}
                   height={64}
-                  className=""
+                  className=" "
                 />
               </Link>
             </div>
