@@ -5,7 +5,7 @@ import { Challenge } from "./components/Challenge";
 // 서버 컴포넌트
 export default function Page() {
   return (
-    <main className="h-full">
+    <main className="h-full min-h-screen bg-white">
       <Challenge />
       <Modal />
     </main>

@@ -32,18 +32,18 @@ export const ChallengeSelection = () => {
 
   if (isLoading) return <ChallengeSelectionSkeleton />;
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-10 mx-auto">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-[100px] md:mt-[76px]">
       <h1 className="font-semibold text-[16px] ">데일리 탄소 절감 챌린지</h1>
-      <div className="grid grid-cols-6 gap-4 pt-4">
+      <div className="flex flex-col md:flex-row gap-[12px] pt-4">
         {CHALLENGES.map((challenge) => (
           <div
             key={challenge.id}
-            className={`flex flex-col w-[190px] h-[232px] justify-around items-center py-4 border rounded-3xl cursor-pointer
+            className={`flex flex-row md:flex-col w-full md:w-[190px] md:h-[232px] justify-around items-center px-4 py-4 border rounded-3xl c ursor-pointer
               ${selected.includes(challenge.id) && " border-[#00320F]"}
               `}
             onClick={() => handleToggleChallenge(challenge.id)}
           >
-            <div className="w-[30px] h-[30px] rounded-full text-center">
+            <div className=" w-[30px] h-[30px] rounded-full text-center">
               <Image
                 src={challenge.image}
                 alt={challenge.label}
@@ -59,7 +59,7 @@ export const ChallengeSelection = () => {
                 onChange={() => handleToggleChallenge(challenge.id)}
                 className="hidden"
               />
-              <div className="flex flex-col text-center font-semibold text-[18px] gap-[10px] cursor-pointer">
+              <div className="flex flex-col pl-[24px] md:p-0 md:text-center font-semibold text-[16px] md:text-[18px] gap-[10px] cursor-pointer">
                 <p>{challenge.label}</p>
                 <p>{challenge.label2}</p>
               </div>
@@ -79,7 +79,7 @@ export const ChallengeSelection = () => {
         ))}
       </div>
       <BlackAutoWidthButton
-        className="px-4 py-3 bg-[#0D9C36]"
+        className="mt-[20px] md:mt-[40px] px-4 py-3 bg-[#0D9C36]"
         text="챌린지 인증하기"
         type="submit"
         onClick={() => {}}

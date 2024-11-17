@@ -13,7 +13,7 @@ const ChallengeHeader = () => {
   if (error) return <>{error.message}</>;
 
   return (
-    <header className="flex flex-row items-center justify-between">
+    <header className="flex flex-col lg:flex-row items-center justify-between">
       <StatsSection
         todayChallenge={todayChallenge}
         co2Difference={co2Difference}

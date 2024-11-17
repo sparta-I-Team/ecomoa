@@ -15,11 +15,11 @@ export const Challenge = () => {
   }, [setStep]);
 
   return (
-    <main className="">
+    <main >
       {step === 1 ? (
         <div className="flex flex-col gap-[200px]">
           <div className="h-full">
-            <div className="max-w-[1200px] mx-auto">
+            <div className="max-w-[1200px] mx-auto pt-[36px] px-[20px] md:p-0">
               <ChallengeHeader />
               <ChallengeSelection />
             </div>

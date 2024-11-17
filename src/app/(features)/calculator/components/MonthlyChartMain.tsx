@@ -38,7 +38,7 @@ const MonthlyChartMain: React.FC<MonthlyChartMainProps> = ({
       filledData[monthIndex] = monthData.carbon_emissions;
     });
 
-    const lastMonthIndex = data ? data[data.length - 1].month - 1 : 11;
+    const lastMonthIndex = data ? data[data.length - 1]?.month - 1 : 11;
     return filledData.slice(
       Math.max(0, lastMonthIndex - 4),
       lastMonthIndex + 1
@@ -69,7 +69,7 @@ const MonthlyChartMain: React.FC<MonthlyChartMainProps> = ({
   ];
 
   const lastFiveMonthsLabels = (data: MonthlyData[] | null) => {
-    const lastMonth = data ? data[data.length - 1].month : 12;
+    const lastMonth = data ? data[data.length - 1]?.month : 12;
     const labels = [];
     for (let i = 4; i >= 0; i--) {
       const month = (lastMonth - i + 12) % 12 || 12;
