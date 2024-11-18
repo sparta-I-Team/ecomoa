@@ -40,7 +40,7 @@ const CompareMonthlyEmissions = () => {
   return (
     <>
       <div className="flex flex-col">
-        <div className="flex flex-row gap-2 text-[14px] justify-end right-0]">
+        <div className="flex flex-row gap-2 text-[14px] justify-end right-0] mt-[20px]">
           <div className="flex flex-row gap-1 items-center">
             <div className="w-[18px] h-[18px] rounded-full bg-[#D5D7DD]" />
             <div>평균 배출량</div>

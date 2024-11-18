@@ -145,87 +145,90 @@ const Page = () => {
 
   return (
     <>
-      <div className="w-[1200px] mx-auto">
-        <div className="mt-[76px] mb-[60px]">
-          <Link href="/calculator">
-            <p className="text-[16px]"> &lt; 탄소 계산기 홈</p>
-          </Link>
-          <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
-          <p className="text-[#32343a] text-[30px] font-semibold mb-[28px]">
-            탄소 배출량 계산하기
-          </p>
-          <p className=" text-[20px] font-normal text-[#00691E]">
-            이번 달 이산화탄소 배출량이 얼마나 발생했을지 계산해봅시다
-          </p>
-        </div>
-        <div className="flex mb-10">
-          <YearMonthPickerMain
-            thisYear={thisYear}
-            thisMonth={thisMonth}
-            onChangeYear={handleYearChange} // 연도 변경 핸들러 전달
-            onChangeMonth={handleMonthChange} // 월 변경 핸들러 전달
-            disabled={false}
-          />
-        </div>
-        <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col mb-[48px] gap-[10px]">
-            <InputField
-              id="electricity"
-              label="전기"
-              register={register}
-              errors={errors}
-              requiredMessage="사용한 전기량을 입력해주세요"
-              placeholder="사용하신 에너지 양을 입력해 주세요"
-              unit="kwh/월"
-            />
-            <InputField
-              id="water"
-              label="수도"
-              register={register}
-              errors={errors}
-              requiredMessage="사용한 수도량을 입력해주세요"
-              placeholder="사용하신 에너지 양을 입력해 주세요"
-              unit="m³/월"
-            />
-            <InputField
-              id="gas"
-              label="가스"
-              register={register}
-              errors={errors}
-              requiredMessage="사용한 가스량을 입력해주세요"
-              placeholder="사용하신 에너지 양을 입력해 주세요"
-              unit="m³/월"
-            />
-            <InputField
-              id="car"
-              label="자가용"
-              register={register}
-              errors={errors}
-              requiredMessage="연료종류 선택과 사용량을 모두 입력해주세요"
-              placeholder="사용하신 에너지 양을 입력해 주세요"
-              unit="km/월"
-              fuelType={fuelType} // fuelType 전달
-              setFuelType={setFuelType} // setFuelType 전달
-            />
-            <InputField
-              id="waste"
-              label="생활폐기물"
-              register={register}
-              errors={errors}
-              requiredMessage="폐기물량을 입력해주세요"
-              placeholder="버리시는 폐기물 양을 입력해주세요 "
-              unit="Kg/월"
+      <div className="w-full max-w-[1200px] mx-auto">
+        <div className="px-[20px] md:px-[0px] mb-[80px]">
+          <div className="mt-[76px] mb-[48px] md:mb-[60px]">
+            <Link href="/calculator">
+              <p className="text-[16px]"> &lt; 탄소계산기 홈</p>
+            </Link>
+            <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
+            <p className="text-[#32343a] text-[24px] md:text-[30px] font-semibold mb-[28px]">
+              탄소 배출량 계산하기
+            </p>
+            <p className=" text-[16px] md:text-[20px] font-normal text-[#00691E]">
+              이번 달 이산화탄소 배출량을 계산해 보세요
+            </p>
+          </div>
+          <div className="flex mb-[44px] md:mb-[36px]">
+            <YearMonthPickerMain
+              thisYear={thisYear}
+              thisMonth={thisMonth}
+              onChangeYear={handleYearChange} // 연도 변경 핸들러 전달
+              onChangeMonth={handleMonthChange} // 월 변경 핸들러 전달
+              disabled={false}
             />
           </div>
-          <div className="mb-[126px]">
-            <button
-              type="submit"
-              className="w-[380px] h-[60px] px-8 bg-[#E8F3E8] text-[#A1A7B4] rounded-[85px] text-[18px] font-semibold border-none hover:bg-[#0D9C36] hover:text-white"
-            >
-              <div className="grow shrink basis-0 text-center">계산하기</div>
-            </button>
-          </div>
-        </form>
+          <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col mb-[44px] md:mb-[48px] gap-[10px]">
+              <InputField
+                id="electricity"
+                label="전기"
+                register={register}
+                errors={errors}
+                requiredMessage="사용한 전기량을 입력해주세요"
+                placeholder="사용하신 에너지 양을 입력해 주세요"
+                unit="kwh/월"
+              />
+              <InputField
+                id="gas"
+                label="가스"
+                register={register}
+                errors={errors}
+                requiredMessage="사용한 가스량을 입력해주세요"
+                placeholder="사용하신 에너지 양을 입력해 주세요"
+                unit="m³/월"
+              />
+              <InputField
+                id="water"
+                label="수도"
+                register={register}
+                errors={errors}
+                requiredMessage="사용한 수도량을 입력해주세요"
+                placeholder="사용하신 에너지 양을 입력해 주세요"
+                unit="m³/월"
+              />
+
+              <InputField
+                id="car"
+                label="자가용"
+                register={register}
+                errors={errors}
+                requiredMessage="연료종류 선택과 사용량을 모두 입력해주세요"
+                placeholder="사용하신 에너지 양을 입력해 주세요"
+                unit="km/월"
+                fuelType={fuelType} // fuelType 전달
+                setFuelType={setFuelType} // setFuelType 전달
+              />
+              <InputField
+                id="waste"
+                label="생활폐기물"
+                register={register}
+                errors={errors}
+                requiredMessage="폐기물량을 입력해주세요"
+                placeholder="버리시는 폐기물 양을 입력해주세요 "
+                unit="Kg/월"
+              />
+            </div>
+            <div>
+              <button
+                type="submit"
+                className="w-[320px] md:w-[380px] h-[60px] px-8 bg-[#E8F3E8] text-[#A1A7B4] rounded-[85px] text-[18px] font-semibold border-none hover:bg-[#0D9C36] hover:text-white"
+              >
+                <div className="grow shrink basis-0 text-center">계산하기</div>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

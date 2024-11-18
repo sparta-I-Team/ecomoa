@@ -5,12 +5,14 @@ const ReturnMypage = () => {
   return (
     <>
       <Link href={"/mypage"}>
-        <div className="flex items-center mb-[20px] pt-[64.5px]">
+        <div className="w-full md:w-[1200px] flex items-center mb-[16px] md:mb-[20px] pt-[64.5px]">
           <ChevronLeft />
-          <span className="font-wanted text-[16px] font-[600]">마이페이지</span>
+          <span className="font-wanted text-[16px] leading-[22.4px] tracking-[-0.16px] font-[600]">
+            마이페이지
+          </span>
         </div>
       </Link>
-      <div className=" w-full border-b border-b-[#D5D7DD]"></div>
+      <div className="w-[320px] md:w-full border-b border-b-[#D5D7DD]"></div>
     </>
   );
 };
