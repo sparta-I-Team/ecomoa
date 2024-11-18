@@ -154,14 +154,14 @@ export const useCommunity = () => {
       openModal({
         type: "custom",
         content: (
-          <div className="bg-white  rounded-lg shadow-lg text-center relative w-[585px] h-[600px]">
+          <div className="bg-white  rounded-lg shadow-lg text-center relative md:w-[585px] md:h-[600px]w-[320px] h-[609px]">
             <button
               onClick={handleCloseModal}
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 border-none text-3xl"
             >
               &times; {/* X 아이콘 */}
             </button>
-            <div className="">
+            <div className="w-[320px] h-[609px] md:w-[585px] md:h-[600px]">
               <Image
                 src={"/community/upload.png"}
                 alt="등록한 이미지"
@@ -173,11 +173,11 @@ export const useCommunity = () => {
                 <h4 className="font-semibold mb-4 text-2xl">
                   게시글을 업로드 했어요
                 </h4>
-                <div className="flex h-[32px] py-[15px] px-[16px] justify-center items-center gap-[10px] rounded-[4px] bg-[#EDEEF0]">
-                  <h4 className="text-[#00691E] text-center font-wanted-sans text-[14px] font-medium tracking-[-0.14px] leading-normal ">
+                <div className="flex h-[32px] py-[15px] px-[8px] justify-center items-center gap-[10px] rounded-[4px] bg-[#EDEEF0] w-[275px] ">
+                  <h4 className="text-[#00691E] text-center text-[12px] md:text-[14px] font-medium tracking-[-0.14px] leading-normal ">
                     위치
                   </h4>
-                  <h3 className="text-[#000301] text-center font-wanted-sans text-[14px] font-normal tracking-[-0.14px] leading-normal">
+                  <h3 className="text-[#000301] text-center text-[12px] md:text-[14px] font-normal tracking-[-0.14px] leading-normal">
                     {type === "free"
                       ? "마이페이지 > 나의 게시글 > 자유게시판 "
                       : "마이페이지 > 나의 게시글 > 아나바다 시장 "}
@@ -190,7 +190,7 @@ export const useCommunity = () => {
                         ? `/community/free/${getData.post_id}`
                         : `/community/anabada/${getData.post_id}`
                     }
-                    className="flex w-[513px] h-[60px] p-[24px_16px] justify-center items-center gap-[10px] flex-shrink-0 rounded-[40px] text-white bg-[#0D9C36] font-[Wanted Sans] text-[18px] font-semibold leading-normal tracking-[-0.18px] "
+                    className="flex w-[248px] h-[60px] text-[16px] md:w-[513px] md:h-[60px] p-[24px_16px] justify-center items-center gap-[10px] flex-shrink-0 rounded-[40px] text-white bg-[#0D9C36] md:text-[18px] font-semibold leading-normal tracking-[-0.18px] "
                     onClick={closeModal}
                   >
                     업로드한 게시글 보러가기

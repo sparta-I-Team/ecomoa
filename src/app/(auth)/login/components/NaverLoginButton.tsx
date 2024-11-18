@@ -21,7 +21,7 @@ const NaverLoginButton = () => {
       <div className="w-[322px] md:w-[400px]">
         <Image
           src={"/images/naver.png"}
-          width={322}
+          width={400}
           height={52}
           alt="naver_login_btn"
         />

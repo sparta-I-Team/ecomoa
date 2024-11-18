@@ -121,11 +121,11 @@ const PostDetailPage = ({ params }: Props) => {
   };
 
   return (
-    <div className="p-6 mt-6 mx-auto w-[1200px]">
+    <div className="md:p-6 p-2 mt-6 mx-auto w-[1200px]">
       <Link href={"/community/free"} className="mb-4 mt-4">
         {"< 자유게시판 "}
       </Link>
-      <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
+      <div className="mb-4 w-[360px] md:w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
       <article>
         <label className="text-2xl font-semibold">{post.post_title}</label>
         <div className="flex mt-4 mb-2 text-sm text-gray-600">
@@ -154,19 +154,6 @@ const PostDetailPage = ({ params }: Props) => {
                 </div>
               ))}
             </div>
-            <div className="relative flex justify-between mt-10">
-              <input
-                type="text"
-                placeholder="댓글을 입력해주세요"
-                className="rounded-[16px] bg-[#CBF5CB] w-[1200px] h-[70px] leading-[40px] px-4 border-none text-[#A1A7B4]"
-              />
-              <button
-                type="submit"
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#0D9C36] border-none rounded-[12px] text-white px-6 py-2 font-wanted-sans text-[16px] font-medium leading-[24px] tracking-[-0.16px]"
-              >
-                댓글 등록
-              </button>
-            </div>
           </div>
         ) : (
           post.post_img &&
@@ -184,6 +171,19 @@ const PostDetailPage = ({ params }: Props) => {
           )
         )}
       </article>
+      <div className="relative flex justify-between mt-10 w-[320px] md:w-[1200px]">
+        <input
+          type="text"
+          placeholder="댓글을 입력해주세요"
+          className="rounded-[16px] bg-[#CBF5CB] w-[1200px] h-[70px] leading-[40px] px-4 border-none text-[#A1A7B4]"
+        />
+        <button
+          type="submit"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#0D9C36] border-none rounded-[12px] text-white px-6 py-2 text-[16px] font-medium leading-[24px] tracking-[-0.16px]"
+        >
+          댓글 등록
+        </button>
+      </div>
       <div>
         {canEdit && (
           <div>
