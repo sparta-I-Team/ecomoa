@@ -71,7 +71,7 @@ const Page = () => {
 
   return (
     <div className=" py-[52px] bg-[#E8F3E8]  mx-auto">
-      <div className="md:w-[1200px] mx-auto w-[360px] p-2 md:p-0">
+      <div className="md:w-[1200px] mx-auto w-[330px]  md:p-0">
         <div>
           <label className="text-[#000301] leading-[140%]  text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
             친환경 활동을 공유해 보세요
@@ -165,7 +165,7 @@ const Page = () => {
                 </div> */}
               </div>
             </div>
-            <div className=" relative p-2 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
+            <div className=" relative p-2 overflow-y-auto overflow-x-hidden max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
               {loading && <p>로딩 중...</p>}
               {error && <p className="text-red-500">{error}</p>}
               <div className="flex flex-wrap  ">

@@ -60,7 +60,7 @@ const Page = () => {
   return (
     <>
       <div className="bg-[white] py-[52px] md:bg-[#E8F3E8]">
-        <div className="md:w-[1200px] mx-auto w-[360px] p-2 md:p-0">
+        <div className="md:w-[1200px] mx-auto w-[330px]  md:p-0">
           <label className="text-[#000301] leading-[140%] text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
             친환경 활동을 공유해 보세요
           </label>

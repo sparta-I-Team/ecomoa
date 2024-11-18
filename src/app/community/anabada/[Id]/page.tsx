@@ -143,7 +143,7 @@ const Page = ({ params }: { params: { Id: string } }) => {
         ) : (
           // 이미지가 없으면 회색 배경을 사용
           <div
-            className="bg-gray-300  md:h-[585px]  w-[320px] md:w-[585px] flex items-center justify-center"
+            className="bg-gray-300  md:h-[585px]  w-[320px] h-[320px] md:w-[585px] flex items-center justify-center"
             style={{ backgroundColor: "#D5D7DD" }}
           >
             <p className="text-gray-500">등록된 이미지가 없습니다</p>
@@ -161,8 +161,8 @@ const Page = ({ params }: { params: { Id: string } }) => {
             <div className="ml-2">· ♡ {post.like || 0}</div>
             <div className="ml-2">· 댓글 {post.comment || 0}</div>
           </div>
-          <div className="mb-4 mt-4 w-[585px] h-px bg-[#D5D7DD]"></div>
-          <div className="w-[585px] flex flex-col h-full">
+          <div className="mb-4 mt-4 w-[330px] md:w-[585px] h-px bg-[#D5D7DD]"></div>
+          <div className="w-[330px]  md:w-[585px] flex flex-col h-full">
             <p className="text-[14px] text-[#0D9C36] font-semibold mb-4">
               상품정보
             </p>
