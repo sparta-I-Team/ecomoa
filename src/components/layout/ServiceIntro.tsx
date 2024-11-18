@@ -23,7 +23,7 @@ const ServiceIntro = () => {
 
   const getButtonStyle = () => {
     const baseStyle =
-      "z-10 border-none font-[600] w-[392px] h-[60px] rounded-[40px] p-[24px_16px] gap-[10px] bg-[#0D9C36] text-[#FFF] hover:bg-[#00691E] transition-colors duration-200";
+      "z-10 border-none font-[600] w-[260px] md:w-[392px] h-[60px] rounded-[40px] p-[24px_16px] gap-[10px] bg-[#0D9C36] text-[#FFF] hover:bg-[#00691E] transition-colors duration-200";
 
     if (isLastSectionVisible) {
       return `${baseStyle}`;
@@ -264,7 +264,7 @@ const ServiceIntro = () => {
       </section>
 
       {/* section 3 */}
-      <section className="h-[688px] md:h-auto p-[80px_19px_80px_20px] md:py-[140px]">
+      <section className="h-auto p-[80px_19px_80px_20px] md:py-[140px]">
         <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center">
           <div
             className="text-center"
@@ -351,7 +351,7 @@ const ServiceIntro = () => {
               </div>
             </div>
             {/* 클로바모아 */}
-            <div className="w-[151px] md:w-full h-[153px] md:h-auto flex flex-col items-center justify-center mt-[32px] md:mt-0">
+            <div className="w-[151px] md:w-full h-[158px] md:h-auto flex flex-col items-center justify-center mt-[32px] md:mt-0">
               <p className="mb-[12px] md:mb-[23px] text-[#000301] text-[11px] md:text-[20px] font-[700] leading-[16px] md:leading-[38px]">
                 LV.4 클로바모아
               </p>
@@ -430,9 +430,11 @@ const ServiceIntro = () => {
             </div>
             {/* step3 */}
             <div>
-              <p className="text-[14px] md:text-[20px] font-[500] mx-auto mt-[36px] leading-[21px] md:leading-[30px] text-[#525660] mb-[19px] md:mb-[24px]">
+              <p className="text-[14px] md:text-[20px] font-[500] mx-auto mt-[36px] md:mt-0 leading-[21px] md:leading-[30px] text-[#525660] mb-[19px] md:mb-[24px]">
                 <span className="text-[#5E85FD] font-[600]">STEP 3 </span>
-                포인트를 모아서 모아 캐릭터를 키워요
+                <span className="tracking-[-1.5px]">
+                  포인트를 모아서 모아 캐릭터를 키워요
+                </span>
               </p>
               <div className="relative">
                 <Image
@@ -460,7 +462,7 @@ const ServiceIntro = () => {
       </section>
 
       {/* section 5 */}
-      <section className="h-[790px] md:h-auto p-[80px_19px_80px_20px] md:py-[140px] ">
+      <section className="h-auto md:h-auto p-[80px_19px_80px_20px] md:py-[140px] ">
         <div
           data-aos="fade-in"
           data-aos-offset="400"
@@ -508,7 +510,7 @@ const ServiceIntro = () => {
       </section>
 
       {/* section 6 */}
-      <section className="font-wanted h-[486px] md:h-[680px] bg-[#F2F9F2] p-[80px_19px_80px_20px] md:py-[140px] mx-auto">
+      <section className="font-wanted h-auto md:h-[680px] bg-[#F2F9F2] p-[80px_19px_80px_20px] md:py-[140px] mx-auto">
         <div
           data-aos="fade-in"
           data-aos-offset="500"
@@ -545,7 +547,7 @@ const ServiceIntro = () => {
       </section>
 
       {/* section 7*/}
-      <section className="font-wanted h-[486px] md:h-[680px] p-[80px_20px_79px_20px] md:py-[140px]">
+      <section className="font-wanted h-auto md:h-[680px] p-[80px_20px_79px_20px] md:py-[140px]">
         <div
           data-aos="fade-in"
           data-aos-offset="400"
@@ -558,7 +560,7 @@ const ServiceIntro = () => {
             data-aos-offset="500"
             data-aos-easing="ease-in-out"
             data-aos-duration="1500"
-            className="w-[320px] md:w-[584px] h-[220px] bg-[#FFF] my-auto rounded-[40px] mx-auto md:mx-0 order-2 md:order-1"
+            className="w-[320px] md:w-[584px] bg-[#FFF] my-auto rounded-[40px] mx-auto md:mx-0 order-2 md:order-1"
           >
             <Image
               src={"/service/community.png"}
@@ -568,13 +570,12 @@ const ServiceIntro = () => {
               className="rounded-[40px]"
             />
           </div>
-          <div className="flex flex-col items-start justify-center md:gap-[24px] md:ml-[100px] md:mt-[80px] order-1 md:order-2 ">
-            <h1 className="text-[#00691E] text-[14px] md:text-[20px] font-[600] leading-[21px] md:leading-[30px] tracking-[-0.14px] md:tracking-[-0.2px] mb-[16px]">
+          <div className="flex flex-col items-start justify-center md:gap-[24px] md:ml-[100px]  order-1 md:order-2 ">
+            <h1 className="text-[#00691E] text-[14px] md:text-[20px] font-[600] leading-[21px] md:leading-[30px] tracking-[-0.14px] md:tracking-[-0.2px] mb-[16px] md:mb-0">
               탄소 절감 커뮤니티
             </h1>
-            <p className="text-[#000301] text-[20px] md:text-[32px] font-[700] leading-[28px] md:leading-[44.8px] tracking-[-0.2px] md:tracking-[-0.32px] mb-[40px] md:mb-0">
-              서로의 경험을 나누고 응원해요
-              <br /> 꿀팁도 공유하며 더 똑똑한
+            <p className="text-[#000301] text-[20px] h-auto md:text-[32px] font-[700] leading-[28px] md:leading-[44.8px] tracking-[-0.2px] md:tracking-[-0.32px] mb-[40px] md:mb-0">
+              꿀팁도 공유하며 더 똑똑한
               <br />
               탄소 절감 라이프를 경험해요
             </p>
@@ -583,7 +584,7 @@ const ServiceIntro = () => {
       </section>
 
       {/* section 8*/}
-      <section className="font-wanted h-[487px] md:h-[680px] bg-[rgba(255,125,111,0.10)] p-[80px_20px_79px_20px] md:py-[140px]">
+      <section className="font-wanted h-auto md:h-[680px] bg-[rgba(255,125,111,0.10)] p-[80px_20px_79px_20px] md:py-[140px]">
         <div
           data-aos="fade-in"
           data-aos-offset="400"
@@ -641,10 +642,10 @@ const ServiceIntro = () => {
               모아들과 지속가능한 미래를 꿈꿔요
             </h1>
           </div>
-          <div className="w-full md:w-[1200px] h-auto rounded-[40px] bg-[#EDEEF0] mt-[70px] md:mt-[60px]">
-            <div className="w-full rounded-[40px] overflow-hidden">
+          <div className="w-full md:w-[1200px] h-auto rounded-[11px] md:rounded-[40px] bg-[#EDEEF0] mt-[70px] md:mt-[60px]">
+            <div className="w-full rounded-[11px] md:rounded-[40px] overflow-hidden">
               <div
-                className="rounded-[40px] overflow-hidden"
+                className="rounded-[11px] md:rounded-[40px] overflow-hidden"
                 data-aos="fade-left"
                 data-aos-once="true"
                 data-aos-duration="1000"
@@ -654,7 +655,7 @@ const ServiceIntro = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center mb-[134px]">
+          <div className="flex flex-col items-center justify-center md:mb-[134px]">
             <button
               onClick={handleClick}
               className={getButtonStyle()} // getButtonStyle 함수 적용

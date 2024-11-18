@@ -56,7 +56,7 @@ export const ModalContent = () => {
       return (
         <div
           className={`flex flex-col justify-center overflow-auto max-h-[90vh] ${
-            className || "min-w-[400px] min-h-[360px]"
+            className || " min-h-[360px]"
           }`}
         >
           {content}

@@ -22,7 +22,7 @@ const SignupPage = () => {
         <p className="text-[#00691E] font-wanted text-[16px] md:text-[20px] font-[500] leading-[22.4px] md:leading-[30px] tracking-[-0.16px] md:tracking-[-0.2px] mt-[16px] md:mt-[24px]">
           가입을 위한 이메일 정보를 입력해주세요
         </p>
-        <div className="ml-[15px] md:ml-0 md:mx-auto max-w-md flex flex-col items-center mt-[58px] md:mt-[120px]">
+        <div className="md:mx-auto max-w-md flex flex-col items-center mt-[58px] md:mt-[120px]">
           <SignupForm />
         </div>
       </div>
