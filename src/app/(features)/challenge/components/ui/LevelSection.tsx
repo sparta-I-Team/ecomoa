@@ -32,9 +32,9 @@ const LevelSection = ({ levelInfo, isLoading }: LevelSectionProps) => {
               <Image
                 src={levelInfo.image}
                 alt={levelInfo.name}
-                width={225}
+                width={205}
                 height={220}
-                className="w-[225px] h-[220px] lg:w-[285px] lg:h-[280px]"
+                className="w-[225px] h-[175px] lg:w-[285px] lg:h-[280px]"
               />
             )}
           </div>
