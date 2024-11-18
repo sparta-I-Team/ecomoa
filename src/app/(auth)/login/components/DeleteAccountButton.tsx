@@ -32,7 +32,7 @@ const DeleteAccountButton = ({
   };
   return (
     <button
-      className="mx-auto md:mx-0 w-[272px] font-wanted flex items-center justify-center font-[600] text-[#525660] bg-[#D7E8D7] hover:bg-[#0D9C36] hover:text-[#FFF] rounded-[40px] h-[60px] md:p-[24px_16px] border-none font-wanted text-[18px] leading-normal tracking-[-0.18px]"
+      className="mx-auto md:mx-0 w-[272px] flex items-center justify-center font-[600] text-[#525660] bg-[#D7E8D7] hover:bg-[#0D9C36] hover:text-[#FFF] rounded-[40px] h-[60px] md:p-[24px_16px] border-none text-[18px] leading-normal tracking-[-0.18px]"
       onClick={handleDeleteAccount}
       disabled={disabled}
     >

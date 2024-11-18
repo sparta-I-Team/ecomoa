@@ -68,7 +68,8 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   const { data: userInfo } = useQuery<UserInfo | null>({
     queryKey: ["userInfo", user.id],
     queryFn: () => getUserInfo(user.id),
-    enabled: !!user.id // user.id가 있을 때만 쿼리 실행
+    enabled: !!user.id, // user.id가 있을 때만 쿼리 실행
+    staleTime: 0
   });
 
   // 닉네임 업데이트
@@ -135,7 +136,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
                     onChange={handleChange}
                     className="w-[100px] border-t-0 border-l-0 border-r-0 border-b-2 border-b-gray-200 outline-none"
                   />
-                  <div className="flex items-center justify-center gap-1">
+                  <div className="flex items-center justify-start gap-1">
                     <button
                       type="submit"
                       className="bg-[#00320F] text-[#FFF] p-2 border-none md:ml-1 md:w-[100px] mb-1"
@@ -150,6 +151,9 @@ const UserInfoCard = ({ user }: ProfileProps) => {
                       취소
                     </button>
                   </div>
+                  <span className="text-[9px] text-[#FF361B] md:hidden">
+                    {errors.nickname?.message}
+                  </span>
                   {/* 닉네임 유효성 검사 */}
                   <p
                     role="alert"
@@ -162,7 +166,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
                     }`}
                   >
                     {errors.nickname ? (
-                      <div className="font-wanted flex items-center leading-[21px] justify-center font-[500] ">
+                      <div className="flex items-center leading-[21px] justify-center font-[500] ">
                         <CircleX
                           className="text-[#FF361B] md:mr-1 w-5 h-5"
                           stroke="#FFF"
@@ -171,7 +175,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
                         {errors.nickname.message}
                       </div>
                     ) : inputLength > 0 ? (
-                      <div className="font-wanted flex items-center leading-[21px] justify-center font-[500]">
+                      <div className="flex items-center leading-[21px] justify-center font-[500]">
                         <CircleCheck
                           className="text-[#179BFF] md:mr-1 md:w-5 md:h-5"
                           stroke="#FFF"
@@ -188,7 +192,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
             </form>
           ) : (
             <>
-              <span className="text-[#000301] font-wanted text-[20px] md:text-[28px] font-[600] leading-[-0.6px] md:leading-[-0.84px]">
+              <span className="text-[#000301] text-[20px] md:text-[28px] font-[600] leading-[-0.6px] md:leading-[-0.84px]">
                 {userInfo?.user_nickname}님
               </span>
               <button className="border-none mr-auto" onClick={handleEditClick}>

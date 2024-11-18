@@ -10,16 +10,14 @@ const SignupPage = () => {
         <div className="flex items-center mb-[16px] md:mb-[20px] pt-[36px] md:pt-[76px]">
           <ChevronLeft />
           <Link href={"/login"} className="text-[#525660]">
-            <span className="font-wanted text-[16px] font-[600]">
-              챌린지 홈
-            </span>
+            <span className="text-[16px] font-[600]">챌린지 홈</span>
           </Link>
         </div>
         <div className="w-full border-b border-b-[#D5D7DD]"></div>
-        <p className="font-wanted text-[24px] md:text-[32px] font-[700] mt-[36px] md:mt-[48px] leading-[33.6px] md:leading-[44.8px] tracking-[-0.24px] md:tracking-[-0.32px] text-[#000301]">
+        <p className="text-[24px] md:text-[32px] font-[700] mt-[36px] md:mt-[48px] leading-[33.6px] md:leading-[44.8px] tracking-[-0.24px] md:tracking-[-0.32px] text-[#000301]">
           이메일 회원가입
         </p>
-        <p className="text-[#00691E] font-wanted text-[16px] md:text-[20px] font-[500] leading-[22.4px] md:leading-[30px] tracking-[-0.16px] md:tracking-[-0.2px] mt-[16px] md:mt-[24px]">
+        <p className="text-[#00691E] text-[16px] md:text-[20px] font-[500] leading-[22.4px] md:leading-[30px] tracking-[-0.16px] md:tracking-[-0.2px] mt-[16px] md:mt-[24px]">
           가입을 위한 이메일 정보를 입력해주세요
         </p>
         <div className="md:mx-auto max-w-md flex flex-col items-center mt-[58px] md:mt-[120px]">

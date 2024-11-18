@@ -37,7 +37,7 @@ const MyScrap = ({ type }: TypeProps) => {
           <p className="text-[32px] font-[700] leading-[44.8px] tracking-[-0.2px]">
             나의 게시글
           </p>
-          <p className="mt-[12px] text-[#00691E] font-wanted text-[20px] font-[500] leading-[30px] tracking-[-0.2px]">
+          <p className="mt-[12px] text-[#00691E] text-[20px] font-[500] leading-[30px] tracking-[-0.2px]">
             내가 작성한 게시글을 확인해보세요
           </p>
         </div>
@@ -97,7 +97,7 @@ const MyScrap = ({ type }: TypeProps) => {
           <p className="text-[32px] font-[700] leading-[44.8px] tracking-[-0.2px]">
             나의 게시글
           </p>
-          <p className="mt-[12px] text-[#00691E] font-wanted text-[20px] font-[500] leading-[30px] tracking-[-0.2px]">
+          <p className="mt-[12px] text-[#00691E] text-[20px] font-[500] leading-[30px] tracking-[-0.2px]">
             내가 작성한 게시글을 확인해보세요
           </p>
         </div>
@@ -189,7 +189,7 @@ const MyScrap = ({ type }: TypeProps) => {
                   <div className="flex-1">
                     <h2 className="text-xl font-semibold mb-2">
                       <Link
-                        className="font-wanted text-[18px] font-[700] leading-[27px] tracking-[-0.18px] mt-[28px] mb-[20px]"
+                        className="text-[18px] font-[700] leading-[27px] tracking-[-0.18px] mt-[28px] mb-[20px]"
                         href={`/community/free/${post.post_id}`}
                       >
                         {post.post_title}
