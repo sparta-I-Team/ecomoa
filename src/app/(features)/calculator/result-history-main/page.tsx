@@ -78,7 +78,7 @@ const ResultPageMain = () => {
   }
   return (
     <>
-      <div className="w-full max-w-[1200px] mx-auto">
+      <div className="w-full min-w-[360px] max-w-[1200px] mx-auto">
         <div className="px-[20px] md:px-[0px] mb-[58px] md:mb-[80px]">
           {/* 페이지 header */}
           <div className="w-[320px] md:w-full md:px-[0px]">
@@ -99,7 +99,7 @@ const ResultPageMain = () => {
           </div>
 
           {/* 나의 탄소 히스토리 최상단 데이터 */}
-          <div className="w-[320px] md:w-full bg-white rounded-2xl border border-[#dcecdc] mb-[80px] md:px-[72px]">
+          <div className="min-w-[320px] w-full  bg-white rounded-2xl border border-[#dcecdc] mb-[80px] md:px-[72px]">
             <div className="flex flex-col md:flex-row w-full h-[200px] md:h-[140px] md:justify-between py-[20px] items-center">
               <div className="flex items-center">
                 <Image
@@ -135,9 +135,9 @@ const ResultPageMain = () => {
             <p className="text-[14px] md:text-[24px] font-semibold mb-[20px] md:mb-[32px]">
               배출량 현황
             </p>
-            <div className="flex flex-col md:flex-row w-[320px] md:w-full h-[356px] md;h-[300px] rounded-[16px] justify-between items-center py-[40px] px-[32px] md:px-[80px] mb-[24px] border border-[#dcecdc]">
+            <div className="flex flex-col md:flex-row min-w-[320px] w-full h-[356px] md:h-[300px] rounded-[16px] justify-between items-center py-[40px] px-[32px] md:px-[80px] mb-[24px] border border-[#dcecdc]">
               <div className="flex flex-col">
-                <p className="text-black text-[24px] md:text-[36px] font-bold mb-[36px] ">
+                <p className="text-black text-[24px] md:text-[36px] font-bold mb-[36px] md:leading-[1]">
                   {userInfo?.user_nickname}님의 평균 배출량
                 </p>
                 <p className="text-[#0fce45] text-[36px] md:text-[48px] font-semibold mb-[40px]">
@@ -285,7 +285,7 @@ const ResultPageMain = () => {
           </div>
 
           {/* 나무 영역 */}
-          <div className="flex flex-col md:flex-row md:w-full w-[320px] h-[390px] md:h-[300px] rounded-[16px] justify-between items-center bg-[#00320F] px-[32px] py-[40px] md:px-[80px] mb-[140px]">
+          <div className="flex flex-col md:flex-row px] w-full h-[390px] md:h-[300px] rounded-[16px] justify-between items-center bg-[#00320F] px-[32px] py-[40px] md:px-[80px] mb-[140px]">
             <div className="flex flex-row justify-center items-center gap-8">
               <div className="flex flex-col">
                 <p className="text-white text-[16px] md:text-[20px] font-bold mb-[24px]">
@@ -318,17 +318,35 @@ const ResultPageMain = () => {
               </div>
             </div>
             <Image
-              src={"/calculate/TreeImg.svg"}
+              src={"/calculate/treeImg.svg"}
               alt={"tree-image"}
               width={400}
               height={216}
             />
           </div>
+
+          {/* 최근 5개월 배출량 추이 */}
           <div className="mb-[80px]">
             <p className="text-[24px] font-semibold mb-[32px]">
               최근 5개월 배출량 추이
             </p>
-            <div className="w-[320px] md:w-full h-[400px] flex justify-center items-center border border-[#DCECDC] rounded-[15px] overflow-hidden">
+
+            {/* 기준값 */}
+            <div className="flex flex-row gap-2 text-[12px] md:text-[14px] justify-end right-0 mt-[20px] relative">
+              <div className="flex flex-row absolute top-[20px] right-[20px] gap-4">
+                <div className="flex flex-row gap-1 items-center">
+                  <div className="w-[14px] h-[14px] md:w-[18px] md:h-[18px] rounded-full bg-[#D5D7DD]" />
+                  <div>평균 배출량</div>
+                </div>
+                <div className="flex flex-row gap-1 items-center">
+                  <div className="w-[14px] h-[14px] md:w-[18px] md:h-[18px] rounded-full bg-[#FF7D6F]" />
+                  <div>나의 총 배출량</div>
+                </div>
+              </div>
+            </div>
+
+            {/* 차트 */}
+            <div className=" w-full min-w-[320px] md:w-full h-[400px] flex justify-center items-center border border-[#DCECDC] rounded-[15px] overflow-hidden">
               <div className="w-full h-full overflow-x-auto md:flex md:justify-center md:items-center md:overflow-x-hidden">
                 <CompareMonthlyEmissions />
               </div>
