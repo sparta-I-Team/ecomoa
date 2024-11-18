@@ -59,30 +59,31 @@ const HistoryCompareCard: React.FC<HistoryCompareCardProps> = ({
 
   return (
     <>
-      <div className="flex flex-row w-full h-[200px] border border-[#D7E8D7] rounded-[20px] overflow-hidden mt-[24px] justify-between">
-        <div className="flex gap-2 py-[78px] pl-[80px] text-[20px]">
-          <div className="flex flex-row">
+      <div className="flex w-[320px] md:w-full h-[120px] md:h-[200px] border border-[#D7E8D7] rounded-[20px] overflow-hidden mt-[24px] justify-between relative">
+        <div className="flex flex-col gap-2 md:py-[78px] p-[23px] md:p-[36px] md:pl-[80px] text-[12px] md:text-[20px]">
+          <div className="flex md:flex-row">
             {thisMonthMyAvg > LastMonthMyAvg ? (
               <div>
-                <div className="flex mb-[10px] items-center">
-                  <span>이번 달 탄소 배출량은 지난달보다 </span>
-                  <span className="ml-1">
+                <div className="flex flex-row mb-[10px] items-center">
+                  <div className="">이번 달 탄소 배출량은 지난달보다</div>
+                  <div className="ml-1">
                     {((thisMonthMyAvg / LastMonthMyAvg) * 100 - 100).toFixed(2)}
                     %
-                  </span>
-                  <span className="ml-1">증가했어요!</span>
+                  </div>
+                  <div className="ml-1">증가했어요!</div>
                 </div>
+
                 <div className="leading-relaxed">{comment}</div>
               </div>
             ) : thisMonthMyAvg < LastMonthMyAvg ? (
               <div>
                 <div className="flex mb-[10px] items-center">
-                  <span>이번 달 탄소 배출량은 지난달보다 </span>
-                  <span className="ml-1">
+                  <div>이번 달 탄소 배출량은 지난달보다 </div>
+                  <div className="ml-1">
                     {((LastMonthMyAvg / thisMonthMyAvg) * 100 - 100).toFixed(2)}
                     %
-                  </span>
-                  <span className="ml-1">감소했어요!</span>
+                  </div>
+                  <div className="ml-1">감소했어요!</div>
                 </div>
                 <div className="leading-relaxed">{comment}</div>
               </div>
@@ -96,7 +97,7 @@ const HistoryCompareCard: React.FC<HistoryCompareCardProps> = ({
             )}
           </div>
         </div>
-        <div className="w-[230px] h-full mt-[20px] mr-[20px]">
+        <div className="absolute md:relative w-[66px] md:w-[230px] mt-[65px] md:mt-[20px] right-[10px] overflow-hidden">
           <Image
             src={`/calculate/Character_${Math.floor(Math.random() * 4 + 1)
               .toString()
@@ -104,6 +105,7 @@ const HistoryCompareCard: React.FC<HistoryCompareCardProps> = ({
             alt="character"
             width={200}
             height={230}
+            className="w-full h-full object-contain"
           />
         </div>
       </div>

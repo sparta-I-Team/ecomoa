@@ -60,7 +60,7 @@ const YearMonthPickerMain: React.FC<YearSelectProps> = ({
         {/* 드롭다운 버튼 */}
         <button
           onClick={toggleYearDropdown}
-          className="w-[162px] h-[60px] bg-[#00320f] rounded-[12px] justify-start items-center inline-flex text-white p-[12px]"
+          className="w-[136px] h-[48px] md:w-[162px] md:h-[60px] bg-[#00320f] rounded-[12px] justify-start items-center inline-flex text-white p-[12px]"
         >
           {/* whitespace-nowrap 속성 추가 */}
           <div className="flex flex-row items-center mx-auto gap-[12px]">
@@ -82,7 +82,7 @@ const YearMonthPickerMain: React.FC<YearSelectProps> = ({
 
         {/* 연도 드롭다운 */}
         {isYearDropdownOpen && (
-          <div className="absolute top-[100%] mt-[16px] flex flex-col w-[162px] bg-white rounded-xl text-[20px] z-10 border border-[#d5d7dd] text-center overflow-hidden">
+          <div className="absolute top-[100%] mt-[16px] flex flex-col w-[136px] md:w-[162px] bg-white rounded-xl text-[20px] z-10 border border-[#d5d7dd] text-center overflow-hidden">
             {Array.from({ length: currentYear - 2020 + 1 }, (_, i) => 2020 + i)
               .sort((a, b) => b - a)
               .map((year) => (
@@ -104,7 +104,7 @@ const YearMonthPickerMain: React.FC<YearSelectProps> = ({
       <div className="relative flex flex-col gap-[10px]">
         <button
           onClick={toggleMonthDropdown}
-          className="w-[125px] h-[60px] bg-[#00320f] rounded-[12px] justify-start items-center inline-flex text-white p-[12px]"
+          className="w-[112px] h-[48px] md:w-[125px] md:h-[60px] bg-[#00320f] rounded-[12px] justify-start items-center inline-flex text-white p-[12px]"
         >
           <div className="flex flex-row items-center mx-auto gap-[12px]">
             <div className="text-[20px] font-medium whitespace-nowrap">
@@ -126,7 +126,7 @@ const YearMonthPickerMain: React.FC<YearSelectProps> = ({
 
         {/* 월 드롭다운 */}
         {isMonthDropdownOpen && (
-          <div className="absolute top-[100%] mt-[16px] flex flex-col w-[125px] bg-white rounded-xl text-[20px] z-10 border border-[#d5d7dd] text-center overflow-hidden">
+          <div className="absolute top-[100%] mt-[16px] flex flex-col w-[112px] md:w-[125px] bg-white rounded-xl text-[20px] z-10 border border-[#d5d7dd] text-center overflow-hidden">
             {Array.from({ length: 12 }, (_, i) => (
               <div
                 key={i + 1}
