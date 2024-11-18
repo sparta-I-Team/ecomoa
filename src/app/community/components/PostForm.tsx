@@ -1,7 +1,7 @@
 import { Modal } from "@/components/shared/Modal";
 import { useCommunity } from "@/hooks/useCommunity";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 interface Props {
   type: string;
@@ -23,6 +23,20 @@ const PostForm = ({ type = "free" }: Props) => {
     setContent,
     handleImageChange
   } = useCommunity();
+
+  const [priceError, setPriceError] = useState<string>(""); // 가격 오류 메시지 상태
+
+  // 가격 입력 처리
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // 숫자만 입력되도록 처리 (정규식 사용)
+    if (/^\d+$/.test(value) || value === "") {
+      setPrice(value ? Number(value) : 0); // 가격을 숫자로 저장
+      setPriceError(""); // 오류 메시지 초기화
+    } else {
+      setPriceError("가격은 숫자만 입력 가능합니다."); // 오류 메시지 설정
+    }
+  };
 
   return (
     <div>
@@ -104,10 +118,12 @@ const PostForm = ({ type = "free" }: Props) => {
             type="text"
             placeholder=" ₩ 가격을 입력해주세요"
             value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
+            onChange={handlePriceChange} // 가격 입력 처리
             required
             className="mb-4 p-2 border border-gray-300 rounded-[12px]  w-[320px] h-[62px] md:w-[1200px] md:h-[62px]"
           />
+          {/* 가격 오류 메시지 */}
+          {priceError && <p className="text-red-500 mb-4">{priceError}</p>}
           <h4 className="font-semibold mb-4">상품 정보</h4>
           <textarea
             placeholder={`상품 정보를 입력해주세요 \n - 저작권 침해, 음란, 청소년 유해물, 기타 위법자료 등을 게시할 경우 경고 없이 삭제됩니다`}

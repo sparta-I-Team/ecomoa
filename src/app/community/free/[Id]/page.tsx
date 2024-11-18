@@ -9,6 +9,8 @@ import { userStore } from "@/zustand/userStore";
 import { useModalStore } from "@/zustand/modalStore";
 import { Modal } from "@/components/shared/Modal";
 import EditPostModal from "../../components/EditPostModal";
+import Like from "../../components/Like";
+// import Like from "../../components/Like";
 
 type Props = {
   params: {
@@ -132,7 +134,7 @@ const PostDetailPage = ({ params }: Props) => {
           <label className="mr-4">{post.user_info.user_nickname}</label>
           <label>{new Date(post.created_at).toLocaleDateString()}</label>
           <div className="flex space-x-4 text-gray-600">
-            <label>♡ {post.like}</label>
+            <Like postId={post.post_id} />
           </div>
         </div>
         <p className="mt-4 leading-normal">{post.post_content}</p>
@@ -186,19 +188,23 @@ const PostDetailPage = ({ params }: Props) => {
       </div>
       <div>
         {canEdit && (
-          <div>
-            <button onClick={handleEditClick} className="  mt-4 border-none ">
+          <div className=" md:flex md:flex-row gap-[4px] justify-end mt-[10px] w-[1200px]">
+            <button
+              onClick={handleEditClick}
+              className="w-[80px] h-[32px] rounded text-[14px]"
+            >
               수정하기
             </button>
             <button
               onClick={() => handleDeletePost(post)}
-              className="mt-4  border-none"
+              className="w-[80px] h-[32px] rounded text-[14px]"
             >
               삭제하기
             </button>
           </div>
         )}
       </div>
+
       <Modal />
     </div>
   );
