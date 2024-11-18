@@ -35,7 +35,7 @@ const PostForm = ({ type = "free" }: Props) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="mb-4 p-2 border border-gray-300 rounded-[12px]"
+            className="mb-4 p-2 border border-gray-300 rounded-[12px] w-[320px] h-[62px] md:w-[1200px] md:h-[62px]"
           />
           <h4 className="font-semibold mb-4">내용</h4>
           <textarea
@@ -43,9 +43,9 @@ const PostForm = ({ type = "free" }: Props) => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
-            className="mb-4 p-2 border border-gray-300  rounded-[12px] resize-none leading-tight"
+            className="mb-4 p-2 border border-gray-300  rounded-[12px] resize-none leading-tight  w-[320px] h-[62px] md:w-[1200px] md:h-[62px] overflow-y-hidden text-sm md:text-base"
           />
-          <h4 className="font-semibold mb-4">사진(최대 3개 선택)</h4>
+          <h4 className="font-semibold mb-4">사진 선택</h4>
           <input
             type="file"
             accept="image/*"
@@ -59,7 +59,7 @@ const PostForm = ({ type = "free" }: Props) => {
             className="hidden"
           />
           <div className="flex gap-2 mb-4">
-            {Array.from({ length: 3 }).map((_, index) => (
+            {Array.from({ length: 1 }).map((_, index) => (
               <div
                 key={index}
                 onClick={() => handleImageClick(index)}
@@ -83,7 +83,7 @@ const PostForm = ({ type = "free" }: Props) => {
           </div>
           <button
             type="submit"
-            className="p-2 rounded-[40px] w-[380px] h-[52px] bg-[#DCECDC] border-none  hover:bg-[#0D9C36] text-white"
+            className="p-2 rounded-[40px] md:w-[380px] md:h-[52px] bg-[#DCECDC] border-none  hover:bg-[#0D9C36] text-white w-[320px] h-[60px]"
           >
             게시글 등록
           </button>
@@ -97,7 +97,7 @@ const PostForm = ({ type = "free" }: Props) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="mb-4 p-2 border border-gray-300 rounded-[12px]"
+            className="mb-4 p-2 border border-gray-300 rounded-[12px]  w-[320px] h-[62px] md:w-[1200px] md:h-[62px]"
           />
           <h4 className="font-semibold mb-4">가격</h4>
           <input
@@ -106,7 +106,7 @@ const PostForm = ({ type = "free" }: Props) => {
             value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
             required
-            className="mb-4 p-2 border border-gray-300 rounded-[12px]"
+            className="mb-4 p-2 border border-gray-300 rounded-[12px]  w-[320px] h-[62px] md:w-[1200px] md:h-[62px]"
           />
           <h4 className="font-semibold mb-4">상품 정보</h4>
           <textarea
@@ -114,7 +114,7 @@ const PostForm = ({ type = "free" }: Props) => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
-            className="mb-4 p-2 border border-gray-300 rounded-[12px] resize-none leading-tight"
+            className="mb-4 p-2 border border-gray-300  rounded-[12px] resize-none leading-tight  w-[320px] h-[62px] md:w-[1200px] md:h-[62px] overflow-y-hidden text-sm md:text-base"
           />
           <h4 className="font-semibold mb-4">사진</h4>
           <input
@@ -153,14 +153,14 @@ const PostForm = ({ type = "free" }: Props) => {
           <h4 className="font-semibold mb-4">거래 희망 지역</h4>
           <input
             type="text"
-            placeholder=" oo동"
+            placeholder=" OO동"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="w-[832px] h-[66px] mb-4 rounded-[12px]"
+            className="md:w-[832px] md:h-[66px] mb-4 rounded-[12px] w-[320px] h-[62px]"
           />
           <button
             type="submit"
-            className="p-2 text-white w-[380px] h-[52px] bg-[#DCECDC] rounded-[40px] border-none  hover:bg-[#0D9C36]"
+            className="p-2 rounded-[40px] md:w-[380px] md:h-[52px] bg-[#DCECDC] border-none  hover:bg-[#0D9C36] text-white w-[320px] h-[60px]"
           >
             게시글 등록
           </button>
