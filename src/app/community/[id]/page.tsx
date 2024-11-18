@@ -86,8 +86,8 @@ const ChallengeDetailPage = ({ params }: Props) => {
       <Link href={"/community"}>{"< 첼린지 인증 "}</Link>
       <div className="mb-4 md:w-[1200px] h-px bg-[#D5D7DD] mt-4 w-[360px]"></div>
 
-      <div className="flex flex-col md:flex-row md:items-center gap-2">
-        <label className="flex p-[12px_16px] justify-center items-center gap-2.5 rounded-[4px] bg-[#0D9C36] text-white md:flex-shrink-0">
+      <div className="flex flex-col md:flex-row md:items-center gap-[12px]">
+        <label className="flex w-[72px] p-[12px_16px] justify-center items-center gap-2.5 rounded-[4px] bg-[#0D9C36] text-white md:flex-shrink-0">
           {totalPoints}P
         </label>
         <div className="flex  flex-row md:items-center gap-1">
@@ -96,7 +96,7 @@ const ChallengeDetailPage = ({ params }: Props) => {
         </div>
       </div>
 
-      <article className="mb-8">
+      <article className="mb-8 mt-[40px]">
         <div className="mb-4">
           <div className="mt-4 flex flex-col ">
             {Object.entries(

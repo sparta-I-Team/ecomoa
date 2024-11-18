@@ -136,7 +136,7 @@ const Page = () => {
               </div>
             </div>
             {error && <p className="text-red-500">{error}</p>}
-            <div className="p-2 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
+            <div className="p-2 overflow-y-auto md:max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
               {challenges.map((challenge, index) => {
                 const createdAtDate = new Date(challenge.created_at);
                 const formattedDate = createdAtDate
@@ -159,7 +159,7 @@ const Page = () => {
                   >
                     <article
                       key={index}
-                      className=" tracking-wide  p-4 w-[300px]  h-[576px] flex-col flex-start md:w-full md:h-[220px] flex md:flex-row  mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-[0px_0px_40px_0px_rgba(0,0,0,0.02)]"
+                      className=" tracking-wide  p-4 w-[300px]   flex-col flex-start md:w-full md:h-[220px] flex md:flex-row  mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-[0px_0px_40px_0px_rgba(0,0,0,0.02)]"
                     >
                       <div className="flex-1">
                         <div className="mb-4">

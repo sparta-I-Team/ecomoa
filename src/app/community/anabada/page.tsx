@@ -70,7 +70,7 @@ const Page = () => {
   }, [posts, searchTerm, selected]);
 
   return (
-    <div className=" py-[52px] bg-[#E8F3E8]  mx-auto">
+    <div className=" py-[52px] bg-white md:bg-[#E8F3E8]  mx-auto">
       <div className="md:w-[1200px] mx-auto w-[360px] p-2 md:p-0">
         <div>
           <label className="text-[#000301] leading-[140%] font-wanted-sans text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
@@ -95,7 +95,7 @@ const Page = () => {
               </Link>
             </div>
           </div>
-          <div className="bg-[#E8F3E8]">
+          <div>
             <div className="relative w-[360px] h-[52px] md:mt-4">
               <input
                 type="text"
@@ -104,7 +104,7 @@ const Page = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <div className="absolute right-[20px] top-1/2 transform -translate-y-1/2">
+              <div className="absolute right-[60px] md:right-[20px] top-1/2 transform -translate-y-1/2">
                 <Image
                   src="/community/search.png"
                   alt="검색"
