@@ -32,7 +32,7 @@ const Myposts = ({ type }: TypeProps) => {
 
   if (isLoading) {
     return (
-      <div className="pl-[20px] flex flex-col w-full md:w-[1200px]">
+      <div className="flex flex-col w-full md:w-[1200px]">
         {/* 헤더 부분 스켈레톤 */}
         <div className="mx-auto">
           <ReturnMypage />
