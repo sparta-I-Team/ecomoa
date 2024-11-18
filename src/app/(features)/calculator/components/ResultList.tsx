@@ -27,8 +27,8 @@ const ResultList = ({ type }: Props) => {
   };
 
   return (
-    <div className="w-[1200px] mx-auto">
-      <div className="mt-[76px] mb-[48px]">
+    <div className="w-[320px] md:w-full md:px-[0px]">
+      <div className="mt-[36px] md:mt-[76px] mb-[48px] md:mb-[60px]">
         {type === "calculate" ? (
           <>
             <Link href="/calculator/result-history-main">
@@ -44,17 +44,20 @@ const ResultList = ({ type }: Props) => {
             <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
           </>
         )}
-        <p className="text-[#32343a] text-[30px] font-semibold mb-[28px]">
-          탄소 배출량 계산 히스토리
-        </p>
-        <p className=" text-[20px] font-normal text-[#00691E]">
-          이번 달 이산화탄소 배출량이 얼마나 발생했을지 확인해봅시다
-        </p>
+        <div className="mb-[58px] md:mb-[80px] leading-[1] md:leading-[80%]">
+          <p className="text-[#32343a] text-[24px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
+            탄소 배출량 계산 히스토리
+          </p>
+          <p className=" text-[16px] md:text-[20px] font-normal text-[#00691E]">
+            이번 달 이산화탄소 배출량이 얼마나 발생했을지 확인해봅시다
+          </p>
+        </div>
       </div>
 
+      {/* 탄소 계산 히스토리 셀렉박스 */}
       <div className="mb-[28px]">
-        <div className="flex w-full h-[92px] bg-[#00320f] rounded-xl justify-between">
-          <div className="flex flex-row justify-start items-center pl-6 text-[20px] text-white gap-2">
+        <div className="flex flex-col md:flex-row w-full h-[158px] md:h-[92px] bg-[#00320f] rounded-xl py-[30px] px-6 md:px-0 justify-between">
+          <div className="flex flex-row md:justify-start md:items-center md:pl-6 text-[20px] text-white gap-2">
             탄소 계산 히스토리
             <div>{myAllData ? `${myAllData.length}건` : "0건"}</div>
           </div>
@@ -69,7 +72,7 @@ const ResultList = ({ type }: Props) => {
       </div>
 
       {/* 리스트 시작 */}
-      <div>
+      <div className="w-full">
         {myAllData && myAllData.length > 0 ? (
           myAllData
             .sort((a, b) => {
@@ -97,7 +100,7 @@ const ResultList = ({ type }: Props) => {
                   />
                   <div className="flex flex-col justify-center ml-5 gap-[16px]">
                     <div className="text-[20px] font-semibold">
-                      {data.year}년 {data.month}월 탄소 계산 결과표
+                      {data.month}월 탄소 계산 결과표
                     </div>
                     <div className="text-[#A1A7B4]">
                       {format(
@@ -113,7 +116,6 @@ const ResultList = ({ type }: Props) => {
               </Link>
             ))
         ) : (
-          // mt 속성 추가
           <div className="mt-[50px]">데이터가 없습니다.</div>
         )}
       </div>

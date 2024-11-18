@@ -11,14 +11,14 @@ const Loading: React.FC<LoadingProps> = ({
   subMessage = "잠시만 기다려 주세요~!"
 }) => {
   return (
-    <div className="fixed inset-0 z-50 bg-[rgba(0,3,1,0.75)] min-h-screen">
-      <div className="w-[1200px] mx-auto mt-[402px]">
+    <div className=" w-[360px] md:w-full fixed inset-0 z-50 bg-[rgba(0,3,1,0.75)] min-h-screen md:px-0">
+      <div className="w-[360px] md:w-[1200px] md:mx-auto mt-[200px]">
         <div className="flex flex-col justify-center items-center">
-          <div className="flex flex-col gap-8 text-white text-[32px] font-semibold text-center">
+          <div className="flex flex-col gap-8 text-white text-[24px] md:text-[32px] font-semibold text-center">
             <div>{message}</div>
             <div>{subMessage}</div>
           </div>
-          <div className="mt-[48px]">
+          <div className="mt-[48px] w-[320px] h-[320px] md:w-[360px] md:h-[360px]">
             <Image
               src="/calculate/Loading.svg"
               alt="Loading-character"

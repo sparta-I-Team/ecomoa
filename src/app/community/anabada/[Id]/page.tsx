@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Slider from "react-slick";
 import { communityApi } from "@/api/communityApi";
 import { Post } from "@/types/community";
 import { userStore } from "@/zustand/userStore";
@@ -17,14 +16,6 @@ const Page = ({ params }: { params: { Id: string } }) => {
   const { openModal, closeModal } = useModalStore();
   const { Id } = params;
   const router = useRouter();
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  };
 
   const { user } = userStore();
 
@@ -68,7 +59,6 @@ const Page = ({ params }: { params: { Id: string } }) => {
   }
 
   const images = post.post_img ?? [];
-  const hasMultipleImages = images.length > 1;
 
   const canEdit = user.isAuthenticated && post.user_id === user.id;
 
@@ -131,51 +121,36 @@ const Page = ({ params }: { params: { Id: string } }) => {
   };
 
   return (
-    <main className="w-[1200px] mx-auto">
+    <main className="w-[320px]  md:w-[1200px] mx-auto ">
       <Link href="/community/anabada">
         <h3 className="font-[Wanted Sans] text-base font-semibold mt-4">
           {"< 아나바다 시장 홈 "}
         </h3>
       </Link>
-      <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
-      <article className="flex">
-        {hasMultipleImages ? (
-          <Slider {...settings}>
-            {images.map((img, index) => (
-              <div key={index} className="w-[585px] h-[585px]">
-                <Image
-                  src={img}
-                  alt={`게시글 이미지 ${index + 1}`}
-                  width={585}
-                  height={585}
-                  priority
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-          </Slider>
-        ) : images.length > 0 ? (
-          <div className="w-[585px] h-[585px]">
+      <div className="mb-4 w-[320px] md:w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
+      <article className="flex flex-col md:flex-row w-[360px] mx-auto md:w-[1200px]">
+        {images.length > 0 ? (
+          <div className="md:w-[585px] md:h-[585px] w-[320px]h-[320px]">
             <Image
               src={images[0]}
               alt="게시글 이미지"
               width={585}
               height={585}
               priority
-              className="object-fit w-full h-full "
+              className="object-cover w-full h-full"
             />
           </div>
         ) : (
           // 이미지가 없으면 회색 배경을 사용
           <div
-            className="bg-gray-300 w-[585px] h-[585px] flex items-center justify-center"
+            className="bg-gray-300  md:h-[585px]  w-[320px] md:w-[585px] flex items-center justify-center"
             style={{ backgroundColor: "#D5D7DD" }}
           >
             <p className="text-gray-500">등록된 이미지가 없습니다</p>
           </div>
         )}
 
-        <div className="flex flex-col ml-8 w-[585px] gap-3">
+        <div className="flex flex-col md:ml-8 w-[320px] md:w-[585px] gap-3 mt-4">
           <label className="text-[22px] mb-2 text-[#000301]">
             {post.post_title}
           </label>
@@ -193,7 +168,7 @@ const Page = ({ params }: { params: { Id: string } }) => {
             </p>
             <p className="text-[14px] font-normal mb-5">{post.post_content}</p>
             <label className="text-[#0D9C36] mb-4 ">거래 희망 지역</label>
-            <label className="mt-4 mb-2 inline-block rounded-[32px] border w-[100px] border-[#D5D7DD] p-2">
+            <label className="md:mt-4 mb-2 inline-block rounded-[32px] border w-[100px] border-[#D5D7DD] p-2">
               {post.location}
             </label>
 
@@ -201,10 +176,11 @@ const Page = ({ params }: { params: { Id: string } }) => {
               onClick={() => {
                 alert("업데이트 예정입니다.");
               }}
-              className="bg-[#0D9C36] text-white font-normal rounded-[40px] mt-auto flex justify-center items-center gap-[10px] w-[380px] h-[52px] p-[24px] px-[16px]"
+              className="bg-[#0D9C36] text-white font-normal rounded-[40px] mt-auto flex justify-center items-center gap-[10px] md:w-[380px] md:h-[52px] md:p-[24px] md:px-[16px] w-[256px] h-[46px]"
             >
               채팅하기
             </button>
+            {/* <button>거래 완료</button> */}
           </div>
         </div>
       </article>

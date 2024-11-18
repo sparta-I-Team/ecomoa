@@ -8,7 +8,6 @@ import { useModalStore } from "@/zustand/modalStore";
 import { userStore } from "@/zustand/userStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { X } from "lucide-react";
 import { CircleX } from "lucide-react";
 import { CircleCheck } from "lucide-react";
 
@@ -29,7 +28,6 @@ const AuthCallback = () => {
     handleChange,
     register,
     errors,
-    onClickClose,
     inputLength
   } = useNickname();
 
@@ -83,15 +81,15 @@ const AuthCallback = () => {
             <form
               onSubmit={handleSubmit(onSubmit)}
               // => 이 handleSubmit이 실행될 때 다음 모달창이 열리도록 설정해놨기 때문에 useNickName로직 확인 해야함
-              className="overflow-y-hidden w-[585px] h-[360px] rounded-[20px] flex flex-col justify-center items-center m-auto bg-white"
+              className="overflow-y-hidden w-[320px] md:w-[585px] h-[360px] rounded-[20px] flex flex-col justify-center items-center m-auto bg-white"
             >
-              <div className="relative w-full h-full -pt-[100px]">
+              {/* <div className="relative w-full h-full -pt-[100px]">
                 <X
                   onClick={onClickClose}
                   className="border-none absolute top-7 right-7 cursor-pointer"
                 />
-              </div>
-              <div className="font-wanted text-[24px] font-[600] leading-[36px] mt-[64px]">
+              </div> */}
+              <div className="font-wanted text-[20px] md:text-[24px] font-[600] leading-[36px] mt-[64px]">
                 <p className="text-center">만나서 반갑습니다.</p>
                 <p>
                   <span className="text-[#0D9C36]">닉네임</span>을 설정해주세요!
@@ -101,7 +99,7 @@ const AuthCallback = () => {
                 <input
                   type="text"
                   id="nickname"
-                  className="w-[400px] h-[56px] p-[0px_20px] rounded-[12px] border-none bg-[#F3F3F3] mb-[74px] placeholder:text-[20px] placeholder:leading-[30px] flex justify-between items-center mt-[32px]"
+                  className="px-[20px] md:px-0 w-[256px] md:w-[400px] h-[56px] leading-[16.8px] tracking-[-0.12px] p-[0px_20px] rounded-[12px] border-none bg-[#F3F3F3] mb-[74px] placeholder:text-[20px] placeholder:leading-[30px] flex justify-between items-center mt-[32px]"
                   {...register("nickname")}
                   maxLength={20}
                   placeholder="ex. 홍길동"
@@ -114,16 +112,16 @@ const AuthCallback = () => {
                 {/* 에러 메세지 or 성공 메세지 */}
                 <p
                   role="alert"
-                  className={`absolute top-24 left-1 text-[14px] z-50 ${
+                  className={`absolute top-24 left-1 text-[12px] md:text-[14px] z-50 ${
                     errors.nickname
                       ? "text-red-600" // 에러 상태일 때 빨간색
                       : inputLength > 0 && !errors.nickname
                       ? "text-blue-600" // 성공 상태일 때 파란색
-                      : "text-gray-400" // 기본 상태일 때 회색
+                      : "text-[#525660]" // 기본 상태일 때 회색
                   }`}
                 >
                   {errors.nickname ? (
-                    <div className="font-wanted flex items-center leading=[21px] justify-center font-[500]">
+                    <div className="font-wanted flex items-center leading-[21px] justify-center font-[500]">
                       <CircleX
                         className="text-[#FF361B] mr-1 w-5 h-5"
                         stroke="#FFF"
@@ -141,14 +139,14 @@ const AuthCallback = () => {
                       사용 가능한 닉네임 입니다
                     </div>
                   ) : (
-                    "이모지, 공백, 특수문자(-,_제외)를 사용할 수 없습니다."
+                    "이모지,특수문자(-,_제외)를 사용할 수 없습니다"
                   )}
                 </p>
               </div>
               <div className="flex flex-col items-center justify-center">
                 <button
                   type="submit"
-                  className="mb-[32px] -mt-[15px] text-[#FFFFFF] font-wanted font-[600] text-[18px] w-[380px] h-[60px] p-[11px_32px] rounded-[40px] bg-[#0D9C36] border-none"
+                  className="mb-[32px] -mt-[15px] text-[#FFFFFF] font-wanted font-[600] text-[18px] w-[256px] md:w-[380px] h-[60px] p-[11px_32px] rounded-[40px] bg-[#0D9C36] border-none"
                 >
                   설정하기
                 </button>

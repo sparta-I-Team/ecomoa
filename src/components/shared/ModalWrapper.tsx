@@ -6,7 +6,7 @@ export const ModalWrapper = ({ children }: { children: ReactNode }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-[20px] md:p-0"
       onClick={closeModal}
     >
       <div

@@ -12,9 +12,9 @@ interface Props {
   initialStores: Store[];
 }
 
-export default function MapClient({ initialStores }: Props) {
+const MapClient = ({ initialStores }: Props) => {
   const [selectedStoreId, setSelectedStoreId] = useState<string | null>(null);
-  
+
   const { data: storeList = initialStores, error } = useStoreList();
 
   const handleStoreClick = (store: Store) => {
@@ -30,7 +30,7 @@ export default function MapClient({ initialStores }: Props) {
   }
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-col-reverse md:flex-row w-full gap-4 md:gap-[30px]">
       <MapLeftArea
         stores={storeList}
         onClick={handleStoreClick}
@@ -44,4 +44,6 @@ export default function MapClient({ initialStores }: Props) {
       <Modal />
     </div>
   );
-}
+};
+
+export default MapClient;

@@ -25,13 +25,14 @@ const KaKaoLoginButton = () => {
         onClick={handleLogin}
         className="border-none btn btn-primary rounded-xl"
       >
-        <Image
-          src={"/images/kakao.png"}
-          width={400}
-          height={54}
-          alt="kakao_login_btn"
-          className="w-[full] sm:w-[400px]"
-        />
+        <div className="w-[322px] md:w-[400px]">
+          <Image
+            src={"/images/kakao.png"}
+            width={400}
+            height={54}
+            alt="kakao_login_btn"
+          />
+        </div>
         <div className="flex flex-col"></div>
       </button>
     </>

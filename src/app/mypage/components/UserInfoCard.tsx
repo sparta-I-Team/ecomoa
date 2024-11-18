@@ -113,8 +113,8 @@ const UserInfoCard = ({ user }: ProfileProps) => {
   const levelInfo = calculateLevelInfo(userInfo?.user_point ?? 0); // 널 병합 연산자
 
   return (
-    <section className="border border-[#DCECDC] rounded-[16px] w-[585px] h-[220px] flex flex-col items-center bg-[#FFF]">
-      <div className="flex flex-row items-center gap-2 w-full p-5 justify-start">
+    <section className="border border-[#DCECDC] rounded-[16px] w-full md:w-[585px] flex flex-col items-center bg-[#FFF]">
+      <div className="flex flex-row items-center gap-[16px] w-full p-[32px_32px_18px_32px] md:pt-[28px] justify-start ml-20px md:ml-0">
         <ProfileImgUpload
           userId={user.id}
           userAvatar={userInfo?.user_avatar}
@@ -127,32 +127,33 @@ const UserInfoCard = ({ user }: ProfileProps) => {
               className="flex items-center"
             >
               <div className="flex flex-col items-center justify-start">
-                <div className="relative flex justify-start gap-1">
+                <div className="relative flex flex-col md:flex-row justify-start gap-1">
                   <input
                     {...register("nickname", {})}
                     placeholder="닉네임을 입력하세요"
                     defaultValue={initialNickname}
                     onChange={handleChange}
-                    className="border-t-0 border-l-0 border-r-0 border-b-2 border-b-gray-200 outline-none"
+                    className="w-[100px] border-t-0 border-l-0 border-r-0 border-b-2 border-b-gray-200 outline-none"
                   />
-                  <button
-                    type="submit"
-                    className="bg-[#00320F] text-[#FFF] p-2 border-none ml-1"
-                  >
-                    저장
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleCancel}
-                    className="bg-[#00320F] text-[#FFF] p-2 border-none"
-                  >
-                    취소
-                  </button>
-
+                  <div className="flex items-center justify-center gap-1">
+                    <button
+                      type="submit"
+                      className="bg-[#00320F] text-[#FFF] p-2 border-none md:ml-1 md:w-[100px] mb-1"
+                    >
+                      저장
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCancel}
+                      className="bg-[#00320F] text-[#FFF] p-2 border-none md:w-[100px] mb-1"
+                    >
+                      취소
+                    </button>
+                  </div>
                   {/* 닉네임 유효성 검사 */}
                   <p
                     role="alert"
-                    className={`absolute top-[33px] left-[0px] text-[11px] z-50 ${
+                    className={`absolute md:top-[33px] md:left-[0px] text-[11px] -top-[40px] -left-[3px] hidden md:block ${
                       errors.nickname
                         ? "text-red-600" // 에러 상태일 때 빨간색
                         : inputLength > 0 && !errors.nickname
@@ -161,9 +162,9 @@ const UserInfoCard = ({ user }: ProfileProps) => {
                     }`}
                   >
                     {errors.nickname ? (
-                      <div className="font-wanted flex items-center leading=[21px] justify-center font-[500]">
+                      <div className="font-wanted flex items-center leading-[21px] justify-center font-[500] ">
                         <CircleX
-                          className="text-[#FF361B] mr-1 w-5 h-5"
+                          className="text-[#FF361B] md:mr-1 w-5 h-5"
                           stroke="#FFF"
                           fill="#FF361B"
                         />
@@ -172,7 +173,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
                     ) : inputLength > 0 ? (
                       <div className="font-wanted flex items-center leading-[21px] justify-center font-[500]">
                         <CircleCheck
-                          className="text-[#179BFF] mr-1 w-5 h-5"
+                          className="text-[#179BFF] md:mr-1 md:w-5 md:h-5"
                           stroke="#FFF"
                           fill="#179BFF"
                         />
@@ -187,7 +188,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
             </form>
           ) : (
             <>
-              <span className="text-[#000301] font-wanted text-[28px] font-[600] leading-[-0.84px]">
+              <span className="text-[#000301] font-wanted text-[20px] md:text-[28px] font-[600] leading-[-0.6px] md:leading-[-0.84px]">
                 {userInfo?.user_nickname}님
               </span>
               <button className="border-none mr-auto" onClick={handleEditClick}>

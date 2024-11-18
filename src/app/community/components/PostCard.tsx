@@ -11,18 +11,18 @@ interface Props {
 
 const PostCard = ({ post, type }: Props) => {
   return (
-    <div>
+    <div className="p-2">
       {type === "free" ? (
         <Link href={`/community/free/${post.post_id}`}>
           <article
             key={post.post_id}
-            className="w-full h-[220px] border-b flex flex-row p-4 mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-[0px_0px_40px_0px_rgba(0,0,0,0.02)]"
+            className=" md:w-full md:h-[220px] border-b flex flex-col gap-[20px] md:gap-0 md:flex-row p-4 mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-[0px_0px_40px_0px_rgba(0,0,0,0.02)]"
           >
             <div className="flex-1 rounded-[12px] ">
               <h2 className="text-xl font-semibold mb-2">{post.post_title}</h2>
 
-              <p className="mt-4  leading-normal ellipsis-multi-line">
-                {post.post_content}
+              <p className="mt-4  leading-normal ellipsis-multi-line truncate">
+                {post.post_content.slice(0, 10)}...
               </p>
 
               <div className="mb-4 mt-4 text-[#A1A7B4]">
@@ -39,7 +39,7 @@ const PostCard = ({ post, type }: Props) => {
             </div>
 
             {post.post_img && post.post_img.length > 0 && (
-              <div className="flex-none w-[160px] h-[160px] ml-4 flex flex-wrap gap-1">
+              <div className="flex-none w-[160px] h-[160px] md:ml-4 flex flex-wrap gap-1">
                 <Image
                   key={0}
                   src={post.post_img[0]}
@@ -91,7 +91,7 @@ const PostCard = ({ post, type }: Props) => {
             </div>
             <div className="flex justify-between items-center mt-auto">
               <div className="flex space-x-4">
-                <label>♡</label>
+                <Like postId={post.post_id} />
               </div>
             </div>
           </article>

@@ -94,29 +94,30 @@ const ResultPage: React.FC = () => {
 
   return (
     <>
-      <div className="w-[1200px] mx-auto">
-        <div className="mt-[76px]">
-          <Link href="/calculator/calculate">
-            <p className="text-[16px]"> &lt; 탄소 계산기</p>
-          </Link>
-        </div>
-        <div ref={ref}>
-          <div className="mb-[80px]">
+      <div className="w-full max-w-[1200px] mx-auto">
+        <div className="px-[20px] md:px-[0px] mb-[80px]">
+          <div className="mt-[36px] md:mt-[76px] mb-[48px] md:mb-[60px]">
+            <Link href="/calculator/calculate">
+              <p className="text-[16px]"> &lt; 탄소계산기 홈</p>
+            </Link>
             <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
-            <p className="text-[#32343a] text-[30px] font-semibold mb-[28px]">
+          </div>
+          {/* <div ref={ref}> */}
+          <div className="mb-[58px] md:mb-[80px] leading-[1] md:leading-[80%]">
+            <p className="text-[#32343a] text-[24px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
               탄소 배출량 계산 결과표
             </p>
-            <p className=" text-[20px] font-normal text-[#00691E]">
+            <p className=" text-[16px] md:text-[20px] font-normal text-[#00691E]">
               {year}년 {month}월 이산화탄소 배출량이 얼마나 발생했을지
               확인해봅시다
             </p>
           </div>
           <div>
             {/* 첫번째 section */}
-            <div className="flex w-full h-[400px] rounded-[40px] justify-between items-center bg-[#00320F] px-[80px] mb-[140px]">
-              <div className="flex flex-row ml-[42px]">
+            <div className="flex flex-col md:flex-row w-[320px] h-[484px] md:w-full md:h-[400px] rounded-[16px] md:justify-between items-center bg-[#00320F] pt-[40px] md:pt-0 px-[32px] mb-[58px] md:mb-[140px] md:px-[80px]">
+              <div className="flex">
                 <div className="flex flex-col">
-                  <div className="text-[36px] font-bold text-white mb-[36px]">
+                  <div className="text-[24px] md:text-[36px] font-bold text-white mb-[28px] md:mb-[36px]">
                     {month !== null && currentMonth !== null
                       ? Number(month) === currentMonth
                         ? "이번 달"
@@ -124,10 +125,10 @@ const ResultPage: React.FC = () => {
                       : ""}{" "}
                     총 탄소 배출량은
                   </div>
-                  <div className="text-[#FFD64E] text-[48px] font-semibold mb-[40px]">
+                  <div className="text-[#FFD64E] text-[36px] md:text-[48px] font-semibold mb-[30px] md:mb-[40px]">
                     {currentData?.carbon_emissions}kg
                   </div>
-                  <div className="text-[16px] text-white">
+                  <div className="text-[14px] md:text-[16px] text-white mb-[48px] md:mb-0">
                     탄소 배출량이 평균 보다{" "}
                     {totalAvgData && currentData ? (
                       currentData.carbon_emissions <
@@ -156,7 +157,7 @@ const ResultPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="w-[280px] h-[280px] flex justify-center items-center bg-white rounded-[24px]">
+              <div className="w-[256px] h-[256px] md:w-[288px] md:h-[288px] flex justify-center items-center bg-white rounded-[24px]">
                 <ThisMonthChart
                   currentData={currentData}
                   totalAvgData={totalAvgData}
@@ -164,107 +165,113 @@ const ResultPage: React.FC = () => {
               </div>
             </div>
           </div>
+
           {/* 두번째 섹션 데이터 제공 */}
-          <p className="text-[24px] font-semibold mb-[32px]">
-            항목 별 탄소 배출량
-          </p>
-          <div className="flex flex-wrap justify-between mb-[140px]">
-            <SectionCard
-              logo={"/calculate/electricity_color.svg"}
-              title={"전기"}
-              usageValue={currentData?.electricity_usage}
-              co2Value={currentData?.electricity_co2}
-              isHighest={currentData?.electricity_co2 === highestCo2Value}
-              isLowest={currentData?.electricity_co2 === lowestCo2Value}
-              unit="kwh/월"
-            />
-            <SectionCard
-              logo={"/calculate/gas_color.svg"}
-              title={"가스"}
-              usageValue={currentData?.gas_usage}
-              co2Value={currentData?.gas_co2}
-              isHighest={currentData?.gas_co2 === highestCo2Value}
-              isLowest={currentData?.gas_co2 === lowestCo2Value}
-              unit="m³/월"
-            />
-            <SectionCard
-              logo={"/calculate/car_color.svg"}
-              title={"교통"}
-              usageValue={currentData?.car_usage}
-              co2Value={currentData?.car_co2}
-              isHighest={currentData?.car_co2 === highestCo2Value}
-              isLowest={currentData?.car_co2 === lowestCo2Value}
-              unit="km/월"
-            />
-            <SectionCard
-              logo={"/calculate/water_color.svg"}
-              title={"수도"}
-              usageValue={currentData?.water_usage}
-              co2Value={currentData?.water_co2}
-              isHighest={currentData?.water_co2 === highestCo2Value}
-              isLowest={currentData?.water_co2 === lowestCo2Value}
-              unit="m³/월"
-            />
-            <SectionCard
-              logo={"/calculate/waste_color.svg"}
-              title={"폐기물"}
-              usageValue={currentData?.waste_volume}
-              co2Value={currentData?.waste_co2}
-              isHighest={currentData?.waste_co2 === highestCo2Value}
-              isLowest={currentData?.waste_co2 === lowestCo2Value}
-              unit="Kg/월"
-            />
-          </div>
-          <div>
-            <p className="text-[24px] font-semibold mb-[32px]">
-              일상 속 에너지 절약법
+          <div className=" mb-[58px] md:mb-[140px]">
+            <p className="text-[14px] md:text-[24px] font-semibold mb-[32px]">
+              항목 별 탄소 배출량
             </p>
-            <div className="flex flex-col gap-3 mb-[48px]">
-              <TipCard
-                tipLogo={"/calculate/electricity_white.svg"}
-                tipTitle={"LED 조명으로 교체하기"}
-                tipContent={
-                  "LED는 기존 전구보다 전력 소모가 적어 전기 절약 효과가 큽니다."
-                }
+            <div className="flex flex-wrap justify-between">
+              <SectionCard
+                logo={"/calculate/electricity_color.svg"}
+                title={"전기"}
+                usageValue={currentData?.electricity_usage}
+                co2Value={currentData?.electricity_co2}
+                isHighest={currentData?.electricity_co2 === highestCo2Value}
+                isLowest={currentData?.electricity_co2 === lowestCo2Value}
+                unit="kwh"
               />
-              <TipCard
-                tipLogo={"/calculate/gas_white.svg"}
-                tipTitle={"겨울철 실내 온도 낮추기"}
-                tipContent={
-                  "난방 온도를 조금만 낮추고,담요나 양말을 활용해 따뜻함을 유지해 보세요."
-                }
+              <SectionCard
+                logo={"/calculate/gas_color.svg"}
+                title={"가스"}
+                usageValue={currentData?.gas_usage}
+                co2Value={currentData?.gas_co2}
+                isHighest={currentData?.gas_co2 === highestCo2Value}
+                isLowest={currentData?.gas_co2 === lowestCo2Value}
+                unit="m³"
               />
-              <TipCard
-                tipLogo={"/calculate/water_white.svg"}
-                tipTitle={"세탁물 모아서 한 번에 세탁하기"}
-                tipContent={
-                  "세탁기물을 한 번에 모아서 사용해 물과 전기를 함께 절약하세요."
-                }
+              <SectionCard
+                logo={"/calculate/car_color.svg"}
+                title={"교통"}
+                usageValue={currentData?.car_usage}
+                co2Value={currentData?.car_co2}
+                isHighest={currentData?.car_co2 === highestCo2Value}
+                isLowest={currentData?.car_co2 === lowestCo2Value}
+                unit="km"
               />
-              <TipCard
-                tipLogo={"/calculate/car_white.svg"}
-                tipTitle={"출퇴근 카풀하기"}
-                tipContent={
-                  "같은 방향으로 가는 사람들과 차를 함께 타면 연료와 교통비를 아낄 수 있어요."
-                }
+              <SectionCard
+                logo={"/calculate/water_color.svg"}
+                title={"수도"}
+                usageValue={currentData?.water_usage}
+                co2Value={currentData?.water_co2}
+                isHighest={currentData?.water_co2 === highestCo2Value}
+                isLowest={currentData?.water_co2 === lowestCo2Value}
+                unit="m³"
               />
-              <TipCard
-                tipLogo={"/calculate/waste_white.svg"}
-                tipTitle={"텀블러와 에코백 사용하기"}
-                tipContent={
-                  "일회용 컵과 비닐봉투 대신 텀블러와 에코백을 사용해 폐기물을 줄여보세요."
-                }
+              <SectionCard
+                logo={"/calculate/waste_color.svg"}
+                title={"폐기물"}
+                usageValue={currentData?.waste_volume}
+                co2Value={currentData?.waste_co2}
+                isHighest={currentData?.waste_co2 === highestCo2Value}
+                isLowest={currentData?.waste_co2 === lowestCo2Value}
+                unit="Kg"
               />
             </div>
           </div>
+          <div>
+            <div>
+              <p className="text-[14px] md:text-[24px] font-semibold mb-[32px]">
+                일상 속 에너지 절약법
+              </p>
+              <div className="flex flex-col gap-3 mb-[48px]">
+                <TipCard
+                  tipLogo={"/calculate/electricity_white.svg"}
+                  tipTitle={"LED 조명으로 교체하기"}
+                  tipContent={
+                    "LED는 기존 전구보다 전력 소모가 적어 전기 절약 효과가 큽니다."
+                  }
+                />
+                <TipCard
+                  tipLogo={"/calculate/gas_white.svg"}
+                  tipTitle={"겨울철 실내 온도 낮추기"}
+                  tipContent={
+                    "난방 온도를 조금만 낮추고,담요나 양말을 활용해 따뜻함을 유지해 보세요."
+                  }
+                />
+                <TipCard
+                  tipLogo={"/calculate/water_white.svg"}
+                  tipTitle={"세탁물 모아서 한 번에 세탁하기"}
+                  tipContent={
+                    "세탁기물을 한 번에 모아서 사용해 물과 전기를 함께 절약하세요."
+                  }
+                />
+                <TipCard
+                  tipLogo={"/calculate/car_white.svg"}
+                  tipTitle={"출퇴근 카풀하기"}
+                  tipContent={
+                    "같은 방향으로 가는 사람들과 차를 함께 타면 연료와 교통비를 아낄 수 있어요."
+                  }
+                />
+                <TipCard
+                  tipLogo={"/calculate/waste_white.svg"}
+                  tipTitle={"텀블러와 에코백 사용하기"}
+                  tipContent={
+                    "일회용 컵과 비닐봉투 대신 텀블러와 에코백을 사용해 폐기물을 줄여보세요."
+                  }
+                />
+              </div>
+            </div>
+          </div>
           <div></div>
+          {/* </div> */}
+          <button
+            className="w-[320px] md:w-[360px] h-[60px] px-8 bg-[#E8F3E8] text-[#A1A7B4] rounded-[85px] text-[18px] font-semibold border-none hover:bg-[#0D9C36] hover:text-white"
+            onClick={onButtonClick}
+          >
+            <div className="grow shrink basis-0 text-center">이미지로 저장</div>
+          </button>
         </div>
-        <button
-          className="w-[380px] h-[60px] px-8 bg-[#E8F3E8] text-[#A1A7B4] rounded-[85px] text-[18px] font-semibold border-none hover:bg-[#0D9C36] hover:text-white mb-[156px]"
-          onClick={onButtonClick}
-        >
-          <div className="grow shrink basis-0 text-center">이미지로 저장</div>
-        </button>
       </div>
     </>
   );

@@ -10,12 +10,12 @@ const Mypage = async () => {
   await getUserInfo(user.id);
   return (
     // 최상위 div에 min-h-screen 추가
-    <div className="w-full min-h-screen bg-[#F4FFF4]">
-      <div className="flex flex-col gap-[10px] max-w-[1200px] mx-auto">
-        <h1 className="w-[130px] h-[18px] font-wanted text-[26px] font-[700] leading-[36.4px] tracking-[-0.26px] mt-[52px] mb-[60px]">
+    <div className="w-full min-h-screen bg-[#F4FFF4] px-[20px] md:px-0">
+      <div className="flex flex-col gap-[10px] w-full md:max-w-[1200px] mx-auto">
+        <h1 className="w-[130px] h-[18px] font-wanted text-[20px] md:text-[26px] font-[700] leading-[36.4px] tracking-[-0.26px] mt-[36px] md:mt-[52px] mb-[20px] md:mb-[60px]">
           마이페이지
         </h1>
-        <div className="flex flex-row justify-center gap-5 mb-9">
+        <div className="flex flex-col md:flex-row justify-center gap-5 mb-9">
           <UserInfoCard user={user} />
           <MyPoint user={user} />
         </div>
@@ -70,7 +70,7 @@ const Mypage = async () => {
           <ChevronRight />
         </div>
 
-        <div className="mb-[154px]">{/* <LogoutButton /> */}</div>
+        <div className="mb-[80px]">{/* <LogoutButton /> */}</div>
       </div>
     </div>
   );
