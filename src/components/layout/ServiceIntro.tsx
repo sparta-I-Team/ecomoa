@@ -49,7 +49,7 @@ const ServiceIntro = () => {
   const [isVisible, setIsVisible] = useState(false);
   const { View } = useLottie({
     animationData: lottieJson2,
-    loop: false
+    loop: true
     // autoplay: false
   });
 
@@ -118,7 +118,7 @@ const ServiceIntro = () => {
 
       {/* section 1 */}
       <section className="h-auto md:h-[1022px] ">
-        <div className="font-wanted font-[500] max-w-[1200px] mx-auto flex flex-col justify-center items-center">
+        <div className="font-[500] max-w-[1200px] mx-auto flex flex-col justify-center items-center">
           <h1 className="w-[320px] md:w-[466px] text-center text-[24px] md:text-[40px] font-[700] leading-[34px] md:leading-[56px] tracking-[-0.24px] md:tracking-[-0.4px] mt-[80px] md:mt-[96px]">
             탄소를 절감해서
             <br /> 에코모아를 키워주세요
@@ -139,7 +139,7 @@ const ServiceIntro = () => {
       </section>
 
       {/* section 2 */}
-      <section className="font-wanted h-auto bg-[#F2F9F2] flex items-center mt-[80px] md:mt-0 p-[80px_19px_80px_20px] md:pt-[160px] md:pb-[180px]">
+      <section className="h-auto bg-[#F2F9F2] flex items-center mt-[80px] md:mt-0 p-[80px_19px_80px_20px] md:pt-[160px] md:pb-[180px]">
         <div className="w-full md:w-[1200px] h-auto md:max-h-[980px] grid grid-cols-1 md:grid-cols-2  mx-auto place-content-center">
           {/* 첫 번째 내용 */}
           <div
@@ -264,7 +264,7 @@ const ServiceIntro = () => {
 
       {/* section 3 */}
       <section className="h-auto p-[80px_19px_80px_20px] md:py-[140px]">
-        <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center">
+        <div className="max-w-[1200px] mx-auto flex flex-col justify-center items-center">
           <div
             className="text-center"
             data-aos="fade-in"
@@ -306,7 +306,7 @@ const ServiceIntro = () => {
                     height={204}
                   />
                 </div>
-                <p className="h-[41px] md:h-[76px] p-[] flex justify-center items-center text-[#525660] font-wanted text-[9px] md:text-[16px] font-[600] leading-[24px]">
+                <p className="h-[41px] md:h-[76px] p-[] flex justify-center items-center text-[#525660] text-[9px] md:text-[16px] font-[600] leading-[24px]">
                   성장의 시작으로 돋아난 새싹
                 </p>
               </div>
@@ -325,7 +325,7 @@ const ServiceIntro = () => {
                     height={276}
                   />
                 </div>
-                <p className="h-[42px] md:h-[76px] flex justify-center items-center text-[#525660] font-wanted text-[9px] md:text-[16px] font-[600] leading-[24px]">
+                <p className="h-[42px] md:h-[76px] flex justify-center items-center text-[#525660] text-[9px] md:text-[16px] font-[600] leading-[24px]">
                   성장의 시작으로 돋아난 새싹
                 </p>
               </div>
@@ -344,7 +344,7 @@ const ServiceIntro = () => {
                     height={276}
                   />
                 </div>
-                <p className="h-[42px] md:h-[76px] flex justify-center items-center text-[#525660] font-wanted text-[9px] md:text-[16px] font-[600] leading-[24px]">
+                <p className="h-[42px] md:h-[76px] flex justify-center items-center text-[#525660] text-[9px] md:text-[16px] font-[600] leading-[24px]">
                   생명을 지키는 강인한 나무
                 </p>
               </div>
@@ -363,7 +363,7 @@ const ServiceIntro = () => {
                     height={276}
                   />
                 </div>
-                <p className="h-[42px] md:h-[76px] flex justify-center items-center text-[#525660] font-wanted text-[9px] md:text-[16px] font-[600] leading-[24px]">
+                <p className="h-[42px] md:h-[76px] flex justify-center items-center text-[#525660] text-[9px] md:text-[16px] font-[600] leading-[24px]">
                   결실을 맺은 행운의 네잎클로버
                 </p>
               </div>
@@ -374,7 +374,7 @@ const ServiceIntro = () => {
 
       {/* section 4 */}
       <section className="h-auto bg-[rgba(94,133,253,0.10)]  p-[80px_19px_80px_20px] md:p-[140px_0]">
-        <div className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-start ">
+        <div className="max-w-[1200px] mx-auto flex flex-col justify-center items-start ">
           <div
             data-aos="fade-in"
             data-aos-offset="400"
@@ -403,7 +403,7 @@ const ServiceIntro = () => {
               </p>
               <div className="md:w-[380px] h-[264px] md:h-[320px]">
                 <Image
-                  src={"/service/step1.png"}
+                  src={"/service/Step1.png"}
                   alt="챌린지"
                   width={380}
                   height={320}
@@ -467,7 +467,7 @@ const ServiceIntro = () => {
           data-aos-offset="400"
           data-aos-easing="ease-in-out"
           data-aos-duration="1500"
-          className="font-wanted max-w-[1200px] mx-auto flex flex-col justify-center items-center"
+          className="max-w-[1200px] mx-auto flex flex-col justify-center items-center"
         >
           <p className="text-center text-[#00691E] text-[14px] md:text-[20px] font-[600] leading-[21px] md:leading-[30px] tracking-[-0.14px] md:tracking-[-0.2px]">
             탄소 계산기로 관리하는 나의 탄소 배출량
@@ -484,24 +484,53 @@ const ServiceIntro = () => {
           className="w-full md:w-[1200px] h-auto grid grid-cols-1 md:grid-cols-2 mx-auto md:mt-[100px] gap-[36px] md:gap-[32px]"
         >
           {/* 차트 1 */}
-          <div>
-            <div className="border border-[#D5D7DD] w-full md:w-[584px] h-[220px] md:h-[400px] md:p-[40px] rounded-[40px]">
-              <div className="max-h-[219px] md:h-auto rounded-[40px] overflow-hidden w-full">
+          {/* <div>
+            <div className="z-10 border border-[#D5D7DD] w-full md:w-[584px] h-[220px] md:h-[400px] md:p-[40px] rounded-[40px]">
+              <div className="z-1 max-h-[219px] md:h-auto rounded-[40px] w-full">
                 <Lottie animationData={lottieJson4} loop={true} />
               </div>
             </div>
-            <p className="font-wanted text-center mt-[16px] md:mt-[31px] text-[#525660] text-[12px] md:text-[20px] font-[500] leading-[18px] md:leading-[30px]">
+            <p className="text-center mt-[16px] md:mt-[31px] text-[#525660] text-[12px] md:text-[20px] font-[500] leading-[18px] md:leading-[30px]">
+              “헉 지난달보다 2kg 더 배출했네, 다음달에는 더 줄여야겠어!”
+            </p>
+          </div> */}
+          <div className="flex flex-col">
+            <div className="border border-[#D5D7DD] w-full md:w-[584px] h-[220px] md:h-[400px] rounded-[40px] relative">
+              <div className="w-full h-full rounded-[40px] overflow-hidden">
+                <Lottie
+                  animationData={lottieJson4}
+                  loop={true}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </div>
+            </div>
+            <p className="text-center text-[#525660] text-[12px] md:text-[20px] font-[500] leading-[18px] md:leading-[30px] mt-[16px] md:mt-[20px]">
               “헉 지난달보다 2kg 더 배출했네, 다음달에는 더 줄여야겠어!”
             </p>
           </div>
+
           {/* 차트 2 */}
-          <div>
+          {/* <div>
             <div className=" w-full md:w-[584px] h-[220px] md:h-[400px] flex justify-center items-center border border-[#D5D7DD] rounded-[40px]">
               <div className="h-[219px] md:h-auto rounded-[40px] overflow-hidden w-full">
                 <Lottie animationData={lottieJson10} loop={true} />
               </div>
             </div>
-            <p className="font-wanted text-center mt-[16px] md:mt-[31px] text-[#525660] text-[12px] md:text-[20px] font-[500] leading-[18px] md:leading-[30px]">
+            <p className="text-center mt-[16px] md:mt-[31px] text-[#525660] text-[12px] md:text-[20px] font-[500] leading-[18px] md:leading-[30px]">
+              “와 나는 탄소 배출량이 적은 편이구나! 매우 뿌듯하네”
+            </p>
+          </div> */}
+          <div className="flex flex-col">
+            <div className="border border-[#D5D7DD] w-full md:w-[584px] h-[220px] md:h-[400px] rounded-[40px] relative">
+              <div className="w-full h-full rounded-[40px] overflow-hidden">
+                <Lottie
+                  animationData={lottieJson10}
+                  loop={true}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </div>
+            </div>
+            <p className="text-center text-[#525660] text-[12px] md:text-[20px] font-[500] leading-[18px] md:leading-[30px] mt-[16px] md:mt-[20px]">
               “와 나는 탄소 배출량이 적은 편이구나! 매우 뿌듯하네”
             </p>
           </div>
@@ -509,7 +538,7 @@ const ServiceIntro = () => {
       </section>
 
       {/* section 6 */}
-      <section className="font-wanted h-auto md:h-[680px] bg-[#F2F9F2] p-[80px_19px_80px_20px] md:py-[140px] mx-auto">
+      <section className="h-auto md:h-[680px] bg-[#F2F9F2] p-[80px_19px_80px_20px] md:py-[140px] mx-auto">
         <div
           data-aos="fade-in"
           data-aos-offset="500"
@@ -546,7 +575,7 @@ const ServiceIntro = () => {
       </section>
 
       {/* section 7*/}
-      <section className="font-wanted h-auto md:h-[680px] p-[80px_20px_79px_20px] md:py-[140px]">
+      <section className="h-auto md:h-[680px] p-[80px_20px_79px_20px] md:py-[140px]">
         <div
           data-aos="fade-in"
           data-aos-offset="400"
@@ -566,7 +595,7 @@ const ServiceIntro = () => {
               alt="탄소 절감 커뮤니티"
               width={584}
               height={400}
-              className="rounded-[40px]"
+              className="rounded-[40px] object-cover"
             />
           </div>
           <div className="flex flex-col items-start justify-center md:gap-[24px] md:ml-[100px]  order-1 md:order-2 ">
@@ -583,7 +612,7 @@ const ServiceIntro = () => {
       </section>
 
       {/* section 8*/}
-      <section className="font-wanted h-auto md:h-[680px] bg-[rgba(255,125,111,0.10)] p-[80px_20px_79px_20px] md:py-[140px]">
+      <section className="h-auto md:h-[680px] bg-[rgba(255,125,111,0.10)] p-[80px_20px_79px_20px] md:py-[140px]">
         <div
           data-aos="fade-in"
           data-aos-offset="400"
@@ -624,7 +653,7 @@ const ServiceIntro = () => {
         ref={lastSectionRef}
         className="p-[80px_20px_79px_20px] md:py-[140px]"
       >
-        <div className="font-wanted w-full md:max-w-[1200px] mx-auto flex flex-col justify-center items-center relative">
+        <div className="w-full md:max-w-[1200px] mx-auto flex flex-col justify-center items-center relative">
           <div
             data-aos="fade-in"
             data-aos-offset="400"

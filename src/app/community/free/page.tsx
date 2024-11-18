@@ -60,14 +60,14 @@ const Page = () => {
   return (
     <>
       <div className="bg-[white] py-[52px] md:bg-[#E8F3E8]">
-        <div className="md:w-[1200px] mx-auto w-[360px] p-2 md:p-0">
-          <label className="text-[#000301] leading-[140%] font-wanted-sans text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
+        <div className="md:w-[1200px] mx-auto w-[330px]  md:p-0">
+          <label className="text-[#000301] leading-[140%] text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
             친환경 활동을 공유해 보세요
           </label>
           <div className="flex flex-col w-full">
             <CommunityNav />
             <div className="md:bg-[#E8F3E8] bg-[white] ">
-              <div className="relative w-[360px] h-[52px] md:mt-4 ">
+              <div className="relative w-[360px] h-[52px] mb-4 ">
                 <input
                   type="text"
                   placeholder="검색"
@@ -84,7 +84,7 @@ const Page = () => {
                   />
                 </div>
               </div>
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex justify-between items-center ">
                 <div className="flex space-x-4">
                   <label className="text-[#00691E] text-base font-semibold leading-6">
                     {filteredPosts.length} 건

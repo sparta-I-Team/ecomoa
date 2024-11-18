@@ -5,7 +5,7 @@ import React from "react";
 const Main = () => {
   return (
     <div className="bg-[#F2F9F2] min-h-screen">
-      <div className="w-full max-w-[1200px] mx-auto px-[20px] md:px-0">
+      <div className="w-full min-w-[360px] max-w-[1200px] mx-auto px-[20px] md:px-0">
         <div className="mb-[58px] pt-[36px] md:mb-[100px] md:pt-[76px]">
           <div className="flex flex-col w-full md:w-full leading-[1] md:leading-[80%] gap-[20px] md:gap-[40px]">
             <div className="flex flex-col gap-2 md:gap-[40px]">

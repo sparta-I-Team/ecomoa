@@ -145,7 +145,7 @@ const Page = () => {
 
   return (
     <>
-      <div className="w-full max-w-[1200px] mx-auto">
+      <div className="w-full min-w-[360px] max-w-[1200px] mx-auto">
         <div className="px-[20px] md:px-[0px] mb-[80px]">
           <div className="mt-[76px] mb-[48px] md:mb-[60px]">
             <Link href="/calculator">
@@ -219,7 +219,7 @@ const Page = () => {
                 unit="Kg/월"
               />
             </div>
-            <div>
+            <div className="flex justify-center">
               <button
                 type="submit"
                 className="w-[320px] md:w-[380px] h-[60px] px-8 bg-[#E8F3E8] text-[#A1A7B4] rounded-[85px] text-[18px] font-semibold border-none hover:bg-[#0D9C36] hover:text-white"
