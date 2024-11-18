@@ -6,9 +6,9 @@ interface AlreadySubmittedModalProps {
 
 const AlreadySubmittedModal = ({ onGoBack }: AlreadySubmittedModalProps) => {
   return (
-    <div className="flex flex-col w-full md:w-[585px] h-[300px] p-6">
+    <div className="flex flex-col w-full md:w-[585px] h-full p-6">
       <div className="flex flex-col justify-center mb-[30px]">
-        <figure className="mx-auto mb-[30px]">
+        <figure className="mx-auto mb-[30px] mt-[26px] md:mt-0">
           <Image
             src="/images/gobackImage.png"
             alt="뒤로가기 이미지"
@@ -16,8 +16,9 @@ const AlreadySubmittedModal = ({ onGoBack }: AlreadySubmittedModalProps) => {
             height={60}
           />
         </figure>
-        <div className="flex flex-col font-semibold text-[22px] justify-center items-center gap-[30px] mt-[30px]">
-          <p>오늘은 이미 챌린지에 참여하셨습니다.</p>
+        <div className="flex flex-col font-semibold text-[18px] md:text-[22px] justify-center items-center gap-[20px] md:gap-[30px] mt-[30px]">
+          <p>오늘은 이미 챌린지에 </p>
+          <p>참여하셨습니다.</p>
           <p className="text-[#1F2937]">내일 다시 도전해주세요! 🌱</p>
         </div>
       </div>

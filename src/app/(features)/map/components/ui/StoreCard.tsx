@@ -1,18 +1,32 @@
-import { Store } from "@/types/map";
+import { StoreWithExtra } from "@/types/map";
 import { useModalStore } from "@/zustand/modalStore";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import SaveStoreModal from "../../modal/SavaStoreModal";
 import { useBookmark } from "@/hooks/useBookmark";
+import Image from "next/image";
 
 interface Props {
-  store: Store;
+  store: StoreWithExtra;
   selectedStoreId: string | null;
-  onClick: (store: Store) => void;
+  onClick: (store: StoreWithExtra) => void;
+  setActiveTab: Dispatch<SetStateAction<string>>;
 }
 
-const StoreCard = ({ store, selectedStoreId, onClick }: Props) => {
+const StoreCard = ({
+  store,
+  selectedStoreId,
+  onClick,
+  setActiveTab
+}: Props) => {
   const { openModal, closeModal } = useModalStore();
   const { isBookmarked, handleToggleBookmark } = useBookmark(store.store_id);
+
+  const scrollToTop = () => {
+    const scrollableDiv = document.querySelector(".overflow-y-auto");
+    if (scrollableDiv) {
+      scrollableDiv.scrollTo(0, 0);
+    }
+  };
 
   const handleSaveStore = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -26,6 +40,8 @@ const StoreCard = ({ store, selectedStoreId, onClick }: Props) => {
             <SaveStoreModal
               onViewSaved={() => {
                 closeModal();
+                setActiveTab("saved");
+                scrollToTop();
               }}
             />
           )
@@ -38,26 +54,57 @@ const StoreCard = ({ store, selectedStoreId, onClick }: Props) => {
       await handleToggleBookmark();
     }
   };
+
   return (
     <div
       key={store.store_id}
       onClick={() => onClick(store)}
-      className={`flex flex-col justify-between p-8 md:w-[356px] h-[223px] border rounded-lg cursor-pointer transition-colors ${
+      className={`relative flex flex-col justify-between p-8 md:w-[356px] h-[223px] border rounded-lg cursor-pointer transition-colors ${
         selectedStoreId === store.store_id
           ? "bg-[#CBF5CB] border-[#0D9C36]"
-          : "hover:bg-gray-50 bg-white "
+          : "hover:bg-gray-50 bg-white"
       }`}
     >
       <div className="flex flex-col gap-[12px]">
-        <h3 className="font-bold text-gray-800 mb-[10px]">
-          {store.store_name}
-        </h3>
-        <p className="text-sm text-gray-600 ">{store.road_address}</p>
+        <div className="flex justify-between items-start">
+          <h3 className="font-bold text-gray-800 mb-[10px]">
+            {store.store_name}
+          </h3>
+        </div>
+        <p className="text-sm text-gray-600">{store.road_address}</p>
         <p className="text-sm text-gray-500 truncate">
           {store.operating_hours}
         </p>
+        {store.distance !== undefined && (
+          <p className="text-sm text-gray-500">
+            {store.distance < 1
+              ? `${(store.distance * 1000).toFixed(0)}m`
+              : `${store.distance.toFixed(1)}km`}
+          </p>
+        )}
       </div>
-      <div className="flex flex-row gap-[8px] justify-end">
+      <div
+        className={`flex flex-row gap-[8px]
+        
+      ${
+        store.bookmarkCount !== undefined && store.bookmarkCount > 0
+          ? "justify-between"
+          : "justify-end"
+      }`}
+      >
+        {store.bookmarkCount !== undefined && store.bookmarkCount > 0 && (
+          <div className="flex items-center gap-1 text-[14px]">
+            <Image
+              src="/images/bookmark.png"
+              alt="북마크이미지"
+              width={14}
+              height={14}
+            />
+            <span className="text-[#0D9C36] mt-[1px]">
+              {store.bookmarkCount}
+            </span>
+          </div>
+        )}
         <button
           className={`w-[80px] h-[32px] text-white ${
             isBookmarked ? "bg-[#03551a]" : "bg-[#0D9C36]"

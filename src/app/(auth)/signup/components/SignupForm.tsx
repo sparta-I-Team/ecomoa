@@ -140,12 +140,12 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="font-wanted min-h-screen px-[20px] md:px-4">
+    <div className="min-h-screen px-[20px] md:px-4">
       <form
         className="max-w-[360px] md:max-w-[1200px] flex flex-col items-start gap-[36px]"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <label className="text-[#000301] text-[14px] font-wanted font-[600] tracking-[-0.14px] flex flex-col items-start gap-[8px] md:gap-[12px]">
+        <label className="text-[#000301] text-[14px] font-[600] tracking-[-0.14px] flex flex-col items-start gap-[8px] md:gap-[12px]">
           이메일 주소
           <input
             type="email"
@@ -154,7 +154,7 @@ const SignupForm = () => {
             placeholder="ecomoa@naver.com"
             onBlur={handleEmailBlur} // 이메일 중복 검사
           />
-          <div className="font-wanted flex items-center justify-center leading-[21px] font-[500]">
+          <div className="flex items-center justify-center leading-[21px] font-[500]">
             {errors.email?.message ? (
               <p
                 role="alert"
@@ -183,7 +183,7 @@ const SignupForm = () => {
           </div>
         </label>
 
-        <label className="text-[#000301] text-[14px] font-wanted font-[600] tracking-[-0.14px] flex flex-col items-start gap-[12px]">
+        <label className="text-[#000301] text-[14px] font-[600] tracking-[-0.14px] flex flex-col items-start gap-[12px]">
           비밀번호
           <input
             id="password"
@@ -202,7 +202,7 @@ const SignupForm = () => {
             })}
             placeholder="영문, 숫자, 특수문자 8~20 자리"
           />
-          <div className="font-wanted flex items-center justify-center leading=[21px] font-[500]">
+          <div className="flex items-center justify-center leading=[21px] font-[500]">
             {passwordMessage && !errors.password && (
               <p className="text-[#179BFF] text-sm flex items-center">
                 <CircleCheck
@@ -229,7 +229,7 @@ const SignupForm = () => {
           </div>
         </label>
 
-        <label className="text-[#000301] text-[14px] font-wanted font-[600] tracking-[-0.14px] flex flex-col items-start gap-[12px]">
+        <label className="text-[#000301] text-[14px] font-[600] tracking-[-0.14px] flex flex-col items-start gap-[12px]">
           비밀번호 확인
           <input
             type="password"

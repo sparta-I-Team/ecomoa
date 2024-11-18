@@ -61,7 +61,7 @@ const Page = () => {
     <div className=" py-[52px] md:bg-[#E8F3E8]  ">
       <div className=" md:w-[1200px] mx-auto w-[360px] min-[320px] p-2 md:p-0 flex-wrap">
         <div>
-          <label className="text-[#000301] leading-[140%] font-wanted-sans text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
+          <label className="text-[#000301] leading-[140%]  text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
             친환경 활동을 공유해 보세요
           </label>
           <div className="flex flex-col w-full mt-4 p-2">

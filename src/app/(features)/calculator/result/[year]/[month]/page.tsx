@@ -94,7 +94,7 @@ const ResultPage: React.FC = () => {
 
   return (
     <>
-      <div className="w-full max-w-[1200px] mx-auto">
+      <div className="w-full min-w-[360px] max-w-[1200px] mx-auto">
         <div className="px-[20px] md:px-[0px] mb-[80px]">
           <div className="mt-[36px] md:mt-[76px] mb-[48px] md:mb-[60px]">
             <Link href="/calculator/calculate">
@@ -114,7 +114,7 @@ const ResultPage: React.FC = () => {
           </div>
           <div>
             {/* 첫번째 section */}
-            <div className="flex flex-col md:flex-row w-[320px] h-[484px] md:w-full md:h-[400px] rounded-[16px] md:justify-between items-center bg-[#00320F] pt-[40px] md:pt-0 px-[32px] mb-[58px] md:mb-[140px] md:px-[80px]">
+            <div className="flex flex-col md:flex-row min-w-[320px] h-[484px] w-full md:h-[400px] rounded-[16px] md:justify-between items-center bg-[#00320F] pt-[40px] md:pt-0 px-[32px] mb-[58px] md:mb-[140px] md:px-[80px]">
               <div className="flex">
                 <div className="flex flex-col">
                   <div className="text-[24px] md:text-[36px] font-bold text-white mb-[28px] md:mb-[36px]">
@@ -167,11 +167,11 @@ const ResultPage: React.FC = () => {
           </div>
 
           {/* 두번째 섹션 데이터 제공 */}
-          <div className=" mb-[58px] md:mb-[140px]">
+          <div className="mb-[58px] md:mb-[140px]">
             <p className="text-[14px] md:text-[24px] font-semibold mb-[32px]">
               항목 별 탄소 배출량
             </p>
-            <div className="flex flex-wrap justify-between">
+            <div className="flex flex-wrap w-full md:w-[1200px] gap-[30px]">
               <SectionCard
                 logo={"/calculate/electricity_color.svg"}
                 title={"전기"}
@@ -219,6 +219,7 @@ const ResultPage: React.FC = () => {
               />
             </div>
           </div>
+
           <div>
             <div>
               <p className="text-[14px] md:text-[24px] font-semibold mb-[32px]">
@@ -263,14 +264,16 @@ const ResultPage: React.FC = () => {
               </div>
             </div>
           </div>
-          <div></div>
-          {/* </div> */}
-          <button
-            className="w-[320px] md:w-[360px] h-[60px] px-8 bg-[#E8F3E8] text-[#A1A7B4] rounded-[85px] text-[18px] font-semibold border-none hover:bg-[#0D9C36] hover:text-white"
-            onClick={onButtonClick}
-          >
-            <div className="grow shrink basis-0 text-center">이미지로 저장</div>
-          </button>
+          <div className="flex justify-center">
+            <button
+              className="w-[320px] md:w-[360px] h-[60px] px-8 bg-[#E8F3E8] text-[#A1A7B4] rounded-[85px] text-[18px] font-semibold border-none hover:bg-[#0D9C36] hover:text-white"
+              onClick={onButtonClick}
+            >
+              <div className="grow shrink basis-0 text-center">
+                이미지로 저장
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </>

@@ -8,14 +8,14 @@ interface SuccessModalProps {
 
 const SuccessModal = ({ onClose, selectedChallenges }: SuccessModalProps) => {
   return (
-    <div className="flex flex-col items-center relative w-full md:w-[585px] min-h-[280px] md:min-h-[300px]">
+    <div className="flex flex-col items-center relative w-full md:w-[585px] min-h-[300px]">
       <button
         onClick={onClose}
-        className="absolute top-2 md:top-4 right-2 md:right-4 p-2 border-none rounded-full hover:bg-gray-100 transition-colors"
+        className="absolute top-[24px] md:top-4 right-[24px] md:right-4 border-none rounded-full hover:bg-gray-100 transition-colors"
       >
         <svg
-          width="20"
-          height="20"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -30,18 +30,18 @@ const SuccessModal = ({ onClose, selectedChallenges }: SuccessModalProps) => {
         </svg>
       </button>
 
-      <figure className="block w-full">
+      <figure className="block w-full bg-[#CBF5CB]">
         <Image
           src="/images/complete.png"
           alt="챌린지 완료 이미지"
           width={615}
           height={422}
-          className="rounded-xl w-full h-auto"
+          className="rounded-xl w-full h-[340px] md:h-auto"
           priority
         />
       </figure>
 
-      <div className="flex flex-col justify-center items-center gap-4 md:gap-[30px] mt-6 md:mt-[40px]">
+      <div className="flex flex-col justify-center items-center md:gap-[10px] mt-[54px] md:mt-[40px]">
         <h2 className="text-lg md:text-[24px] font-semibold text-center">
           챌린지 인증 완료했어요!
         </h2>
@@ -54,15 +54,17 @@ const SuccessModal = ({ onClose, selectedChallenges }: SuccessModalProps) => {
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-2 justify-center mt-4 w-full p-4 md:p-6">
+      <div className="flex flex-col md:flex-row md:flex-wrap gap-2 justify-center items-center mt-4 w-full mb-[36px] md:mb-0 p-4 md:p-6">
         {CHALLENGES.filter((c) => selectedChallenges.includes(c.id)).map(
           (ch) => (
             <div
               key={ch.id}
-              className="rounded-full bg-[#0D9C36] px-3 py-1.5 md:p-2 text-xs md:text-sm text-white shadow-sm whitespace-nowrap"
+              className="flex flex-row gap-[4px] rounded-full bg-[#0D9C36] px-[16px] py-3 md:p-2 text-[14px] md:text-sm text-white shadow-sm whitespace-nowrap"
               title={ch.label}
             >
-              {ch.label}
+              <p>{ch.label}</p>
+              <p>{ch.label2}</p>
+              <p>100P</p>
             </div>
           )
         )}

@@ -27,7 +27,7 @@ const ResultList = ({ type }: Props) => {
   };
 
   return (
-    <div className="w-[320px] md:w-full md:px-[0px]">
+    <div className="w-full min-w-[360px] max-w-[1200px] mx-auto">
       <div className="mt-[36px] md:mt-[76px] mb-[48px] md:mb-[60px]">
         {type === "calculate" ? (
           <>
