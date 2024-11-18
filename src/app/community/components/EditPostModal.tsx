@@ -114,7 +114,7 @@ const EditPostModal = ({
   return (
     <div>
       {type === "free" ? (
-        <form className="bg-white p-8 rounded-xl w-[990px] h-[865px] relative ">
+        <form className="bg-white p-8 rounded-xl w-[320px] h-700px]  md:w-[990px] md:h-[865px] relative ">
           <label className="text-2xl font-semibold mb-4">자유게시글 수정</label>
           <div className="mt-4">
             <label>제목</label>
@@ -183,11 +183,11 @@ const EditPostModal = ({
           </button>
         </form>
       ) : (
-        <div className="fixed top-0 left-0 w-full h-full bg-gray-600 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-8 rounded-xl w-[990px] h-[865px] relative">
+        <div className="fixed top-0 md:left-0 w-[320px] md:w-full h-full bg-gray-600 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-8 rounded-xl w-[320px]  md:w-[990px] md:h-[865px] relative">
             <button
               onClick={onClose}
-              className="absolute top-2 right-2 text-xl font-bold border-none"
+              className="absolute top-2 right-2 text-[20px] font-bold border-none"
             >
               X
             </button>
@@ -262,7 +262,7 @@ const EditPostModal = ({
                 name="location"
                 value={editedPost.location}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-md "
               />
             </div>
             <div className="gap-4 mt-4">

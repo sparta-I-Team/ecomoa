@@ -123,14 +123,14 @@ const Page = ({ params }: { params: { Id: string } }) => {
   return (
     <main className="w-[320px]  md:w-[1200px] mx-auto ">
       <Link href="/community/anabada">
-        <h3 className="font-[Wanted Sans] text-base font-semibold mt-4">
+        <h3 className=" text-base font-semibold mt-4">
           {"< 아나바다 시장 홈 "}
         </h3>
       </Link>
       <div className="mb-4 w-[320px] md:w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
       <article className="flex flex-col md:flex-row w-[360px] mx-auto md:w-[1200px]">
         {images.length > 0 ? (
-          <div className="md:w-[585px] md:h-[585px] w-[320px]h-[320px]">
+          <div className="md:w-[585px] md:h-[585px] w-[320px] h-[320px]">
             <Image
               src={images[0]}
               alt="게시글 이미지"
@@ -143,7 +143,7 @@ const Page = ({ params }: { params: { Id: string } }) => {
         ) : (
           // 이미지가 없으면 회색 배경을 사용
           <div
-            className="bg-gray-300  md:h-[585px]  w-[320px] md:w-[585px] flex items-center justify-center"
+            className="bg-gray-300  md:h-[585px]  w-[320px] h-[320px] md:w-[585px] flex items-center justify-center"
             style={{ backgroundColor: "#D5D7DD" }}
           >
             <p className="text-gray-500">등록된 이미지가 없습니다</p>
@@ -161,8 +161,8 @@ const Page = ({ params }: { params: { Id: string } }) => {
             <div className="ml-2">· ♡ {post.like || 0}</div>
             <div className="ml-2">· 댓글 {post.comment || 0}</div>
           </div>
-          <div className="mb-4 mt-4 w-[585px] h-px bg-[#D5D7DD]"></div>
-          <div className="w-[585px] flex flex-col h-full">
+          <div className="mb-4 mt-4 w-[330px] md:w-[585px] h-px bg-[#D5D7DD]"></div>
+          <div className="w-[330px]  md:w-[585px] flex flex-col h-full">
             <p className="text-[14px] text-[#0D9C36] font-semibold mb-4">
               상품정보
             </p>
@@ -184,7 +184,7 @@ const Page = ({ params }: { params: { Id: string } }) => {
           </div>
         </div>
       </article>
-      <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
+      <div className="mb-4 md:w-[1200px] h-px bg-[#D5D7DD] mt-4 w-[360px]"></div>
       <div>
         {canEdit && (
           <div>

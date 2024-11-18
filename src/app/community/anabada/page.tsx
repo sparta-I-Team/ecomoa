@@ -70,10 +70,10 @@ const Page = () => {
   }, [posts, searchTerm, selected]);
 
   return (
-    <div className=" py-[52px] bg-white md:bg-[#E8F3E8]  mx-auto">
-      <div className="md:w-[1200px] mx-auto w-[360px] p-2 md:p-0">
+    <div className=" py-[52px] bg-[#E8F3E8]  mx-auto">
+      <div className="md:w-[1200px] mx-auto w-[330px]  md:p-0">
         <div>
-          <label className="text-[#000301] leading-[140%] font-wanted-sans text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
+          <label className="text-[#000301] leading-[140%]  text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
             친환경 활동을 공유해 보세요
           </label>
           <div className="flex flex-col w-full mt-4 p-2">
@@ -96,7 +96,7 @@ const Page = () => {
             </div>
           </div>
           <div>
-            <div className="relative w-[360px] h-[52px] md:mt-4">
+            <div className="relative w-[360px] h-[52px]  mb-4">
               <input
                 type="text"
                 placeholder="검색"
@@ -113,7 +113,7 @@ const Page = () => {
                 />
               </div>
             </div>
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center  ">
               <div className="flex space-x-4">
                 <label className="text-[#00691E] text-base font-semibold leading-6">
                   {filteredPosts.length} 건
@@ -165,7 +165,7 @@ const Page = () => {
                 </div> */}
               </div>
             </div>
-            <div className="p-2 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
+            <div className=" relative p-2 overflow-y-auto overflow-x-hidden max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
               {loading && <p>로딩 중...</p>}
               {error && <p className="text-red-500">{error}</p>}
               <div className="flex flex-wrap  ">
@@ -178,7 +178,7 @@ const Page = () => {
                     alt="게시글 작성"
                     width={64}
                     height={64}
-                    className="absolute bottom-[52px] right-[32px] "
+                    className="absolute bottom-[32px] left-[1100px] z-40"
                   />
                 </Link>
               </div>
