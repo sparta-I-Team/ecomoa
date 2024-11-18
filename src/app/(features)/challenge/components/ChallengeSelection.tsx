@@ -20,6 +20,9 @@ export const ChallengeSelection = () => {
       alert("최소 하나의 챌린지를 선택해주세요.");
       return;
     }
+
+    window.scrollTo(0, 0);
+
     setSelectedChallenges(selected);
     setStep(2);
   };

@@ -210,7 +210,7 @@ const Calendar = () => {
                     <div
                       className={`
                         flex items-center justify-center
-                        w-[38px] h-[38px] md:w-[60px] md:h-[60px]
+                        min-w-[28px] min-h-[28px] md:w-[60px] md:h-[60px]
                         font-medium
                         text-[14px] md:text-[22px]
                         ${
