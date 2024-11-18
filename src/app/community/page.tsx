@@ -26,6 +26,11 @@ interface Challenge {
 const Page = () => {
   const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
+
+  const handleSelect = (option: string) => {
+    setSelected(option);
+  };
 
   useEffect(() => {
     const fetchChallenges = async () => {
@@ -53,48 +58,85 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="bg-[white] py-[52px] md:bg-[#E8F3E8]">
-      <div className="w-[1200px] mx-auto ">
+    <div className=" py-[52px] md:bg-[#E8F3E8]  ">
+      <div className=" md:w-[1200px] mx-auto w-[360px] min-[320px] p-2 md:p-0 flex-wrap">
         <div>
           <label className="text-[#000301] leading-[140%] font-wanted-sans text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
             친환경 활동을 공유해 보세요
           </label>
-          <div className="flex flex-col w-full mt-4">
-            <div className=" mb-4 flex items-start">
+          <div className="flex flex-col w-full mt-4 p-2">
+            <div className=" mb-4 flex items-start ">
               <Link href="/community" passHref>
-                <button className=" w-[160px]  md:w-[400px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-bold flex items-center justify-center text-[12px]  md:text-[16px] whitespace-nowrap px-2 sm:px-4">
+                <button className=" w-[106px]  md:w-[400px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-bold flex items-center justify-center text-[12px]  md:text-[16px] whitespace-nowrap px-2 sm:px-4">
                   첼린지 인증
                 </button>
               </Link>
               <Link href="/community/free" passHref>
-                <button className=" w-[160px] md:w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
+                <button className=" w-[106px] md:w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
                   자유 게시판
                 </button>
               </Link>
               <Link href="/community/anabada" passHref>
-                <button className=" w-[160px] md:w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-[12px]  md:text-[16px] whitespace-nowrap px-2 sm:px-4">
+                <button className=" w-[106px] md:w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-[12px]  md:text-[16px] whitespace-nowrap px-2 sm:px-4">
                   아나바다 시장
                 </button>
               </Link>
             </div>
-            <div>
-              <label className="text-[#00691E] leading-[150%] text-[16px] tracking-[-0.16px] font-bold">
-                건
-              </label>
-              <label className="text-[#000301] leading-[150%] font-wanted text-[14px] font-[500] tracking-[-0.14px]">
-                최신순
-              </label>
-              <label className="text-[#A1A7B4] leading-[150%] font-wanted text-[14px] font-[500] tracking-[-0.14px]">
-                오래된순
-              </label>
+
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex space-x-4">
+                <label className="text-[#00691E] text-base font-semibold leading-6">
+                  {challenges.length} 건
+                </label>
+                <div
+                  onClick={() => handleSelect("latest")}
+                  className="cursor-pointer flex items-center text-sm font-medium leading-5"
+                >
+                  {selected === "latest" && (
+                    <span className="text-black mr-1">✔</span>
+                  )}
+                  <label>최신순</label>
+                </div>
+                <div
+                  onClick={() => handleSelect("oldest")}
+                  className="cursor-pointer flex items-center text-sm font-medium leading-5"
+                >
+                  {selected === "oldest" && (
+                    <span className="text-black mr-1">✔</span>
+                  )}
+                  <label>오래된순</label>
+                </div>
+                {/* <div
+                  onClick={() => handleSelect("popular")}
+                  className="cursor-pointer flex items-center text-sm font-medium leading-5"
+                >
+                  {selected === "popular" && (
+                    <span className="text-black mr-1">✔</span>
+                  )}
+                  <label>인기순</label>
+                </div>
+                <div
+                  onClick={() => handleSelect("likes")}
+                  className="cursor-pointer flex items-center text-sm font-medium leading-5"
+                >
+                  {selected === "likes" && (
+                    <span className="text-black mr-1">✔</span>
+                  )}
+                  <label>좋아요</label>
+                </div>
+                <div
+                  onClick={() => handleSelect("comments")}
+                  className="cursor-pointer flex items-center text-sm font-medium leading-5"
+                >
+                  {selected === "comments" && (
+                    <span className="text-black mr-1">✔</span>
+                  )}
+                  <label>댓글순</label>
+                </div> */}
+              </div>
             </div>
-
             {error && <p className="text-red-500">{error}</p>}
-
-            {/* Challenges List with Scroll */}
-            <div className="p-4  overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
-              {" "}
-              {/* Add scrollable container */}
+            <div className="p-2 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
               {challenges.map((challenge, index) => {
                 const createdAtDate = new Date(challenge.created_at);
                 const formattedDate = createdAtDate
@@ -117,7 +159,7 @@ const Page = () => {
                   >
                     <article
                       key={index}
-                      className=" p-4 w-[300px]  h-[576px] flex-col flex-start md:w-full md:h-[220px] flex md:flex-row  mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-[0px_0px_40px_0px_rgba(0,0,0,0.02)]"
+                      className=" tracking-wide  p-4 w-[300px]  h-[576px] flex-col flex-start md:w-full md:h-[220px] flex md:flex-row  mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-[0px_0px_40px_0px_rgba(0,0,0,0.02)]"
                     >
                       <div className="flex-1">
                         <div className="mb-4">
