@@ -42,7 +42,7 @@ const StoreCard = ({ store, selectedStoreId, onClick }: Props) => {
     <div
       key={store.store_id}
       onClick={() => onClick(store)}
-      className={`flex flex-col justify-between p-8 w-[356px] h-[223px] border rounded-lg cursor-pointer transition-colors ${
+      className={`flex flex-col justify-between p-8 md:w-[356px] h-[223px] border rounded-lg cursor-pointer transition-colors ${
         selectedStoreId === store.store_id
           ? "bg-[#CBF5CB] border-[#0D9C36]"
           : "hover:bg-gray-50 bg-white "
@@ -65,15 +65,6 @@ const StoreCard = ({ store, selectedStoreId, onClick }: Props) => {
           onClick={handleSaveStore}
         >
           {isBookmarked ? "저장됨" : "저장하기"}
-        </button>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            alert("업데이트 예정입니다.");
-          }}
-          className="h-[32px] p-3 text-white bg-[#00691E] rounded-[32px] text-[12px] whitespace-nowrap flex justify-center items-center"
-        >
-          다녀온 가게
         </button>
       </div>
     </div>

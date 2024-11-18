@@ -18,7 +18,7 @@ const BlackAutoWidthButton = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`mt-10 py-6 w-full text-white transition-colors ${className} rounded-full
+      className={`py-6 w-full text-white transition-colors ${className} rounded-full
         ${disabled ? "bg-green-400 cursor-not-allowed" : ""}`}
     >
       {text}

@@ -10,7 +10,6 @@ import { userStore } from "@/zustand/userStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Filter from "badwords-ko";
-import { X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -103,48 +102,45 @@ export const useNickname = () => {
       openModal({
         type: "custom",
         content: (
-          <div className="flex items-center">
+          <div className="flex items-center w-[320px] md:w-[585px] h-[484px] md:h-[600px] mx-auto">
             <form
-              className="z-1 overflow-y-hidden w-[585px] flex flex-col justify-center items-center mx-auto bg-white"
+              className="z-1 overflow-y-hidden flex flex-col justify-center items-center mx-auto bg-white"
               style={{ borderRadius: "11px" }}
             >
-              <div
-                className="flex items-center relative w-[585px] h-[341px] mb-6"
-                style={{ backgroundColor: "#CBF5CB", height: "341px" }}
-              >
-                <X
+              <div className="flex items-center relative w-[320px] md:w-[585px] h-[234px] md:h-[341px] mb-6">
+                {/* <X
                   onClick={onClickClose}
                   className="z-2 border-none absolute top-7 right-7 cursor-pointer text-white"
-                />
+                /> */}
                 <Image
                   src="/images/nicknameModal.png"
                   width={585}
                   height={341}
                   alt="modalImage"
-                  className="mx-auto mt-[73px]"
+                  className="mx-auto w-full h-full object-cover"
                 />
               </div>
 
               <div className="flex flex-col justify-center items-center h-[249px]">
-                <div className="font-wanted text-[24px] font-[600] leading-[36px] text-center w-[540px] h-[71px] mb-[27px]">
-                  <div className="text-[24px] font-[600] leading-[36px]">
+                <div className="font-wanted text-[20px] md:text-[24px] font-[600] leading-[36px] text-center w-[320px] md:w-[540px] h-[71px] mb-[27px] px-[32px] md:px-0">
+                  <div className="text-[20px] md:text-[24px] font-[600] leading-[36px]">
                     <p className="mt-[15px] mb-[32px]">
                       <span className="text-[#0D9C36]">{data.nickname}</span>{" "}
                       님의 모아가 생성되었습니다.
-                      <br />
+                      <br className="hidden md:block" />
                       포인트를 모아 다음 레벨로 성장시켜주세요!
                     </p>
                   </div>
                 </div>
                 <div style={{ marginBottom: "33px" }}>
-                  <p className="text-[#525660] text-center font-wanted text-[16px] font-[500] leading-[24px]">
+                  <p className="text-[#525660] text-center font-wanted text-[12px] md:text-[16px] font-[500] leading-[16.8px] md:leading-[24px] px-[19px]">
                     데일리 챌린지를 하고 인증 글을 올리면 포인트를 Get
                   </p>
                 </div>
                 {/* <Image src={"/seed.png"} width={150} height={150} alt="seed" /> */}
                 <button
                   onClick={onClickChallenge}
-                  className="flex items-center justify-center w-[380px] h-[60px] p-[11px_32px] mb-[32px] text-[#FFFFFF] font-wanted font-[600] text-[18px] rounded-[40px] bg-[#0D9C36] border-none"
+                  className="tracking-[-0.18px] flex items-center justify-center w-[256px] md:w-[380px] h-[60px] p-[11px_32px] mb-[32px] text-[#FFFFFF] font-wanted font-[600] text-[17px] rounded-[40px] bg-[#0D9C36] border-none"
                 >
                   데일리 챌린지 하러 가기
                 </button>

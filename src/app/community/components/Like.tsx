@@ -8,7 +8,15 @@ const Like = ({ postId }: Props) => {
   const { isLiked, handleToggleLike } = useLike(postId);
 
   return (
-    <button className="border-none font-bold text-[20px]" onClick={() => handleToggleLike()}>{isLiked ? "❤️" : "♡"}</button>
+    <button
+      className="border-none font-bold text-[20px]"
+      onClick={(e) => {
+        e.preventDefault();
+        handleToggleLike();
+      }}
+    >
+      {isLiked ? "❤️" : "♡"}
+    </button>
   );
 };
 

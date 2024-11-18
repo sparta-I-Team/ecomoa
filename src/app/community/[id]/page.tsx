@@ -7,7 +7,6 @@ import { useModalStore } from "@/zustand/modalStore";
 import { Modal } from "@/components/shared/Modal";
 import ChallengeForm from "@/app/(features)/challenge/components/ChallengeForm";
 import { useDeleteChallenge, useGetChallenge } from "@/hooks/useChallenge";
-import { ChallengeOption } from "@/types/challengesType";
 import { useRouter } from "next/navigation";
 import { userStore } from "@/zustand/userStore";
 
@@ -83,21 +82,23 @@ const ChallengeDetailPage = ({ params }: Props) => {
   const totalPoints = selectedCount * 100;
 
   return (
-    <div className="mt-8 w-[1200px]  mx-auto mb-4">
+    <div className="mt-8 md:w-[1200px]  mx-auto mb-4 w-[360px] p-2 md:p-0">
       <Link href={"/community"}>{"< 첼린지 인증 "}</Link>
-      <div className="mb-4 w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
+      <div className="mb-4 md:w-[1200px] h-px bg-[#D5D7DD] mt-4 w-[360px]"></div>
 
-      <div className="flex items-center gap-2">
-        <label className="flex p-[12px_16px] justify-center items-center gap-2.5 rounded-[4px] bg-[#0D9C36] text-white">
+      <div className="flex flex-col md:flex-row md:items-center gap-2">
+        <label className="flex p-[12px_16px] justify-center items-center gap-2.5 rounded-[4px] bg-[#0D9C36] text-white md:flex-shrink-0">
           {totalPoints}P
         </label>
-        <label>{formattedDate}</label>
-        <label>데일리 챌린지</label>
+        <div className="flex  flex-row md:items-center gap-1">
+          <label>{formattedDate}</label>
+          <label>데일리 챌린지</label>
+        </div>
       </div>
 
       <article className="mb-8">
         <div className="mb-4">
-          <div className="mt-4 flex flex-col gap-4">
+          <div className="mt-4 flex flex-col ">
             {Object.entries(
               challenge.selected_options as Record<string, string[]>
             ).map(([category, selectedIds]) => {
@@ -108,18 +109,28 @@ const ChallengeDetailPage = ({ params }: Props) => {
               return (
                 <div key={category} className="mb-4">
                   <h3 className="font-semibold">{categoryName}</h3>
-                  <div className="flex flex-row flex-wrap items-center gap-[4px] mt-4">
-                    {(selectedIds as string[]).map((id) => {
-                      const option = (
-                        CHALLENGE_OPTIONS[category] as ChallengeOption[]
-                      ).find((opt) => opt.id === id);
+                  <div key={category}>
+                    {selectedIds.map((id) => {
+                      const option = CHALLENGE_OPTIONS[category].find(
+                        (opt) => opt.id === id
+                      );
+                      const imgSrc = CHALLENGES.filter(
+                        (challenge) => challenge.id === category
+                      )[0].image;
+
                       return (
-                        <label
-                          key={id}
-                          className="flex  rounded-[32px] border border-[#D5D7DD] p-2"
-                        >
-                          {option?.label}
-                        </label>
+                        <div key={id}>
+                          <span className="mt-2 inline-flex py-4 px-[16px] mb-2 rounded-[32px] border border-[#D5D7DD] bg-[white] text-[14px] flex-wrap">
+                            <Image
+                              src={imgSrc}
+                              alt="아이콘"
+                              width={12}
+                              height={12}
+                              className="mr-2"
+                            />
+                            {option?.label}
+                          </span>
+                        </div>
                       );
                     })}
                   </div>
@@ -157,7 +168,7 @@ const ChallengeDetailPage = ({ params }: Props) => {
           {challenge.content}
         </div>
       </div>
-      <hr className="my-[10px]"/>
+      <hr className="my-[10px]" />
       {canEdit && (
         <div className="flex flex-row gap-[4px] justify-end mt-[10px]">
           <button

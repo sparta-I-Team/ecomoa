@@ -9,11 +9,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 
 const Header = () => {
   const { loginUser, user, logoutUser } = userStore();
   const pathname = usePathname();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
     { href: "/challenge", label: "데일리 챌린지" },
@@ -26,6 +28,7 @@ const Header = () => {
     await signout();
     logoutUser();
     alert("로그아웃 되었습니다.");
+    setIsMenuOpen(false);
   };
 
   const supabase = createClient();
@@ -42,7 +45,6 @@ const Header = () => {
     }
   });
 
-  // 유저 이미지 가지고 오기
   const levelInfo = calculateLevelInfo(userInfo?.user_point ?? 0);
 
   useEffect(() => {
@@ -53,12 +55,21 @@ const Header = () => {
     getUserFetch();
   }, [user]);
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isMenuOpen]);
+
   return (
-    <header className="bg-[#0D9C36]">
+    <header className="bg-[#0D9C36] relative">
       <nav
-        className="max-w-[1200px] mx-auto flex flex-row justify-between"
+        className="max-w-[1200px] mx-auto flex flex-row justify-between px-4"
         aria-label="Main Navigation"
       >
+        {/* 로고 */}
         <ul className="flex justify-center items-center h-20">
           <li className="relative w-[100px] h-[20px]">
             <Link href="/">
@@ -70,7 +81,9 @@ const Header = () => {
               />
             </Link>
           </li>
-          <div className="flex flex-row justify-center items-center space-x-4 ml-14 text-white text-sm">
+
+          {/* 데스크톱 네비게이션 */}
+          <div className="hidden md:flex flex-row justify-center items-center space-x-4 ml-14 text-white text-sm">
             {navItems.map((item) => (
               <li key={item.href}>
                 <Link
@@ -89,13 +102,14 @@ const Header = () => {
             ))}
           </div>
         </ul>
-        <ul className="flex flex-row justify-center items-center space-x-4">
+
+        {/* 데스크톱 유저 메뉴 */}
+        <ul className="hidden md:flex flex-row justify-center items-center space-x-4">
           {!user.isAuthenticated ? (
             <ul className="flex flex-row justify-center items-center gap-[32px] text-white">
-              <li className="flex flex-row justify-center items-center gap-[9px]"></li>
               <li>
                 <Link href="/login" className="hover:text-gray-300">
-                  <button className="border-none rounded text-[14px] bg-[#00691E] w-[80px] h-[28px] ">
+                  <button className="border-none rounded text-[14px] bg-[#00691E] w-[80px] h-[28px]">
                     로그인
                   </button>
                 </Link>
@@ -130,7 +144,123 @@ const Header = () => {
             </ul>
           )}
         </ul>
+
+        {/* 모바일 햄버거 버튼 */}
+        <div className="md:hidden flex flex-row">
+          <Link
+            href="/mypage"
+            className="flex items-center gap-3 rounded-lg p-3"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <figure className="w-[28px] h-[28px] rounded-full bg-[#00691E]">
+              <Image
+                src={levelInfo.profileSmall}
+                alt="프로필 이미지"
+                width={28}
+                height={28}
+              />
+            </figure>
+          </Link>
+          <button
+            className="flex items-center text-white p-4 border-none"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? null : <Menu size={24} />}
+          </button>
+        </div>
       </nav>
+
+      {/* 모바일 메뉴 */}
+      {isMenuOpen && (
+        <div className="md:hidden fixed inset-0 bg-white z-50 ">
+          {/* 상단 헤더 */}
+          <div className="bg-[#0D9C36] h-20 px-4 flex justify-between items-center">
+            <Link href="/" onClick={() => setIsMenuOpen(false)}>
+              <div className="relative w-[100px] h-[20px]">
+                <Image
+                  src="/images/ecomoa2.png"
+                  alt="에코모아로고"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            </Link>
+
+            <div className="flex flex-row">
+              <Link
+                href="/mypage"
+                className="flex items-center gap-3 rounded-lg p-3"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <figure className="w-[28px] h-[28px] rounded-full bg-[#00691E]">
+                  <Image
+                    src={levelInfo.profileSmall}
+                    alt="프로필 이미지"
+                    width={28}
+                    height={28}
+                  />
+                </figure>
+              </Link>
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center text-white p-4 border-none"
+                aria-label="Close menu"
+              >
+                <X size={24} />
+              </button>
+            </div>
+          </div>
+
+          {/* 메뉴 내용 */}
+          <div className="flex flex-col h-[calc(100%-80px)]">
+            <nav className="flex-1">
+              <ul>
+                {navItems.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className={`block px-6 py-10 border-b border-gray-200
+                        ${
+                          pathname.includes(item.href)
+                            ? "font-bold bg-gray-50"
+                            : "hover:bg-gray-50"
+                        }`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* 모바일 유저 메뉴 */}
+            <div className="border-t border-gray-200 p-6 bg-gray-50">
+              {!user.isAuthenticated ? (
+                <Link
+                  href="/login"
+                  className="block w-full"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <button className="w-full p-3 text-white bg-[#0D9C36] rounded-lg">
+                    로그인
+                  </button>
+                </Link>
+              ) : (
+                <div className="space-y-4">
+                  <button
+                    className="w-full p-3 text-white bg-[#0D9C36] rounded-lg"
+                    onClick={handleLogout}
+                  >
+                    로그아웃
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

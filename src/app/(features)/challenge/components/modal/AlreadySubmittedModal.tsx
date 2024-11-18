@@ -6,7 +6,7 @@ interface AlreadySubmittedModalProps {
 
 const AlreadySubmittedModal = ({ onGoBack }: AlreadySubmittedModalProps) => {
   return (
-    <div className="flex flex-col w-[585px] h-[300px] p-6">
+    <div className="flex flex-col w-full md:w-[585px] h-[300px] p-6">
       <div className="flex flex-col justify-center mb-[30px]">
         <figure className="mx-auto mb-[30px]">
           <Image

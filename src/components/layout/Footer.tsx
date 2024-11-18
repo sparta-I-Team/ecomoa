@@ -7,7 +7,7 @@ const Footer = () => {
     <>
       <footer className=" w-full h-[120px] bg-[#D7E8D7] pt-[30px] pb-[30px] px-[57px]">
         <div
-          className="flex flex-col md:flex-row w-[360px] md:w-[1200px] md:mx-auto md:justify-between md:items-center md:px-[30px]
+          className="flex flex-col w-full first-line:md:flex-row md:w-[1200px] md:mx-auto md:justify-between md:items-center md:px-[30px]
         "
         >
           <div className="flex flex-col items-start space-y-4">

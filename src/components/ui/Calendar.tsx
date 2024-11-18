@@ -4,12 +4,11 @@ import { calendarApi } from "@/api/calendarApi";
 import { DAY_OF_THE_WEEK } from "@/utlis/challenge/challenges";
 import dayjs from "dayjs";
 import { MonthlyData, MonthlyStats } from "@/types/calendar";
-import { userStore } from "@/zustand/userStore";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { userStore } from "@/zustand/userStore";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 
-// dayjs 플러그인 설정
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -37,7 +36,6 @@ const Calendar = () => {
     setError(null);
 
     try {
-      // 한국 시간 기준으로 월의 시작과 끝을 계산
       const startOfMonth = currentMonth
         .startOf("month")
         .startOf("day")
@@ -56,7 +54,6 @@ const Calendar = () => {
 
       const dataByDate: MonthlyData = {};
       challengeData.forEach((item) => {
-        // UTC를 KST로 변환
         const date = dayjs(item.created_at)
           .tz("Asia/Seoul")
           .format("YYYY-MM-DD");
@@ -114,70 +111,70 @@ const Calendar = () => {
   }
 
   return (
-    <div className="mb-[100px]">
-      <div className="flex flex-col gap-[30px]">
-        <p className="text-[20px] text-[#00691E]">
+    <div className="mb-8 px-4 md:px-0 md:mb-[100px]">
+      <div className="flex flex-col gap-4 md:gap-[30px]">
+        <p className="text-[16px] md:text-[20px] text-[#00691E]">
           연속 챌린지 참가에 도전해보세요!
         </p>
-        <h1 className="font-bold text-[32px]">
+        <h1 className="text-2xl md:text-[32px] font-bold">
           이번달 나의 탄소 절감 발자취를 확인해 보세요
         </h1>
       </div>
 
-      <div className="flex gap-4 mt-[76px] mb-8 items-center">
+      <div className="flex gap-4 mt-8 md:mt-[76px] mb-6 md:mb-8 items-center  md:justify-start">
         <button
           onClick={() => handleMonthChange(-1)}
-          className="w-10 h-10 flex items-center justify-center border-none transition-colors"
+          className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border-none"
         >
-          <ChevronLeft className="w-8 h-8" />
+          <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
         </button>
-        <span className="text-3xl font-medium">
+        <span className="text-2xl md:text-3xl font-medium">
           {currentMonth.format("YYYY년 MM월")}
         </span>
         <button
           onClick={() => handleMonthChange(1)}
-          className="w-10 h-10 flex items-center justify-center border-none transition-colors"
+          className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center border-none"
         >
-          <ChevronRight className="w-8 h-8" />
+          <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
         </button>
       </div>
 
       {isLoading ? (
-        <div className="flex justify-center items-center h-[90px] space-x-6">
+        <div className="flex justify-center items-center h-[90px]">
           Loading...
         </div>
       ) : (
-        <div className="flex flex-row w-full h-[90px] space-x-6 text-white">
-          <div className="flex flex-row justify-around items-center w-1/3 bg-[#00320F] border-2 border-gray-300 rounded-xl">
-            <p className="font-medium text-[20px]">탄소 절감량</p>
-            <p className="font-semibold text-[26px]">
+        <div className="flex flex-col md:flex-row gap-[8px] md:gap-6 w-full text-white">
+          <div className="flex flex-row justify-around items-center w-full md:w-1/3 h-[90px] bg-[#00320F] rounded-xl">
+            <p className="text-2xl md:text-[20px] font-medium">탄소 절감량</p>
+            <p className="text-4xl md:text-[26px] font-semibold">
               {monthlyStats.totalCo2.toFixed(2)}kg
             </p>
           </div>
-          <div className="flex flex-row justify-around items-center w-1/3 bg-[#00320F] border-2 border-gray-300 rounded-xl">
-            <p className="font-medium text-[20px]">포인트 수집</p>
-            <p className="font-semibold text-[26px]">
+          <div className="flex flex-row justify-around items-center w-full md:w-1/3 h-[90px] bg-[#00320F] rounded-xl">
+            <p className="text-2xl md:text-[20px] font-medium">포인트 수집</p>
+            <p className="text-4xl md:text-[26px] font-semibold">
               {monthlyStats.totalPoints}P
             </p>
           </div>
-          <div className="flex flex-row justify-around items-center w-1/3 bg-[#00320F] border-2 border-gray-300 rounded-xl">
-            <p className="font-medium text-[20px]">챌린지 참여</p>
-            <p className="font-semibold text-[26px]">
+          <div className="flex flex-row justify-around items-center w-full md:w-1/3 h-[90px] bg-[#00320F] rounded-xl">
+            <p className="text-2xl md:text-[20px] font-medium">챌린지 참여</p>
+            <p className="text-4xl md:text-[26px] font-semibold">
               {monthlyStats.totalChallenges}건
             </p>
           </div>
         </div>
       )}
 
-      <div className="flex flex-col justify-center mt-[18px]">
-        <div className="grid grid-cols-7 content-center h-[85px] px-[194px]">
+      <div className="flex flex-col justify-center mt-[50px] md:mt-[18px] px-[20px] md:px-0">
+        <div className="grid grid-cols-7 content-center h-16 md:h-[85px] md:px-[194px] mb-[22px] md:mb-0">
           {DAY_OF_THE_WEEK.map((day) => (
             <div
               key={day}
               className={`
                 text-center 
-                font-semibold
-                text-[20px]
+                font-bold
+                text-[16px] md:text-[20px]
                 ${
                   day === "토" || day === "일"
                     ? "text-red-500"
@@ -190,11 +187,11 @@ const Calendar = () => {
           ))}
         </div>
 
-        <div className="flex flex-col justify-center h-[832px] rounded-3xl">
+        <div className="flex flex-col justify-center md:h-[832px] rounded-3xl">
           {weeks.map((week, weekIndex) => (
             <div
               key={weekIndex}
-              className="grid grid-cols-7 content-around px-[194px] h-[160px]"
+              className="grid grid-cols-7 content-around md:px-[194px] h-24 md:h-[160px]"
             >
               {week.map(({ day, isInCurrentMonth }) => {
                 const dateStr = day.format("YYYY-MM-DD");
@@ -206,16 +203,16 @@ const Calendar = () => {
                   <div
                     key={day.toString()}
                     className={`
-                      flex flex-col items-center rounded-2xl h-[110px] gap-[12px]
+                      flex flex-col items-center rounded-2xl h-20 md:h-[110px] gap-2 md:gap-[12px]
                       ${!isInCurrentMonth ? "text-gray-400" : ""}
                     `}
                   >
                     <div
                       className={`
                         flex items-center justify-center
-                        w-[60px] h-[60px]
+                        w-[38px] h-[38px] md:w-[60px] md:h-[60px]
                         font-medium
-                        text-[22px]
+                        text-[14px] md:text-[22px]
                         ${
                           isToday
                             ? "bg-[#0D9C36] text-white"
@@ -232,10 +229,10 @@ const Calendar = () => {
                     </div>
                     {dayData && (
                       <div className="flex flex-col">
-                        <p className="text-[12px] font-medium">
+                        <p className="text-[10px] md:text-[12px] font-medium">
                           -{dayData.co2.toFixed(2)}kg
                         </p>
-                        <p className="text-[12px] font-medium text-[#0D9C36]">
+                        <p className="text-[10px] md:text-[12px] font-medium text-[#0D9C36]">
                           +{dayData.point}P
                         </p>
                       </div>
