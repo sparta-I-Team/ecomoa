@@ -162,7 +162,7 @@ const Header = () => {
             </figure>
           </Link>
           <button
-            className=" flex items-center text-white p-4 border-none"
+            className="flex items-center text-white p-4 border-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -204,7 +204,7 @@ const Header = () => {
               </Link>
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="text-white p-2 border-none"
+                className="flex items-center text-white p-4 border-none"
                 aria-label="Close menu"
               >
                 <X size={24} />

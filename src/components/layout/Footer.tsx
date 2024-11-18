@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <>
       <footer className="relative w-full h-[245px] bg-[#F2F9F2] ">
-        <div className="flex flex-col w-[1200px] mx-auto py-[40px]">
+        <div className="flex flex-col w-full mx-auto py-[40px]">
           <div className="flex flex-col items-start space-y-4">
             <h2 className="text-[16px] font-bold">React Team 11</h2>
             <div className="flex flex-col">

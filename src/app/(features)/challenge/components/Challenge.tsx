@@ -34,7 +34,7 @@ export const Challenge = () => {
         </div>
       ) : (
         <div className="h-full">
-          <div className="max-w-[1200px] mx-auto py-[52px]">
+          <div className="max-w-[1200px] mx-auto py-[16px] md:py-[52px]">
             <ChallengeForm />
           </div>
         </div>

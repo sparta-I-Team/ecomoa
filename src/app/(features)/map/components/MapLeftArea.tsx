@@ -116,14 +116,13 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
 
   const TABS = [
     { id: "all", label: "전체" },
-    { id: "saved", label: "저장한 가게" },
-    { id: "visited", label: "다녀온 가게" }
+    { id: "saved", label: "저장한 가게" }
   ];
 
   const sortedAndFilteredStores = getSortedStores();
 
   return (
-    <div className="min-w-[380px] h-[822px] flex flex-col">
+    <div className="h-[822px] flex flex-col px-4 md:px-0">
       <nav className="relative mb-[24px]">
         <div className="flex">
           {TABS.map((tab) => (
