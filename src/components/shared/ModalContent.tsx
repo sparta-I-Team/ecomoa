@@ -17,7 +17,7 @@ export const ModalContent = () => {
         <div className="w-[320px] p-6">
           <div className="mb-6 text-center">{content}</div>
           <button
-            className="w-full h-[48px] bg-black text-white rounded-lg"
+            className="w-full h-[48px] bg-[#0D9C36] text-white rounded-lg"
             onClick={closeModal}
           >
             {buttonText?.confirm || "확인"}
@@ -40,7 +40,7 @@ export const ModalContent = () => {
               {buttonText?.cancel || "취소"}
             </button>
             <button
-              className="flex-1 h-[48px] bg-black text-white rounded-lg"
+              className="flex-1 h-[48px] bg-[#0D9C36] text-white rounded-lg"
               onClick={() => {
                 onConfirm?.();
                 closeModal();
@@ -56,7 +56,7 @@ export const ModalContent = () => {
       return (
         <div
           className={`flex flex-col justify-center overflow-auto max-h-[90vh] ${
-            className || " min-h-[360px]"
+            className || "min-w-[320px] min-h-[360px]"
           }`}
         >
           {content}

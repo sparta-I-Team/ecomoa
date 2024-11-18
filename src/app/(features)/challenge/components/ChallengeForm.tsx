@@ -41,7 +41,7 @@ const ChallengeForm = ({ initialData }: Props) => {
   const mutation = isEditMode ? updateMutation : challengeMutation;
 
   return (
-    <div>
+    <div className="p-4 md:p-0">
       {isEditMode ? (
         <div className="flex justify-end">
           <button
@@ -69,26 +69,25 @@ const ChallengeForm = ({ initialData }: Props) => {
         <>
           <button
             onClick={handleOpenGoBackModal}
-            className="flex flex-row items-center text-[16px] font-bold mb-4 text-[#525660] hover:text-gray-400 transition-colors border-none"
+            className="flex flex-row items-center text-sm md:text-[16px] font-bold mb-2 md:mb-4 text-[#525660] hover:text-gray-400 transition-colors border-none"
           >
-            <ChevronLeft className="w-4 h-4 text-[#525660]" /> <p>챌린지 홈</p>
+            <ChevronLeft className="w-4 h-4 text-[#525660]" /> 
+            <p>챌린지 홈</p>
           </button>
-          <hr />
+          <hr/>
         </>
       )}
       <form
         onSubmit={handleSubmit((data) =>
           onSubmit(data, imageFiles, isEditMode ? deletedImages : undefined)
         )}
-        className={`rounded-lg 
-          ${isEditMode ? "" : "mt-9"}
-          `}
+        className={`rounded-lg ${isEditMode ? "" : "mt-[36px] md:mt-9"}`}
       >
-        <div className="flex flex-row items-center gap-[20px] mb-[40px]">
-          <label className="flex p-[12px_16px] justify-center items-center gap-2.5 rounded-[4px] bg-[#0D9C36] text-white">
+        <div className="flex flex-row items-center gap-2 md:gap-[20px] mb-6 md:mb-[40px]">
+          <label className="flex p-4 md:p-[12px_16px] justify-center items-center gap-2.5 rounded-[4px] bg-[#0D9C36] text-white text-lg md:text-base">
             {totalPoint}P
           </label>
-          <p className="text-gray-600 font-semibold text-[24px]">
+          <p className="text-gray-600 font-semibold text-2xl md:text-[24px]">
             {(isEditMode
               ? new Date(initialData!.created_at)
               : new Date()
@@ -98,7 +97,7 @@ const ChallengeForm = ({ initialData }: Props) => {
               day: "numeric",
               weekday: "long"
             })}
-            데일리 챌린지
+            {` `}데일리 챌린지
           </p>
         </div>
 
@@ -118,24 +117,24 @@ const ChallengeForm = ({ initialData }: Props) => {
           onDeleteExisting={handleDeleteExistingImage}
         />
 
-        <div className="mt-6">
-          <h1 className="font-bold text-[14px] mb-2">챌린지 내용</h1>
+        <div className="mt-4 md:mt-6">
+          <h1 className="font-bold text-xs md:text-[14px] mb-2">챌린지 내용</h1>
           <textarea
             {...register("content", {
               required: "챌린지 내용을 입력해주세요."
             })}
-            className="w-full p-4 border rounded-lg min-h-[80px] bg-[#F5F5F5] border-none focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500"
+            className="w-full p-3 md:p-4 border rounded-lg min-h-[80px] bg-[#F5F5F5] border-none focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 text-sm md:text-base"
             placeholder="첼린지 내용을 입력해주세요"
           />
           {errors.content && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs md:text-sm mt-1">
               {errors.content.message}
             </p>
           )}
         </div>
 
         <BlackAutoWidthButton
-          className="px-4 py-3 bg-[#0D9C36]"
+          className="px-3 py-2 md:px-4 md:py-3 bg-[#0D9C36] text-sm md:text-base mt-4 md:mt-6"
           text={
             mutation.isPending
               ? isEditMode

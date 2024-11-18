@@ -54,9 +54,7 @@ const KakaoMap = ({ storeList, selectedStoreId, onClick }: KakaoMapProps) => {
     setLevel(3);
   }, [selectedStoreId, storeList]);
 
-  // 현재 위치 가져오기 함수
   const getCurrentLocation = () => {
-    console.log(navigator.geolocation);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -98,76 +96,78 @@ const KakaoMap = ({ storeList, selectedStoreId, onClick }: KakaoMapProps) => {
   };
 
   return (
-    <div className="w-2/3 h-[822px] ml-[30px] relative">
+    <div className="w-full md:w-2/3 h-[360px] md:h-[822px] relative">
       {isMapLoaded && (
-        <Map
-          ref={mapRef}
-          center={{
-            lat: 37.566826,
-            lng: 126.978656
-          }}
-          style={{
-            width: "792px",
-            height: "100%",
-            borderRadius: "16px"
-          }}
-          level={level}
-          draggable={true}
-          zoomable={true}
-          onZoomChanged={(map) => setLevel(map.getLevel())}
-        >
-          {/* 현재 위치 마커 */}
-          {userLocation && (
-            <MapMarker
-              position={userLocation}
-              image={{
-                src: "/images/selectedMarker.png",
-                size: { width: 40, height: 46 }
-              }}
-            />
-          )}
-
-          {/* 스토어 마커들 */}
-          {level <= 5 &&
-            storeList?.map((store) => (
+        <div className="w-full h-full rounded-2xl overflow-hidden">
+          <Map
+            ref={mapRef}
+            center={{
+              lat: 37.566826,
+              lng: 126.978656
+            }}
+            style={{
+              width: "100%",
+              height: "100%"
+            }}
+            level={level}
+            draggable={true}
+            zoomable={true}
+            onZoomChanged={(map) => setLevel(map.getLevel())}
+          >
+            {userLocation && (
               <MapMarker
-                key={store.store_id}
-                position={{ lat: store.lat, lng: store.lon }}
-                onClick={() => onClick(store)}
+                position={userLocation}
                 image={{
-                  src:
-                    selectedStoreId === store.store_id
-                      ? "/images/selectedMarker.png"
-                      : "/images/marker.png",
-                  size: {
-                    width: 40,
-                    height: 46
-                  }
+                  src: "/images/selectedMarker.png",
+                  size: { width: 40, height: 46 }
                 }}
-              >
-                {selectedStoreId === store.store_id && (
-                  <div className="p-2 w-[280px]" style={{ border: "none" }}>
-                    <div className="mb-2 pb-2 border-b border-gray-100">
-                      <h3 className="font-bold text-gray-800 break-words">
-                        {store.store_name}
-                      </h3>
+              />
+            )}
+
+            {level <= 5 &&
+              storeList?.map((store) => (
+                <MapMarker
+                  key={store.store_id}
+                  position={{ lat: store.lat, lng: store.lon }}
+                  onClick={() => onClick(store)}
+                  image={{
+                    src:
+                      selectedStoreId === store.store_id
+                        ? "/images/selectedMarker.png"
+                        : "/images/marker.png",
+                    size: {
+                      width: 40,
+                      height: 46
+                    }
+                  }}
+                >
+                  {selectedStoreId === store.store_id && (
+                    <div
+                      className="p-2 w-[200px] md:w-[280px]"
+                      style={{ border: "none" }}
+                    >
+                      <div className="mb-2 pb-2 border-b border-gray-100">
+                        <h3 className="font-bold text-sm md:text-base text-gray-800 break-words">
+                          {store.store_name}
+                        </h3>
+                      </div>
+                      <div className="text-xs md:text-sm space-y-1">
+                        <div className="text-gray-600 break-words whitespace-pre-wrap">
+                          {store.road_address}
+                        </div>
+                        <div className="text-gray-500 break-words whitespace-pre-wrap">
+                          {store.operating_hours}
+                        </div>
+                        <div className="text-gray-500 break-words whitespace-pre-wrap">
+                          {store.contact_number}
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-sm space-y-1">
-                      <div className="text-gray-600 break-words whitespace-pre-wrap">
-                        {store.road_address}
-                      </div>
-                      <div className="text-gray-500 break-words whitespace-pre-wrap">
-                        {store.operating_hours}
-                      </div>
-                      <div className="text-gray-500 break-words whitespace-pre-wrap">
-                        {store.contact_number}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </MapMarker>
-            ))}
-        </Map>
+                  )}
+                </MapMarker>
+              ))}
+          </Map>
+        </div>
       )}
 
       <MapController

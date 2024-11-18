@@ -58,21 +58,31 @@ const Page = () => {
   }, [posts, searchTerm, selected]);
 
   return (
-    <div className="bg-[#E8F3E8] py-[52px]">
-      <div className="w-[1200px] mx-auto">
-        <label className="text-[#000301] leading-[140%] font-wanted-sans text-[26px] font-bold tracking-[-0.26px] mb-4">
+    <div className="bg-[white] py-[52px] md:bg-[#E8F3E8]">
+      <div className="md:w-[1200px] mx-auto w-[360px] p-2 md:p-0">
+        <label className="text-[#000301] leading-[140%] font-wanted-sans text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
           친환경 활동을 공유해 보세요
         </label>
         <div className="flex flex-col w-full">
           <CommunityNav />
-          <div className="bg-[#E8F3E8]">
-            <input
-              type="text"
-              placeholder="키워드를 검색해 보세요"
-              className="border-none mt-4 flex w-[380px] h-[52px] p-[19px_20px] flex-col justify-center items-start gap-[10px] flex-shrink-0 rounded-[40px] bg-[#DCECDC]"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          <div className="md:bg-[#E8F3E8] bg-[white] ">
+            <div className="relative w-[360px] h-[52px] md:mt-4 ">
+              <input
+                type="text"
+                placeholder="검색"
+                className=" mb-2 border-none md:w-[360px] w-[320px] h-[52px] pl-[20px] rounded-[40px] bg-[#D7E8D7]"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <div className="absolute right-[20px] top-1/2 transform -translate-y-1/2 ">
+                <Image
+                  src="/community/search.png"
+                  alt="검색"
+                  width={24}
+                  height={24}
+                />
+              </div>
+            </div>
             <div className="flex justify-between items-center mb-4">
               <div className="flex space-x-4">
                 <label className="text-[#00691E] text-base font-semibold leading-6">
@@ -97,22 +107,23 @@ const Page = () => {
                   <label>오래된순</label>
                 </div>
               </div>
+            </div>
+            <div className="p-2 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
+              {loading && <p>로딩 중...</p>}
+              {error && <p className="text-red-500">{error}</p>}
+              {filteredPosts.map((post) => (
+                <PostCard post={post} type="free" key={post.post_id} />
+              ))}
+
               <Link href="/community/post">
                 <Image
                   src="/community/addPost.png"
                   alt="게시글 작성"
                   width={64}
                   height={64}
-                  className=""
+                  className="absolute bottom-[52px] right-[32px]"
                 />
               </Link>
-            </div>
-            <div className="flex flex-col h-[620px] overflow-y-auto mb-4">
-              {loading && <p>로딩 중...</p>}
-              {error && <p className="text-red-500">{error}</p>}
-              {filteredPosts.map((post) => (
-                <PostCard post={post} type="free" key={post.post_id} />
-              ))}
             </div>
           </div>
         </div>

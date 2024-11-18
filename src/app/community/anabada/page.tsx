@@ -70,40 +70,49 @@ const Page = () => {
   }, [posts, searchTerm, selected]);
 
   return (
-    <div className=" py-[52px] bg-[#E8F3E8] ">
-      <div className="w-[1200px] mx-auto ">
-        <label className="text-[#000301] leading-[140%] font-wanted-sans text-[26px] font-bold tracking-[-0.26px]">
-          친환경 활동을 공유해 보세요
-        </label>
-        <div className="flex flex-col w-full">
-          {/* <CommunityNav /> */}
-          <div>
-            <div className="flex ">
+    <div className=" py-[52px] bg-[#E8F3E8]  mx-auto">
+      <div className="md:w-[1200px] mx-auto w-[360px] p-2 md:p-0">
+        <div>
+          <label className="text-[#000301] leading-[140%] font-wanted-sans text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
+            친환경 활동을 공유해 보세요
+          </label>
+          <div className="flex flex-col w-full mt-4 p-2">
+            <div className=" mb-4 flex items-start">
               <Link href="/community" passHref>
-                <button className="w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
+                <button className=" w-[106px] md:w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
                   첼린지 인증
                 </button>
               </Link>
               <Link href="/community/free" passHref>
-                <button className="w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
+                <button className=" w-[106px] md:w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
                   자유 게시판
                 </button>
               </Link>
               <Link href="/community/anabada" passHref>
-                <button className="w-[400px] h-12 border-b-2 border-[#00320F] border-t-0 border-l-0 border-r-0 font-semibold flex items-center justify-center">
+                <button className=" w-[106px]  md:w-[400px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-bold flex items-center justify-center text-[12px]  md:text-[16px] whitespace-nowrap px-2 sm:px-4">
                   아나바다 시장
                 </button>
               </Link>
             </div>
           </div>
           <div className="bg-[#E8F3E8]">
-            <input
-              type="text"
-              placeholder="키워드를 검색해 보세요"
-              className="border-none mt-4 flex w-[380px] h-[52px] p-[19px_20px] flex-col justify-center items-start gap-[10px] flex-shrink-0 rounded-[40px] bg-[#DCECDC]"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+            <div className="relative w-[360px] h-[52px] md:mt-4">
+              <input
+                type="text"
+                placeholder="검색"
+                className=" mb-2 border-none md:w-[360px] w-[320px] h-[52px] pl-[20px] rounded-[40px] bg-[#D7E8D7]"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <div className="absolute right-[20px] top-1/2 transform -translate-y-1/2">
+                <Image
+                  src="/community/search.png"
+                  alt="검색"
+                  width={24}
+                  height={24}
+                />
+              </div>
+            </div>
             <div className="flex justify-between items-center mb-4">
               <div className="flex space-x-4">
                 <label className="text-[#00691E] text-base font-semibold leading-6">
@@ -155,24 +164,23 @@ const Page = () => {
                   <label>댓글순</label>
                 </div> */}
               </div>
-
-              <Link href="/community/postAna">
-                <Image
-                  src="/community/addPost.png"
-                  alt="게시글 작성"
-                  width={64}
-                  height={64}
-                  className=""
-                />
-              </Link>
             </div>
-            <div className="flex flex-col h-[620px] overflow-y-auto mb-4">
+            <div className="p-2 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
               {loading && <p>로딩 중...</p>}
               {error && <p className="text-red-500">{error}</p>}
-              <div className="flex flex-wrap gap-6">
+              <div className="flex flex-wrap  ">
                 {filteredPosts.map((post) => (
                   <PostCard post={post} type="anabada" key={post.post_id} />
                 ))}
+                <Link href="/community/postAna">
+                  <Image
+                    src="/community/addPost.png"
+                    alt="게시글 작성"
+                    width={64}
+                    height={64}
+                    className="absolute bottom-[52px] right-[32px] "
+                  />
+                </Link>
               </div>
             </div>
           </div>
