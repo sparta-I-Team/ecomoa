@@ -10,6 +10,7 @@ import EditPostModal from "../../components/EditPostModal";
 import Like from "../../components/Like";
 import Link from "next/link";
 import Image from "next/image";
+import { ChevronLeft } from "lucide-react";
 
 type Comment = {
   comment_id: string;
@@ -211,27 +212,37 @@ const PostDetailPage = ({ params }: Props) => {
   };
 
   return (
-    <div className="md:p-6 p-2 mt-6 mx-auto w-[1200px]">
-      <Link href={"/community/free"} className="mb-4 mt-4">
-        {"< 자유게시판 "}
+    <div className="min-w-[320px] md:pt-[64px] p-2 md:mt-0 mt-6 mx-auto w-full md:max-w-[1200px] px-[20px] md:px-0 pb-[80px] md:pb-0">
+      <Link
+        href={"/community/free"}
+        className="flex items-center md:mb-4 md:mt-4 text-[#525660] text-[16px] font-[600] leading-[22.4px] tracking-[-0.16px]"
+      >
+        <ChevronLeft />
+        자유게시판
       </Link>
-      <div className="mb-4 w-[360px] md:w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
+      <div className="md:mb-[36px] mt-[16px] mb-[36px] w-full md:mt-4 h-px bg-[#D5D7DD]"></div>
       <article>
-        <label className="text-2xl font-semibold">{post.post_title}</label>
-        <div className="flex mt-4 mb-2 text-sm text-gray-600">
-          <label className="mr-4">{post.user_info.user_nickname}</label>
+        <label className="font-[700] text-[22px] md:text-2xl md:font-semibold">
+          {post.post_title}
+        </label>
+        <div className="flex gap-[4px] mt-[20px] text-[#A1A7B4] text-[16px]">
+          <label className="md:mr-4">{post.user_info.user_nickname}</label>
+          <span className="text-[10px]">&#8226;</span>
           <label>{new Date(post.created_at).toLocaleDateString()}</label>
+          <span className="text-[10px]">&#8226;</span>
           <div className="flex space-x-4 text-gray-600">
             <Like postId={post.post_id} />
           </div>
         </div>
-        <p className="mt-4 leading-normal">{post.post_content}</p>
+        <p className="md:mt-[] md:leading-normal mt-[36px] text-[#000301] text-[14px] font-[400]">
+          {post.post_content}
+        </p>
 
         {post.post_img &&
         Array.isArray(post.post_img) &&
         post.post_img.length > 0 ? (
           <div>
-            <div className="flex mt-6 gap-4">
+            <div className="flex mt-6 md:mt-[36px] md:mb-[68px] gap-4">
               {post.post_img.map((img, index) => (
                 <div key={index} className="max-w-[168px] max-h-[168px]">
                   <Image
@@ -239,7 +250,7 @@ const PostDetailPage = ({ params }: Props) => {
                     alt={`게시글 이미지 ${index + 1}`}
                     width={168}
                     height={168}
-                    className="w-full h-full object-cover p-2 rounded-[12px]"
+                    className="w-full h-full object-cover p-2 md:p-0 rounded-[12px]"
                   />
                 </div>
               ))}
@@ -263,31 +274,33 @@ const PostDetailPage = ({ params }: Props) => {
       </article>
 
       {/* 댓글 입력 부분 */}
-      <div className="relative flex justify-between mt-10 w-[1200px]">
-        <input
-          type="text"
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="댓글을 입력해주세요"
-          className="rounded-[16px] bg-[#CBF5CB] w-[1200px] h-[70px] leading-[40px] px-4 border-none text-[#A1A7B4]"
-        />
-        <button
-          onClick={handleAddComment}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#0D9C36] border-none rounded-[12px] text-white px-6 py-2 text-[16px] font-medium leading-[24px] tracking-[-0.16px]"
-        >
-          댓글 등록
-        </button>
+      <div className="relative flex mt-[68px] md:mt-[36px] mb-[32px] w-full">
+        <div className="w-full py-[28px] px-[32px] flex flex-row bg-[#E8F3E8] justify-between items-center rounded-[16px]">
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="댓글을 입력해주세요"
+            className=" outline-none bg-[#E8F3E8] md:px-4 border-none text-[#A1A7B4] leading-[21px]"
+          />
+          <button
+            onClick={handleAddComment}
+            className="py-[12px] px-[16px] whitespace-nowrap bg-[#0D9C36] border-none rounded-full text-white text-[16px] font-[500] leading-[24px] tracking-[-0.16px] "
+          >
+            댓글 등록
+          </button>
+        </div>
       </div>
-      <hr className="h-px mt-[20px] w-[1200px]"></hr>
+      <hr className="h-px md:mt-[20px] w-full"></hr>
       {/* 댓글 목록 */}
-      <div className="mt-8 flex flex-col">
+      <div className="md:mt-8 flex flex-col pt-[28px]">
         {comments.map((comment) => (
-          <div key={comment.comment_id} className="flex flex-col mb-4">
-            <div className="flex items-center">
-              <span className="font-semibold">
+          <div key={comment.comment_id} className="flex flex-col md:mb-4">
+            <div className="flex items-center text-[#A1A7B4] text-[14px] leading-[21px] tracking-[-0.14px] gap-[4px]">
+              <span className="font-[500] md:font-[600]">
                 {comment.user_info?.user_nickname}
               </span>
-              <span className="text-[12px] text-gray-500 ml-2">
+              <span className="text-[10px]">&#8226;</span>
+              <span className="md:text-[12px] text-[#A1A7B4]">
                 {new Date(comment.created_at).toLocaleDateString()}
               </span>
             </div>
@@ -307,11 +320,13 @@ const PostDetailPage = ({ params }: Props) => {
                 </button>
               </div>
             ) : (
-              <p className="text-gray-700 mt-2">{comment.comment_content}</p>
+              <p className="text-[#000301] md:mt-2 mt-[20px] text-[14px] font-[400] leading-[21px] tracking-[-0.42px]">
+                {comment.comment_content}
+              </p>
             )}
 
             {user.id === comment.user_id && !editingCommentId && (
-              <div className="flex space-x-4 mt-2 ">
+              <div className="flex space-x-4 md:mt-2 mt-[20px] ">
                 <button
                   onClick={() => handleEditComment(comment.comment_id)}
                   className="text-[13px] border-none"
@@ -326,13 +341,13 @@ const PostDetailPage = ({ params }: Props) => {
                 </button>
               </div>
             )}
-            <hr className="h-px mt-[20px] w-[1200px]"></hr>
+            <hr className="h-px mt-[28px] md:mt-[20px] w-full"></hr>
           </div>
         ))}
       </div>
       <div>
         {canEdit && (
-          <div className="md:flex md:flex-row gap-[4px] justify-end mt-[10px] w-[1200px]">
+          <div className="md:flex md:flex-row gap-[4px] justify-end mt-[10px] w-full">
             <button
               onClick={handleEditClick}
               className="w-[80px] h-[32px] rounded text-[14px]"
