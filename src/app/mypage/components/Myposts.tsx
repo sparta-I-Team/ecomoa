@@ -34,7 +34,7 @@ const Myposts = ({ type }: TypeProps) => {
     return (
       <div className="flex flex-col w-full md:w-[1200px]">
         {/* 헤더 부분 스켈레톤 */}
-        <div className="mx-auto">
+        <div className="pl-[20px] md:pl-0">
           <ReturnMypage />
         </div>
         {/* 네비게이션 바 */}

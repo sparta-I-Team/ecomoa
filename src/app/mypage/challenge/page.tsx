@@ -18,7 +18,7 @@ const MyChallengePage = () => {
             </span>
           </div>
         </Link> */}
-        <div className="mb-[101px]">
+        <div className="pb-[10px]">
           <MyChallenge />
         </div>
       </div>

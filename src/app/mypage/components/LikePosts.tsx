@@ -192,28 +192,6 @@ const Myposts = ({ type }: TypeProps) => {
         <div className="mb-[80px] flex flex-wrap gap-5  overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
           {isLoading && <p>로딩 중...</p>}
           {type === "anabada" ? (
-            // 아나바다 타입인 경우 PostCard를 렌더링
-            // anabadaPosts?.map((post) => (
-            //   <div key={post.post_id} className="mx-auto">
-            //     <PostCard
-            //       key={post.posts.post_id}
-            //       post={{
-            //         ...post.posts,
-            //         comment: post.posts.comment || 0,
-            //         location: post.posts.location || "",
-            //         price: post.posts.price?.toString() || "",
-            //         params: {
-            //           ...post.posts.params,
-            //           type: post.posts.params?.type || type
-            //         },
-            //         user_info: post.posts.user_info
-            //           ? { user_nickname: post.posts.user_info.user_nickname }
-            //           : { user_nickname: "" } // user_info가 없을 경우 빈 값으로 대체
-            //       }}
-            //       type={"anabada"}
-            //     />
-            //   </div>
-            // ))
             anabadaPosts && anabadaPosts?.length > 0 ? (
               // 아나바다 타입의 게시글 렌더링
               anabadaPosts?.map((post) => (
@@ -244,73 +222,6 @@ const Myposts = ({ type }: TypeProps) => {
               </div>
             )
           ) : // 자유 게시판 타입인 경우 아티클을 렌더링
-          // freePosts?.map((post) => (
-          //   <article
-          //     key={post.posts.post_id}
-          //     className="mx-auto md:mx-0 px-[20px] pb-[28px] md:p-[28px] w-[300px] md:w-full md:h-[205px] rounded-[12px] bg-[#FFF] border border-[#E8F3E8] flex flex-col md:flex-row"
-          //     style={{
-          //       boxShadow: "0px 0px 40px 0px rgba(0, 0, 0, 0.02)"
-          //     }}
-          //   >
-          //     <div className="flex-1">
-          //       <h2 className="text-[18px] md:text-[20px] font-[700] leading-[27px] md:leading-[-0.18px] mb-2 mt-[28px] md:mt-[0]">
-          //         <Link
-          //           href={`/community/free/${post.posts.post_id}`}
-          //           className="text-[18px] font-[700] leading-[27px] tracking-[-0.18px] mt-[28px] mb-[20px]"
-          //         >
-          //           {post.posts.post_title}
-          //         </Link>
-          //       </h2>
-          //       <p className="text-[16px] leading-[24px] tracking-[-0.16px]">
-          //         {post.posts.post_content}
-          //       </p>
-
-          //       <div className="mb-4 mt-5">
-          //         <label className="text-[14px] leading-[21px] tracking-[-0.14px] mt-[16px] text-[#8A91A1] mr-[14px]">
-          //           {post.writername}
-          //           <span className="ml-[4px]"> &middot;</span>
-          //         </label>
-
-          //         <time className="text-[#8A91A1] -ml-[8px] text-[14px] leading-[21px] tracking-[-0.14px]">
-          //           {new Date(post.posts.created_at).toLocaleDateString()}
-          //         </time>
-          //       </div>
-
-          //       <div className="flex justify-between items-center mt-[35px]">
-          //         <div className="flex space-x-4">
-          //           <Like postId={post.posts.post_id} />
-          //           <label>댓글 {post.posts.comment || 0}</label>
-          //         </div>
-          //       </div>
-          //     </div>
-          //     {post.posts.post_img && post.posts.post_img.length > 0 ? (
-          //       <div className="w-[150px] h-[150px] ml-4 flex flex-wrap gap-1 rounded-[12px] md:hidden pb-[28px]">
-          //         <Image
-          //           key={0}
-          //           src={post.posts.post_img[0]}
-          //           alt="image"
-          //           width={150}
-          //           height={150}
-          //           className="object-contain h-full rounded-[12px] md:hidden -ml-[15px] mt-[21px]"
-          //         />
-          //       </div>
-          //     ) : (
-          //       <></>
-          //     )}
-          //     {post.posts.post_img && post.posts.post_img.length > 0 && (
-          //       <div className="hidden w-[160px] h-[160px] ml-4 flex flex-wrap gap-1 rounded-[12px] md:block">
-          //         <Image
-          //           key={0}
-          //           src={post.posts.post_img[0]}
-          //           alt="image"
-          //           width={149}
-          //           height={149}
-          //           className="object-contain h-full rounded-[12px] pb-[12px]"
-          //         />
-          //       </div>
-          //     )}
-          //   </article>
-          // ))
           freePosts && freePosts?.length > 0 ? (
             freePosts?.map((post) => (
               <article
@@ -369,8 +280,6 @@ const Myposts = ({ type }: TypeProps) => {
             </div>
           )}
         </div>
-        {/* )} */}
-        {/* </div> */}
       </div>
     </div>
   );
