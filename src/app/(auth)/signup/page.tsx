@@ -5,7 +5,7 @@ import { ChevronLeft } from "lucide-react";
 
 const SignupPage = () => {
   return (
-    <div className="h-auto md:min-h-screen bg-[#FFF] px-[20px] md:px-4">
+    <div className="h-auto md:mb-[80px] bg-[#FFF] px-[20px] md:px-4">
       <div className="h-auto md:w-[1200px] mx-auto">
         <div className="flex items-center mb-[16px] md:mb-[20px] pt-[36px] md:pt-[76px]">
           <ChevronLeft />

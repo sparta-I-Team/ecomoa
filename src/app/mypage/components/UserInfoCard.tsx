@@ -21,7 +21,7 @@ const nicknameSchema = z.object({
   nickname: z
     .string()
     .min(1, { message: "닉네임은 최소 1자 이상이어야 합니다." })
-    .max(20, { message: "닉네임은 20자 이하이어야 합니다." })
+    .max(6, { message: "닉네임은 6자 이하이어야 합니다." })
     .regex(/^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ@_-]*$/, {
       message: "이모지, 공백, 특수문자(-,_제외)를 사용할 수 없습니다."
     })

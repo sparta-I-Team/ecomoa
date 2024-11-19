@@ -117,14 +117,14 @@ const ChallengeForm = ({ initialData }: Props) => {
           onDeleteExisting={handleDeleteExistingImage}
         />
 
-        <div className="mt-4 md:mt-6">
+        <div className="mt-4 md:mt-6 w-full">
           <h1 className="font-bold text-xs md:text-[14px] mb-2">챌린지 내용</h1>
           <textarea
             {...register("content", {
               required: "챌린지 내용을 입력해주세요."
             })}
             className="w-full p-3 md:p-4 border rounded-lg min-h-[80px] bg-[#F5F5F5] border-none focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 text-sm md:text-base"
-            placeholder="첼린지 내용을 입력해주세요"
+            placeholder="챌린지 내용을 입력해주세요"
           />
           {errors.content && (
             <p className="text-red-500 text-xs md:text-sm mt-1">
@@ -134,7 +134,7 @@ const ChallengeForm = ({ initialData }: Props) => {
         </div>
 
         <BlackAutoWidthButton
-          className="px-3 py-2 md:px-4 md:py-3 bg-[#0D9C36] text-sm md:text-base mt-4 md:mt-6"
+          className="px-3 py-2 md:w-1/3 md:px-4 md:py-3 bg-[#0D9C36] text-sm md:text-base mt-4 md:mt-6"
           text={
             mutation.isPending
               ? isEditMode

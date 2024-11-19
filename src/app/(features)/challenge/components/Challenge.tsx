@@ -15,7 +15,7 @@ export const Challenge = () => {
   }, [setStep]);
 
   return (
-    <main >
+    <main>
       {step === 1 ? (
         <div className="flex flex-col gap-[200px]">
           <div className="h-full">

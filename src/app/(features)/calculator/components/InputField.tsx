@@ -1,6 +1,7 @@
 import { InputFieldProps } from "@/types/calculate";
 
 import FuelTypeSelector from "./FuelTypeSelector";
+import { useEffect } from "react";
 
 const InputField: React.FC<InputFieldProps> = ({
   id,
@@ -10,17 +11,23 @@ const InputField: React.FC<InputFieldProps> = ({
   requiredMessage,
   placeholder,
   unit,
-  fuelType, // 부모로부터 fuelType 받아옴
-  setFuelType // 부모로부터 setFuelType 받아옴
+  fuelType,
+  setFuelType,
+  setValue
 }) => {
   const handleFuelTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFuelType = e.target.value;
     if (setFuelType) {
-      // setFuelType이 정의되었는지 확인
       setFuelType(selectedFuelType);
       console.log(selectedFuelType);
     }
   };
+
+  useEffect(() => {
+    if (id === "car" && fuelType === "없음" && setValue) {
+      setValue(id, 0); // "car" id일 때만 fuelType이 "없음"이면 값은 0으로 설정
+    }
+  }, [fuelType, id, setValue]);
 
   return (
     <div className="flex flex-col">
@@ -52,16 +59,19 @@ const InputField: React.FC<InputFieldProps> = ({
           {...register(id, {
             required: requiredMessage
           })}
-          disabled={fuelType === "없음"}
+          // "car" id일 때만 fuelType이 "없음"이면 값은 0, 다른 id는 빈 값
+          value={id === "car" && fuelType === "없음" ? 0 : undefined}
+          // "car" id일 때만 fuelType이 "없음"이면 비활성화
+          disabled={id === "car" && fuelType === "없음"}
         />
-        <span className="absolute right-2 top-1/2 transform -translate-y-1/2 font-semibold text-gray-700 pr-10 text-[16px] hidden md:block">
+
+        <span className="absolute right-0 md:right-2 top-1/2 transform -translate-y-1/2 font-semibold text-gray-700 pr-5 text-[12px] md:text-[16px]">
           {unit}
         </span>
       </div>
       <div className="h-[30px] pt-[10px]">
         {errors[id] && (
           <small className="text-red-500 text-[16px]">
-            {/* 41번행 수정했어욥  */}
             {errors[id] && <small role="alert">{errors[id]?.message}</small>}
           </small>
         )}

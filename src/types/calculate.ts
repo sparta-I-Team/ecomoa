@@ -1,5 +1,5 @@
 import { UUID } from "crypto";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 // FormData type 정리
 export interface FormData {
@@ -21,6 +21,7 @@ export interface InputFieldProps {
   unit: string;
   fuelType?: string;
   setFuelType?: React.Dispatch<React.SetStateAction<string>>;
+  setValue?: UseFormSetValue<FormData>;
 }
 
 // 이번달 내 사용량

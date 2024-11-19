@@ -34,7 +34,7 @@ const Myposts = ({ type }: TypeProps) => {
     return (
       <div className="flex flex-col w-full md:w-[1200px]">
         {/* 헤더 부분 스켈레톤 */}
-        <div className="mx-auto">
+        <div className="pl-[20px] md:pl-0">
           <ReturnMypage />
         </div>
         {/* 네비게이션 바 */}
@@ -94,47 +94,59 @@ const Myposts = ({ type }: TypeProps) => {
   }
 
   return (
-    <div className="h-auto min-h-screen">
+    <div className="flex flex-col w-full min-h-screen md:w-[1200px] px-[20px]">
       <div className="flex flex-col w-full md:w-[1200px]">
-        <div className="pl-[20px] md:pl-0">
+        <div className="w-full md:pl-0">
           <ReturnMypage />
         </div>
         {/* 네비게이션 바 */}
         <div className="my-[36px] md:my-[48px]">
-          <p className="text-[24px] md:text-[32px] font-[700] leading-[33.6px] md:leading-[44.8px] tracking-[-0.24px] md:tracking-[-0.2px] ml-[20px] md:ml-0">
+          <p className="text-[24px] md:text-[32px] font-[700] leading-[33.6px] md:leading-[44.8px] tracking-[-0.24px] md:tracking-[-0.2px] w-full md:ml-0">
             나의 게시글
           </p>
-          <p className="mt-[16px] md:mt-[12px] text-[#00691E] text-[16px] md:text-[20px] font-[500] leading-[24px] md:leading-[30px] tracking-[-0.16px] md:tracking-[-0.2px] ml-[20px] md:ml-0">
+          <p className="mt-[16px] md:mt-[12px] text-[#00691E] text-[16px] md:text-[20px] font-[500] leading-[24px] md:leading-[30px] tracking-[-0.16px] md:tracking-[-0.2px] w-full md:ml-0">
             내가 작성한 게시글을 확인해보세요
           </p>
         </div>
-        <div className="flex mb-4 ml-[20px] md:ml-0">
+        <div className="flex mb-4 w-full md:ml-0">
           {type === "free" ? (
             <>
-              <Link href="/mypage/post/free" passHref>
-                <button className="w-[160px] md:w-[600px] h-12 border-b-2 border-[#00320F] border-t-0 border-l-0 border-r-0 font-[600] flex items-center justify-center">
+              <Link
+                href="/mypage/post/free"
+                passHref
+                className="text-[#00320F] w-1/2 border-b-2 border-black border-t-0 border-l-0 border-r-0"
+              >
+                <button className="border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
                   자유 게시판
                 </button>
               </Link>
-              <Link href="/mypage/post/anabada" passHref>
-                <button className="w-[160px] md:w-[600px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
+              <Link
+                href="/mypage/post/anabada"
+                passHref
+                className="w-1/2 border-b-2 border-t-0 border-l-0 border-r-0 text-center border-#D5D7DD text-[#D5D7DD]"
+              >
+                <button className="border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
                   아나바다 시장
                 </button>
               </Link>
             </>
           ) : (
             <>
-              <Link href="/mypage/post/free" passHref>
-                <button className="w-[160px] md:w-[600px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
+              <Link
+                href="/mypage/post/free"
+                passHref
+                className="w-1/2 border-b-2 border-t-0 border-l-0 border-r-0 text-center border-#D5D7DD text-[#D5D7DD]"
+              >
+                <button className="border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
                   자유 게시판
                 </button>
               </Link>
-
-              <Link href="/mypage/post/anabada" passHref>
-                <button
-                  className="w-[160px] md:w-[600px] h-12 border-b-2 border-[#00320F] border-t-0 border-l-0
-              border-r-0 font-[600] flex items-center justify-center"
-                >
+              <Link
+                href="/mypage/post/anabada"
+                passHref
+                className="text-[#00320F] w-1/2 border-b-2 border-black border-t-0 border-l-0 border-r-0 text-center"
+              >
+                <button className="border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
                   아나바다 시장
                 </button>
               </Link>
@@ -142,7 +154,7 @@ const Myposts = ({ type }: TypeProps) => {
           )}
         </div>
         {/* 필터링 */}
-        <div className="flex justify-between items-center mb-[20px] ml-[20px] md:ml-0">
+        <div className="flex justify-between items-center mb-[20px] w-full md:ml-0">
           <div className="flex space-x-4 mb-[10px]">
             <label className="text-[#00691E] font-[600] text-[16px] leading-[24px] tracking-[-0.16px]">
               {myPosts?.length} 건

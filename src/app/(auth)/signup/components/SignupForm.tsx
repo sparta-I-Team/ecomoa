@@ -140,7 +140,7 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="min-h-screen px-[20px] md:px-4">
+    <div className=" px-[20px] md:px-4">
       <form
         className="max-w-[360px] md:max-w-[1200px] flex flex-col items-start gap-[36px]"
         onSubmit={handleSubmit(onSubmit)}

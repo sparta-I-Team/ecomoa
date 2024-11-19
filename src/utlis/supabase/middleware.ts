@@ -48,7 +48,9 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
   if (
     (!user && request.nextUrl.pathname.startsWith("/mypage")) ||
-    (!user && request.nextUrl.pathname.startsWith("/challenge"))
+    (!user && request.nextUrl.pathname.startsWith("/challenge")) ||
+    (!user &&
+      request.nextUrl.pathname.startsWith("/calculator/result-history-main"))
   ) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
@@ -59,6 +61,13 @@ export async function updateSession(request: NextRequest) {
     await delay(1000);
     return redirectDeletePage(request, "/");
   }
+
+  // 로그인된 경우 로그인 페이지로 접근 못 하게 하기
+  // if (user && request.nextUrl.pathname.startsWith("/login")) {
+  //   const url = request.nextUrl.clone();
+  //   url.pathname = "/"; // 챌린지로 이동
+  //   return NextResponse.redirect(url);
+  // }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
   // creating a new response object with NextResponse.next() make sure to:
