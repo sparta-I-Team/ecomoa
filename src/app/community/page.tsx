@@ -66,19 +66,19 @@ const Page = () => {
 
         {/* Navbar */}
         <div className="flex flex-col w-full">
-          <div className="mb-[28px] flex flex-row">
-            <Link href="/community" passHref>
-              <div className="w-[106px] md:w-[400px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
+          <div className="mb-[28px] flex flex-row w-full">
+            <Link href="/community" passHref className="w-1/3">
+              <div className="w-full h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
                 챌린지 인증
               </div>
             </Link>
-            <Link href="/community/free" passHref>
-              <div className="w-[106px] md:w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
+            <Link href="/community/free" passHref className="w-1/3">
+              <div className="w-full h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
                 자유 게시판
               </div>
             </Link>
-            <Link href="/community/anabada" passHref>
-              <div className="w-[106px] md:w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
+            <Link href="/community/anabada" passHref className="w-1/3">
+              <div className="w-full h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
                 아나바다 시장
               </div>
             </Link>
@@ -135,8 +135,8 @@ const Page = () => {
 
         {/* Challenges */}
         {error && <p className="text-red-500">{error}</p>}
-        <div className="p-2 overflow-y-auto md:max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
-          {challenges.map((challenge, index) => {
+        <div className="pr-2 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
+          {challenges.map((challenge) => {
             const createdAtDate = new Date(challenge.created_at);
             const formattedDate = createdAtDate
               .toLocaleDateString("ko-KR", {
@@ -198,7 +198,7 @@ const Page = () => {
                       <div className="flex items-start content-start gap-2 flex-wrap md:flex hidden">
                         {Object.entries(challenge.selected_options).map(
                           ([category, selectedIds]) =>
-                            (selectedIds as string[]).map((id, idx) => {
+                            (selectedIds as string[]).map((id) => {
                               const option = CHALLENGE_OPTIONS[category].find(
                                 (opt) => opt.id === id
                               );
