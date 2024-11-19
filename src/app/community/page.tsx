@@ -45,17 +45,26 @@ const Page = () => {
         );
         setError("Challenges를 가져오는 데 오류가 발생했습니다.");
       } else {
-        const sortedData = (data || []).sort((a, b) => {
-          return (
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-          );
-        });
-        setChallenges(sortedData);
+        setChallenges(data || []);
       }
     };
 
     fetchChallenges();
   }, []);
+
+  // Challenges 정렬 로직
+  const sortedChallenges = [...challenges].sort((a, b) => {
+    if (selected === "latest") {
+      return (
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+    } else if (selected === "oldest") {
+      return (
+        new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      );
+    }
+    return 0;
+  });
 
   return (
     <div className="bg-[#F2F9F2] min-h-full">
@@ -136,7 +145,7 @@ const Page = () => {
         {/* Challenges */}
         {error && <p className="text-red-500">{error}</p>}
         <div className="pr-2 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
-          {challenges.map((challenge) => {
+          {sortedChallenges.map((challenge) => {
             const createdAtDate = new Date(challenge.created_at);
             const formattedDate = createdAtDate
               .toLocaleDateString("ko-KR", {
@@ -155,7 +164,6 @@ const Page = () => {
             const allValues = Object.values(challenge.selected_options).flatMap(
               (category) => Object.values(category)
             );
-            console.log(allValues);
 
             return (
               <Link
@@ -208,7 +216,6 @@ const Page = () => {
 
                               return (
                                 <div key={id}>
-                                  {/* <div>{Object.entries.length}</div> */}
                                   <span className="flex py-4 px-4 mb-2 rounded-[32px] border border-[#D5D7DD] bg-[white] text-[14px] flex-wrap">
                                     {imgSrc && (
                                       <Image
