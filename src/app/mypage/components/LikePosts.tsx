@@ -100,44 +100,59 @@ const Myposts = ({ type }: TypeProps) => {
   }
 
   return (
-    <div className="flex flex-col w-full min-h-screen md:w-[1200px]">
-      <div className=" ">
-        <div className="pl-[20px] md:pl-0">
+    <div className="flex flex-col w-full min-h-screen md:w-[1200px] px-[20px]">
+      <div className="w-full">
+        <div className="w-full md:pl-0">
           <ReturnMypage />
         </div>
         {/* 네비게이션 바 */}
         <div className="my-[48px]">
-          <p className="text-[24px] md:text-[32px] font-[700] leading-[33.6px] md:leading-[44.8px] tracking-[-0.24px] md:tracking-[-0.2px] pl-[20px] md:pl-0">
+          <p className="text-[24px] md:text-[32px] font-[700] leading-[33.6px] md:leading-[44.8px] tracking-[-0.24px] md:tracking-[-0.2px] w-full md:pl-0">
             나의 좋아요
           </p>
-          <p className="mt-[12px] text-[#00691E] text-[16px] md:text-[20px] font-[500] leading-[30px] tracking-[-0.2px] pl-[20px] md:pl-0">
+          <p className="mt-[12px] text-[#00691E] text-[16px] md:text-[20px] font-[500] leading-[30px] tracking-[-0.2px] w-full md:pl-0">
             내가 좋아요한 게시글을 확인해보세요
           </p>
         </div>
-        <div className="flex mb-4 pl-[20px] md:pl-0">
+        <div className="flex mb-4 w-full min-w-[360px] md:pl-0">
           {type === "free" ? (
             <>
-              <Link href="/mypage/like/free" passHref>
-                <button className="w-[160px] md:w-[600px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-[600] flex items-center justify-center">
+              <Link
+                href="/mypage/like/free"
+                passHref
+                className="w-1/2 border-b-2 border-black border-t-0 border-l-0 border-r-0"
+              >
+                <button className="text-[#00320F] border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
                   자유 게시판
                 </button>
               </Link>
-              <Link href="/mypage/like/anabada" passHref>
-                <button className="w-[160px] md:w-[600px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
+              <Link
+                href="/mypage/like/anabada"
+                passHref
+                className="w-1/2 border-b-2 border-t-0 border-l-0 border-r-0 text-center border-#D5D7DD text-[#D5D7DD]"
+              >
+                <button className="border-none md:w-[600px] h-12">
                   아나바다 시장
                 </button>
               </Link>
             </>
           ) : (
             <>
-              <Link href="/mypage/like/free" passHref>
-                <button className="w-[160px] md:w-[600px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
+              <Link
+                href="/mypage/like/free"
+                passHref
+                className="text-[#00320F] w-1/2 border-b-2 border-t-0 border-l-0 border-r-0 text-center border-#D5D7DD text-[#D5D7DD]"
+              >
+                <button className="border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
                   자유 게시판
                 </button>
               </Link>
-
-              <Link href="/mypage/like/anabada" passHref>
-                <button className="w-[160px] md:w-[600px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-[600] flex items-center justify-center">
+              <Link
+                href="/mypage/like/anabada"
+                passHref
+                className="w-1/2 border-b-2 border-black border-t-0 border-l-0 border-r-0 text-center"
+              >
+                <button className="border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
                   아나바다 시장
                 </button>
               </Link>
@@ -146,7 +161,7 @@ const Myposts = ({ type }: TypeProps) => {
         </div>
 
         {/* 필터링 */}
-        <div className="flex justify-between items-center mb-[20px] pl-[20px] md:pl-0">
+        <div className="flex justify-between items-center mb-[20px] w-full md:pl-0">
           <div className="flex space-x-4 mb-[10px]">
             {type === "free" ? (
               <label className="text-[#00691E] font-[600] text-[16px] leading-[24px] tracking-[-0.16px]">
@@ -189,7 +204,7 @@ const Myposts = ({ type }: TypeProps) => {
             </div>
           </div>
         </div>
-        <div className="mb-[80px] flex flex-wrap gap-5  overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
+        <div className="mb-[80px] flex flex-wrap gap-5 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
           {isLoading && <p>로딩 중...</p>}
           {type === "anabada" ? (
             anabadaPosts && anabadaPosts?.length > 0 ? (
@@ -226,7 +241,7 @@ const Myposts = ({ type }: TypeProps) => {
             freePosts?.map((post) => (
               <article
                 key={post.posts.post_id}
-                className="mx-auto md:mx-0 px-[20px] pb-[28px] md:p-[28px] w-[300px] md:w-full md:h-[205px] rounded-[12px] bg-[#FFF] border border-[#E8F3E8] flex flex-col md:flex-row"
+                className="w-full md:mx-0 px-[20px] pb-[28px] md:p-[28px] md:w-full md:h-[205px] rounded-[12px] bg-[#FFF] border border-[#E8F3E8] flex flex-col md:flex-row"
                 style={{
                   boxShadow: "0px 0px 40px 0px rgba(0, 0, 0, 0.02)"
                 }}
