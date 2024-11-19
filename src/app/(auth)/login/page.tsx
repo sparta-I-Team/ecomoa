@@ -50,7 +50,7 @@ const LoginPage = () => {
           <Link href={"/signup"}>이메일 회원가입하기</Link>
         </div>
       </div>
-      {/* <div className="h-[100px] md:hidden"></div> */}
+      <div className="h-[100px] md:hidden"></div>
     </div>
   );
 };

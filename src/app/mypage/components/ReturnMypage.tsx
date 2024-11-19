@@ -12,7 +12,7 @@ const ReturnMypage = () => {
           </span>
         </div>
       </Link>
-      <div className="w-[320px] md:w-full border-b border-b-[#D5D7DD]"></div>
+      <div className="w-full border-b border-b-[#D5D7DD]"></div>
     </>
   );
 };

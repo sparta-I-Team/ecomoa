@@ -18,7 +18,7 @@ const ServiceIntro = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/login");
+    router.push("/challenge");
   };
 
   const getButtonStyle = () => {
@@ -396,8 +396,8 @@ const ServiceIntro = () => {
             className="w-full md:w-[1200px] flex flex-col md:flex-row justify-center items-center gap-[15px]"
           >
             {/* step1 */}
-            <div>
-              <p className="text-[14px] md:text-[20px] font-[500] mx-auto leading-[21px] md:leading-[30px] text-[#525660] mb-[19px] md:mb-[24px]">
+            <div className="mb-[19px] md:mb-[24px]">
+              <p className="mb-[24px] text-[14px] md:text-[20px] font-[500] mx-auto leading-[21px] md:leading-[30px] text-[#525660]">
                 <span className="text-[#5E85FD] font-[600]">STEP 1 </span>챌린지
                 항목들을 선택해요
               </p>
@@ -412,8 +412,8 @@ const ServiceIntro = () => {
               </div>
             </div>
             {/* step2 */}
-            <div>
-              <p className="text-[14px] md:text-[20px] font-[500] mx-auto mt-[36px] md:mt-0 leading-[21px] md:leading-[30px] text-[#525660] mb-[19px] md:mb-[24px]">
+            <div className="mt-[36px] md:mt-0 mb-[19px] md:mb-[24px]">
+              <p className="mb-[24px] text-[14px] md:text-[20px] font-[500] mx-auto leading-[21px] md:leading-[30px] text-[#525660]">
                 <span className="text-[#5E85FD] font-[600]">STEP 2 </span>
                 챌린지를 간단하게 인증해요
               </p>
@@ -428,8 +428,8 @@ const ServiceIntro = () => {
               </div>
             </div>
             {/* step3 */}
-            <div>
-              <p className="text-[14px] md:text-[20px] font-[500] mx-auto mt-[36px] md:mt-0 leading-[21px] md:leading-[30px] text-[#525660] mb-[19px] md:mb-[24px]">
+            <div className="mt-[36px] md:mt-0 mb-[19px] md:mb-[24px]">
+              <p className="mb-[24px] text-[14px] md:text-[20px] font-[500] mx-auto leading-[21px] md:leading-[30px] text-[#525660]">
                 <span className="text-[#5E85FD] font-[600]">STEP 3 </span>
                 <span className="tracking-[-1.5px]">
                   포인트를 모아서 모아 캐릭터를 키워요
@@ -651,7 +651,7 @@ const ServiceIntro = () => {
       {/* section 9 */}
       <section
         ref={lastSectionRef}
-        className="p-[80px_20px_79px_20px] md:py-[140px]"
+        className="p-[80px_20px_79px_20px] md:py-[80px]"
       >
         <div className="w-full md:max-w-[1200px] mx-auto flex flex-col justify-center items-center relative">
           <div
@@ -684,7 +684,7 @@ const ServiceIntro = () => {
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-center md:mb-[134px]">
+          <div className="flex flex-col items-center justify-center mt-[60px]">
             <button
               onClick={handleClick}
               className={getButtonStyle()} // getButtonStyle 함수 적용

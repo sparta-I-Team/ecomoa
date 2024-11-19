@@ -39,7 +39,7 @@ const EmailLoginPage = () => {
 
         <LoginForm />
       </div>
-      {/* <div className="h-[130px] md:hidden"></div> */}
+      <div className="h-[130px] md:hidden"></div>
     </div>
   );
 };

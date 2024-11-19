@@ -81,7 +81,7 @@ const AuthCallback = () => {
             <form
               onSubmit={handleSubmit(onSubmit)}
               // => 이 handleSubmit이 실행될 때 다음 모달창이 열리도록 설정해놨기 때문에 useNickName로직 확인 해야함
-              className="overflow-y-hidden w-[320px] md:w-[585px] h-[360px] rounded-[16px] flex flex-col justify-center items-center m-auto bg-white"
+              className="overflow-hidden w-[320px] md:w-[585px] h-[360px] rounded-[16px] flex flex-col justify-center items-center mx-auto bg-white"
             >
               {/* <div className="relative w-full h-full -pt-[100px]">
                 <X
@@ -164,7 +164,7 @@ const AuthCallback = () => {
   return (
     <div>
       {/* 스켈레톤 UI (로딩처리) */}
-      <div className="w-[1200px] mx-auto mt-[50px] ">
+      {/* <div className="w-[1200px] mx-auto mt-[50px] ">
         <section className="mb-[280px] h-[533px] mx-auto flex justify-center">
           <div className="w-[1800px] bg-gray-200 animate-pulse rounded-3xl" />
         </section>
@@ -176,7 +176,7 @@ const AuthCallback = () => {
             <div className="h-[36px] w-[600px] bg-gray-200 animate-pulse rounded-md" />
           </div>
         </section>
-      </div>
+      </div> */}
 
       {/* 모달 */}
       <Modal />

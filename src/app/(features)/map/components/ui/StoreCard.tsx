@@ -4,6 +4,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import SaveStoreModal from "../../modal/SavaStoreModal";
 import { useBookmark } from "@/hooks/useBookmark";
 import Image from "next/image";
+import { userStore } from "@/zustand/userStore";
 
 interface Props {
   store: StoreWithExtra;
@@ -20,6 +21,7 @@ const StoreCard = ({
 }: Props) => {
   const { openModal, closeModal } = useModalStore();
   const { isBookmarked, handleToggleBookmark } = useBookmark(store.store_id);
+  const { user } = userStore();
 
   const scrollToTop = () => {
     const scrollableDiv = document.querySelector(".overflow-y-auto");
@@ -30,6 +32,12 @@ const StoreCard = ({
 
   const handleSaveStore = async (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (
+      user.accessToken === "" ||
+      user.accessToken === null ||
+      user.accessToken === undefined
+    )
+      return alert("로그인된 유저만 가능합니다.");
     if (!isBookmarked) {
       try {
         await handleToggleBookmark();
@@ -44,7 +52,7 @@ const StoreCard = ({
                 scrollToTop();
               }}
             />
-          )
+          ),
         });
       } catch (error) {
         console.error("저장 실패:", error);
@@ -94,12 +102,21 @@ const StoreCard = ({
       >
         {store.bookmarkCount !== undefined && store.bookmarkCount > 0 && (
           <div className="flex items-center gap-1 text-[14px]">
-            <Image
-              src="/images/bookmark.png"
-              alt="북마크이미지"
-              width={14}
-              height={14}
-            />
+            {isBookmarked ? (
+              <Image
+                src="/images/bookmarked.png"
+                alt="북마크이미지"
+                width={14}
+                height={14}
+              />
+            ) : (
+              <Image
+                src="/images/bookmark.png"
+                alt="북마크이미지"
+                width={14}
+                height={14}
+              />
+            )}
             <span className="text-[#0D9C36] mt-[1px]">
               {store.bookmarkCount}
             </span>

@@ -11,7 +11,7 @@ const SuccessModal = ({ onClose, selectedChallenges }: SuccessModalProps) => {
     <div className="flex flex-col items-center relative w-full md:w-[585px] min-h-[300px]">
       <button
         onClick={onClose}
-        className="absolute top-[24px] md:top-4 right-[24px] md:right-4 border-none rounded-full hover:bg-gray-100 transition-colors"
+        className="absolute top-[24px] md:top-4 right-[24px] md:right-4 border-none rounded-full"
       >
         <svg
           width="24"
@@ -36,7 +36,15 @@ const SuccessModal = ({ onClose, selectedChallenges }: SuccessModalProps) => {
           alt="챌린지 완료 이미지"
           width={615}
           height={422}
-          className="rounded-xl w-full h-[340px] md:h-auto"
+          className="rounded-xl w-full h-[340px] md:h-auto hidden md:block"
+          priority
+        />
+        <Image
+          src="/images/mobileCompleted.png"
+          alt="챌린지 완료 이미지"
+          width={320}
+          height={340}
+          className="rounded-xl w-full h-[340px] md:h-auto md:hidden"
           priority
         />
       </figure>

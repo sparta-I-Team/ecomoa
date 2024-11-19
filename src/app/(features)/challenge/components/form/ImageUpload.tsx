@@ -14,6 +14,7 @@ interface Props {
   existingImages?: string[];
   onDeleteExisting?: (index: number) => void;
 }
+
 const ImageUpload = ({
   register,
   onChange,
@@ -33,31 +34,26 @@ const ImageUpload = ({
 
   const registerProps = register("images");
 
-  // 스크롤 가능 여부 체크 함수
   const checkScrollable = () => {
     if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } =
-        scrollContainerRef.current;
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
       setShowLeftButton(scrollLeft > 0);
       setShowRightButton(scrollWidth > clientWidth);
     }
   };
 
-  // 초기 로딩 및 이미지 변경시 스크롤 가능 여부 체크
   useEffect(() => {
     checkScrollable();
-    // ResizeObserver를 사용하여 컨테이너 크기 변경 감지
     const resizeObserver = new ResizeObserver(checkScrollable);
     if (scrollContainerRef.current) {
       resizeObserver.observe(scrollContainerRef.current);
     }
     return () => resizeObserver.disconnect();
-  }, [totalImages]); // totalImages가 변경될 때마다 체크
+  }, [totalImages]);
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } =
-        scrollContainerRef.current;
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
       setShowLeftButton(scrollLeft > 0);
       setShowRightButton(scrollLeft < scrollWidth - clientWidth - 10);
     }
@@ -65,7 +61,7 @@ const ImageUpload = ({
 
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 220 + 16; 
+      const scrollAmount = 220 + 16;
       const currentScroll = scrollContainerRef.current.scrollLeft;
       const newScroll =
         direction === "left"
@@ -113,9 +109,7 @@ const ImageUpload = ({
         사진 ({totalImages}/{maxImages})
       </h1>
 
-      {/* 모바일 뷰 */}
-      <div className="md:hidden relative">
-        {/* 좌우 스크롤 버튼 */}
+      <div className="relative">
         {showLeftButton && (
           <button
             onClick={(e) => {
@@ -141,7 +135,6 @@ const ImageUpload = ({
           </button>
         )}
 
-        {/* 이미지 컨테이너 */}
         <div
           className="overflow-x-hidden"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
@@ -152,10 +145,9 @@ const ImageUpload = ({
             className="flex gap-4 pb-4 overflow-x-auto"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            {/* 이미지 추가 버튼 */}
             <div
               onClick={handleAddImage}
-              className="relative w-[160px] h-[160px] flex-shrink-0 rounded-lg overflow-hidden bg-[#F5F5F5] cursor-pointer hover:bg-gray-200 transition-colors"
+              className="relative w-[160px] h-[160px] md:w-[220px] md:h-[220px] flex-shrink-0 rounded-lg overflow-hidden bg-[#F5F5F5] cursor-pointer hover:bg-gray-200 transition-colors"
             >
               <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
                 <div className="bg-white rounded-full w-[30px] h-[30px] p-2">
@@ -164,11 +156,10 @@ const ImageUpload = ({
               </div>
             </div>
 
-            {/* 기존 이미지 */}
             {existingImages.map((url, index) => (
               <div
                 key={`existing-${index}`}
-                className="relative w-[160px] h-[160px] flex-shrink-0 rounded-lg overflow-hidden"
+                className="relative w-[160px] h-[160px] md:w-[220px] md:h-[220px] flex-shrink-0 rounded-lg overflow-hidden"
               >
                 <Image
                   src={url}
@@ -190,11 +181,10 @@ const ImageUpload = ({
               </div>
             ))}
 
-            {/* 미리보기 이미지 */}
             {previews.map((preview, index) => (
               <div
                 key={`preview-${index}`}
-                className="relative w-[160px] h-[160px] flex-shrink-0 rounded-lg overflow-hidden"
+                className="relative w-[160px] h-[160px] md:w-[220px] md:h-[220px] flex-shrink-0 rounded-lg overflow-hidden"
               >
                 <Image
                   src={preview}
@@ -215,68 +205,6 @@ const ImageUpload = ({
             ))}
           </div>
         </div>
-      </div>
-
-      {/* 데스크톱 뷰 */}
-      <div className="hidden md:grid grid-cols-6 gap-[48px]">
-        <div
-          onClick={handleAddImage}
-          className="relative h-[160px] rounded-lg overflow-hidden bg-[#F5F5F5] cursor-pointer hover:bg-gray-200 transition-colors"
-        >
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
-            <div className="bg-white rounded-full w-[30px] h-[30px] p-2">
-              <Plus className="w-full h-full" />
-            </div>
-          </div>
-        </div>
-
-        {existingImages.map((url, index) => (
-          <div
-            key={`existing-${index}`}
-            className="relative h-[160px] rounded-lg overflow-hidden"
-          >
-            <Image
-              src={url}
-              alt={`기존 이미지 ${index + 1}`}
-              fill
-              className="object-cover"
-            />
-            {onDeleteExisting && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDeleteExisting(index);
-                }}
-                className="absolute top-2 right-2 w-6 h-6 rounded-full bg-gray-400/80 hover:bg-gray-500/80 text-white transition-colors"
-              >
-                ×
-              </button>
-            )}
-          </div>
-        ))}
-
-        {previews.map((preview, index) => (
-          <div
-            key={`preview-${index}`}
-            className="relative h-[160px] rounded-lg overflow-hidden"
-          >
-            <Image
-              src={preview}
-              alt={`미리보기 ${index + 1}`}
-              fill
-              className="object-cover"
-            />
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(index);
-              }}
-              className="absolute top-2 right-2 w-6 h-6 rounded-full bg-gray-400/80 hover:bg-gray-500/80 text-white transition-colors"
-            >
-              ×
-            </button>
-          </div>
-        ))}
       </div>
 
       <p className="text-gray-500 text-xs md:text-sm mt-2">
