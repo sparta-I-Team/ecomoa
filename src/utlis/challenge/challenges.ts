@@ -74,24 +74,26 @@ export const CHALLENGE_OPTIONS: Record<string, ChallengeOption[]> = {
 // profileSmall 키 추가했습니다
 export const LEVEL_CONFIG = {
   1: {
-    name: "씨앗",
+    name: "씨앗모아",
     min: 0,
     max: 10000,
     image: "/images/seed.png",
     profile: "/images/profile1.png",
     profileSmall: "/images/profileSmall1.png",
     bg: "#321C00",
-    exp: "#FFD64E"
+    exp: "#FFD64E",
+    levelUpImg: ""
   },
   2: {
-    name: "새싹",
+    name: "새싹모아",
     min: 10000,
     max: 20000,
     image: "/images/sesac.png",
     profile: "/images/profile2.png",
     profileSmall: "/images/profileSmall2.png",
     bg: "#320008",
-    exp: "#FF738F"
+    exp: "#FF738F",
+    levelUpImg: "/images/sesacLevelUp.png"
   },
   3: {
     name: "트리모아",
@@ -101,17 +103,19 @@ export const LEVEL_CONFIG = {
     profile: "/images/profile3.png",
     profileSmall: "/images/profileSmall3.png",
     bg: "#00320F",
-    exp: "#0D9C36"
+    exp: "#0D9C36",
+    levelUpImg: "/images/treeLevelUp.png"
   },
   4: {
-    name: "클로비",
+    name: "클로버모아",
     min: 30000,
     max: 40000,
     image: "/images/clover.png",
     profile: "/images/profile4.png",
     profileSmall: "/images/profileSmall4.png",
     bg: "#000132",
-    exp: "#28B0FB"
+    exp: "#28B0FB",
+    levelUpImg: "/images/cloverLevelUp.png"
   }
 } as const;
 

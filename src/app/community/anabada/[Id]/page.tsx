@@ -10,6 +10,7 @@ import EditPostModal from "../../components/EditPostModal";
 import { useModalStore } from "@/zustand/modalStore";
 import { Modal } from "@/components/shared/Modal";
 import Like from "../../components/Like";
+import { ChevronLeft } from "lucide-react";
 
 const Page = ({ params }: { params: { Id: string } }) => {
   const [post, setPost] = useState<Post | null>(null);
@@ -122,87 +123,105 @@ const Page = ({ params }: { params: { Id: string } }) => {
   };
 
   return (
-    <main className="w-[320px]  md:w-[1200px] mx-auto ">
+    <main className="w-full md:w-[1200px] mx-auto p-[36px_20px_0px_20px] md:p-0 md:pb-[198px]">
       <Link href="/community/anabada">
-        <h3 className=" text-base font-semibold mt-4">
-          {"< 아나바다 시장 홈 "}
+        <h3 className="flex items-center text-[16px] font-[600] md:mt-[65px] text-[#525660]">
+          <ChevronLeft />
+          아나바다 시장
         </h3>
       </Link>
-      <div className="mb-4 w-[320px] md:w-[1200px] h-px bg-[#D5D7DD] mt-4"></div>
-      <article className="flex flex-col md:flex-row w-[360px] mx-auto md:w-[1200px]">
+
+      <div className="mb-[20px] md:mb-[36px] w-full md:w-[1200px] h-px bg-[#D5D7DD] mt-[16px] md:mt-[16px]"></div>
+      <article className="flex flex-col md:flex-row w-full mx-auto md:w-[1200px]">
         {images.length > 0 ? (
-          <div className="md:w-[585px] md:h-[585px] w-[320px] h-[320px]">
+          <div className="md:w-[585px] md:h-[585px] w-full h-[320px]">
             <Image
               src={images[0]}
               alt="게시글 이미지"
               width={585}
               height={585}
               priority
-              className="object-cover w-full h-full"
+              className="object-cover w-full h-full rounded-[6px]"
             />
           </div>
         ) : (
           // 이미지가 없으면 회색 배경을 사용
           <div
-            className="bg-gray-300  md:h-[585px]  w-[320px] h-[320px] md:w-[585px] flex items-center justify-center"
+            className="bg-gray-300 md:h-[585px] w-full h-[320px] md:w-[585px] flex items-center justify-center"
             style={{ backgroundColor: "#D5D7DD" }}
           >
             <p className="text-gray-500">등록된 이미지가 없습니다</p>
           </div>
         )}
 
-        <div className="flex flex-col md:ml-8 w-[320px] md:w-[585px] gap-3 mt-4">
-          <label className="text-[22px] mb-2 text-[#000301]">
+        <div className="flex flex-col md:ml-[30px] w-full md:w-[585px] gap-3 md:mt-4 mt-[40px]">
+          <label className="text-[22px] mb-2 md:mb-[24px] text-[#000301]">
             {post.post_title}
           </label>
-          <label className="text-[38px] font-bold">{post.price}원</label>
-          <div className="flex text-base text-gray-500 tracking-tight">
+          <label className="text-[30px] font-[700] mt-[24px] md:mt-0">
+            {post.price}원
+          </label>
+          <div className="flex gap-[4px] text-[16px] font-[500] text-[#A1A7B4] mt-[24px]">
             <label>{post.user_info?.user_nickname}</label>
+            <span className="text-[10px]">&#8226;</span>
             <time>{new Date(post.created_at).toLocaleDateString()}</time>
+            <span className="text-[10px]">&#8226;</span>
             <Like postId={post.post_id} />
-
-            <div className="ml-2">· 댓글 {post.comment || 0}</div>
+            <span className="text-[10px]">&#8226;</span>
+            <div className="ml-2">댓글 {post.comment || 0}</div>
           </div>
-          <div className="mb-4 mt-4 w-[330px] md:w-[585px] h-px bg-[#D5D7DD]"></div>
-          <div className="w-[330px]  md:w-[585px] flex flex-col h-full">
-            <p className="text-[14px] text-[#0D9C36] font-semibold mb-4">
+          <div className="mb-[36px] md:my-[36px] mt-4 w-full md:w-[585px] h-px bg-[#D5D7DD]"></div>
+          <div className="w-[330px] md:w-[585px] flex flex-col h-full">
+            <p className="text-[14px] text-[#0D9C36] font-[600] mb-4">
               상품정보
             </p>
-            <p className="text-[14px] font-normal mb-5">{post.post_content}</p>
-            <label className="text-[#0D9C36] mb-4 ">거래 희망 지역</label>
-            <label className="md:mt-4 mb-2 inline-block rounded-[32px] border w-[100px] border-[#D5D7DD] p-2">
-              {post.location}
+            <p className="text-[14px] font-[400] mb-[40px] md:mb-[40px]">
+              {post.post_content}
+            </p>
+            <label className="text-[14px] font-[600] text-[#0D9C36] mb-4 md:mb-0">
+              거래 희망 지역
+            </label>
+            <label className="-ml-[5px] flex gap-[4px] justify-center items-center md:mt-4 mb-[48px] md:mb-2 rounded-[32px] border w-[100px] border-[#D5D7DD] p-[15px_16px] md:p-2">
+              <Image
+                src={"/images/region.png"}
+                width={12}
+                height={15}
+                alt="거래 희망 지역"
+              />
+              {post.location ? post.location : "없음"}
             </label>
 
             <button
               onClick={() => {
                 alert("업데이트 예정입니다.");
               }}
-              className="bg-[#0D9C36] text-white font-normal rounded-[40px] mt-auto flex justify-center items-center gap-[10px] md:w-[380px] md:h-[52px] md:p-[24px] md:px-[16px] w-[256px] h-[46px]"
+              className="text-[18px] bg-[#0D9C36] text-white font-[400] md:font-[600] rounded-[40px] mt-auto flex justify-center items-center gap-[10px] md:w-[380px] md:h-[60px] w-[151px] h-[60px]"
             >
-              채팅하기
+              채팅보기
             </button>
             {/* <button>거래 완료</button> */}
           </div>
         </div>
       </article>
-      <div className="mb-4 md:w-[1200px] h-px bg-[#D5D7DD] mt-4 w-[360px]"></div>
-      <div>
+      <div className="mb-[80px] md:mb-0">
         {canEdit && (
-          <div className=" md:flex md:flex-row gap-[4px] justify-end mt-[10px] w-[1200px]">
-            <button
-              onClick={handleEditClick}
-              className="w-[80px] h-[32px] rounded text-[14px]  px-6"
-            >
-              수정하기
-            </button>
+          <div className="flex flex-col justify-end text-[#000301]">
+            <div className="mb-[20px] md:w-[1200px] h-px bg-[#D5D7DD] mt-[28px] md:mt-[36px] w-full"></div>
+            <div className="ml-auto flex gap-[12px]">
+              <button
+                onClick={handleEditClick}
+                className="flex justify-center items-center w-[80px] h-[32px] rounded text-[13px] px-[13px] py-[15px]"
+              >
+                수정하기
+              </button>
 
-            <button
-              onClick={() => handleDeletePost(post)}
-              className=" w-[80px] h-[32px] rounded text-[14px]"
-            >
-              삭제하기
-            </button>
+              <button
+                onClick={() => handleDeletePost(post)}
+                className="flex justify-center items-center w-[80px] h-[32px] rounded text-[13px] px-[13px] py-[15px]"
+              >
+                삭제하기
+              </button>
+            </div>
           </div>
         )}
       </div>

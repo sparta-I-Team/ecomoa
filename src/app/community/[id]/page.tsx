@@ -82,9 +82,9 @@ const ChallengeDetailPage = ({ params }: Props) => {
   const totalPoints = selectedCount * 100;
 
   return (
-    <div className="mt-8 md:w-[1200px]  mx-auto mb-4 w-[330px] p-2 md:p-0">
-      <Link href={"/community"}>{"< 첼린지 인증 "}</Link>
-      <div className="mb-4 w-full h-px bg-[#D5D7DD] mt-4 w-[330px]"></div>
+    <div className="mt-8 md:w-[1200px]  mx-auto mb-4 w-[330px] md:p-0">
+      <Link href={"/community"}>{"< 챌린지 인증 "}</Link>
+      <div className="mb-4 md:w-[1200px] h-px bg-[#D5D7DD] mt-4 w-[330px]"></div>
 
       <div className="flex flex-col md:flex-row md:items-center gap-[12px]">
         <label className="flex w-[72px] p-[12px_16px] justify-center items-center gap-2.5 rounded-[4px] bg-[#0D9C36] text-white md:flex-shrink-0">
@@ -107,9 +107,9 @@ const ChallengeDetailPage = ({ params }: Props) => {
               };
               const categoryName = findLabelByCategory(category)?.label;
               return (
-                <div key={category} className="mb-4">
-                  <h3 className="font-semibold">{categoryName}</h3>
-                  <div key={category}>
+                <div key={category} className="mb-[20px]">
+                  <h3 className="font-semibold mb-[12px]">{categoryName}</h3>
+                  <div key={category} className="flex flex-row flex-wrap gap-2">
                     {selectedIds.map((id) => {
                       const option = CHALLENGE_OPTIONS[category].find(
                         (opt) => opt.id === id
@@ -120,15 +120,17 @@ const ChallengeDetailPage = ({ params }: Props) => {
 
                       return (
                         <div key={id}>
-                          <span className="mt-2 inline-flex py-4 px-[16px] mb-2 rounded-[32px] border border-[#D5D7DD] bg-[white] text-[14px] flex-wrap">
-                            <Image
-                              src={imgSrc}
-                              alt="아이콘"
-                              width={12}
-                              height={12}
-                              className="mr-2"
-                            />
-                            {option?.label}
+                          <span className="flex flex-row flex-wrap h-[32px] px-[16px] rounded-[32px] border border-[#D5D7DD] bg-[white] text-[14px] justify-center items-center">
+                            <div className="">
+                              <Image
+                                src={imgSrc}
+                                alt="아이콘"
+                                width={12}
+                                height={12}
+                                className="mr-2"
+                              />
+                            </div>
+                            <div>{option?.label}</div>
                           </span>
                         </div>
                       );
@@ -163,8 +165,8 @@ const ChallengeDetailPage = ({ params }: Props) => {
       </article>
 
       <div className="mt-6">
-        <h1 className="font-bold text-[14px] mb-2">챌린지 내용</h1>
-        <div className="w-full p-4 border rounded-lg min-h-[80px] bg-[#F5F5F5] border-none focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500">
+        {/* <h1 className="font-bold text-[14px] mb-2">챌린지 내용</h1> */}
+        <div className="w-full p-4 border rounded-lg min-h-[80px] text-[14px] bg-[#F5F5F5] border-none focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500">
           {challenge.content}
         </div>
       </div>

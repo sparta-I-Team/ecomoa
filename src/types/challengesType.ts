@@ -69,6 +69,8 @@ export interface LevelInfo {
   exp: string;
   profile: string;
   profileSmall: string;
+  totalPoints: number;
+  levelUpImg: string;
 }
 
 //이미지

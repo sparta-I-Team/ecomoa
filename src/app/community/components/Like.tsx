@@ -1,4 +1,5 @@
 import { useLike } from "@/hooks/useLike";
+import Image from "next/image";
 
 interface Props {
   postId: string;
@@ -6,17 +7,25 @@ interface Props {
 
 const Like = ({ postId }: Props) => {
   const { isLiked, handleToggleLike } = useLike(postId);
-
   return (
-    <button
-      className="border-none font-bold text-[20px]"
-      onClick={(e) => {
-        e.preventDefault();
-        handleToggleLike();
-      }}
-    >
-      {isLiked ? "❤️" : "♡"}
-    </button>
+    <div className="flex items-center">
+      <button
+        className="border-none font-bold text-[20px] p-0"
+        onClick={(e) => {
+          e.preventDefault();
+          handleToggleLike(); // 좋아요 토글 함수 호출
+        }}
+      >
+        <Image
+          src={
+            isLiked ? "/community/heart_full.png" : "/community/heart_line.png"
+          }
+          alt={isLiked ? "Liked" : "Not Liked"}
+          width={16}
+          height={16}
+        />
+      </button>
+    </div>
   );
 };
 
