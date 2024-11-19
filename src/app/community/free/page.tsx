@@ -112,9 +112,9 @@ const Page = () => {
                 onClick={() => handleSelect("latest")}
               >
                 <span
-                  className={
-                    selected === "latest" ? "text-black" : "text-[#A1A7B4]"
-                  }
+                  className={`${
+                    selected === "latest" ? "opacity-100" : "opacity-0"
+                  } transition-opacity`}
                 >
                   ✔
                 </span>
@@ -131,9 +131,9 @@ const Page = () => {
                 onClick={() => handleSelect("oldest")}
               >
                 <span
-                  className={
-                    selected === "oldest" ? "text-black" : "text-[#A1A7B4]"
-                  }
+                  className={`${
+                    selected === "oldest" ? "opacity-100" : "opacity-0"
+                  } transition-opacity`}
                 >
                   ✔
                 </span>
