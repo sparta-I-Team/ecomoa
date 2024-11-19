@@ -2,7 +2,6 @@ import { Post } from "@/types/community";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
 import Like from "./Like";
 
 import { useLike } from "@/hooks/useLike";
