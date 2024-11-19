@@ -1,7 +1,7 @@
 import { Post } from "@/types/community";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import Like from "./Like"; // 좋아요 컴포넌트
 import { useLike } from "@/hooks/useLike";
 
@@ -11,15 +11,8 @@ interface Props {
 }
 
 const PostCard = ({ post, type }: Props) => {
-  const [isLiked, setIsLiked] = useState(false);
-  // const [likeCount, setLikeCount] = useState(post.like || 0);
   const { likes } = useLike(post.post_id);
 
-  // 좋아요 토글 함수
-  const handleToggleLike = () => {
-    setIsLiked(!isLiked);
-    // setLikeCount(isLiked ? likeCount - 1 : likeCount + 1);
-  };
   console.log("likeCount ==>", likes.length);
   return (
     <div className="p-2">
