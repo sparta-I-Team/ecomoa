@@ -1,43 +1,43 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { likeApi } from "@/api/likeApi";
 import { userStore } from "@/zustand/userStore";
+import { Like } from "@/types/like";
 
 export const useLike = (postId: string) => {
   const queryClient = useQueryClient();
-  const { user } = userStore();
+  const { user } = userStore(); // 현재 사용자 정보 가져오기
 
-  // 게시물에 대한 좋아요 상태 가져오기
+  // console.log("여기는 유즈라이크 =>", postId);
+  // 해당 게시물에 대한 좋아요 상태를 가져오는 query
   const { data: isLiked = false } = useQuery<boolean>({
-    queryKey: ["likes", user.id, postId],
+    queryKey: ["likes", user.id, postId], // 사용자 아이디와 게시물 ID를 조합한 queryKey
     queryFn: async () => {
+      if (!user?.id) return false;
       const data = await likeApi.getLikeStatus(user.id, postId);
-      return data?.status || false; // 좋아요 상태가 없으면 false로 설정
+      return data?.status || false; // 좋아요 상태를 반환 (없으면 false)
     }
   });
 
-  // 게시물에 대한 좋아요 개수 가져오기
-  const { data: likeCount = 0 } = useQuery<number>({
-    queryKey: ["likeCount", postId],
-    queryFn: () => likeApi.getLikeCount(postId), // API 호출하여 좋아요 개수 가져오기
-    enabled: Boolean(postId) // postId가 있을 때만 쿼리 실행
+  const { data: likes = [] } = useQuery<Like[]>({
+    queryKey: ["likes", postId],
+    queryFn: async () => {
+      return await likeApi.getLikeCount(postId);
+    }
   });
 
-  // 좋아요 상태 토글 및 업데이트
+  // 좋아요 토글 mutation
   const likeMutation = useMutation<void, Error, void>({
-    mutationFn: () => likeApi.toggleLike(user.id, postId, isLiked), // 좋아요 상태 변경
+    mutationFn: () => likeApi.toggleLike(user.id, postId, isLiked),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["likes", user.id, postId] // 좋아요 상태 무효화
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["likeCount", postId] // 좋아요 개수 무효화
-      });
+      // 좋아요 상태를 변경한 후 쿼리 캐시 무효화
+      queryClient.invalidateQueries({ queryKey: ["likes", user.id, postId] });
+      queryClient.invalidateQueries({ queryKey: ["likes", postId] });
     }
   });
 
   return {
-    isLiked, // 현재 좋아요 상태
-    likeCount, // 좋아요 개수
-    handleToggleLike: () => likeMutation.mutate() // 좋아요 상태 토글 함수
+    likes,
+    isLiked, // 좋아요 상태
+    handleToggleLike: () => likeMutation.mutate() // 좋아요 토글 함수
   };
 };

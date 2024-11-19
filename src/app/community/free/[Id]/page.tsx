@@ -275,12 +275,12 @@ const PostDetailPage = ({ params }: Props) => {
 
       {/* 댓글 입력 부분 */}
       <div className="relative flex mt-[68px] md:mt-[36px] mb-[32px] w-full">
-        <div className="w-full py-[28px] px-[32px] flex flex-row bg-[#E8F3E8] justify-between items-center rounded-[16px]">
+        <div className="w-full py-[28px] px-[32px] flex flex-row bg-[#E8F3E8] justify-between items-center rounded-[12px]">
           <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="댓글을 입력해주세요"
-            className=" outline-none bg-[#E8F3E8] md:px-4 border-none text-[#A1A7B4] leading-[21px]"
+            className=" w-full outline-none  border-transparent bg-[#E8F3E8] md:px-4 border-none text-[#A1A7B4] leading-[21px] overflow-hidden resize-none"
           />
           <button
             onClick={handleAddComment}
@@ -305,16 +305,15 @@ const PostDetailPage = ({ params }: Props) => {
               </span>
             </div>
             {editingCommentId === comment.comment_id ? (
-              <div className="flex items-center">
-                <input
-                  type="text"
+              <div className="w-full py-[28px] px-[32px] flex flex-row bg-[#F5F5F5] justify-between items-center rounded-[12px]">
+                <textarea
                   value={editedComment}
                   onChange={(e) => setEditedComment(e.target.value)}
-                  className="mt-2 p-2 rounded border-gray-300"
+                  className="w-full outline-none border-transparent bg-[#F5F5F5] md:px-4 border-none text-[#A1A7B4] leading-[21px] resize-none overflow-hidden " // 우측 여백을 충분히 확보
                 />
                 <button
                   onClick={handleSaveEditedComment}
-                  className="ml-2 border "
+                  className=" py-[12px] px-[16px] whitespace-nowrap bg-[#D5D7DD] border-none rounded-full text-white text-[16px] font-[500] leading-[24px] tracking-[-0.16px]"
                 >
                   수정완료
                 </button>
