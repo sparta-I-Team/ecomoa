@@ -64,6 +64,8 @@ const LoginForm = () => {
         isAuthenticated: true
       });
 
+      alert("로그인되었습니다.");
+
       if (!userInfo?.user_nickname) {
         // 여기로 로그인 경로 재설정
         router.push("/login/callback/email");
@@ -86,7 +88,7 @@ const LoginForm = () => {
 
   return (
     <form
-      className="font-wanted flex flex-col justify-center items-center gap-1 md:p-3"
+      className="flex flex-col justify-center items-center gap-1 md:p-3"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="space-y-[12px]">
@@ -97,7 +99,7 @@ const LoginForm = () => {
             {...register("email")}
             placeholder="아이디"
           />
-          <div className="font-wanted flex items-center justify-center leading-[21px] font-[500]">
+          <div className="flex items-center justify-center leading-[21px] font-[500]">
             {errors.email?.message && (
               <p
                 role="alert"
@@ -121,7 +123,7 @@ const LoginForm = () => {
             {...register("password")}
             placeholder="비밀번호"
           />
-          <div className="font-wanted flex items-center justify-center leading-[21px] font-[500]">
+          <div className="flex items-center justify-center leading-[21px] font-[500]">
             {errors.password?.message && (
               <p
                 role="alert"

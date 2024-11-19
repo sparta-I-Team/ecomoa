@@ -22,8 +22,8 @@ const SectionCard: React.FC<SectionCardProps> = ({
 }) => {
   return (
     <>
-      <div className="flex flex-col mb-[20px]">
-        <div className="flex flex-row justify-between">
+      <div className="flex flex-col bg-white rounded-2xl w-full md:w-[calc(50%-15px)]">
+        <div className="">
           <UsageCard
             logo={logo}
             title={title}

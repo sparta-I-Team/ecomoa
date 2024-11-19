@@ -22,9 +22,8 @@ const LoginPage = () => {
             alt="ecomoa 로고"
           />
         </div>
-
         <div>
-          <h1 className="font-wanted text-[24px] md:text-3xl font-[600] text-center leading-[33.6px] tracking-[-0.24px] md:leading-tight">
+          <h1 className="text-[24px] md:text-3xl font-[600] text-center leading-[33.6px] tracking-[-0.24px] md:leading-tight">
             에코모아에 가입하고
             <br />
             탄소 절감 혜택을 누려보세요!
@@ -33,7 +32,7 @@ const LoginPage = () => {
 
         <div className="w-[322px] md:w-[400px] mt-[130px] sm:mt-[88px] mb-[24px] flex items-center">
           <div className="flex-1 h-px bg-gray-300"></div>
-          <p className="text-[12px] md:text-base leading-[16.8px] md:leading-[24px] tracking-[-0.12px] px-4 font-wanted text-[#525660] font-extrabold">
+          <p className="text-[12px] md:text-base leading-[16.8px] md:leading-[24px] tracking-[-0.12px] px-4 text-[#525660] font-extrabold">
             간편 가입 및 로그인
           </p>
           <div className="flex-1 h-px bg-gray-300"></div>
@@ -44,12 +43,13 @@ const LoginPage = () => {
           <KaKaoLoginButton />
           <GoogleLoginButton />
         </div>
-        <div className="flex justify-between gap-[30px] text-[#525660] text-[12px] md:text-[16px] font-wanted leading-[16.8px] md:leading-[24px] tracking-[-0.12px] md:tracking-[-0.16px] pb-[108px] md:mb-[228px] md:pd-0">
+        <div className="flex justify-between gap-[30px] text-[#525660] text-[12px] md:text-[16px] leading-[16.8px] md:leading-[24px] tracking-[-0.12px] md:tracking-[-0.16px] pb-[108px] md:mb-[228px] md:pd-0">
           <Link href={"/login/email"}>이메일 로그인하기</Link>
           <p>|</p>
           <Link href={"/signup"}>이메일 회원가입하기</Link>
         </div>
       </div>
+      <div className="h-[100px] md:hidden"></div>
     </div>
   );
 };

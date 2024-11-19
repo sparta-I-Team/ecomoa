@@ -1,9 +1,12 @@
 "use client";
-import { SortType, Store } from "@/types/map";
+import { SortType, Store, StoreWithExtra } from "@/types/map";
 import { useState, useEffect, ChangeEvent } from "react";
 import { Check, Search } from "lucide-react";
 import { calculateDistance } from "@/utlis/map/distance";
 import StoreCard from "./ui/StoreCard";
+import { useSavedStores, useStoreBookmarkCounts } from "@/hooks/useBookmark";
+import { userStore } from "@/zustand/userStore";
+
 interface StoreListProps {
   stores: Store[];
   onClick: (store: Store) => void;
@@ -19,9 +22,14 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
     lat: number;
     lng: number;
   } | null>(null);
+
   const [storesWithDistance, setStoresWithDistance] = useState<
-    (Store & { distance?: number })[]
+    StoreWithExtra[]
   >([]);
+
+  const { savedStores } = useSavedStores();
+  const { bookmarkCounts } = useStoreBookmarkCounts();
+  const { user } = userStore();
 
   // 검색어 디바운싱
   useEffect(() => {
@@ -61,11 +69,14 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
             store.lat,
             store.lon
           )
-        : undefined
+        : undefined,
+      bookmarkCount:
+        bookmarkCounts.find((count) => count.store_id === store.store_id)
+          ?.count || 0
     }));
 
     setStoresWithDistance(storesWithDistanceCalculated);
-  }, [stores, userLocation]);
+  }, [stores, userLocation, bookmarkCounts]);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -93,6 +104,13 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
   const getSortedStores = () => {
     let sortedStores = [...storesWithDistance];
 
+    // 저장된 가게 필터링
+    if (activeTab === "saved") {
+      sortedStores = sortedStores.filter((store) =>
+        savedStores.some((savedStore) => savedStore.store_id === store.store_id)
+      );
+    }
+
     // 검색어 필터링
     sortedStores = sortedStores.filter(
       (store) =>
@@ -104,10 +122,14 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
           .includes(debouncedSearchTerm.toLowerCase())
     );
 
-    // 거리순 정렬
+    // 정렬
     if (sortType === "distance" && userLocation) {
       sortedStores.sort(
         (a, b) => (a.distance || Infinity) - (b.distance || Infinity)
+      );
+    } else if (sortType === "popularity") {
+      sortedStores.sort(
+        (a, b) => (b.bookmarkCount || 0) - (a.bookmarkCount || 0)
       );
     }
 
@@ -129,9 +151,12 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
             <button
               key={tab.id}
               onClick={() => {
-                if (tab.id !== "all") {
-                  return alert("업데이트 예정입니다.");
-                }
+                if (
+                  user.accessToken === "" ||
+                  user.accessToken === null ||
+                  user.accessToken === undefined
+                )
+                  return alert("로그인된 유저만 가능합니다.");
                 setActiveTab(tab.id);
               }}
               className={`flex-1 px-4 py-3 text-sm font-medium relative border-none 
@@ -188,17 +213,14 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
           가까운순
         </button>
         <button
-          onClick={() => {
-            alert("업데이트 예정입니다.");
-            // handleSortClick("popularity")
-          }}
+          onClick={() => handleSortClick("popularity")}
           className={`border-none flex items-center gap-[2px] transition-colors
-                    ${
-                      sortType === "popularity"
-                        ? "text-black font-bold"
-                        : "text-gray-300"
-                    }
-                  `}
+            ${
+              sortType === "popularity"
+                ? "text-black font-bold"
+                : "text-gray-300"
+            }
+          `}
         >
           {sortType === "popularity" && (
             <Check size={16} className="text-black font-bold" />
@@ -214,6 +236,7 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
             store={store}
             selectedStoreId={selectedStoreId}
             onClick={onClick}
+            setActiveTab={setActiveTab}
           />
         ))}
       </div>

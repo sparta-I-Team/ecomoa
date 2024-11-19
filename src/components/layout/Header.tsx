@@ -7,7 +7,7 @@ import { createClient } from "@/utlis/supabase/client";
 import { userStore } from "@/zustand/userStore";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
@@ -16,6 +16,7 @@ const Header = () => {
   const pathname = usePathname();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
 
   const navItems = [
     { href: "/challenge", label: "데일리 챌린지" },
@@ -28,6 +29,10 @@ const Header = () => {
     await signout();
     logoutUser();
     alert("로그아웃 되었습니다.");
+    const paths = ["/mypage", "/challenge"];
+    if (paths.includes(pathname)) {
+      router.push("/login");
+    }
     setIsMenuOpen(false);
   };
 

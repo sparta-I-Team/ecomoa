@@ -13,10 +13,10 @@ const MyPoint = async ({ user }: MyPointProps) => {
   return (
     <div className="py-[32px] md:py-0 w-full h-[295px] md:w-[586px] md:h-[220px] px-8 border border-[#DCECDC] rounded-[16px] bg-[#FFF]">
       <div className="flex flex-col gap-[28px] md:gap-6">
-        <p className="font-wanted md:mt-[28px] text-[#0D9C36] text-[16px] font-[600] leading-[-0.48px]">
+        <p className="md:mt-[28px] text-[#0D9C36] text-[16px] font-[600] leading-[-0.48px]">
           내 포인트
         </p>
-        <p className="font-wanted text-[28px] text-[#000301] font-[600] leading-[-0.84px]">
+        <p className="text-[28px] text-[#000301] font-[600] leading-[-0.84px]">
           {userInfo?.user_point}P
         </p>
       </div>

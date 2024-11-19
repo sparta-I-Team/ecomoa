@@ -22,6 +22,20 @@ export const metadata: Metadata = {
   description: "탄소를 절감하며 에코모아를 키워주세요",
   icons: {
     icon: "/service/favicon.png"
+  },
+  openGraph: {
+    title: "에코모아",
+    description: "매일 간단한 탄소 절감 챌린지로 에코모아를 키워보세요.",
+    url: "https://ecomoa.vercel.app",
+    images: [
+      {
+        // url: "https://github.com/user-attachments/assets/414b2689-1793-44e3-9a5d-270d63c51f34",
+        url: "/images/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "에코모아 미리보기 이미지"
+      }
+    ]
   }
 };
 

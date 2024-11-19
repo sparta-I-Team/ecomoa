@@ -10,12 +10,12 @@ const LevelGauge = ({ levelInfo }: LevelGaugeProps) => {
       {/* 레벨 */}
       <div className="w-full flex items-center justify-start gap-[8px] md:gap-[10px] px-5">
         <div className="border-[1px] border-[#00320F] h-[32px] bg-[#FFF] rounded-[16px] flex items-center justify-center p-[15px_16px]">
-          <p className="font-wanted text-[12px] md:text-[14px] font-[500] leading-[-0.14px] text-[#00320F]">
+          <p className="text-[12px] md:text-[14px] font-[500] leading-[-0.14px] text-[#00320F]">
             LV.{levelInfo?.level} {levelInfo?.name}
           </p>
         </div>
 
-        <p className="font-wanted text-[#00691E] text-[12px] md:text-[14px] font-[500] leading-[-0.14px]">
+        <p className="text-[#00691E] text-[12px] md:text-[14px] font-[500] leading-[-0.14px]">
           레벨업까지 {levelInfo.pointsToNextLevel}P 남았어요
         </p>
       </div>

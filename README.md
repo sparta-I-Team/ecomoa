@@ -67,7 +67,7 @@
 
 ## 🔗 **링크** 🔗
 
-- **배포 URL**: [EcoMoa 서비스 바로가기](https://i-team-nine.vercel.app/)
+- **배포 URL**: [EcoMoa 서비스 바로가기](https://ecomoa.vercel.app/)
 - **팀 노션**: [팀 노션 페이지](https://www.notion.so/teamsparta/11-II-692f6521b2d64a53af7793164d9657fa)
 
 ---

@@ -12,4 +12,14 @@ export interface Store {
   store_id: string;
 }
 
-export type SortType = 'distance' | 'popularity' | null;
+export type SortType = "distance" | "popularity" | null;
+
+export interface StoreWithExtra extends Store {
+  distance?: number;
+  bookmarkCount?: number;
+}
+
+export interface BookmarkCount {
+  store_id: string;
+  count: number;
+}
