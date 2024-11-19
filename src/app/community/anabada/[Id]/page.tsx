@@ -123,13 +123,14 @@ const Page = ({ params }: { params: { Id: string } }) => {
   };
 
   return (
-    <main className="w-full md:w-[1200px] mx-auto p-[36px_20px_0px_20px] md:p-0 md:pb-[286px]">
+    <main className="w-full md:w-[1200px] mx-auto p-[36px_20px_0px_20px] md:p-0 md:pb-[198px]">
       <Link href="/community/anabada">
         <h3 className="flex items-center text-[16px] font-[600] md:mt-[65px] text-[#525660]">
           <ChevronLeft />
           아나바다 시장
         </h3>
       </Link>
+
       <div className="mb-[20px] md:mb-[36px] w-full md:w-[1200px] h-px bg-[#D5D7DD] mt-[16px] md:mt-[16px]"></div>
       <article className="flex flex-col md:flex-row w-full mx-auto md:w-[1200px]">
         {images.length > 0 ? (
@@ -187,38 +188,40 @@ const Page = ({ params }: { params: { Id: string } }) => {
                 height={15}
                 alt="거래 희망 지역"
               />
-              {post.location}
+              {post.location ? post.location : "없음"}
             </label>
 
             <button
               onClick={() => {
                 alert("업데이트 예정입니다.");
               }}
-              className="text-[18px] bg-[#0D9C36] text-white font-[400] md:font-[600] rounded-[40px] mt-auto flex justify-center items-center gap-[10px] md:w-[380px] md:h-[60px] w-[256px] h-[46px] mb-[80px] md:mb-0"
+              className="text-[18px] bg-[#0D9C36] text-white font-[400] md:font-[600] rounded-[40px] mt-auto flex justify-center items-center gap-[10px] md:w-[380px] md:h-[60px] w-[151px] h-[60px]"
             >
-              채팅하기
+              채팅보기
             </button>
             {/* <button>거래 완료</button> */}
           </div>
         </div>
       </article>
-      {/* <div className="mb-4 md:w-[1200px] h-px bg-[#D5D7DD] mt-4 w-[360px]"></div> */}
-      <div>
+      <div className="mb-[80px] md:mb-0">
         {canEdit && (
-          <div className=" md:flex md:flex-row gap-[4px] justify-end mt-[10px] w-[1200px]">
-            <button
-              onClick={handleEditClick}
-              className="w-[80px] h-[32px] rounded text-[14px]  px-6"
-            >
-              수정하기
-            </button>
+          <div className="flex flex-col justify-end text-[#000301]">
+            <div className="mb-[20px] md:w-[1200px] h-px bg-[#D5D7DD] mt-[28px] md:mt-[36px] w-full"></div>
+            <div className="ml-auto flex gap-[12px]">
+              <button
+                onClick={handleEditClick}
+                className="flex justify-center items-center w-[80px] h-[32px] rounded text-[13px] px-[13px] py-[15px]"
+              >
+                수정하기
+              </button>
 
-            <button
-              onClick={() => handleDeletePost(post)}
-              className=" w-[80px] h-[32px] rounded text-[14px]"
-            >
-              삭제하기
-            </button>
+              <button
+                onClick={() => handleDeletePost(post)}
+                className="flex justify-center items-center w-[80px] h-[32px] rounded text-[13px] px-[13px] py-[15px]"
+              >
+                삭제하기
+              </button>
+            </div>
           </div>
         )}
       </div>
