@@ -8,11 +8,13 @@ export const useBookmark = (storeId: string) => {
   const { user } = userStore();
 
   const { data: isBookmarked = false } = useQuery<boolean>({
-    queryKey: ["bookmarks", user.id, storeId],
+    queryKey: ["bookmarks", user?.id, storeId],
     queryFn: async () => {
+      if (!user?.id) return false;
       const data = await bookmarkApi.getBookmarkStatus(user.id, storeId);
       return data?.status || false;
-    }
+    },
+    enabled: !!user?.id
   });
 
   const bookmarkMutation = useMutation<void, Error, void>({
@@ -74,7 +76,7 @@ export const useStoreBookmarkCounts = () => {
   const { data: bookmarkCounts = [], refetch } = useQuery<BookmarkCount[]>({
     queryKey: ["storeBookmarkCounts"],
     queryFn: () => bookmarkApi.getStoreBookmarkCounts(),
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60
   });
 
   return {

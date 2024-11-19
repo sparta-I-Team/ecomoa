@@ -18,9 +18,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    // 기본적으로 '최신순'을 설정합니다.
     setSelected("latest");
-
     const getPosts = async () => {
       setLoading(true);
       const { data, error } = await communityApi.getPost("anabada");
@@ -37,15 +35,11 @@ const Page = () => {
 
   const filteredPosts = useMemo(() => {
     let sortedPosts = posts;
-
-    // 검색어로 필터링
     if (searchTerm) {
       sortedPosts = sortedPosts.filter((post) =>
         post.post_title.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-
-    // 선택된 정렬 기준에 맞게 정렬
     if (selected === "latest") {
       sortedPosts = sortedPosts.sort((a, b) => {
         return (
@@ -59,98 +53,128 @@ const Page = () => {
         );
       });
     }
-
     return sortedPosts;
   }, [posts, searchTerm, selected]);
 
   return (
-    <div className="py-[52px] bg-[#E8F3E8] mx-auto">
-      <div className="md:w-[1200px] mx-auto w-[330px] md:p-0">
-        <div>
-          <label className="text-[#000301] leading-[140%] text-[20px] md:text-[26px] font-bold md:tracking-[-0.26px]">
-            친환경 활동을 공유해 보세요
-          </label>
-          <div className="flex flex-col w-full mt-4 p-2">
-            <div className="mb-4 flex items-start">
-              <Link href="/community" passHref>
-                <button className="w-[106px] md:w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
-                  챌린지 인증
-                </button>
-              </Link>
-              <Link href="/community/free" passHref>
-                <button className="w-[106px] md:w-[400px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
-                  자유 게시판
-                </button>
-              </Link>
-              <Link href="/community/anabada" passHref>
-                <button className="w-[106px] md:w-[400px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-bold flex items-center justify-center text-[12px] md:text-[16px] whitespace-nowrap px-2 sm:px-4">
-                  아나바다 시장
-                </button>
-              </Link>
+    <div className="bg-[#F2F9F2] min-h-full">
+      <div className="py-[52px] w-full min-w-[360px] max-w-[1200px] mx-auto px-[20px] md:px-0">
+        <div className="text-[20px] md:text-[26px] font-bold mb-[60px]">
+          친환경 활동을 공유해 보세요
+        </div>
+
+        {/* navbar */}
+        <div className="mb-7 md:mb-[28px] flex border-b border-[#D5D7DD]">
+          <Link href="/community" className="flex-1">
+            <div className="h-12 border-b-2 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-xs md:text-base">
+              챌린지 인증
             </div>
-          </div>
-          <div>
-            <div className="relative w-[360px] h-[52px] mb-4">
-              <input
-                type="text"
-                placeholder="검색"
-                className="mb-2 border-none md:w-[360px] w-[320px] h-[52px] pl-[20px] rounded-[40px] bg-[#D7E8D7]"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+          </Link>
+          <Link href="/community/free" className="flex-1">
+            <div className="h-12 border-b-2 border-[#D5D7DD] text-[#D5D7DD] font-bold flex items-center justify-center text-xs md:text-base">
+              자유 게시판
+            </div>
+          </Link>
+          <Link href="/community/anabada" className="flex-1">
+            <div className="h-12 border-b-2 border-black text-black font-bold flex items-center justify-center text-xs md:text-base">
+              아나바다 시장
+            </div>
+          </Link>
+        </div>
+
+        {/* 검색창 */}
+        <div className="mb-8">
+          <div className="relative max-w-md md:mx-0">
+            <input
+              type="text"
+              placeholder="키워드를 검색해 보세요"
+              className="w-full h-[52px] pl-5 pr-12 rounded-full bg-[#D7E8D7] focus:outline-none"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <div className="absolute right-5 top-1/2 -translate-y-1/2">
+              <Image
+                src="/community/search.png"
+                alt="검색"
+                width={24}
+                height={24}
               />
-              <div className="absolute right-[60px] md:right-[20px] top-1/2 transform -translate-y-1/2">
-                <Image
-                  src="/community/search.png"
-                  alt="검색"
-                  width={24}
-                  height={24}
-                />
-              </div>
-            </div>
-            <div className="flex justify-between items-center">
-              <div className="flex space-x-4">
-                <label className="text-[#00691E] text-base font-semibold leading-6">
-                  {filteredPosts.length} 건
-                </label>
-                <div
-                  onClick={() => handleSelect("latest")}
-                  className="cursor-pointer flex items-center text-sm font-medium leading-5"
-                >
-                  {selected === "latest" && (
-                    <span className="text-black mr-1">✔</span>
-                  )}
-                  <label>최신순</label>
-                </div>
-                <div
-                  onClick={() => handleSelect("oldest")}
-                  className="cursor-pointer flex items-center text-sm font-medium leading-5"
-                >
-                  {selected === "oldest" && (
-                    <span className="text-black mr-1">✔</span>
-                  )}
-                  <label>오래된순</label>
-                </div>
-              </div>
-            </div>
-            <div className="relative p-2 overflow-y-auto overflow-x-hidden max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
-              {loading && <p>로딩 중...</p>}
-              {error && <p className="text-red-500">{error}</p>}
-              <div className="flex flex-wrap">
-                {filteredPosts.map((post) => (
-                  <PostCard post={post} type="anabada" key={post.post_id} />
-                ))}
-                <Link href="/community/postAna">
-                  <Image
-                    src="/community/addPost.png"
-                    alt="게시글 작성"
-                    width={64}
-                    height={64}
-                    className="absolute bottom-[32px] left-[1100px] z-40"
-                  />
-                </Link>
-              </div>
             </div>
           </div>
+
+          {/* 순서 */}
+          <div className="flex items-center gap-4 mt-6 mb-5">
+            <div className="text-[#00691E] font-semibold">
+              {filteredPosts.length} 건
+            </div>
+            <div className="flex gap-4">
+              <button
+                className="flex items-center gap-1 border-none"
+                onClick={() => handleSelect("latest")}
+              >
+                <span
+                  className={
+                    selected === "latest" ? "text-black" : "text-[#A1A7B4]"
+                  }
+                >
+                  ✔
+                </span>
+                <span
+                  className={
+                    selected === "latest" ? "text-black" : "text-[#A1A7B4]"
+                  }
+                >
+                  최신순
+                </span>
+              </button>
+              <button
+                className="flex items-center gap-1 border-none"
+                onClick={() => handleSelect("oldest")}
+              >
+                <span
+                  className={
+                    selected === "oldest" ? "text-black" : "text-[#A1A7B4]"
+                  }
+                >
+                  ✔
+                </span>
+                <span
+                  className={
+                    selected === "oldest" ? "text-black" : "text-[#A1A7B4]"
+                  }
+                >
+                  오래된순
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* 게시글 목록 */}
+        <div className="relative">
+          <div className="pr-2 relative overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
+            {loading && <p>로딩 중...</p>}
+            {error && <p className="text-red-500">{error}</p>}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {filteredPosts.map((post) => (
+                <PostCard post={post} type="anabada" key={post.post_id} />
+              ))}
+            </div>
+          </div>
+
+          {/* 글쓰기 버튼 */}
+          <Link
+            href="/community/postAna"
+            className="fixed bottom-8 right-8 z-40"
+          >
+            <Image
+              src="/community/addPost.png"
+              alt="게시글 작성"
+              width={64}
+              height={64}
+              className="hover:opacity-90 transition-opacity"
+            />
+          </Link>
         </div>
       </div>
     </div>

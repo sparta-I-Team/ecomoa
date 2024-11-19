@@ -86,7 +86,7 @@ const Calendar = () => {
       setMonthlyData(dataByDate);
       setMonthlyStats(stats);
     } catch (error) {
-      console.error("Calendar data fetch error:", error);
+      console.error("캘린더 데이터 요청 오류:", error);
       setError(
         error instanceof Error
           ? error.message
@@ -140,9 +140,17 @@ const Calendar = () => {
       </div>
 
       {isLoading ? (
-        <div className="flex justify-center items-center h-[90px]">
-          Loading...
-        </div>
+        <>
+          {/* 월간 통계 스켈레톤 */}
+          <div className="flex flex-col md:flex-row gap-[8px] md:gap-6 w-full">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="w-full md:w-1/3 h-[90px] bg-[#00320F] rounded-xl"
+              />
+            ))}
+          </div>
+        </>
       ) : (
         <div className="flex flex-col md:flex-row gap-[8px] md:gap-6 w-full text-white">
           <div className="flex flex-row justify-around items-center w-full md:w-1/3 h-[90px] bg-[#00320F] rounded-xl">

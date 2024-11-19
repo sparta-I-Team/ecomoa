@@ -12,6 +12,7 @@ export const useLike = (postId: string) => {
   const { data: isLiked = false } = useQuery<boolean>({
     queryKey: ["likes", user.id, postId], // 사용자 아이디와 게시물 ID를 조합한 queryKey
     queryFn: async () => {
+      if (!user?.id) return false;
       const data = await likeApi.getLikeStatus(user.id, postId);
       return data?.status || false; // 좋아요 상태를 반환 (없으면 false)
     }

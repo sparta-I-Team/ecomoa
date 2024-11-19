@@ -10,7 +10,7 @@ export const ModalWrapper = ({ children }: { children: ReactNode }) => {
       onClick={closeModal}
     >
       <div
-        className="bg-white rounded-xl shadow-xl w-[calc(100vw-32px)] w-auto max-h-[90vh] overflow-auto"
+        className="bg-white rounded-2xl shadow-xl w-[calc(100vw-32px)] w-auto max-h-[90vh] overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {children}
