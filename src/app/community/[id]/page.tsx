@@ -179,7 +179,7 @@ const ChallengeDetailPage = ({ params }: Props) => {
                 className: "w-[1200px] h-[800px] px-6"
               })
             }
-            className="w-[80px] h-[32px] rounded text-[14px]"
+            className="w-[80px] h-[32px] rounded text-[14px] "
           >
             수정하기
           </button>
