@@ -101,13 +101,13 @@ const AuthCallback = () => {
                   id="nickname"
                   className="outline-none px-[20px] md:px-[20px] w-[256px] md:w-[400px] h-[56px] leading-[16.8px] tracking-[-0.12px] p-[0px_20px] rounded-[12px] border-none bg-[#F3F3F3] mb-[74px] placeholder:text-[20px] placeholder:leading-[30px] flex justify-between items-center mt-[32px]"
                   {...register("nickname")}
-                  maxLength={20}
+                  maxLength={6}
                   placeholder="ex. 홍길동"
                   onChange={handleChange}
                 />
                 {/* 글자 수 표시 */}
                 <span className="text-[#6E7481] absolute top-[3.5rem] right-3 text-[16px]">
-                  {inputLength}/20
+                  {inputLength}/6
                 </span>
                 {/* 에러 메세지 or 성공 메세지 */}
                 <p

@@ -22,7 +22,6 @@ const LoginPage = () => {
             alt="ecomoa 로고"
           />
         </div>
-
         <div>
           <h1 className="text-[24px] md:text-3xl font-[600] text-center leading-[33.6px] tracking-[-0.24px] md:leading-tight">
             에코모아에 가입하고

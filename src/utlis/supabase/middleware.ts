@@ -7,9 +7,9 @@ function redirectDeletePage(request: NextRequest, path: string) {
   return NextResponse.redirect(url);
 }
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+// function delay(ms: number) {
+//   return new Promise((resolve) => setTimeout(resolve, ms));
+// }
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -58,7 +58,7 @@ export async function updateSession(request: NextRequest) {
   }
   // delete 경로에 대해서는 홈 페이지로 리다이렉트
   if (!user && request.nextUrl.pathname.startsWith("/delete")) {
-    await delay(1000);
+    // await delay(1000);
     return redirectDeletePage(request, "/");
   }
 

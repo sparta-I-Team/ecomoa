@@ -141,7 +141,7 @@ const Myposts = ({ type }: TypeProps) => {
               <Link
                 href="/mypage/like/free"
                 passHref
-                className="text-[#00320F] w-1/2 border-b-2 border-t-0 border-l-0 border-r-0 text-center border-#D5D7DD text-[#D5D7DD]"
+                className="w-1/2 border-b-2 border-t-0 border-l-0 border-r-0 text-center border-#D5D7DD text-[#D5D7DD]"
               >
                 <button className="border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
                   자유 게시판
@@ -150,7 +150,7 @@ const Myposts = ({ type }: TypeProps) => {
               <Link
                 href="/mypage/like/anabada"
                 passHref
-                className="w-1/2 border-b-2 border-black border-t-0 border-l-0 border-r-0 text-center"
+                className="text-[#00320F] w-1/2 border-b-2 border-black border-t-0 border-l-0 border-r-0 text-center"
               >
                 <button className="border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
                   아나바다 시장
