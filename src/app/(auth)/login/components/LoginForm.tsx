@@ -64,6 +64,8 @@ const LoginForm = () => {
         isAuthenticated: true
       });
 
+      alert("로그인되었습니다.");
+
       if (!userInfo?.user_nickname) {
         // 여기로 로그인 경로 재설정
         router.push("/login/callback/email");

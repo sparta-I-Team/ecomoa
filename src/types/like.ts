@@ -5,3 +5,7 @@ export interface Like {
   status: boolean;
   created_at: string;
 }
+
+export interface LikeCount {
+  [key: number]: Like;
+}

@@ -1,8 +1,9 @@
 import { Post } from "@/types/community";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import Like from "./Like";
+import React, { useState } from "react";
+import Like from "./Like"; // 좋아요 컴포넌트
+import { useLike } from "@/hooks/useLike";
 
 interface Props {
   post: Post;
@@ -10,18 +11,27 @@ interface Props {
 }
 
 const PostCard = ({ post, type }: Props) => {
+  const [isLiked, setIsLiked] = useState(false);
+  // const [likeCount, setLikeCount] = useState(post.like || 0);
+  const { likes } = useLike(post.post_id);
+
+  // 좋아요 토글 함수
+  const handleToggleLike = () => {
+    setIsLiked(!isLiked);
+    // setLikeCount(isLiked ? likeCount - 1 : likeCount + 1);
+  };
+  console.log("likeCount ==>", likes.length);
   return (
     <div className="p-2">
       {type === "free" ? (
         <Link href={`/community/free/${post.post_id}`}>
           <article
             key={post.post_id}
-            className=" md:w-full md:h-[220px] border-b flex flex-col gap-[20px] md:gap-0 md:flex-row p-4 mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-[0px_0px_40px_0px_rgba(0,0,0,0.02)]"
+            className="md:w-full md:h-[220px] border-b flex flex-col gap-[20px] md:gap-0 md:flex-row p-4 mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-[0px_0px_40px_0px_rgba(0,0,0,0.02)]"
           >
-            <div className="flex-1 rounded-[12px] ">
+            <div className="flex-1 rounded-[12px]">
               <h2 className="text-xl font-semibold mb-2">{post.post_title}</h2>
-
-              <p className="mt-4  leading-normal ellipsis-multi-line truncate">
+              <p className="mt-4 leading-normal ellipsis-multi-line truncate">
                 {post.post_content.slice(0, 10)}...
               </p>
 
@@ -32,8 +42,8 @@ const PostCard = ({ post, type }: Props) => {
 
               <div className="flex justify-between items-center mt-auto">
                 <div className="flex space-x-4">
+                  <p> {likes.length}</p>
                   <Like postId={post.post_id} />
-                  {/* <label>댓글 {post.comment || 0}</label> */}
                 </div>
               </div>
             </div>
@@ -46,7 +56,7 @@ const PostCard = ({ post, type }: Props) => {
                   alt="Post image"
                   width={160}
                   height={160}
-                  className="object-cover w-full h-full "
+                  className="object-cover w-full h-full"
                 />
               </div>
             )}
@@ -56,7 +66,7 @@ const PostCard = ({ post, type }: Props) => {
         <Link href={`/community/${type}/${post.post_id}`}>
           <article
             key={post.post_id}
-            className="flex flex-col justify-end items-start p-7 w-[276px] bg-white rounded-lg "
+            className="flex flex-col justify-end items-start p-7 w-[276px] bg-white rounded-lg"
           >
             {post.post_img && post.post_img.length > 0 ? (
               <div className="flex-none w-[220px] h-[220px] mb-4">
@@ -91,6 +101,7 @@ const PostCard = ({ post, type }: Props) => {
             </div>
             <div className="flex justify-between items-center mt-auto">
               <div className="flex space-x-4">
+                <p> {likes.length}</p>
                 <Like postId={post.post_id} />
               </div>
             </div>

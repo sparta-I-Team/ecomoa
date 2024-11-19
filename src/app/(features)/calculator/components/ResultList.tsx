@@ -72,7 +72,7 @@ const ResultList = ({ type }: Props) => {
       </div>
 
       {/* 리스트 시작 */}
-      <div className="w-full min-w-[320px] md:max-w-[1200px] h-[460px] overflow-y-auto max-h-[460px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
+      <div className="w-full min-w-[320px] md:max-w-[1200px] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
         {myAllData && myAllData.length > 0 ? (
           myAllData
             .sort((a, b) => {

@@ -95,6 +95,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
 
   const onSubmit = async (data: FormData) => {
     mutate({ userId: user.id, newNickname: data.nickname });
+    alert("닉네임 변경이 완료되었습니다.");
   };
 
   const handleEditClick = () => {
@@ -134,6 +135,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
                     placeholder="닉네임을 입력하세요"
                     defaultValue={initialNickname}
                     onChange={handleChange}
+                    maxLength={6}
                     className="w-[100px] border-t-0 border-l-0 border-r-0 border-b-2 border-b-gray-200 outline-none"
                   />
                   <div className="flex items-center justify-start gap-1">

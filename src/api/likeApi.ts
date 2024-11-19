@@ -4,10 +4,24 @@ import { createClient } from "@/utlis/supabase/client";
 const supabase = createClient();
 
 export const likeApi = {
-  getLikeStatus: async (
-    userId: string,
-    postId: string
-  ): Promise<Like | null> => {
+  // 좋아요 개수를 가져오는 함수
+  getLikeCount: async (postId: string): Promise<Like[]> => {
+    // console.log("여기는 api함수 =>", postId);
+    const { data, error } = await supabase
+      .from("likes")
+      .select()
+      .eq("post_id", postId)
+      .eq("status", true); // 좋아요 상태가 true인 것만
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    return data; // 좋아요 개수 (배열 길이)
+  },
+
+  getLikeStatus: async (userId: string, postId: string) => {
     const { data, error } = await supabase
       .from("likes")
       .select()
@@ -23,7 +37,7 @@ export const likeApi = {
     userId: string,
     postId: string,
     currentStatus: boolean
-  ): Promise<void> => {
+  ) => {
     const { data: existingLike } = await supabase
       .from("likes")
       .select()
@@ -32,22 +46,9 @@ export const likeApi = {
       .maybeSingle();
 
     if (existingLike) {
-      /* 나중에 공통으로 빼자 */
-      const seoulTime = new Date().toLocaleString("en-US", {
-        timeZone: "Asia/Seoul",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        fractionalSecondDigits: 3
-      });
-      /*                    */
-
       const { error } = await supabase
         .from("likes")
-        .update({ status: !currentStatus, updated_at: seoulTime })
+        .update({ status: !currentStatus })
         .eq("user_id", userId)
         .eq("post_id", postId);
 

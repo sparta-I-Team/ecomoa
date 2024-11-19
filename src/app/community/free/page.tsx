@@ -19,6 +19,9 @@ const Page = () => {
   };
 
   useEffect(() => {
+    // 기본적으로 '최신순'을 설정합니다.
+    setSelected("latest");
+
     const getPosts = async () => {
       setLoading(true);
       const { data, error } = await communityApi.getPost("free");
@@ -60,22 +63,22 @@ const Page = () => {
   return (
     <>
       <div className="bg-[white] py-[52px] md:bg-[#E8F3E8]">
-        <div className="md:w-[1200px] mx-auto w-[330px]  md:p-0">
-          <label className="text-[#000301] leading-[140%] text-[20px] md:text-[26px] font-bold  md:tracking-[-0.26px]">
+        <div className="md:w-[1200px] mx-auto w-[330px] md:p-0">
+          <label className="text-[#000301] leading-[140%] text-[20px] md:text-[26px] font-bold md:tracking-[-0.26px]">
             친환경 활동을 공유해 보세요
           </label>
           <div className="flex flex-col w-full">
             <CommunityNav />
             <div className="md:bg-[#E8F3E8] bg-[white] ">
-              <div className="relative w-[360px] h-[52px] mb-4 ">
+              <div className="relative w-[360px] h-[52px] mb-4">
                 <input
                   type="text"
                   placeholder="검색"
-                  className=" mb-2 border-none md:w-[360px] w-[320px] h-[52px] pl-[20px] rounded-[40px] bg-[#D7E8D7]"
+                  className="mb-2 border-none md:w-[360px] w-[320px] h-[52px] pl-[20px] rounded-[40px] bg-[#D7E8D7]"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <div className="absolute right-[60px] md:right-[20px] top-1/2 transform -translate-y-1/2 ">
+                <div className="absolute right-[60px] md:right-[20px] top-1/2 transform -translate-y-1/2">
                   <Image
                     src="/community/search.png"
                     alt="검색"

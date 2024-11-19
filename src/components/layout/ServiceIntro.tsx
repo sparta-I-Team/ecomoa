@@ -113,6 +113,7 @@ const ServiceIntro = () => {
           name="description"
           content="매일 간단한 탄소 절감 챌린지로 에코모아를 키워보세요. 환경을 위한 작은 실천이 큰 변화를 만듭니다."
         />
+        <meta property="og:image" content="/images/logo.png" />
         <meta name="keywords" content="탄소 절감, 에코모아, 환경 챌린지" />
       </Head>
 
@@ -240,14 +241,6 @@ const ServiceIntro = () => {
             data-aos-duration="1500"
             className="w-full md:w-[608px] flex flex-col justify-center items-start md:ml-[100px] gap-[24px] order-1 md:order-2"
           >
-            {/* <div className="hidden md:block">
-              <Image
-                src={"/service/stamp.png"}
-                alt="에코모아 챌린지 스탬프"
-                width={48}
-                height={48}
-              />
-            </div> */}
             <div className="md:mt-[80px]">
               <p className="text-[#00691E] text-[14px] md:text-[20px] font-[600] leading-[21px] md:leading-[30px] tracking-[-0.14px] md:tracking-[-0.2px] mt-[80px] md:mt-0">
                 챌린지를 성공하면 포인트를 드려요
