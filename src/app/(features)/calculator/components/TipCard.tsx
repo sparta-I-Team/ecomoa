@@ -9,8 +9,8 @@ export interface TipCardProps {
 
 const TipCard: React.FC<TipCardProps> = ({ tipLogo, tipTitle, tipContent }) => {
   return (
-    <div>
-      <div className="w-[320px] md:w-full h-[92px] md:h-[120px] px-6  py-[22px] md:py-10 bg-[#e8f3e8] rounded-xl justify-start gap-[12px] md:gap-[24px] inline-flex">
+    <div className="">
+      <div className="w-full min-w-[320px] md:max-w-[1200px] h-[92px] md:h-[120px] px-6 py-[22px] md:py-10 bg-[#e8f3e8] rounded-xl gap-[12px] md:gap-[24px] inline-flex">
         <Image
           src={tipLogo}
           alt={tipLogo}

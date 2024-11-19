@@ -89,25 +89,25 @@ export const useCommunity = () => {
       return;
     }
 
-    openModal({
-      type: "custom",
-      content: (
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center relative w-[585px] h-[600px]">
-          <button
-            onClick={handleCloseModal}
-            className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 border-none text-3xl"
-          >
-            &times; {/* X 아이콘 */}
-          </button>
-          <div className="p-12">
-            <h4 className="font-semibold mb-4 text-2xl">
-              게시글을 업로드 중이에요
-            </h4>
-            <div>이미지 업로드 및 게시글 작성 중...</div>
-          </div>
-        </div>
-      )
-    });
+    // openModal({
+    //   type: "custom",
+    //   content: (
+    //     <div className="bg-white p-6 rounded-lg shadow-lg text-center relative w-[585px] h-[600px]">
+    //       <button
+    //         onClick={handleCloseModal}
+    //         className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 border-none text-3xl"
+    //       >
+    //         &times; {/* X 아이콘 */}
+    //       </button>
+    //       <div className="p-12">
+    //         <h4 className="font-semibold mb-4 text-2xl">
+    //           게시글을 업로드 중이에요
+    //         </h4>
+    //         <div>이미지 업로드 및 게시글 작성 중...</div>
+    //       </div>
+    //     </div>
+    //   )
+    // });
 
     const uploadedUrls: string[] = [];
 

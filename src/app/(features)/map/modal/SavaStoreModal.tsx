@@ -12,7 +12,7 @@ const SaveStoreModal = ({ onViewSaved }: SaveStoreModalProps) => {
     <div className="flex flex-col items-center relative w-full md:w-[585px] min-h-[300px]">
       <button
         onClick={closeModal}
-        className="absolute top-2 md:top-4 right-2 md:right-4 p-2 border-none rounded-full hover:bg-gray-100 transition-colors"
+        className="absolute top-2 md:top-4 right-2 md:right-4 p-2 border-none rounded-full"
       >
         <svg
           width="20"
@@ -37,13 +37,23 @@ const SaveStoreModal = ({ onViewSaved }: SaveStoreModalProps) => {
           alt="챌린지 완료 이미지"
           width={585}
           height={340}
-          className="rounded-xl w-full h-[340px] md:h-auto"
+          className="rounded-xl w-full h-[340px] md:h-auto hidden md:block"
+          priority
+        />
+        <Image
+          src="/images/mobileSaved.png"
+          alt="챌린지 완료 이미지"
+          width={585}
+          height={340}
+          className="rounded-xl w-full h-[340px] md:h-auto md:hidden"
           priority
         />
       </figure>
 
       <div className="flex flex-col justify-center items-center gap-[28px] mt-[44px] md:mt-[54px]">
-        <h2 className="text-[22px] md:text-[24px] font-semibold">저장했어요!</h2>
+        <h2 className="text-[22px] md:text-[24px] font-semibold">
+          저장했어요!
+        </h2>
         <div className="p-2 md:p-3 rounded bg-gray-200 text-xs md:text-[14px]">
           <p>
             <span className="text-[#00691E]">위치</span> 친환경 가게 Map {">"}{" "}

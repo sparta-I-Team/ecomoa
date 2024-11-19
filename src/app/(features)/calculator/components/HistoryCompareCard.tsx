@@ -59,7 +59,7 @@ const HistoryCompareCard: React.FC<HistoryCompareCardProps> = ({
 
   return (
     <>
-      <div className="flex w-[320px] md:w-full h-[120px] md:h-[200px] border border-[#D7E8D7] rounded-[20px] overflow-hidden mt-[24px] justify-between relative">
+      <div className="flex w-full min-w-[320px] md:w-full h-[120px] md:h-[200px] border border-[#D7E8D7] rounded-[20px] overflow-hidden mt-[24px] justify-between relative">
         <div className="flex flex-col gap-2 md:py-[78px] p-[23px] md:p-[36px] md:pl-[80px] text-[12px] md:text-[20px]">
           <div className="flex md:flex-row">
             {thisMonthMyAvg > LastMonthMyAvg ? (
