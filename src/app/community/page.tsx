@@ -68,7 +68,7 @@ const Page = () => {
             <div className=" mb-4 flex items-start ">
               <Link href="/community" passHref>
                 <button className=" w-[106px]  md:w-[400px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-bold flex items-center justify-center text-[12px]  md:text-[16px] whitespace-nowrap px-2 sm:px-4">
-                  첼린지 인증
+                  챌린지 인증
                 </button>
               </Link>
               <Link href="/community/free" passHref>
@@ -106,33 +106,6 @@ const Page = () => {
                   )}
                   <label>오래된순</label>
                 </div>
-                {/* <div
-                  onClick={() => handleSelect("popular")}
-                  className="cursor-pointer flex items-center text-sm font-medium leading-5"
-                >
-                  {selected === "popular" && (
-                    <span className="text-black mr-1">✔</span>
-                  )}
-                  <label>인기순</label>
-                </div>
-                <div
-                  onClick={() => handleSelect("likes")}
-                  className="cursor-pointer flex items-center text-sm font-medium leading-5"
-                >
-                  {selected === "likes" && (
-                    <span className="text-black mr-1">✔</span>
-                  )}
-                  <label>좋아요</label>
-                </div>
-                <div
-                  onClick={() => handleSelect("comments")}
-                  className="cursor-pointer flex items-center text-sm font-medium leading-5"
-                >
-                  {selected === "comments" && (
-                    <span className="text-black mr-1">✔</span>
-                  )}
-                  <label>댓글순</label>
-                </div> */}
               </div>
             </div>
             {error && <p className="text-red-500">{error}</p>}
@@ -214,16 +187,14 @@ const Page = () => {
                         {challenge.image_urls &&
                           challenge.image_urls.length > 0 && (
                             <div className="flex space-x-2">
-                              {challenge.image_urls.map((url, idx) => (
-                                <Image
-                                  key={idx}
-                                  src={url}
-                                  alt={`Challenge ${idx + 1}`}
-                                  width={160}
-                                  height={160}
-                                  className="object-cover"
-                                />
-                              ))}
+                              <Image
+                                key={0}
+                                src={challenge.image_urls[0]}
+                                alt={`Challenge 1`}
+                                width={160}
+                                height={160}
+                                className="object-fill max-w-[160px] max-h-[160px]"
+                              />
                             </div>
                           )}
                       </div>

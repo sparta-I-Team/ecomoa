@@ -71,10 +71,10 @@ const ChallengeForm = ({ initialData }: Props) => {
             onClick={handleOpenGoBackModal}
             className="flex flex-row items-center text-sm md:text-[16px] font-bold mb-2 md:mb-4 text-[#525660] hover:text-gray-400 transition-colors border-none"
           >
-            <ChevronLeft className="w-4 h-4 text-[#525660]" /> 
+            <ChevronLeft className="w-4 h-4 text-[#525660]" />
             <p>챌린지 홈</p>
           </button>
-          <hr/>
+          <hr />
         </>
       )}
       <form
@@ -124,7 +124,7 @@ const ChallengeForm = ({ initialData }: Props) => {
               required: "챌린지 내용을 입력해주세요."
             })}
             className="w-full p-3 md:p-4 border rounded-lg min-h-[80px] bg-[#F5F5F5] border-none focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 text-sm md:text-base"
-            placeholder="첼린지 내용을 입력해주세요"
+            placeholder="챌린지 내용을 입력해주세요"
           />
           {errors.content && (
             <p className="text-red-500 text-xs md:text-sm mt-1">

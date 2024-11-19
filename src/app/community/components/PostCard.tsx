@@ -16,12 +16,12 @@ const PostCard = ({ post, type }: Props) => {
         <Link href={`/community/free/${post.post_id}`}>
           <article
             key={post.post_id}
-            className=" md:w-full md:h-[220px] border-b flex flex-col gap-[20px] md:gap-0 md:flex-row p-4 mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-[0px_0px_40px_0px_rgba(0,0,0,0.02)]"
+            className="md:w-full md:h-[220px] border-b flex flex-col gap-[20px] md:gap-0 md:flex-row p-4 mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-[0px_0px_40px_0px_rgba(0,0,0,0.02)]"
           >
-            <div className="flex-1 rounded-[12px] ">
+            <div className="flex-1 rounded-[12px]">
               <h2 className="text-xl font-semibold mb-2">{post.post_title}</h2>
 
-              <p className="mt-4  leading-normal ellipsis-multi-line truncate">
+              <p className="mt-4 leading-normal ellipsis-multi-line truncate">
                 {post.post_content.slice(0, 10)}...
               </p>
 
@@ -33,7 +33,8 @@ const PostCard = ({ post, type }: Props) => {
               <div className="flex justify-between items-center mt-auto">
                 <div className="flex space-x-4">
                   <Like postId={post.post_id} />
-                  {/* <label>댓글 {post.comment || 0}</label> */}
+                  {/* 좋아요 개수 표시 */}
+                  <span className="text-sm text-[#A1A7B4]">{post.like}개</span>
                 </div>
               </div>
             </div>
@@ -46,7 +47,7 @@ const PostCard = ({ post, type }: Props) => {
                   alt="Post image"
                   width={160}
                   height={160}
-                  className="object-cover w-full h-full "
+                  className="object-cover w-full h-full"
                 />
               </div>
             )}
@@ -92,6 +93,8 @@ const PostCard = ({ post, type }: Props) => {
             <div className="flex justify-between items-center mt-auto">
               <div className="flex space-x-4">
                 <Like postId={post.post_id} />
+                {/* 좋아요 개수 표시 */}
+                <span className="text-[14px] text-[#0D9C36]">{post.like}</span>
               </div>
             </div>
           </article>
