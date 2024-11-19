@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import EditPostModal from "../../components/EditPostModal";
 import { useModalStore } from "@/zustand/modalStore";
 import { Modal } from "@/components/shared/Modal";
+import Like from "../../components/Like";
 
 const Page = ({ params }: { params: { Id: string } }) => {
   const [post, setPost] = useState<Post | null>(null);
@@ -158,7 +159,8 @@ const Page = ({ params }: { params: { Id: string } }) => {
           <div className="flex text-base text-gray-500 tracking-tight">
             <label>{post.user_info?.user_nickname}</label>
             <time>{new Date(post.created_at).toLocaleDateString()}</time>
-            <div className="ml-2">· ♡ {post.like || 0}</div>
+            <Like postId={post.post_id} />
+
             <div className="ml-2">· 댓글 {post.comment || 0}</div>
           </div>
           <div className="mb-4 mt-4 w-[330px] md:w-[585px] h-px bg-[#D5D7DD]"></div>
@@ -187,14 +189,17 @@ const Page = ({ params }: { params: { Id: string } }) => {
       <div className="mb-4 md:w-[1200px] h-px bg-[#D5D7DD] mt-4 w-[360px]"></div>
       <div>
         {canEdit && (
-          <div>
-            <button onClick={handleEditClick} className="mt-4 border-none mr-2">
+          <div className=" md:flex md:flex-row gap-[4px] justify-end mt-[10px] w-[1200px]">
+            <button
+              onClick={handleEditClick}
+              className="w-[80px] h-[32px] rounded text-[14px]  px-6"
+            >
               수정하기
             </button>
 
             <button
               onClick={() => handleDeletePost(post)}
-              className="  mt-4  border-none"
+              className=" w-[80px] h-[32px] rounded text-[14px]"
             >
               삭제하기
             </button>

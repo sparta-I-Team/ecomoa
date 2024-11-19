@@ -1,14 +1,25 @@
 "use client";
-import { useEffect, useState } from "react"; // MouseEvent 임포트
-import Image from "next/image";
-import { communityApi } from "@/api/communityApi";
+import { useEffect, useState } from "react";
 import { Post } from "@/types/community";
-import Link from "next/link";
+import { communityApi } from "@/api/communityApi";
 import { useRouter } from "next/navigation";
 import { userStore } from "@/zustand/userStore";
 import { useModalStore } from "@/zustand/modalStore";
 import { Modal } from "@/components/shared/Modal";
 import EditPostModal from "../../components/EditPostModal";
+import Like from "../../components/Like";
+import Link from "next/link";
+import Image from "next/image";
+
+type Comment = {
+  comment_id: string;
+  user_id?: string; // 댓글 작성자의 user_id
+  user_info: {
+    user_nickname: string;
+  } | null;
+  comment_content: string;
+  created_at: string;
+};
 
 type Props = {
   params: {
@@ -17,34 +28,46 @@ type Props = {
 };
 
 const PostDetailPage = ({ params }: Props) => {
-  const [post, setPost] = useState<Post | null>(null); // post는 초기에는 null
+  const [post, setPost] = useState<Post | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [newComment, setNewComment] = useState("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null); // 수정 중인 댓글 ID
+  const [editedComment, setEditedComment] = useState<string>(""); // 수정된 댓글 내용
   const { Id } = params;
   const router = useRouter();
-  const { user } = userStore();
+  const { user } = userStore(); // 로그인된 유저 정보
   const { openModal, closeModal } = useModalStore();
 
+  // 게시글 및 댓글을 가져오는 useEffect
   useEffect(() => {
-    const fetchPost = async () => {
+    const fetchPostAndComments = async () => {
       try {
         const { data, error } = await communityApi.getPostById(Id);
         if (error) {
           setErrorMessage(error);
           return;
         }
-
         if (data) {
-          setPost(data); // post 상태 업데이트
-        } else {
-          setErrorMessage("게시글이 없습니다.");
+          setPost(data);
         }
+
+        // 댓글을 가져올 때, undefined가 아니도록 처리
+        const { data: commentData, error: commentError } =
+          await communityApi.getCommentsByPostId(Id);
+        if (commentError) {
+          setErrorMessage(commentError);
+          return;
+        }
+        console.log("comment data =>", commentData);
+        setComments(commentData || []);
       } catch (error) {
         setErrorMessage("게시글을 불러오는 데 오류가 발생했습니다.");
         console.log("error", error);
       }
     };
 
-    fetchPost();
+    fetchPostAndComments();
   }, [Id]);
 
   if (errorMessage) {
@@ -65,6 +88,76 @@ const PostDetailPage = ({ params }: Props) => {
 
   const canEdit = user.isAuthenticated && post.user_id === user.id;
 
+  // 댓글 추가 처리
+  const handleAddComment = async () => {
+    if (!newComment.trim()) return; // 댓글이 비어있지 않도록 확인
+
+    const { data, error } = await communityApi.addComment(
+      post.post_id,
+      user.id,
+      newComment
+    );
+    console.log("data=>", data);
+
+    if (error) {
+      alert("댓글을 추가하는 데 오류가 발생했습니다.");
+    } else {
+      setComments((prev) => [data, ...prev]); // 새로운 댓글 추가
+
+      setNewComment(""); // 입력 필드 초기화
+    }
+  };
+
+  // 댓글 삭제 처리
+  const handleDeleteComment = async (commentId: string) => {
+    const confirmed = window.confirm("정말 삭제 하시겠습니까?");
+    if (confirmed) {
+      const { error } = await communityApi.deleteComment(commentId);
+      if (error) {
+        alert("댓글 삭제에 실패했습니다.");
+      } else {
+        setComments((prev) =>
+          prev.filter((comment) => comment.comment_id !== commentId)
+        ); // 댓글 삭제 후 상태 업데이트
+      }
+    }
+  };
+
+  // 댓글 수정 처리
+  const handleEditComment = (commentId: string) => {
+    const commentToEdit = comments.find(
+      (comment) => comment.comment_id === commentId
+    );
+    if (commentToEdit) {
+      setEditingCommentId(commentId); // 수정할 댓글 ID 저장
+      setEditedComment(commentToEdit.comment_content); // 수정할 댓글 내용 저장
+    }
+  };
+
+  // 댓글 수정 완료 처리
+  const handleSaveEditedComment = async () => {
+    if (!editedComment.trim()) return; // 수정된 댓글 내용이 비어있지 않도록 확인
+
+    const { error } = await communityApi.updateComment(
+      editingCommentId!,
+      editedComment
+    );
+    if (error) {
+      alert("댓글 수정에 실패했습니다.");
+    } else {
+      setComments((prev) =>
+        prev.map((comment) =>
+          comment.comment_id === editingCommentId
+            ? { ...comment, comment_content: editedComment }
+            : comment
+        )
+      );
+      setEditingCommentId(null); // 수정 모드 종료
+      setEditedComment(""); // 수정된 내용 초기화
+    }
+  };
+
+  // 게시글 수정 처리
   const handleEditClick = () => {
     if (post) {
       openModal({
@@ -75,7 +168,7 @@ const PostDetailPage = ({ params }: Props) => {
             post={post}
             onClose={closeModal}
             onSave={(updatedPost) => {
-              handleSavePost(updatedPost); // onSave 수정
+              handleSavePost(updatedPost);
               closeModal();
             }}
           />
@@ -84,11 +177,8 @@ const PostDetailPage = ({ params }: Props) => {
     }
   };
 
-  // 수정된 게시글 저장 처리
-  const handleSavePost = async (
-    editedPost: Post | null // MouseEvent 제거, 이제 클릭 이벤트는 EditPostModal에서 처리
-  ) => {
-    if (!editedPost) return; // editedPost가 null인 경우 처리
+  const handleSavePost = async (editedPost: Post | null) => {
+    if (!editedPost) return;
 
     try {
       const { error } = await communityApi.update(editedPost);
@@ -132,7 +222,7 @@ const PostDetailPage = ({ params }: Props) => {
           <label className="mr-4">{post.user_info.user_nickname}</label>
           <label>{new Date(post.created_at).toLocaleDateString()}</label>
           <div className="flex space-x-4 text-gray-600">
-            <label>♡ {post.like}</label>
+            <Like postId={post.post_id} />
           </div>
         </div>
         <p className="mt-4 leading-normal">{post.post_content}</p>
@@ -171,34 +261,94 @@ const PostDetailPage = ({ params }: Props) => {
           )
         )}
       </article>
-      <div className="relative flex justify-between mt-10 w-[320px] md:w-[1200px]">
+
+      {/* 댓글 입력 부분 */}
+      <div className="relative flex justify-between mt-10 w-[1200px]">
         <input
           type="text"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
           placeholder="댓글을 입력해주세요"
           className="rounded-[16px] bg-[#CBF5CB] w-[1200px] h-[70px] leading-[40px] px-4 border-none text-[#A1A7B4]"
         />
         <button
-          type="submit"
+          onClick={handleAddComment}
           className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#0D9C36] border-none rounded-[12px] text-white px-6 py-2 text-[16px] font-medium leading-[24px] tracking-[-0.16px]"
         >
           댓글 등록
         </button>
       </div>
+      <hr className="h-px mt-[20px] w-[1200px]"></hr>
+      {/* 댓글 목록 */}
+      <div className="mt-8 flex flex-col">
+        {comments.map((comment) => (
+          <div key={comment.comment_id} className="flex flex-col mb-4">
+            <div className="flex items-center">
+              <span className="font-semibold">
+                {comment.user_info?.user_nickname}
+              </span>
+              <span className="text-[12px] text-gray-500 ml-2">
+                {new Date(comment.created_at).toLocaleDateString()}
+              </span>
+            </div>
+            {editingCommentId === comment.comment_id ? (
+              <div className="flex items-center">
+                <input
+                  type="text"
+                  value={editedComment}
+                  onChange={(e) => setEditedComment(e.target.value)}
+                  className="mt-2 p-2 rounded border-gray-300"
+                />
+                <button
+                  onClick={handleSaveEditedComment}
+                  className="ml-2 border "
+                >
+                  수정완료
+                </button>
+              </div>
+            ) : (
+              <p className="text-gray-700 mt-2">{comment.comment_content}</p>
+            )}
+
+            {user.id === comment.user_id && !editingCommentId && (
+              <div className="flex space-x-4 mt-2 ">
+                <button
+                  onClick={() => handleEditComment(comment.comment_id)}
+                  className="text-[13px] border-none"
+                >
+                  수정하기
+                </button>
+                <button
+                  onClick={() => handleDeleteComment(comment.comment_id)}
+                  className="text-[13px] border-none"
+                >
+                  삭제하기
+                </button>
+              </div>
+            )}
+            <hr className="h-px mt-[20px] w-[1200px]"></hr>
+          </div>
+        ))}
+      </div>
       <div>
         {canEdit && (
-          <div>
-            <button onClick={handleEditClick} className="  mt-4 border-none ">
+          <div className="md:flex md:flex-row gap-[4px] justify-end mt-[10px] w-[1200px]">
+            <button
+              onClick={handleEditClick}
+              className="w-[80px] h-[32px] rounded text-[14px]"
+            >
               수정하기
             </button>
             <button
               onClick={() => handleDeletePost(post)}
-              className="mt-4  border-none"
+              className="w-[80px] h-[32px] rounded text-[14px]"
             >
               삭제하기
             </button>
           </div>
         )}
       </div>
+
       <Modal />
     </div>
   );
