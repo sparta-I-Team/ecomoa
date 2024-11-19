@@ -61,5 +61,18 @@ export const likeApi = {
 
       if (error) throw error;
     }
+  },
+  getLikeCount: async (postId: string): Promise<number> => {
+    const { data, error } = await supabase
+      .from("likes")
+      .select()
+      .eq("post_id", postId)
+      .eq("status", true);
+
+    if (error) {
+      console.error(error);
+      return 0;
+    }
+    return data.length; // 좋아요 누른 사람들의 수 (배열 길이)
   }
 };
