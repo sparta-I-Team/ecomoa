@@ -63,11 +63,10 @@ const Page = () => {
   return (
     <>
       <div className=" bg-[#F2F9F2] min-h-full">
-        <div className="py-[52px] w-full min-w-[360px] max-w-[1200px] mx-auto">
+        <div className="py-[52px] w-full min-w-[360px] max-w-[1200px] mx-auto px-[20px] md:px-0">
           <div className="text-[20px] md:text-[26px] font-bold mb-[60px]">
             친환경 활동을 공유해 보세요
           </div>
-
           {/* navbar */}
           <div className="flex flex-col w-full">
             <div className="mb-[28px] flex flex-row">
@@ -88,7 +87,6 @@ const Page = () => {
               </Link>
             </div>
           </div>
-
           {/* 검색창 */}
           <div>
             <div className="relative w-[360px] mb-[32px]">
