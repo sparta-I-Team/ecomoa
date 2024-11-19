@@ -7,11 +7,13 @@ export const useLike = (postId: string) => {
   const { user } = userStore();
 
   const { data: isLiked = false } = useQuery<boolean>({
-    queryKey: ["likes", user.id, postId],
+    queryKey: ["likes", user?.id, postId],
     queryFn: async () => {
+      if (!user?.id) return false;
       const data = await likeApi.getLikeStatus(user.id, postId);
       return data?.status || false;
-    }
+    },
+    enabled: !!user?.id
   });
 
   const likeMutation = useMutation<void, Error, void>({
