@@ -1,6 +1,10 @@
 import { LevelInfo } from "@/types/challengesType";
 import Image from "next/image";
 import LevelSectionSkeleton from "./LevelSectionSkeleton";
+import { useModalStore } from "@/zustand/modalStore";
+import { useEffect, useRef } from "react";
+import { LEVEL_CONFIG } from "@/utlis/challenge/challenges";
+import LevelUpModal from "../modal/LevelUpModal";
 
 interface LevelSectionProps {
   levelInfo: LevelInfo | null;
@@ -8,10 +12,46 @@ interface LevelSectionProps {
 }
 
 const LevelSection = ({ levelInfo, isLoading }: LevelSectionProps) => {
+  const { openModal, closeModal } = useModalStore();
+  const prevPoints = useRef(0);
+
+  useEffect(() => {
+    if (!levelInfo) return;
+
+    Object.entries(LEVEL_CONFIG).forEach(([level, config]) => {
+      if (
+        levelInfo.totalPoints >= config.min &&
+        prevPoints.current < config.min &&
+        Number(level) > 1
+      ) {
+        const hasShownModal = localStorage.getItem(
+          `level_${level}_modal_shown`
+        );
+
+        if (!hasShownModal) {
+          openModal({
+            type: "custom",
+            content: (
+              <LevelUpModal
+                name={config.name}
+                minPoints={config.min}
+                levelUpImg={config.levelUpImg}
+                onClose={closeModal}
+              />
+            )
+          });
+
+          localStorage.setItem(`level_${level}_modal_shown`, "true");
+        }
+      }
+    });
+
+    prevPoints.current = levelInfo.totalPoints;
+  }, [levelInfo, openModal]);
+
   if (isLoading || !levelInfo) {
     return <LevelSectionSkeleton />;
   }
-
   return (
     <section className="flex flex-col gap-4 mt-[78px] lg:mt-0 w-full lg:w-auto">
       <div className="flex flex-col w-full lg:w-[585px] h-[124px] lg:h-[319px] justify-end">
@@ -34,7 +74,7 @@ const LevelSection = ({ levelInfo, isLoading }: LevelSectionProps) => {
                 alt={levelInfo.name}
                 width={205}
                 height={220}
-                className="w-[225px] h-[175px] lg:w-[285px] lg:h-[280px]"
+                className="w-[210px] h-[175px] lg:w-[285px] lg:h-[280px]"
               />
             )}
           </div>
@@ -43,7 +83,7 @@ const LevelSection = ({ levelInfo, isLoading }: LevelSectionProps) => {
       <div className="flex flex-col gap-3 w-[100%] mx-auto lg:mx-0 lg:w-[585px]">
         <div className="flex flex-row gap-[8px] items-center">
           <p
-            className="w-[110px] lg:w-[113px] h-[32px] text-m font-semibold text-[14px] rounded-2xl text-center border-2 p-2"
+            className="w-auto h-[32px] text-m font-semibold text-[14px] rounded-2xl text-center border-2 p-2"
             style={{ borderColor: levelInfo.exp }}
           >
             LV.{levelInfo.level} {levelInfo.name}
