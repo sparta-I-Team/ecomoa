@@ -651,7 +651,7 @@ const ServiceIntro = () => {
       {/* section 9 */}
       <section
         ref={lastSectionRef}
-        className="p-[80px_20px_79px_20px] md:py-[140px]"
+        className="p-[80px_20px_79px_20px] md:py-[80px]"
       >
         <div className="w-full md:max-w-[1200px] mx-auto flex flex-col justify-center items-center relative">
           <div
@@ -684,7 +684,7 @@ const ServiceIntro = () => {
             </div>
           </div>
 
-          <div className="flex flex-col items-center justify-center md:mb-[134px]">
+          <div className="flex flex-col items-center justify-center mt-[60px]">
             <button
               onClick={handleClick}
               className={getButtonStyle()} // getButtonStyle 함수 적용

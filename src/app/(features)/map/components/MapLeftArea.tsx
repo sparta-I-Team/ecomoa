@@ -5,6 +5,7 @@ import { Check, Search } from "lucide-react";
 import { calculateDistance } from "@/utlis/map/distance";
 import StoreCard from "./ui/StoreCard";
 import { useSavedStores, useStoreBookmarkCounts } from "@/hooks/useBookmark";
+import { userStore } from "@/zustand/userStore";
 
 interface StoreListProps {
   stores: Store[];
@@ -21,11 +22,14 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
     lat: number;
     lng: number;
   } | null>(null);
-  
-  const [storesWithDistance, setStoresWithDistance] = useState<StoreWithExtra[]>([]);
+
+  const [storesWithDistance, setStoresWithDistance] = useState<
+    StoreWithExtra[]
+  >([]);
 
   const { savedStores } = useSavedStores();
   const { bookmarkCounts } = useStoreBookmarkCounts();
+  const { user } = userStore();
 
   // 검색어 디바운싱
   useEffect(() => {
@@ -66,9 +70,9 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
             store.lon
           )
         : undefined,
-      bookmarkCount: bookmarkCounts.find(
-        count => count.store_id === store.store_id
-      )?.count || 0
+      bookmarkCount:
+        bookmarkCounts.find((count) => count.store_id === store.store_id)
+          ?.count || 0
     }));
 
     setStoresWithDistance(storesWithDistanceCalculated);
@@ -124,7 +128,9 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
         (a, b) => (a.distance || Infinity) - (b.distance || Infinity)
       );
     } else if (sortType === "popularity") {
-      sortedStores.sort((a, b) => (b.bookmarkCount || 0) - (a.bookmarkCount || 0));
+      sortedStores.sort(
+        (a, b) => (b.bookmarkCount || 0) - (a.bookmarkCount || 0)
+      );
     }
 
     return sortedStores;
@@ -144,7 +150,15 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
           {TABS.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                if (
+                  user.accessToken === "" ||
+                  user.accessToken === null ||
+                  user.accessToken === undefined
+                )
+                  return alert("로그인된 유저만 가능합니다.");
+                setActiveTab(tab.id);
+              }}
               className={`flex-1 px-4 py-3 text-sm font-medium relative border-none 
                 ${
                   activeTab === tab.id
@@ -202,7 +216,9 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
           onClick={() => handleSortClick("popularity")}
           className={`border-none flex items-center gap-[2px] transition-colors
             ${
-              sortType === "popularity" ? "text-black font-bold" : "text-gray-300"
+              sortType === "popularity"
+                ? "text-black font-bold"
+                : "text-gray-300"
             }
           `}
         >

@@ -14,7 +14,7 @@ export const ModalContent = () => {
   switch (type) {
     case "alert":
       return (
-        <div className="w-[320px] p-6">
+        <div className="w-[320px] max-w-[585px] p-6">
           <div className="mb-6 text-center">{content}</div>
           <button
             className="w-full h-[48px] bg-[#0D9C36] text-white rounded-lg"

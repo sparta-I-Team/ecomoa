@@ -16,6 +16,13 @@ export const ChallengeSelection = () => {
   const { user } = userStore();
   const { isLoading } = useChallengeDashboard(user.id);
   const onSubmit = () => {
+    if (
+      user.accessToken === "" ||
+      user.accessToken === null ||
+      user.accessToken === undefined
+    )
+      return alert("로그인된 유저만 접근이 가능합니다.");
+
     if (selected.length === 0) {
       alert("최소 하나의 챌린지를 선택해주세요.");
       return;

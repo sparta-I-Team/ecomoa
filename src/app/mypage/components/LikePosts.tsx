@@ -100,7 +100,7 @@ const Myposts = ({ type }: TypeProps) => {
   }
 
   return (
-    <div className="flex flex-col w-full min-h-screen md:w-[1200px]">
+    <div className="flex flex-col w-full min-h-screen md:w-[1200px] px-[20px]">
       <div className=" ">
         <div className="pl-[20px] md:pl-0">
           <ReturnMypage />
@@ -114,16 +114,16 @@ const Myposts = ({ type }: TypeProps) => {
             내가 좋아요한 게시글을 확인해보세요
           </p>
         </div>
-        <div className="flex mb-4 pl-[20px] md:pl-0">
+        <div className="flex mb-4 md:pl-0">
           {type === "free" ? (
             <>
-              <Link href="/mypage/like/free" passHref>
-                <button className="w-[160px] md:w-[600px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-[600] flex items-center justify-center">
+              <Link href="/mypage/like/free" passHref className="w-1/2 border-b-2 border-black border-t-0 border-l-0 border-r-0">
+                <button className="border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
                   자유 게시판
                 </button>
               </Link>
-              <Link href="/mypage/like/anabada" passHref>
-                <button className="w-[160px] md:w-[600px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
+              <Link href="/mypage/like/anabada" passHref className="w-1/2 border-b-2 border-t-0 border-l-0 border-r-0 text-center border-#D5D7DD text-[#D5D7DD]">
+                <button className="border-none md:w-[600px] h-12">
                   아나바다 시장
                 </button>
               </Link>
