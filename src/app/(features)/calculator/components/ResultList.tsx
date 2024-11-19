@@ -124,7 +124,11 @@ const ResultList = ({ type }: Props) => {
             })
         ) : (
           <div className="flex flex-row w-full min-w-[320px] h-[92px] p-[24px] text-[16px]">
-            탄소계산기를 통해 계산한 데이터가 없습니다.
+            <div className="flex items-center justify-center mx-auto">
+              <p className="text-gray-500 text-lg">
+                탄소계산기를 통해 계산한 데이터가 없습니다.
+              </p>
+            </div>
           </div>
         )}
       </div>
