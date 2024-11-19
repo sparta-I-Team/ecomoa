@@ -47,7 +47,7 @@ const LevelSection = ({ levelInfo, isLoading }: LevelSectionProps) => {
     });
 
     prevPoints.current = levelInfo.totalPoints;
-  }, [levelInfo, openModal]);
+  }, [levelInfo, openModal, closeModal]);
 
   if (isLoading || !levelInfo) {
     return <LevelSectionSkeleton />;
