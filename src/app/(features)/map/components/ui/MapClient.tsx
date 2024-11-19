@@ -35,6 +35,7 @@ const MapClient = ({ initialStores }: Props) => {
         stores={storeList}
         onClick={handleStoreClick}
         selectedStoreId={selectedStoreId}
+        setSelectedStoreId={setSelectedStoreId}
       />
       <KakaoMap
         storeList={storeList}
