@@ -57,11 +57,11 @@ const Page = () => {
   }, [posts, searchTerm, selected]);
 
   return (
-    <div className="bg-[#F2F9F2] min-h-screen">
-      <div className="container mx-auto px-4 py-[52px] max-w-[1200px]">
-        <h1 className="text-xl md:text-2xl lg:text-[26px] font-bold mb-8 md:mb-[60px]">
+    <div className="bg-[#F2F9F2] min-h-full">
+      <div className="py-[52px] w-full min-w-[360px] max-w-[1200px] mx-auto px-[20px] md:px-0">
+        <div className="text-[20px] md:text-[26px] font-bold mb-[60px]">
           친환경 활동을 공유해 보세요
-        </h1>
+        </div>
 
         {/* navbar */}
         <div className="mb-7 md:mb-[28px] flex border-b border-[#D5D7DD]">
