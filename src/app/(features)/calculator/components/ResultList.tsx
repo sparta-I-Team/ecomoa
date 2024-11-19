@@ -27,8 +27,8 @@ const ResultList = ({ type }: Props) => {
   };
 
   return (
-    <div className="w-full min-w-[360px] max-w-[1200px] mx-auto">
-      <div className="mt-[36px] md:mt-[76px] mb-[48px] md:mb-[60px]">
+    <>
+      <div className="pt-[36px] md:pt-[76px] mb-[48px] md:mb-[60px]">
         {type === "calculate" ? (
           <>
             <Link href="/calculator/result-history-main">
@@ -44,7 +44,7 @@ const ResultList = ({ type }: Props) => {
             <div className="w-full h-[1px] bg-gray-300 my-4 mb-[36px]"></div>
           </>
         )}
-        <div className="mb-[58px] md:mb-[80px] leading-[1] md:leading-[80%]">
+        <div className="mb-[36px] md:mb-[48px] leading-[1] md:leading-[80%]">
           <p className="text-[#32343a] text-[24px] md:text-[30px] font-semibold mb-[16px] md:mb-[28px]">
             탄소 배출량 계산 히스토리
           </p>
@@ -56,7 +56,7 @@ const ResultList = ({ type }: Props) => {
 
       {/* 탄소 계산 히스토리 셀렉박스 */}
       <div className="mb-[28px]">
-        <div className="flex flex-col md:flex-row w-full h-[158px] md:h-[92px] bg-[#00320f] rounded-xl py-[30px] px-6 md:px-0 justify-between">
+        <div className="flex flex-col md:flex-row w-full min-w-[320px] h-[158px] md:h-[92px] bg-[#00320f] rounded-xl py-[30px] px-6 md:px-0 justify-between">
           <div className="flex flex-row md:justify-start md:items-center md:pl-6 text-[20px] text-white gap-2">
             탄소 계산 히스토리
             <div>{myAllData ? `${myAllData.length}건` : "0건"}</div>
@@ -72,7 +72,7 @@ const ResultList = ({ type }: Props) => {
       </div>
 
       {/* 리스트 시작 */}
-      <div className="w-full">
+      <div className="w-full min-w-[320px] md:max-w-[1200px] h-[460px] overflow-y-auto max-h-[460px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
         {myAllData && myAllData.length > 0 ? (
           myAllData
             .sort((a, b) => {
@@ -82,44 +82,53 @@ const ResultList = ({ type }: Props) => {
               }
               return b.year - a.year;
             })
-            .map((data, index) => (
-              <Link
-                key={new Date(data.created_at as string).toISOString()}
-                href={`/calculator/result/${data.year}/${data.month}`}
-              >
-                <div className="flex flex-row w-[1120px] h-[92px] p-[24px]">
-                  <Image
-                    src={
-                      index % 2 === 0
-                        ? "/calculate/History_Icon_Blue.svg"
-                        : "/calculate/History_Icon_Red.svg"
-                    }
-                    alt={"electricity_color"}
-                    width={48}
-                    height={48}
-                  />
-                  <div className="flex flex-col justify-center ml-5 gap-[16px]">
-                    <div className="text-[20px] font-semibold">
-                      {data.month}월 탄소 계산 결과표
+            .map((data, index, array) => {
+              const showYear =
+                index === 0 || data.year !== array[index - 1].year; // 첫 항목이거나 이전 항목과 연도가 다를 때만 표시
+
+              return (
+                <div key={new Date(data.created_at as string).toISOString()}>
+                  {showYear && (
+                    <div className="text-[14px] font-bold mt-[20px] mb-[4px] ml-4">
+                      {data.year}년도
                     </div>
-                    <div className="text-[#A1A7B4]">
-                      {format(
-                        new Date(data.created_at as string),
-                        "yyyy. MM. dd"
-                      )}
+                  )}
+                  <Link href={`/calculator/result/${data.year}/${data.month}`}>
+                    <div className="flex flex-row h-[92px] p-[24px]">
+                      <Image
+                        src={
+                          index % 2 === 0
+                            ? "/calculate/History_Icon_Blue.svg"
+                            : "/calculate/History_Icon_Red.svg"
+                        }
+                        alt={"electricity_color"}
+                        width={48}
+                        height={48}
+                      />
+                      <div className="flex flex-col justify-center ml-5 gap-[16px]">
+                        <div className="text-[20px] font-semibold">
+                          {data.month}월 탄소 계산 결과표
+                        </div>
+                        <div className="text-[#A1A7B4]">
+                          {format(
+                            new Date(data.created_at as string),
+                            "yyyy. MM. dd"
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
+                  <div className="w-full h-[1px] bg-gray-300 my-1 px-2"></div>
                 </div>
-                <div className="flex items-center justify-center w-full">
-                  <div className="w-full h-[1px] bg-gray-300" />
-                </div>
-              </Link>
-            ))
+              );
+            })
         ) : (
-          <div className="mt-[50px]">데이터가 없습니다.</div>
+          <div className="flex flex-row w-full min-w-[320px] h-[92px] p-[24px] text-[16px]">
+            탄소계산기를 통해 계산한 데이터가 없습니다.
+          </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

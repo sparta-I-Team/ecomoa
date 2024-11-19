@@ -4,9 +4,9 @@ import React from "react";
 
 const Main = () => {
   return (
-    <div className="bg-[#F2F9F2] min-h-screen">
-      <div className="w-full min-w-[360px] max-w-[1200px] mx-auto px-[20px] md:px-0">
-        <div className="mb-[58px] pt-[36px] md:mb-[100px] md:pt-[76px]">
+    <div className="bg-[#F2F9F2] min-h-[1080px]">
+      <div className="w-full min-w-[360px] max-w-[1200px] mx-auto px-[20px] md:px-0 pb-[80px]">
+        <div className="pt-[36px] md:pt-[76px] mb-[58px]  md:mb-[100px]">
           <div className="flex flex-col w-full md:w-full leading-[1] md:leading-[80%] gap-[20px] md:gap-[40px]">
             <div className="flex flex-col gap-2 md:gap-[40px]">
               <div className="text-black text-[24px] md:text-[40px] font-bold">
@@ -28,7 +28,7 @@ const Main = () => {
           <div className="relative flex flex-col md:flex-row w-full h-[434px] md:h-[268px] bg-white rounded-2xl border border-[#dcecdc] md:justify-between">
             <div className="mt-[28px] ml-[18px] md:mt-[60px] md:ml-[60px]">
               <div className="mb-[48px] md:mb-[53px]">
-                <div className="text-[24px] md:text-[32px] font-semibold mb-[24px]">
+                <div className="text-[24px] md:text-[32px] font-semibold mb-[18px] md:mb-[24px]">
                   탄소 배출량 계산하기
                 </div>
                 <div className="text-[12px] md:text-[20px]">
@@ -59,7 +59,7 @@ const Main = () => {
           <div className="relative flex flex-col md:flex-row w-full h-[434px] md:h-[268px] bg-white rounded-2xl border border-[#dcecdc] md:justify-between">
             <div className="mt-[28px] ml-[18px] md:mt-[60px] md:ml-[60px]">
               <div className="mb-[48px] md:mb-[53px]">
-                <div className="text-[24px] md:text-[32px] font-semibold mb-[24px]">
+                <div className="text-[24px] md:text-[32px] font-semibold mb-[18px] md:mb-[24px]">
                   나의 탄소 배출량 히스토리
                 </div>
                 <div className="text-[12px] md:text-[20px]">
