@@ -8,7 +8,7 @@ interface Props {
 const Like = ({ postId }: Props) => {
   const { isLiked, handleToggleLike } = useLike(postId);
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center">
       <button
         className="border-none font-bold text-[20px] p-0"
         onClick={(e) => {
@@ -21,8 +21,8 @@ const Like = ({ postId }: Props) => {
             isLiked ? "/community/heart_full.png" : "/community/heart_line.png"
           }
           alt={isLiked ? "Liked" : "Not Liked"}
-          width={14}
-          height={14}
+          width={16}
+          height={16}
         />
       </button>
     </div>

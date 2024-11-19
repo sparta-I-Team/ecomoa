@@ -59,43 +59,41 @@ const PostCard = ({ post, type }: Props) => {
         <Link href={`/community/${type}/${post.post_id}`}>
           <article
             key={post.post_id}
-            className="flex flex-col justify-end items-start p-7 w-[276px] bg-white rounded-lg"
+            className="flex flex-col justify-end items-start md:p-[28px] w-[270px] md:w-[276px] bg-white rounded-lg"
           >
             {post.post_img && post.post_img.length > 0 ? (
               <div className="flex-none w-[220px] h-[220px] mb-4">
-                <div className="w-[220px] h-[220px]">
                   <Image
                     src={post.post_img[0]}
                     alt="Post image"
                     width={220}
                     height={220}
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-full rounded-2xl"
                   />
-                </div>
               </div>
             ) : (
-              <div className="flex-none w-[220px] h-[220px] mb-4 bg-gray-200 flex items-center justify-center">
+              <div className="flex-none w-[220px] h-[220px] mb-4 bg-gray-200 flex items-center justify-center rounded-2xl">
                 <span>이미지가 없습니다</span>
               </div>
             )}
+            <div className="flex flex-col gap-[18px]">
+              <h2 className="pt-[8px] text-[16px]">{post.post_title}</h2>
+              <label className="font-bold text-[18px] text-[#191A1D]">
+                {post.price}원
+              </label>
 
-            <p className="mb-2">{post.post_content}</p>
-            <h2 className="text-xl font-semibold mb-2">{post.post_title}</h2>
-
-            <label className="font-bold text-[18px] text-[#191A1D]">
-              {post.price}원
-            </label>
-
-            <div className="mb-4 flex mt-4">
-              <label className="mr-1">{post.user_info.user_nickname}-</label>
-              <time className="block">
-                {new Date(post.created_at).toLocaleDateString()}
-              </time>
-            </div>
-            <div className="flex justify-between items-center mt-auto">
-              <div className="flex space-x-4">
-                <p> {likes.length}</p>
-                <Like postId={post.post_id} />
+              <div className="flex flex-row gap-[2px] text-[14px] text-[#A1A7B4]">
+                <label>{post.user_info.user_nickname}</label>
+                <p>·</p>
+                <time className="block">
+                  {new Date(post.created_at).toLocaleDateString()}
+                </time>
+              </div>
+              <div className="flex justify-between items-center mt-[12px]">
+                <div className="flex flex-row gap-[2px]">
+                  <Like postId={post.post_id} />
+                  <p className="text-[#0D9C36] mt-[2.5px]"> {likes.length}</p>
+                </div>
               </div>
             </div>
           </article>
