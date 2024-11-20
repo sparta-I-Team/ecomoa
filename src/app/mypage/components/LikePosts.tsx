@@ -36,8 +36,6 @@ const MyLike = ({ type }: TypeProps) => {
     (post) => post.posts.params?.type === "anabada"
   );
 
-  console.log(anabadaPosts);
-
   if (isLoading) {
     return (
       <div className="flex flex-col">
