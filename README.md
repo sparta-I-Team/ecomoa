@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌱 EcoMoa (에코모아)
+# 🌱 EcoMoa (에코모아)!
 
 ![프로젝트 배너](https://github.com/user-attachments/assets/de0eb8f4-361b-4714-80a5-7a226a9c2f1a)
 
