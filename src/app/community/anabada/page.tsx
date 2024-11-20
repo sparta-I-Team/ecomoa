@@ -165,7 +165,7 @@ const Page = () => {
           {/* 글쓰기 버튼 */}
           <Link
             href="/community/postAna"
-            className="fixed bottom-8 right-8 z-40"
+            className="absolute bottom-8 right-8 z-40"
           >
             <Image
               src="/community/addPost.png"

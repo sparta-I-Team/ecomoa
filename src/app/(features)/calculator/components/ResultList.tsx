@@ -15,10 +15,15 @@ interface Props {
 const ResultList = ({ type }: Props) => {
   const [myAllData, setMyAllData] = useState<MonthlyData[] | null>(null);
   const [thisYear, setThisYear] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // 초기 로딩 시 currentYear 데이터를 불러옴
-    loadMyAllData(setMyAllData, thisYear);
+    const fetchData = async () => {
+      setIsLoading(true);
+      await loadMyAllData(setMyAllData, thisYear);
+      setIsLoading(false);
+    };
+    fetchData();
   }, [thisYear]);
 
   const handleYearChange = (year: number | null) => {
@@ -73,7 +78,15 @@ const ResultList = ({ type }: Props) => {
 
       {/* 리스트 시작 */}
       <div className="w-full min-w-[320px] md:max-w-[1200px] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
-        {myAllData && myAllData.length > 0 ? (
+        {isLoading ? (
+          <div className="flex flex-row w-full min-w-[320px] h-[500px] p-[24px] text-[16px]">
+            <div className="flex items-center justify-center mx-auto">
+              <p className="text-gray-500 text-[16px]">
+                데이터를 가지고 오는 중 입니다...
+              </p>
+            </div>
+          </div>
+        ) : myAllData && myAllData.length > 0 ? (
           myAllData
             .sort((a, b) => {
               // 연도가 같으면 월로 비교

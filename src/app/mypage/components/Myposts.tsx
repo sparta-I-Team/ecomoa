@@ -94,8 +94,8 @@ const Myposts = ({ type }: TypeProps) => {
   }
 
   return (
-    <div className="flex flex-col w-full min-h-screen md:w-[1200px] px-[20px]">
-      <div className="flex flex-col w-full md:w-[1200px]">
+    <div className="flex flex-col w-full min-h-screen mx-auto md:max-w-[1200px] px-[20px]">
+      <div className="flex flex-col w-full ">
         <div className="w-full md:pl-0">
           <ReturnMypage />
         </div>

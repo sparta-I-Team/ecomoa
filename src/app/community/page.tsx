@@ -33,6 +33,7 @@ const Page = () => {
   };
 
   useEffect(() => {
+    setSelected("latest");
     const fetchChallenges = async () => {
       const { data, error: fetchError } = await supabase
         .from("challenges")
@@ -101,7 +102,7 @@ const Page = () => {
           </div>
           <div className="flex flex-row gap-4">
             <div
-              className="text-[14px] flex items-center"
+              className="text-[16px] flex items-center"
               onClick={() => handleSelect("latest")}
             >
               <span
@@ -121,7 +122,7 @@ const Page = () => {
             </div>
 
             <div
-              className="cursor-pointer text-[14px] flex items-center"
+              className="cursor-pointer text-[16px] flex items-center"
               onClick={() => handleSelect("oldest")}
             >
               <span
@@ -170,7 +171,7 @@ const Page = () => {
                 href={`/community/${challenge.chall_id}`}
                 key={challenge.chall_id}
               >
-                <article className="flex flex-col justify-between md:flex-row min-w-[300px] md:w-full md:h-[205px] p-[28px_32px] mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-sm ">
+                <article className="flex flex-col justify-between md:flex-row min-w-[300px] md:w-full h-full p-[28px_32px] mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-sm ">
                   <div>
                     <div className="flex flex-col gap-5">
                       {/* 포인트 + 날짜 */}

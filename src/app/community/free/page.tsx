@@ -150,25 +150,30 @@ const Page = () => {
         </div>
 
         {/* 게시글 목록 */}
-        <div className="relative pr-2 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
-          {loading && <p>로딩 중...</p>}
-          {error && <p className="text-red-500">{error}</p>}
-          <div className="space-y-4">
-            {filteredPosts.map((post) => (
-              <PostCard post={post} type="free" key={post.post_id} />
-            ))}
-          </div>
+        <div className="relative">
+          <div className="pr-2 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
+            {loading && <p>로딩 중...</p>}
+            {error && <p className="text-red-500">{error}</p>}
+            <div className="space-y-4">
+              {filteredPosts.map((post) => (
+                <PostCard post={post} type="free" key={post.post_id} />
+              ))}
+            </div>
 
-          {/* 글쓰기 버튼 */}
-          <Link href="/community/post">
-            <Image
-              src="/community/addPost.png"
-              alt="게시글 작성"
-              width={64}
-              height={64}
-              className="fixed bottom-8 right-8 z-40 hover:opacity-90 transition-opacity"
-            />
-          </Link>
+            {/* 글쓰기 버튼 */}
+            <Link
+              href="/community/post"
+              className="absolute bottom-8 right-8 z-40"
+            >
+              <Image
+                src="/community/addPost.png"
+                alt="게시글 작성"
+                width={64}
+                height={64}
+                className="hover:opacity-90 transition-opacity"
+              />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
