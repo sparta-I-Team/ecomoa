@@ -48,9 +48,13 @@ const PostCard = ({ post, type }: Props) => {
                   className="w-full h-full object-cover rounded-2xl"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  이미지가 없습니다
-                </div>
+                <Image
+                  src={"/images/default_img.svg"}
+                  alt={`default_img`}
+                  width={160}
+                  height={160}
+                  className="w-full h-full rounded-[12px]"
+                />
               )}
             </div>
           </article>
@@ -66,9 +70,13 @@ const PostCard = ({ post, type }: Props) => {
                   className="w-full h-full object-cover rounded-2xl"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  이미지가 없습니다
-                </div>
+                <Image
+                  src={"/images/default_img.svg"}
+                  alt={`default_img`}
+                  width={160}
+                  height={160}
+                  className="w-full h-full rounded-[12px]"
+                />
               )}
             </div>
             <div className="flex flex-col gap-[8px] flex-1">

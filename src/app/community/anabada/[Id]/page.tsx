@@ -150,7 +150,13 @@ const Page = ({ params }: { params: { Id: string } }) => {
             className="bg-gray-300 md:h-[585px] w-full h-[320px] md:w-[585px] flex items-center justify-center"
             style={{ backgroundColor: "#D5D7DD" }}
           >
-            <p className="text-gray-500">등록된 이미지가 없습니다</p>
+            <Image
+              src={"/images/default_img.svg"}
+              alt={`default_img`}
+              width={160}
+              height={160}
+              className="w-full h-full rounded-[12px]"
+            />{" "}
           </div>
         )}
 

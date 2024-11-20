@@ -170,7 +170,7 @@ const Page = () => {
                 href={`/community/${challenge.chall_id}`}
                 key={challenge.chall_id}
               >
-                <article className="flex flex-col justify-between md:flex-row min-w-[300px] md:w-full md:h-[205px] p-[28px_32px] mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-sm ">
+                <article className="flex flex-col justify-between md:flex-row min-w-[300px] md:w-full h-full p-[28px_32px] mb-4 rounded-[12px] border border-[#E8F3E8] bg-white shadow-sm ">
                   <div>
                     <div className="flex flex-col gap-5">
                       {/* 포인트 + 날짜 */}
@@ -216,7 +216,7 @@ const Page = () => {
 
                               return (
                                 <div key={id}>
-                                  <span className="flex py-4 px-4 mb-2 rounded-[32px] border border-[#D5D7DD] bg-[white] text-[14px] flex-wrap">
+                                  <div className="flex py-4 px-4 mb-2 rounded-[32px] border border-[#D5D7DD] bg-[white] text-[14px] flex-wrap">
                                     {imgSrc && (
                                       <Image
                                         src={imgSrc}
@@ -227,7 +227,7 @@ const Page = () => {
                                       />
                                     )}
                                     {option?.label}
-                                  </span>
+                                  </div>
                                 </div>
                               );
                             })

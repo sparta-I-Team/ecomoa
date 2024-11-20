@@ -156,9 +156,13 @@ const ChallengeDetailPage = ({ params }: Props) => {
                 />
               ))
             ) : (
-              <div className="flex-none w-[220px] h-[220px] mb-4 bg-gray-200 flex items-center justify-center">
-                <span>이미지가 없습니다</span>
-              </div>
+              <Image
+                src={"/images/default_img.svg"}
+                alt={`default_img`}
+                width={160}
+                height={160}
+                className="w-full h-full rounded-[12px]"
+              />
             )}
           </div>
         </div>
