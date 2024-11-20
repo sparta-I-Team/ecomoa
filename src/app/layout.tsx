@@ -30,9 +30,9 @@ export const metadata: Metadata = {
     images: [
       {
         // url: "https://github.com/user-attachments/assets/414b2689-1793-44e3-9a5d-270d63c51f34",
-        url: "/images/url_image.svg",
-        width: 1200,
-        height: 630,
+        url: "/images/url_image.png",
+        width: 800,
+        height: 400,
         alt: "에코모아 미리보기 이미지"
       }
     ]
