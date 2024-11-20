@@ -8,8 +8,6 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
 import ReturnMypage from "./ReturnMypage";
-import { AnabadaPostSkeleton } from "./AnabadaPostSkeleton";
-import { FreePostSkeleton } from "./FreePostSkeleton";
 import PostListSkeleton from "./PostListSkeleton";
 
 const Myposts = ({ type }: TypeProps) => {
