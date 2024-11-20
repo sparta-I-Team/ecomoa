@@ -11,13 +11,15 @@ interface Props {
   selectedStoreId: string | null;
   onClick: (store: StoreWithExtra) => void;
   setActiveTab: Dispatch<SetStateAction<string>>;
+  setSelectedStoreId: Dispatch<SetStateAction<string | null>>;
 }
 
 const StoreCard = ({
   store,
   selectedStoreId,
   onClick,
-  setActiveTab
+  setActiveTab,
+  setSelectedStoreId
 }: Props) => {
   const { openModal, closeModal } = useModalStore();
   const { isBookmarked, handleToggleBookmark } = useBookmark(store.store_id);
@@ -50,9 +52,10 @@ const StoreCard = ({
                 closeModal();
                 setActiveTab("saved");
                 scrollToTop();
+                setSelectedStoreId(store.store_id);
               }}
             />
-          ),
+          )
         });
       } catch (error) {
         console.error("저장 실패:", error);

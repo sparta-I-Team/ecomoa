@@ -1,6 +1,12 @@
 "use client";
 import { SortType, Store, StoreWithExtra } from "@/types/map";
-import { useState, useEffect, ChangeEvent } from "react";
+import {
+  useState,
+  useEffect,
+  ChangeEvent,
+  Dispatch,
+  SetStateAction
+} from "react";
 import { Check, Search } from "lucide-react";
 import { calculateDistance } from "@/utlis/map/distance";
 import StoreCard from "./ui/StoreCard";
@@ -11,9 +17,15 @@ interface StoreListProps {
   stores: Store[];
   onClick: (store: Store) => void;
   selectedStoreId: string | null;
+  setSelectedStoreId: Dispatch<SetStateAction<string | null>>;
 }
 
-const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
+const MapLeftArea = ({
+  stores,
+  onClick,
+  selectedStoreId,
+  setSelectedStoreId
+}: StoreListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [sortType, setSortType] = useState<SortType>(null);
@@ -237,6 +249,7 @@ const MapLeftArea = ({ stores, onClick, selectedStoreId }: StoreListProps) => {
             selectedStoreId={selectedStoreId}
             onClick={onClick}
             setActiveTab={setActiveTab}
+            setSelectedStoreId={setSelectedStoreId}
           />
         ))}
       </div>
