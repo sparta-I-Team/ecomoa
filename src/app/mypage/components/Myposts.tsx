@@ -193,139 +193,14 @@ const Myposts = ({ type }: TypeProps) => {
         </div>
         <div className="mb-[80px] flex flex-wrap gap-5 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
           {isLoading && <p>로딩 중...</p>}
-          {/* {myPosts?.map((post) =>
-            type === "anabada" ? (
-              <div key={post.post_id} className="mx-auto">
-                <PostCard key={post.post_id} post={post} type={"anabada"} />
-              </div>
-            ) : (
-              <article
-                key={post.post_id}
-                className="px-[32px] py-[28px] w-[300px] md:w-full h-auto md:h-[205px] rounded-[12px] bg-[#FFF] border border-[#E8F3E8] flex flex-row md:p-4 justify-start mx-auto"
-                style={{ boxShadow: "0px 0px 40px 0px rgba(0, 0, 0, 0.02)" }}
-              >
-                <div className="flex-1">
-                  <h2 className="text-xl font-semibold mb-2">
-                    <Link
-                      className="text-[18px] font-[700] leading-[27px] tracking-[-0.18px] mt-[28px] mb-[20px]"
-                      href={`/community/free/${post.post_id}`}
-                    >
-                      {post.post_title}
-                    </Link>
-                  </h2>
-                  <p className="pr-[20px] leading-relaxed">
-                    {post.post_content}
-                  </p>
-
-                  <div className="mb-4 mt-5">
-                    <label className="mt-[16px] text-[#8A91A1] mr-[14px]">
-                      {post.user_info.user_nickname}
-                    </label>
-                    <time className="text-[#8A91A1]">
-                      {new Date(post.created_at).toLocaleDateString()}
-                    </time>
-                  </div>
-
-                  <div className="flex justify-between items-center mt-[35px]">
-                    <div className="flex space-x-4">
-                      <Like postId={post.post_id} />
-                      <label>댓글 {post.comment || 0}</label>
-                    </div>
-                  </div>
-                  {post.post_img && post.post_img.length > 0 && (
-                    <div className="flex flex-col md:flex-row w-[160px] h-[160px] ml-4 flex-wrap gap-1 rounded-[12px]">
-                      <Image
-                        key={0}
-                        src={post.post_img[0]}
-                        alt="Post image"
-                        width={160}
-                        height={160}
-                        className="object-contain w-[150px] h-[150px] rounded-[12px] md:hidden mt-[12px] -ml-[50px]"
-                      />
-                    </div>
-                  )}
-                </div>
-                {post.post_img && post.post_img.length > 0 && (
-                  <div className="flex flex-col md:flex-row w-[160px] h-[160px] ml-4 flex-wrap gap-1 rounded-[12px]">
-                    <Image
-                      key={0}
-                      src={post.post_img[0]}
-                      alt="Post image"
-                      width={160}
-                      height={160}
-                      className="object-contain w-[150px] h-[150px] rounded-[12px] hidden md:block"
-                    />
-                  </div>
-                )}
-              </article>
-            )
-          )} */}
           {myPosts && myPosts?.length > 0 ? (
             myPosts?.map((post) =>
               type === "anabada" ? (
-                <div key={post.post_id} className="mx-auto">
+                <div key={post.post_id} className="w-full md:w-[276px]">
                   <PostCard key={post.post_id} post={post} type={"anabada"} />
                 </div>
               ) : (
-                <article
-                  key={post.post_id}
-                  className="px-[32px] py-[28px] w-[300px] md:w-full h-auto md:h-[205px] rounded-[12px] bg-[#FFF] border border-[#E8F3E8] flex flex-row md:p-4 justify-start mx-auto"
-                  style={{ boxShadow: "0px 0px 40px 0px rgba(0, 0, 0, 0.02)" }}
-                >
-                  <div className="flex-1">
-                    <h2 className="text-xl font-[600] mb-2">
-                      <Link
-                        className="text-[18px] font-[700] leading-[27px] tracking-[-0.18px] mt-[28px] mb-[20px]"
-                        href={`/community/free/${post.post_id}`}
-                      >
-                        {post.post_title}
-                      </Link>
-                    </h2>
-                    <p className="pr-[20px] leading-relaxed">
-                      {post.post_content}
-                    </p>
-
-                    <div className="mb-4 mt-5">
-                      <label className="mt-[16px] text-[#8A91A1] mr-[14px]">
-                        {post.user_info.user_nickname}
-                      </label>
-                      <time className="text-[#8A91A1]">
-                        {new Date(post.created_at).toLocaleDateString()}
-                      </time>
-                    </div>
-
-                    <div className="flex justify-between items-center mt-[35px]">
-                      <div className="flex space-x-4">
-                        <Like postId={post.post_id} />
-                        <label>댓글 {post.comment || 0}</label>
-                      </div>
-                    </div>
-                    {post.post_img && post.post_img.length > 0 && (
-                      <div className="flex flex-col md:flex-row w-[160px] h-[160px] ml-4 flex-wrap gap-1 rounded-[12px]">
-                        <Image
-                          key={0}
-                          src={post.post_img[0]}
-                          alt="Post image"
-                          width={160}
-                          height={160}
-                          className="object-contain w-[150px] h-[150px] rounded-[12px] md:hidden mt-[12px] -ml-[50px]"
-                        />
-                      </div>
-                    )}
-                  </div>
-                  {post.post_img && post.post_img.length > 0 && (
-                    <div className="flex flex-col md:flex-row w-[160px] h-[160px] ml-4 flex-wrap gap-1 rounded-[12px]">
-                      <Image
-                        key={0}
-                        src={post.post_img[0]}
-                        alt="Post image"
-                        width={160}
-                        height={160}
-                        className="object-contain w-[150px] h-[150px] rounded-[12px] hidden md:block"
-                      />
-                    </div>
-                  )}
-                </article>
+                <PostCard key={post.post_id} post={post} type={"free"} />
               )
             )
           ) : (
@@ -335,6 +210,7 @@ const Myposts = ({ type }: TypeProps) => {
           )}
         </div>
       </div>
+      <div className="pb-[6px]"></div>
     </div>
   );
 };

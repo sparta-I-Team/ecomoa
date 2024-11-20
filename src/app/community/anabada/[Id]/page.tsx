@@ -11,6 +11,7 @@ import { useModalStore } from "@/zustand/modalStore";
 import { Modal } from "@/components/shared/Modal";
 import Like from "../../components/Like";
 import { ChevronLeft } from "lucide-react";
+import { useLike } from "@/hooks/useLike";
 
 const Page = ({ params }: { params: { Id: string } }) => {
   const [post, setPost] = useState<Post | null>(null);
@@ -43,6 +44,8 @@ const Page = ({ params }: { params: { Id: string } }) => {
 
     fetchPost();
   }, [Id]);
+
+  const { likes } = useLike(Id);
 
   if (errorMessage) {
     return (
@@ -161,14 +164,16 @@ const Page = ({ params }: { params: { Id: string } }) => {
           <label className="text-[30px] font-[700] mt-[24px] md:mt-0">
             {post.price}원
           </label>
-          <div className="flex gap-[4px] text-[16px] font-[500] text-[#A1A7B4] mt-[24px]">
+          <div className="leading-[1] flex gap-[4px] text-[16px] font-[500] text-[#A1A7B4] mt-[24px]">
             <label>{post.user_info?.user_nickname}</label>
-            <span className="text-[10px]">&#8226;</span>
+            <span>·</span>
             <time>{new Date(post.created_at).toLocaleDateString()}</time>
-            <span className="text-[10px]">&#8226;</span>
-            <Like postId={post.post_id} />
-            <span className="text-[10px]">&#8226;</span>
-            <div className="ml-2">댓글 {post.comment || 0}</div>
+            <span>·</span>
+            <div>
+              <Like postId={post.post_id} />
+            </div>
+            <span>{likes.length}</span>
+            {/* <div className="ml-2">댓글 {post.comment || 0}</div> */}
           </div>
           <div className="mb-[36px] md:my-[36px] mt-4 w-full md:w-[585px] h-px bg-[#D5D7DD]"></div>
           <div className="w-[330px] md:w-[585px] flex flex-col h-full">
