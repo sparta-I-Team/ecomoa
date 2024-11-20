@@ -8,9 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { FreePostSkeleton } from "./FreePostSkeleton";
-import { AnabadaPostSkeleton } from "./AnabadaPostSkeleton";
 import ReturnMypage from "./ReturnMypage";
+import PostListSkeleton from "./PostListSkeleton";
 
 const MyLike = ({ type }: TypeProps) => {
   const { user } = userStore();
@@ -37,66 +36,7 @@ const MyLike = ({ type }: TypeProps) => {
   );
 
   if (isLoading) {
-    return (
-      <div className="flex flex-col">
-        {/* 헤더 부분 스켈레톤 */}
-        <div className="pl-[20px] md:pl-0 w-full">
-          <ReturnMypage />
-        </div>
-        {/* 네비게이션 바 */}
-        <div className="my-[48px]">
-          <p className="text-[24px] md:text-[32px] font-[700] leading-[33.6px] md:leading-[44.8px] tracking-[-0.24px] md:tracking-[-0.2px] pl-[20px] md:pl-0">
-            나의 좋아요
-          </p>
-          <p className="mt-[12px] text-[#00691E] text-[16px] md:text-[20px] font-[500] leading-[30px] tracking-[-0.2px] pl-[20px] md:pl-0">
-            내가 좋아요한 게시글을 확인해보세요
-          </p>
-        </div>
-        <div className="pl-[20px] md:pl-0 flex mb-4">
-          {type === "free" ? (
-            <>
-              <Link href="/mypage/like/free" passHref className="w-1/2">
-                <button className="h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-[600] flex items-center justify-center">
-                  자유 게시판
-                </button>
-              </Link>
-              <Link href="/mypage/like/anabada" passHref className="w-1/2">
-                <button className="h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
-                  아나바다 시장
-                </button>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link href="/mypage/like/free" passHref className="w-1/2">
-                <button className="h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
-                  자유 게시판
-                </button>
-              </Link>
-
-              <Link href="/mypage/like/anabada" passHref className="w-1/2">
-                <button
-                  className="h-12 border-b-2 border-[#00320F] border-t-0 border-l-0
-                  border-r-0 font-[600] flex items-center justify-center"
-                >
-                  아나바다 시장
-                </button>
-              </Link>
-            </>
-          )}
-        </div>
-        {/* 게시글 리스트 스켈레톤 */}
-        <div className="pl-[20px] md:pl-0 flex flex-wrap h-auto md:h-[620px] overflow-y-auto mt-[30px] mb-4 gap-5">
-          {type === "anabada"
-            ? Array(8)
-                .fill(null)
-                .map((_, i) => <AnabadaPostSkeleton key={i} />)
-            : Array(4)
-                .fill(null)
-                .map((_, i) => <FreePostSkeleton key={i} />)}
-        </div>
-      </div>
-    );
+    return <PostListSkeleton type={type} listType="myLike" />;
   }
   return (
     <div className="flex flex-col w-full min-h-screen md:max-w-[1200px] mx-auto px-[20px]">
@@ -121,7 +61,7 @@ const MyLike = ({ type }: TypeProps) => {
                 passHref
                 className="w-1/2 border-b-2 border-black border-t-0 border-l-0 border-r-0"
               >
-                <button className="text-[#00320F] border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
+                <button className="text-[#00320F] border-none mx-auto h-12 font-[600] flex items-center justify-center">
                   자유 게시판
                 </button>
               </Link>
@@ -130,9 +70,7 @@ const MyLike = ({ type }: TypeProps) => {
                 passHref
                 className="w-1/2 border-b-2 border-t-0 border-l-0 border-r-0 text-center border-#D5D7DD text-[#D5D7DD]"
               >
-                <button className="border-none md:w-[600px] h-12">
-                  아나바다 시장
-                </button>
+                <button className="border-none h-12">아나바다 시장</button>
               </Link>
             </>
           ) : (
@@ -142,7 +80,7 @@ const MyLike = ({ type }: TypeProps) => {
                 passHref
                 className="w-1/2 border-b-2 border-t-0 border-l-0 border-r-0 text-center border-#D5D7DD text-[#D5D7DD]"
               >
-                <button className="border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
+                <button className="border-none mx-auto h-12 font-[600] flex items-center justify-center">
                   자유 게시판
                 </button>
               </Link>
@@ -151,7 +89,7 @@ const MyLike = ({ type }: TypeProps) => {
                 passHref
                 className="text-[#00320F] w-1/2 border-b-2 border-black border-t-0 border-l-0 border-r-0 text-center"
               >
-                <button className="border-none mx-auto md:w-[600px] h-12 font-[600] flex items-center justify-center">
+                <button className="border-none mx-auto h-12 font-[600] flex items-center justify-center">
                   아나바다 시장
                 </button>
               </Link>
