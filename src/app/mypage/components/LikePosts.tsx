@@ -12,7 +12,7 @@ import { FreePostSkeleton } from "./FreePostSkeleton";
 import { AnabadaPostSkeleton } from "./AnabadaPostSkeleton";
 import ReturnMypage from "./ReturnMypage";
 
-const Myposts = ({ type }: TypeProps) => {
+const MyLike = ({ type }: TypeProps) => {
   const { user } = userStore();
   const [selected, setSelected] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
@@ -36,11 +36,13 @@ const Myposts = ({ type }: TypeProps) => {
     (post) => post.posts.params?.type === "anabada"
   );
 
+  console.log(anabadaPosts);
+
   if (isLoading) {
     return (
-      <div className="flex flex-col md:w-[1200px]">
+      <div className="flex flex-col">
         {/* 헤더 부분 스켈레톤 */}
-        <div className="pl-[20px] md:pl-0">
+        <div className="pl-[20px] md:pl-0 w-full">
           <ReturnMypage />
         </div>
         {/* 네비게이션 바 */}
@@ -55,29 +57,29 @@ const Myposts = ({ type }: TypeProps) => {
         <div className="pl-[20px] md:pl-0 flex mb-4">
           {type === "free" ? (
             <>
-              <Link href="/mypage/like/free" passHref>
-                <button className="w-[160px] md:w-[600px] h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-[600] flex items-center justify-center">
+              <Link href="/mypage/like/free" passHref className="w-1/2">
+                <button className="h-12 border-b-2 border-black border-t-0 border-l-0 border-r-0 font-[600] flex items-center justify-center">
                   자유 게시판
                 </button>
               </Link>
-              <Link href="/mypage/like/anabada" passHref>
-                <button className="w-[160px] md:w-[600px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
+              <Link href="/mypage/like/anabada" passHref className="w-1/2">
+                <button className="h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
                   아나바다 시장
                 </button>
               </Link>
             </>
           ) : (
             <>
-              <Link href="/mypage/like/free" passHref>
-                <button className="w-[160px] md:w-[600px] h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
+              <Link href="/mypage/like/free" passHref className="w-1/2">
+                <button className="h-12 border-b-2 border-t-0 border-l-0 border-r-0 border-#D5D7DD text-[#D5D7DD]">
                   자유 게시판
                 </button>
               </Link>
 
-              <Link href="/mypage/like/anabada" passHref>
+              <Link href="/mypage/like/anabada" passHref className="w-1/2">
                 <button
-                  className="w-[160px] md:w-[600px] h-12 border-b-2 border-[#00320F] border-t-0 border-l-0
-              border-r-0 font-[600] flex items-center justify-center"
+                  className="h-12 border-b-2 border-[#00320F] border-t-0 border-l-0
+                  border-r-0 font-[600] flex items-center justify-center"
                 >
                   아나바다 시장
                 </button>
@@ -98,9 +100,8 @@ const Myposts = ({ type }: TypeProps) => {
       </div>
     );
   }
-
   return (
-    <div className="flex flex-col w-full min-h-screen md:w-[1200px] px-[20px]">
+    <div className="flex flex-col w-full min-h-screen md:max-w-[1200px] mx-auto px-[20px]">
       <div className="w-full">
         <div className="w-full md:pl-0">
           <ReturnMypage />
@@ -204,13 +205,22 @@ const Myposts = ({ type }: TypeProps) => {
             </div>
           </div>
         </div>
-        <div className="mb-[80px] flex flex-wrap gap-5 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
+        <div
+          className={`
+         ${
+           type === "anabada"
+             ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+             : "pr-2 mb-[80px] flex flex-wrap gap-5 overflow-y-auto max-h-[600px] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full"
+         } 
+       
+          `}
+        >
           {isLoading && <p>로딩 중...</p>}
           {type === "anabada" ? (
             anabadaPosts && anabadaPosts?.length > 0 ? (
               // 아나바다 타입의 게시글 렌더링
               anabadaPosts?.map((post) => (
-                <div key={post.post_id} className="mx-auto flex jus">
+                <div key={post.post_id} className="flex jus">
                   <PostCard
                     key={post.posts.post_id}
                     post={{
@@ -222,9 +232,7 @@ const Myposts = ({ type }: TypeProps) => {
                         ...post.posts.params,
                         type: post.posts.params?.type || type
                       },
-                      user_info: post.posts.user_info
-                        ? { user_nickname: post.posts.user_info.user_nickname }
-                        : { user_nickname: "" } // user_info가 없을 경우 빈 값으로 대체
+                      user_info: { user_nickname: post.writername }
                     }}
                     type={"anabada"}
                   />
@@ -299,4 +307,4 @@ const Myposts = ({ type }: TypeProps) => {
     </div>
   );
 };
-export default Myposts;
+export default MyLike;
