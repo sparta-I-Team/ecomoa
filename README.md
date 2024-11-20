@@ -373,11 +373,72 @@ https://empty-bottle-ec4.notion.site/fda2239a05b04306ac5552815ae0219c
 ### 🗺️ 친환경 지도
 ![친환경 지도](https://github.com/user-attachments/assets/a60d08d1-e574-4867-893f-1bd2bc5488c6)
 
+### 지도 검색어 디바운싱
 
-- **설명할 기능 제목**
+사용자 경험 개선을 위해 검색어 입력 시 즉시 검색하지 않고, 입력이 끝난 후 검색을 수행하는 디바운싱을 구현했습니다.
+
 ```typescript
-//코드 예시
+// 검색어 상태 관리
+const [searchTerm, setSearchTerm] = useState("");
+const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+
+// 디바운싱 구현
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setDebouncedSearchTerm(searchTerm);
+  }, 300);
+
+  return () => {
+    clearTimeout(timer);
+  };
+}, [searchTerm]);
+
+// 검색 필터링 로직
+const filteredStores = stores.filter(
+  (store) =>
+    store.store_name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+    store.road_address.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+);
 ```
+
+#### 작동 방식
+1. 사용자가 검색어 입력 시 `searchTerm` 상태 업데이트
+2. 300ms 동안 추가 입력이 없으면 `debouncedSearchTerm` 업데이트
+3. 최종 검색어로 가게 목록 필터링
+
+이를 통해 불필요한 렌더링을 방지하고 검색 성능을 최적화했습니다.
+
+### 카카오맵 동적 로드 구현
+
+애플리케이션의 초기 로딩 성능 최적화를 위해 Kakao Maps SDK를 동적으로 로드하는 방식을 채택했습니다.
+
+```typescript
+useEffect(() => {
+  const script = document.createElement("script");
+  script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_JS_KEY}&autoload=false`;
+  script.async = true;
+
+  script.onload = () => {
+    window.kakao.maps.load(() => setIsMapLoaded(true));
+  };
+
+  document.head.appendChild(script);
+}, []);
+```
+
+1. `createElement("script")`로 새로운 script 태그를 생성합니다.
+
+2. `script.src`에서 `autoload=false` 옵션으로 SDK를 불러옵니다. 이는 스크립트 로드 시 자동으로 카카오맵을 초기화하지 않도록 하는 설정입니다.
+
+3. `script.async = true`를 통해 스크립트를 비동기적으로 로드하여 페이지 로딩을 차단하지 않습니다.
+
+4. `script.onload` 이벤트 핸들러에서 `window.kakao.maps.load()` 메서드를 호출하여 수동으로 카카오맵을 초기화합니다.
+
+5. `setIsMapLoaded(true)`로 지도 로드 상태를 관리하여, 지도가 완전히 로드된 후에만 마커나 인포윈도우 등의 기능을 사용할 수 있도록 합니다.
+
+이러한 방식으로 구현하면 페이지 초기 로딩 성능을 최적화하고, <br>
+지도 로드 상태에 따른 UI 처리를 효과적으로 할 수 있었습니다. <br>
+지도 로드가 완료된 후에는 마커, 인포윈도우, 줌 컨트롤 등 다양한 기능을 구현하였습니다.  <br>
 
 <hr>
 <br>
@@ -406,14 +467,10 @@ https://empty-bottle-ec4.notion.site/fda2239a05b04306ac5552815ae0219c
 </table>
 </div>
 
-
-- **설명할 기능 제목**
-```typescript
-```
-<hr>
-
-<br>
-<br>
+서버와의 비동기 데이터 요청 및 상태 관리를 더 쉽게 할 수 있도록 React Query를 사용했고 <br>
+자동 데이터 캐싱과 백그라운드 데이터 동기화로 사용자 경험을 향상시키며 서버 상태 관리를 쉽게 처리하고, <br>
+로딩 상태와 에러 상태를 관리할 수 있다보니 useGetChallenge와 같은 custom hook을 이용하여 챌린지 데이터를 쉽게 가져오고, <br>
+로딩 및 에러 상태를 관리했고 데이터의 캐싱을 통해 반복적인 서버 요청을 줄이고 성능 최적화를 진행했습니다 <br>
 
 ## 🚧 트러블 슈팅
 
