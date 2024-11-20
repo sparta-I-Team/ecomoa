@@ -25,7 +25,9 @@ const PostCard = ({ post, type }: Props) => {
                   {post.post_title}
                 </h2>
                 <p className=" text-[16px] text-[#525660] md:text-base line-clamp-2">
-                  {post.post_content}
+                  {post.post_content.length >= 66
+                    ? post.post_content.slice(0, 65) + "..."
+                    : post.post_content}
                 </p>
                 <div className="flex items-center gap-2 text-[#A1A7B4] text-sm">
                   <span>{post.user_info.user_nickname}</span>
