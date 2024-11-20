@@ -16,11 +16,14 @@ if (!supabaseUrl || !supabaseAnonKey) {
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 interface Challenge {
+  chall_id: string;
   selected_options: { option1: string; option2: string[] };
   image_urls: string[];
   user_id: string;
   created_at: string;
-  chall_id: string;
+  user_info: {
+    user_nickname: string;
+  };
 }
 
 const Page = () => {
@@ -33,10 +36,13 @@ const Page = () => {
   };
 
   useEffect(() => {
+    setSelected("latest");
     const fetchChallenges = async () => {
-      const { data, error: fetchError } = await supabase
+      const { data: rawData, error: fetchError } = await supabase
         .from("challenges")
-        .select("chall_id, selected_options, image_urls, user_id, created_at");
+        .select(
+          "chall_id, selected_options, image_urls, user_id, created_at, user_info(user_nickname)"
+        );
 
       if (fetchError) {
         console.error(
@@ -45,7 +51,8 @@ const Page = () => {
         );
         setError("Challenges를 가져오는 데 오류가 발생했습니다.");
       } else {
-        setChallenges(data || []);
+        const transformedData = (rawData as unknown as Challenge[]) || [];
+        setChallenges(transformedData);
       }
     };
 
@@ -101,7 +108,7 @@ const Page = () => {
           </div>
           <div className="flex flex-row gap-4">
             <div
-              className="text-[14px] flex items-center"
+              className="text-[16px] flex items-center"
               onClick={() => handleSelect("latest")}
             >
               <span
@@ -121,7 +128,7 @@ const Page = () => {
             </div>
 
             <div
-              className="cursor-pointer text-[14px] flex items-center"
+              className="cursor-pointer text-[16px] flex items-center"
               onClick={() => handleSelect("oldest")}
             >
               <span
@@ -178,7 +185,10 @@ const Page = () => {
                         <div className="flex p-[8px_12px] justify-center text-[14px] items-center rounded-[4px] bg-[#0D9C36] w-[50px] text-white">
                           {totalPoints}P
                         </div>
-                        <label className="ml-2 text-[14px] text-[#A1A7B4]">
+                        <p className="ml-2 text-[14px] text-[#585858] whitespace-nowrap">
+                          {challenge.user_info.user_nickname.slice(0, 6)}
+                        </p>
+                        <label className="ml-2 text-[14px] text-[#A1A7B4] whitespace-nowrap">
                           {formattedDate}
                         </label>
                       </div>

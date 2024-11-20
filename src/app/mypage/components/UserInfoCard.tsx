@@ -136,7 +136,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
                     defaultValue={initialNickname}
                     onChange={handleChange}
                     maxLength={6}
-                    className="w-[100px] border-t-0 border-l-0 border-r-0 border-b-2 border-b-gray-200 outline-none"
+                    className="w-[100px] border-t-0 border-l-0 border-r-0 border-b-2 border-b-gray-200 outline-none placeholder:text-[10px]"
                   />
                   <div className="flex items-center justify-start gap-1">
                     <button
@@ -194,7 +194,7 @@ const UserInfoCard = ({ user }: ProfileProps) => {
             </form>
           ) : (
             <>
-              <span className="text-[#000301] text-[20px] md:text-[28px] font-[600] leading-[-0.6px] md:leading-[-0.84px]">
+              <span className="text-[#000301] text-[17px] md:text-[28px] font-[600] leading-[-0.6px] md:leading-[-0.84px]">
                 {userInfo?.user_nickname}님
               </span>
               <button className="border-none mr-auto" onClick={handleEditClick}>

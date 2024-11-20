@@ -9,6 +9,7 @@ import ChallengeForm from "@/app/(features)/challenge/components/ChallengeForm";
 import { useDeleteChallenge, useGetChallenge } from "@/hooks/useChallenge";
 import { useRouter } from "next/navigation";
 import { userStore } from "@/zustand/userStore";
+import { ChevronLeft } from "lucide-react";
 
 interface Props {
   params: {
@@ -83,7 +84,13 @@ const ChallengeDetailPage = ({ params }: Props) => {
 
   return (
     <div className="mt-8 md:w-[1200px]  mx-auto mb-4 w-[330px] md:p-0">
-      <Link href={"/community"}>{"< 챌린지 인증 "}</Link>
+      <Link
+        href={"/community"}
+        className="flex items-center md:mb-4 md:mt-4 text-[#525660] text-[16px] font-[600] leading-[22.4px] tracking-[-0.16px]"
+      >
+        <ChevronLeft />
+        챌린지 홈
+      </Link>
       <div className="mb-4 md:w-[1200px] h-px bg-[#D5D7DD] mt-4 w-[330px]"></div>
 
       <div className="flex flex-col md:flex-row md:items-center gap-[12px]">
