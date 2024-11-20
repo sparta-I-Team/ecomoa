@@ -197,12 +197,12 @@ aos 라이브러리를 사용하여 애니메이션 효과를 더욱 효율적�
 - 네이버, 구글, 카카오 소셜 로그인이 가능 
 - 최초 로그인 시 닉네임 설정 모달이 제공
 
-소셜 로그인을 구현할 때, 구글과 카카오는 supabase의 프로바이더이기때문에 `signInWithOAuth` 메서드를 사용해서 쉽게 구현할 수 있었다.<br>
-그런데 네이버 로그인은 supabase에서 공식적으로 지원이되지 않아 별도로 구현이 필요했다.
+소셜 로그인을 구현할 때, 구글과 카카오는 supabase의 프로바이더이기때문에 `signInWithOAuth` 메서드를 사용해서 쉽게 구현할 수 있었습니다.<br>
+그런데 네이버 로그인은 supabase에서 공식적으로 지원이되지 않아 별도로 구현이 필요했습니다.
 
 1. 네이버 개발자 웹에서 간편 로그인 후 콜백 URL 설정
 
-2. 콜백주소에서 code를 가져와 네이버 로그인 api를 사용해서 토큰을 발급 받고, 토큰을 이용해 naver에서 사용자 데이터를 가져왔음.
+2. 콜백주소에서 code를 가져와 네이버 로그인 api를 사용해서 토큰을 발급 받고, 토큰을 이용해 naver에서 사용자 데이터를 가져왔습니다.
 
 ```typescript
 const code = searchParams.get("code");
@@ -222,7 +222,7 @@ if (!userData) {
 }
 ```
 
-3. 가져온 정보를 이용해 이미 가입되어있는지 확인하고, 가입되어있지않으면 supabase의 signUp 메서드를 이용해 가입 후, signInWithPassword로 로그인되도록 구현
+3. 가져온 정보를 이용해 이미 가입되어있는지 확인하고, 가입되어있지않으면 supabase의 signUp 메서드를 이용해 가입 후, signInWithPassword로 로그인되도록 구현했습니다
 
 ```typescript
 const { error: signUpError } = await supabase.auth.signUp({
@@ -235,7 +235,7 @@ const { error: loginError } = await supabase.auth.signInWithPassword({
   password: "temporary-password"
 });
 ```
-
+이러한 과정을 통해서 소셜 로그인 구현을 마무리 할 수 있었습니다.
 
 <hr>
 <br>
@@ -373,11 +373,91 @@ https://empty-bottle-ec4.notion.site/fda2239a05b04306ac5552815ae0219c
 ### 🗺️ 친환경 지도
 ![친환경 지도](https://github.com/user-attachments/assets/a60d08d1-e574-4867-893f-1bd2bc5488c6)
 
+### 🔍 지도 검색어 디바운싱
 
-- **설명할 기능 제목**
+사용자 경험 개선을 위해 검색어 입력 시 즉시 검색하지 않고, 입력이 끝난 후 검색을 수행하는 디바운싱을 구현했습니다.
+
 ```typescript
-//코드 예시
+// 검색어 상태 관리
+const [searchTerm, setSearchTerm] = useState("");
+const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+
+// 디바운싱 구현
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setDebouncedSearchTerm(searchTerm);
+  }, 300);
+
+  return () => {
+    clearTimeout(timer);
+  };
+}, [searchTerm]);
+
+// 검색 필터링 로직
+const filteredStores = stores.filter(
+  (store) =>
+    store.store_name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+    store.road_address.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+);
 ```
+
+#### 작동 방식
+
+1. **상태 관리**
+   - `searchTerm`: 실시간 입력값 저장
+   - `debouncedSearchTerm`: 지연된 최종 검색어 저장
+
+2. **타이머 동작**
+   - 사용자가 입력할 때마다 새로운 300ms 타이머 생성
+   - 이전 타이머는 클린업 함수로 제거 (`clearTimeout`)
+   - 300ms 동안 추가 입력이 없으면 `debouncedSearchTerm` 업데이트
+
+3. **클린업 처리**
+   - 새로운 입력이 발생하면 이전 타이머 취소
+   - 컴포넌트 언마운트 시 실행 중인 타이머 정리
+   - 메모리 누수 방지 및 불필요한 상태 업데이트 방지
+
+4. **필터링 처리**
+   - 최종 `debouncedSearchTerm`으로 가게 목록 필터링
+   - 대소문자 구분 없이 검색 (`toLowerCase()`)
+   - 가게명과 주소 모두 검색 대상
+
+이를 통해 불필요한 렌더링을 방지하고 검색 성능을 최적화했습니다.
+
+<br>
+<br>
+
+### 2.카카오맵 동적 로드 구현
+
+애플리케이션의 초기 로딩 성능 최적화를 위해 Kakao Maps SDK를 동적으로 로드하는 방식을 채택했습니다.
+
+```typescript
+useEffect(() => {
+  const script = document.createElement("script");
+  script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_JS_KEY}&autoload=false`;
+  script.async = true;
+
+  script.onload = () => {
+    window.kakao.maps.load(() => setIsMapLoaded(true));
+  };
+
+  document.head.appendChild(script);
+}, []);
+```
+#### 작동 방식
+1. `createElement("script")`로 새로운 script 태그를 생성
+
+2. `script.src`에서 `autoload=false` 옵션으로 SDK를 불러오고, 이는 스크립트 로드 시 자동으로 카카오맵을 초기화하지 않도록 하는 설정
+
+3. `script.async = true`를 통해 스크립트를 비동기적으로 로드하여 페이지 로딩을 차단
+
+4. `script.onload` 이벤트 핸들러에서 `window.kakao.maps.load()` 메서드를 호출하여 수동으로 카카오맵을 초기화
+
+5. `setIsMapLoaded(true)`로 지도 로드 상태를 관리하여, 지도가 완전히 로드된 후에만 마커나 인포윈도우 등의 기능을 사용
+
+이러한 방식으로 구현하면서 페이지 초기 로딩 성능을 최적화하고, <br>
+지도 로드 상태에 따른 UI 처리를 효과적으로 할 수 있었습니다. <br>
+지도 로드가 완료된 후에는 마커, 인포윈도우, 줌 컨트롤 등 다양한 기능을 구현하였습니다.  <br>
 
 <hr>
 <br>
@@ -406,14 +486,10 @@ https://empty-bottle-ec4.notion.site/fda2239a05b04306ac5552815ae0219c
 </table>
 </div>
 
-
-- **설명할 기능 제목**
-```typescript
-```
-<hr>
-
-<br>
-<br>
+서버와의 비동기 데이터 요청 및 상태 관리를 더 쉽게 할 수 있도록 React Query를 사용했고 <br>
+자동 데이터 캐싱과 백그라운드 데이터 동기화로 사용자 경험을 향상시키며 서버 상태 관리를 쉽게 처리하고, <br>
+로딩 상태와 에러 상태를 관리할 수 있다보니 useGetChallenge와 같은 custom hook을 이용하여 챌린지 데이터를 쉽게 가져오고, <br>
+로딩 및 에러 상태를 관리했고 데이터의 캐싱을 통해 반복적인 서버 요청을 줄이고 성능 최적화를 진행했습니다 <br>
 
 ## 🚧 트러블 슈팅
 
