@@ -113,7 +113,7 @@ const ServiceIntro = () => {
           name="description"
           content="매일 간단한 탄소 절감 챌린지로 에코모아를 키워보세요. 환경을 위한 작은 실천이 큰 변화를 만듭니다."
         />
-        <meta property="og:image" content="/images/logo.png" />
+        <meta property="og:image" content="/images/url_image.svg" />
         <meta name="keywords" content="탄소 절감, 에코모아, 환경 챌린지" />
       </Head>
 
