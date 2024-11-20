@@ -1,12 +1,10 @@
 "use client";
 import { getMyPosts } from "@/api/user-action";
-import Like from "@/app/community/components/Like";
 import PostCard from "@/app/community/components/PostCard";
 import { Post } from "@/types/community";
 import { TypeProps } from "@/types/userInfoType";
 import { userStore } from "@/zustand/userStore";
 import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import ReturnMypage from "./ReturnMypage";
