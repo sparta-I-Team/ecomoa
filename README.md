@@ -1,225 +1,439 @@
-# 🍀 **EcoMoa(에코모아)** 🍀
+<div align="center">
 
-![EcoMoa Logo](./public/service/frame1.png)
+# 🌱 EcoMoa (에코모아)
+
+![프로젝트 배너](https://github.com/user-attachments/assets/de0eb8f4-361b-4714-80a5-7a226a9c2f1a)
+
+### 🌍 더 나은 내일을 위한 우리의 작은 실천, 에코모아와 함께하세요
+
+</div>
+
+<br>
+<br>
+
+## 🌟 프로젝트 소개
+
+> *"기후 위기는 더 이상 먼 미래의 이야기가 아닙니다."*
+
+우리는 기후 변화의 심각성을 직접 체감하고 있습니다.<br>
+
+지난해 연평균 기온이 산업화 이전보다 약 1.45℃ 상승하며 역사상 가장 더운 해를 기록했고,<br>
+해수 온도 상승, 빙하 및 해빙의 녹는 속도가 증가하였습니다. <br>
+보고서에서 이러한 현상은 전지구적 온실가스 감축 노력이 부족했다는 증거이며,<br> 
+적극적인 온실가스 감축 노력을 강화해야한다고 경고합니다.<br>
+
+에코모아는 이러한 환경 문제에 대한 해결책을 제시하고자 탄생했습니다. <br>
+일상 속 작은 실천들을 통해 환경 보호에 동참해보세요!
+
+**참조된 글 - https://www.greenpeace.org/korea/update/30698/blog-ce-act-now-for-climate-disaster**
+
+
+<br>
+<br>
+
+## 👥 팀원 소개
+
+### Frontend Developers
+<table>
+<tr>
+<td align="center" width="25%">
+<a href="https://github.com/JongHoJang">
+<img src="https://github.com/JongHoJang.png" width="120" style="border-radius: 50%;"/></a>
 <br><br>
-
-## 📋 **프로젝트 소개 및 기획 의도** 📋
-
-2024년 여름, 유난히 길고 덥고 습한 여름...  
-기후 이상 현상에 대한 우려가 커지며, 일회용품을 줄이고 플로깅을 실천하는 등 일상 속에서 친환경을 실천하려는 움직임이 많아졌습니다.
-
-**EcoMoa**는 이러한 흐름에 발맞춰, 사용자들이 지속적으로 환경 보호 활동에 참여하고,  
-탄소 절감을 위한 작은 실천들을 이어나가도록 독려하는 서비스입니다.  
-더 나은 환경을 위해 누구나 일상 속에서 쉽게 접근하고 참여할 수 있는 서비스를 목표로 기획했습니다.
-
----
-
+<b>장종호</b><br>
+Team Lead<br>
+📊 탄소계산기<br>
+jangjh9414@gmail.com<br><br>
+</td>
+<td align="center" width="25%">
+<a href="https://github.com/RYC0208">
+<img src="https://github.com/RYC0208.png" width="120" style="border-radius: 50%;"/></a>
 <br><br>
-
-## 👨🏻‍💻 ** 11조 소개 ** 👩🏻‍💻
-
-### **프론트엔드 개발자**
-
-| 이름       | 직책   | 담당 업무             |
-| ---------- | ------ | --------------------- |
-| **장종호** | 팀장   | 탄소계산기, 지도      |
-| **노용철** | 부팀장 | 데일리 챌린지, 지도   |
-| **유재희** | 팀원   | 로그인, 회원가입, 홈  |
-| **장수인** | 팀원   | 커뮤니티, 실시간 채팅 |
-
----
-
-### **디자이너**
-
-| 이름       | 담당 업무                        |
-| ---------- | -------------------------------- |
-| **이지솔** | 홈, 데일리 챌린지, 지도, 로그인  |
-| **나영은** | 탄소계산기, 커뮤니티, 마이페이지 |
-
----
-
+<b>노용철</b><br>
+Deputy Lead<br>
+🌿 챌린지<br>
+🗺️ 지도<br>
+ryc0208@naver.com<br><br>
+</td>
+<td align="center" width="25%">
+<a href="https://github.com/Jaeheeyu20240612">
+<img src="https://github.com/Jaeheeyu20240612.png" width="120" style="border-radius: 50%;"/></a>
 <br><br>
-
-## 🛠 **주요 기능 (MVP)** 🛠
-
-### 1. **데일리 챌린지**
-
-일상 속에서 탄소 배출을 줄일 수 있는 다양한 활동을 챌린지 형태로 제공하여,  
-누구나 쉽게 접근하고 습관으로 만들 수 있도록 돕는 기능
-
-### 2. **탄소계산기**
-
-매달 사용한 전기, 가스, 수도, 연료 등의 소비량을 바탕으로 탄소 배출량을 계산해주고,  
-통계로 한눈에 확인할 수 있는 기능
-
-### 3. **친환경 가게 지도**
-
-서울에 위치한 제로웨이스트 숍, 친환경 제품 판매점 등을 손쉽게 찾을 수 있는 지도를 제공
-
-### 4. **챌린지 인증 및 아나바다 게시판**
-
-데일리 챌린지 인증과 더불어, 중고 물품을 거래할 수 있는 커뮤니티형 게시판을 제공하여  
-사용자 간 교류와 실천을 촉진
-
----
-
+<b>유재희</b><br>
+Member<br>
+🔐 로그인/회원가입<br>
+🏠 홈<br>
+bsjaehee94@gmail.com<br>
+<br>
+</td>
+<td align="center" width="25%">
+<a href="https://github.com/BlossomS2">
+<img src="https://github.com/BlossomS2.png" width="120" style="border-radius: 50%;"/></a>
 <br><br>
+<b>장수인</b><br>
+Member<br>
+👥 커뮤니티<br>
+rose970515@naver.com<br><br>
+</td>
+</tr>
+</table>
 
-## 🔗 **링크** 🔗
+### Design
+<table>
+<tr>
+<td align="center" width="50%">
+<b>이지솔</b><br>
+🎨 UI/UX Design<br>
+홈/챌린지/지도
+</td>
+<td align="center" width="50%">
+<b>나영은</b><br>
+🎨 UI/UX Design<br>
+계산기/커뮤니티
+</td>
+</tr>
+</table>
 
-- **배포 URL**: [EcoMoa 서비스 바로가기](https://ecomoa.vercel.app/)
-- **팀 노션**: [팀 노션 페이지](https://www.notion.so/teamsparta/11-II-692f6521b2d64a53af7793164d9657fa)
 
----
+<br>
+<br>
 
-<br><br>
+## 🛠️ 기술 스택
 
-## 🔍 **기술적 의사결정** 🔍
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![React Query](https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)](https://tanstack.com/query/latest)
+[![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chart.js&logoColor=white)](https://www.chartjs.org/)
+[![Zustand](https://img.shields.io/badge/Zustand-333333?style=for-the-badge&logo=react&logoColor=white)](https://zustand-demo.pmnd.rs/)
+[![AOS](https://img.shields.io/badge/AOS-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://michalsnik.github.io/aos/)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.io)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
 
-| **적용 기술** | **선택 이유**                                                     | **대안**                   | **의사결정 과정**                                   |
-| ------------- | ----------------------------------------------------------------- | -------------------------- | --------------------------------------------------- |
-| **Chart.js**  | 커스텀 가능, 여러가지 차트 병합 가능, 타입스크립트 지원           | `D3.js, Nivo` (라이브러리) | 차트의 커스터마이징과 병합 가능성 고려              |
-| **Zustand**   | 프로젝트 규모가 커짐에 따라 상태 관리 필요, 간편한 전역 상태 관리 | `Redux`                    | 과도한 props 전달을 피하고, 가벼운 상태 관리가 필요 |
+### 기술적 의사결정
 
----
+| 분류 | 기술 | 채택 이유 |
+|------|------|-----------|
+| **Framework** | Next.js | - 서버 사이드 렌더링 지원<br>- 빠른 페이지 로드<br>- SEO 최적화 |
+| **언어** | TypeScript | - 타입 안정성 확보<br>- 개발 생산성 향상<br>- 버그 사전 방지 |
+| **CSS Framework** | Tailwind CSS | - 빠르고 일관된 스타일링<br>- 개발 시간 단축<br>- 높은 커스터마이징 자유도 |
+| **클라이언트 상태** | Zustand | - 간편한 클라이언트 상태 관리<br>- 작은 번들 사이즈<br>- 직관적인 API |
+| **서버 상태** | TanStack Query | - 효율적인 데이터 fetching<br>- 강력한 캐싱 기능<br>- 서버 상태 최적화 |
+| **차트** | Chart.js | - 유연한 차트 커스터마이징<br>- 다양한 차트 타입 제공<br>- 성능 최적화 |
+| **애니메이션** | AOS | - 손쉬운 스크롤 애니메이션<br>- 다양한 효과 제공<br>- 가벼운 라이브러리 |
+| **배포** | Vercel | - Next.js 최적화 배포<br>- 간편한 CI/CD<br>- 안정적인 성능 |
+| **지도** | Kakao Maps SDK | - 높은 데이터 정확도<br>- 풍부한 API 문서<br>- 안정적인 서비스 |
+| **공공 데이터** | 스마트서울맵 API | - 서울시 친환경 가게 정보<br>- 제로웨이스트샵 위치 데이터<br>- 실시간 데이터 업데이트 |
+| **데이터베이스** | Supabase | - 서버리스 아키텍처<br>- 실시간 DB 기능<br>- Postgres 기반의 안정성 |
+| **폼 관리** | React Hook Form | - 간편한 폼 상태 관리<br>- 효율적인 유효성 검사<br>- 최적화된 성능 |
+| **유효성 검사** | Zod | - TypeScript 친화적<br>- Hook Form 연동 용이<br>- 강력한 스키마 검증 |
 
-<br><br>
+## 💫 페이지 소개 및 주요 기능 
+<br>
+<br>
 
-## 🚀 **트러블 슈팅** 🚀
+### 🏠 메인페이지
+<div align="center">
+<table>
+<tr>
+<td align="center" width="50%">
 
-### 1. [모달 기능의 공통화 및 개선을 위한 리팩토링]
+![메인 소개](https://github.com/user-attachments/assets/1447ee5c-2f7e-42d9-8736-62d61d33d232)
 
-```
-모달 기능이 공통화되지 않고 개별적으로 정의되어 코드 중복 및 통일성 부족 문제가 발생
-```
+</td>
+<td align="center" width="50%">
 
-#### 시도한 해결 방법
+![메인 소개 2](https://github.com/user-attachments/assets/710faff1-a44d-43d8-8ed4-b524b6e18420)
 
-```
-모달 타입(custom, autoClose, confirm 등)을 추가하고, 더 많은 설정 옵션을 제공하여 모달의 상태를 유연하게 제어할 수 있도록 리팩토링
-```
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
 
-#### 수정 후 코드
+![메인 소개 3](https://github.com/user-attachments/assets/bf223819-96f3-4e4e-91a1-a0f7a8e07d0e)
+
+</td>
+<td align="center" width="50%">
+
+![메인 소개4](https://github.com/user-attachments/assets/8c5eb2a6-5bd1-436c-b3b5-30ccadabd7dc)
+
+</td>
+</tr>
+</table>
+</div>
+
+메인페이지에서는 제공되는 서비스를 빠르게 알아 볼 수 있도록 소개하는 페이지입니다.<br>
+aos 라이브러리를 사용하여 애니메이션 효과를 더욱 효율적으로 나타냈습니다.<br>
+
+<hr>
+<br>
+<br>
+
+### 🔑 로그인/회원가입
+
+<div align="center">
+<table>
+<tr>
+<td align="center" width="50%">
+
+![로그인 페이지](https://github.com/user-attachments/assets/f0c795ce-9da8-42f6-a356-72c2b4e2d063)
+
+</td>
+<td align="center" width="50%">
+  
+![로그인 모바일](https://github.com/user-attachments/assets/bbf04da0-4d07-4207-bb8f-39a6d77db0a6)
+  
+</td>
+</table>
+</div>
+
+
+
+
+**소셜 로그인**
+
+
+- 이메일 로그인, 회원가입이 가능
+- 네이버, 구글, 카카오 소셜 로그인이 가능 
+- 최초 로그인 시 닉네임 설정 모달이 제공
+
+소셜 로그인을 구현할 때, 구글과 카카오는 supabase의 프로바이더이기때문에 `signInWithOAuth` 메서드를 사용해서 쉽게 구현할 수 있었다.<br>
+그런데 네이버 로그인은 supabase에서 공식적으로 지원이되지 않아 별도로 구현이 필요했다.
+
+1. 네이버 개발자 웹에서 간편 로그인 후 콜백 URL 설정
+
+2. 콜백주소에서 code를 가져와 네이버 로그인 api를 사용해서 토큰을 발급 받고, 토큰을 이용해 naver에서 사용자 데이터를 가져왔음.
 
 ```typescript
-// 리팩토링된 Zustand 모달 스토어
-import { create } from "zustand";
-import { ModalStoreType } from "@/types/modal";
+const code = searchParams.get("code");
+const accessToken = await getNaverAccessToken(code);
 
-type ModalStore = ModalStoreType & {
-  openModal: (params: Partial<ModalStoreType>) => void;
-  closeModal: () => void;
-};
+if (!accessToken) {
+  return NextResponse.redirect(
+    new URL("/login?error=failed_to_authenticate", req.url)
+  );
+}
 
-export const useModalStore = create<ModalStore>((set) => ({
-  isOpen: false,
-  content: null,
-  type: "custom", // 기본 타입 설정
-  autoClose: undefined, // 자동 닫힘 기능 추가
-  onConfirm: undefined, // 확인 버튼 클릭 시 처리할 핸들러
-  onCancel: undefined, // 취소 버튼 클릭 시 처리할 핸들러
-  buttonText: undefined, // 버튼 텍스트 설정
-  openModal: (params) => set({ isOpen: true, ...params }),
-  // 다양한 옵션을 받아서 상태 업데이트
-  closeModal: () =>
-    set({
-      isOpen: false,
-      content: null,
-      type: "custom",
-      autoClose: undefined,
-      onConfirm: undefined,
-      onCancel: undefined,
-      buttonText: undefined
-    })
-}));
+const userData = await fetchUserDataFromNaver(accessToken);
+if (!userData) {
+  return NextResponse.redirect(
+    new URL("/login?error=failed_to_fetch_user_data", req.url)
+  );
+}
 ```
 
-<br><br>
-
-### 2. [미들웨어에서 무한 루프 발생]
-
-```
-미들웨어 리다이렉트 무한 반복으로 브라우저의 페이지 로드 실패, "ERR_TOO_MANY_REDIRECTS" 오류 발생
-```
-
-#### 시도한 해결 방법
-
-```
-/login 경로를 예외 처리하여, 해당 페이지로의 접근 시 미들웨어가 실행되지 않도록 수정
-```
-
-#### 수정 후 코드
+3. 가져온 정보를 이용해 이미 가입되어있는지 확인하고, 가입되어있지않으면 supabase의 signUp 메서드를 이용해 가입 후, signInWithPassword로 로그인되도록 구현
 
 ```typescript
-export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|login|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"
-  ]
+const { error: signUpError } = await supabase.auth.signUp({
+  email: userData.email,
+  password: "temporary-password" // 임시 비밀번호
+});
+
+const { error: loginError } = await supabase.auth.signInWithPassword({
+  email: userData.email,
+  password: "temporary-password"
+});
+```
+
+
+<hr>
+<br>
+<br>
+
+### 👤 마이페이지
+
+<div align="center">
+<table>
+<tr>
+<td align="center" width="50%">
+
+![마이페이지](https://github.com/user-attachments/assets/1005b7a7-f5e5-4b7a-96e8-129d76dfbb56)
+
+</td>
+<td align="center" width="50%">
+  
+![마이페이지 모바일](https://github.com/user-attachments/assets/b06aa8fb-3177-44c9-94df-88261bb26be3)
+  
+</td>
+</table>
+</div>
+
+각 페이지에서 제공하는 컴포넌트를 마이페이지에서 재사용하여 개인 로그를 볼 수 있도록 구현했습니다.
+
+<hr>
+<br>
+<br>
+
+### 🌿 데일리 챌린지
+<div align="center">
+<table>
+<tr>
+<td align="center" width="50%">
+
+![데일리챌린지](https://github.com/user-attachments/assets/aba56a4d-8b55-4338-967e-bf38cfdd92a3)
+
+</td>
+<td align="center" width="50%">
+  
+![데일리 챌린지 모바일](https://github.com/user-attachments/assets/e9eadd58-0a4a-4375-81f2-4a19e6ceac30)
+  
+</td>
+</table>
+</div>
+
+
+### 1. 레벨링 시스템
+
+데일리 챌린지 참여를 통해 획득하는 포인트로 성장하는 레벨링 시스템입니다.<br>
+챌린지 달성, 인증 등 다양한 활동을 통해 포인트를 모아 레벨을 올릴 수 있습니다.
+
+```typescript
+// 레벨별 설정
+export const LEVEL_CONFIG = {
+  1: { /* 레벨 1 설정 */ },
+  2: { /* 레벨 2 설정 */ },
+  3: { /* 레벨 3 설정 */ },
+  4: { /* 레벨 4 설정 */ },
+} as const;
+
+// 레벨 계산 함수
+export const calculateLevelInfo = (totalPoints: number): LevelInfo => {
+  for (const [level, config] of Object.entries(LEVEL_CONFIG)) {
+    if (totalPoints >= config.min && totalPoints < config.max) {
+      const currentPoints = totalPoints - config.min;
+      const levelRange = config.max - config.min;
+      const pointsToNextLevel = config.max - totalPoints;
+      
+      return { level: Number(level), name: config.name, ... };
+    }
+  }
+  return { /* 최대 레벨 정보 */ };
 };
+```
+
+#### 작동 방식
+
+1. **레벨 범위 확인**
+   - `Object.entries()`로 레벨 설정을 순회
+   - totalPoints가 해당 레벨의 범위(min ≤ totalPoints < max)에 있는지 확인합니다.
+
+2. **레벨 정보 계산**
+   - 현재 레벨에 속한 점수(currentPoints)는 totalPoints - config.min으로 계산합니다
+   - 레벨 범위(maxPoints)는 config.max - config.min입니다
+   - 다음 레벨까지 필요한 점수(pointsToNextLevel)는 config.max - totalPoints로 계산됩니다.
+   - 
+3. **레벨 정보 반환**
+   - 해당 레벨의 설정과 계산된 정보를 LevelInfo 타입으로 반환합니다.
+  
+4. **최대 레벨 처리**
+   - totalPoints가 최대 레벨(4)의 범위를 초과하면 레벨 4의 정보를 반환하며, 추가 경험치는 고정됩니다.
+
+
+
+
+### 2. **캘린더**
+캘린더 시스템은 사용자가 날짜를 선택하거나 월별로 일정을 확인할 수 있도록 돕는 기능입니다.<br>
+해당 기능 설명은 길어져서 노션으로 공유했습니다. <br>
+
+https://empty-bottle-ec4.notion.site/fda2239a05b04306ac5552815ae0219c
+
+<hr>
+<br>
+<br>
+
+### 📊 탄소 계산기
+
+<div align="center">
+<table>
+<tr>
+<td align="center" width="50%">
+
+![계산기](https://github.com/user-attachments/assets/2b49728c-e59b-4d8d-b19e-736a99edabb9)
+
+</td>
+<td align="center" width="50%">
+  
+![계산기 모바일](https://github.com/user-attachments/assets/0d394c1a-d2af-4a10-9f29-da60649cb1ef)
+
+</td>
+</table>
+</div>
+
+
+
+- **설명할 기능 제목**
+```typescript
+//코드 예시
+```
+<hr>
+<br>
+<br>
+
+### 🗺️ 친환경 지도
+![친환경 지도](https://github.com/user-attachments/assets/a60d08d1-e574-4867-893f-1bd2bc5488c6)
+
+
+- **설명할 기능 제목**
+```typescript
+//코드 예시
+```
+
+<hr>
+<br>
+<br>
+
+### 👥 커뮤니티
+
+<div align="center">
+<table>
+<tr>
+<td align="center" width="33%">
+
+![커뮤니티](https://github.com/user-attachments/assets/8599da6c-f96d-4e61-b4b5-a1e22b4c8711)
+
+</td>
+<td align="center" width="33%">
+
+![챌린지 인증](https://github.com/user-attachments/assets/363138a1-e6a8-4d38-a959-2b9421647ffd)
+</td>
+<td align="center" width="33%">
+
+![아나바다](https://github.com/user-attachments/assets/0ccb7189-da1c-4c47-8c07-860cd4b80d31)
+
+</td>
+</tr>
+</table>
+</div>
+
+
+- **설명할 기능 제목**
+```typescript
+```
+<hr>
+
+<br>
+<br>
+
+## 🚧 트러블 슈팅
+
+### 1. 
+**문제**
+- 문제1
+
+**해결**
+```typescript
+```
+
+### 2. 
+**문제**
+- 문제1
+
+**해결**
+```typescript
+
 ```
 
 ---
 
-<br><br>
-
-## 🔜 **추후 개발 계획**
-
-1. **메인 홈 화면 컴포넌트 작업 및 인터렉티브 모션 추가**
-2. **친환경 지도 기능 추가**
-3. **반응형 작업 (모바일 지원)**
-4. **실시간 채팅 추가**
-
----
-
-<br><br>
-
-## 💡 **개선 예정 기능**
-
-1. **공통 컴포넌트 및 공통 디자인 작업**
-
-   - 각자 맡은 부분을 개발하고, 디자이너와 실시간으로 작업하다 보니 공통화 작업이 미비하게 진행됨
-   - 유지보수 및 추가 작업의 효율성을 높이기 위해 고도화된 공통화 작업 예정
-
-2. **UT 기간 사용자 사용성 체크**
-   - 유저들의 피드백을 최대한 반영하여 개선 예정
-
----
-
-<br><br>
-
-## 🛠 **예상되는 기술적 도전 과제**
-
-### 1. **Middleware 문제 해결**
-
-- `Middleware`가 정확하게 작동하지 않는 문제를 발견, 추후 학습 후 팀원들과 코드 리뷰 예정
-
-### 2. **실시간 채팅 기능 도전**
-
-- supabase에 실시간 데이터베이스 업데이트를 지원하는 `Realtime` 기능 사용 예정
-
----
-
-<br><br>
-
-## ⚙️ **기술 스택** ⚙️
-
-### **Frontend**
-
-- **Next.js**
-- **React**
-- **TypeScript**
-- **Tailwind CSS**
-
-### **Backend**
-
-- **Supabase** (인증, 데이터베이스)
-
-### **DevOps**
-
-- **Vercel** (Next.js 호스팅 및 배포)
-- **GitHub** (버전 관리)
-
-### **Tools**
-
-- **Visual Studio Code** (개발 환경)
-- **Figma** (UI/UX 디자인)
+<div align="center">
