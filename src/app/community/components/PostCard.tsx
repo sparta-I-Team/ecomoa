@@ -38,7 +38,7 @@ const PostCard = ({ post, type }: Props) => {
                 <span className="text-[#0D9C36]">{likes.length}</span>
               </div>
             </div>
-            <div className="h-[150px] w-2/3 md:w-[160px] md:h-[160px]  aspect-square bg-gray-100 rounded-2xl overflow-hidden">
+            <div className="h-[150px] w-2/3 md:w-[160px] md:h-[160px] aspect-square bg-gray-100 rounded-2xl overflow-hidden">
               {post.post_img && post.post_img.length > 0 ? (
                 <Image
                   src={post.post_img[0]}
@@ -48,9 +48,13 @@ const PostCard = ({ post, type }: Props) => {
                   className="w-full h-full object-cover rounded-2xl"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  이미지가 없습니다
-                </div>
+                <Image
+                  src={"/images/default_img.svg"}
+                  alt={`default_img`}
+                  width={160}
+                  height={160}
+                  className="w-full h-full object-cover rounded-2xl"
+                />
               )}
             </div>
           </article>
@@ -66,9 +70,13 @@ const PostCard = ({ post, type }: Props) => {
                   className="w-full h-full object-cover rounded-2xl"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  이미지가 없습니다
-                </div>
+                <Image
+                  src={"/images/default_img.svg"}
+                  alt={`default_img`}
+                  width={160}
+                  height={160}
+                  className="w-full h-full object-cover rounded-2xl"
+                />
               )}
             </div>
             <div className="flex flex-col gap-[8px] flex-1">

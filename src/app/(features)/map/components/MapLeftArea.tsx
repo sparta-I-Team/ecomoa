@@ -241,7 +241,7 @@ const MapLeftArea = ({
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-2 space-y-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
+      <div className="md:min-w-[379.5px] flex-1 overflow-y-auto p-2 space-y-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[#D7E8D7] [&::-webkit-scrollbar-thumb]:bg-[#00691E] [&::-webkit-scrollbar-thumb]:rounded-full">
         {sortedAndFilteredStores.map((store) => (
           <StoreCard
             key={store.store_id}

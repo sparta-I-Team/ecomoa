@@ -29,7 +29,16 @@ const Header = () => {
     await signout();
     logoutUser();
     alert("로그아웃 되었습니다.");
-    const paths = ["/mypage", "/challenge"];
+    const paths = [
+      "/mypage",
+      "/mypage/challenge",
+      "mypage/history",
+      "mypage/like/free",
+      "mypage/like/anabada",
+      "mypage/post/free",
+      "mypage/post/anabada",
+      "/challenge"
+    ];
     if (paths.includes(pathname)) {
       router.push("/login");
     }

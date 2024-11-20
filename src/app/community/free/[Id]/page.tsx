@@ -11,6 +11,7 @@ import Like from "../../components/Like";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
+import { useLike } from "@/hooks/useLike";
 
 type Comment = {
   comment_id: string;
@@ -70,6 +71,8 @@ const PostDetailPage = ({ params }: Props) => {
 
     fetchPostAndComments();
   }, [Id]);
+
+  const { likes } = useLike(Id);
 
   if (errorMessage) {
     return (
@@ -225,13 +228,14 @@ const PostDetailPage = ({ params }: Props) => {
         <label className="font-[700] text-[22px] md:text-2xl md:font-semibold">
           {post.post_title}
         </label>
-        <div className="flex gap-[4px] mt-[20px] text-[#A1A7B4] text-[16px]">
-          <label className="md:mr-4">{post.user_info.user_nickname}</label>
-          <span className="text-[10px]">&#8226;</span>
+        <div className="leading-[1] flex items-center gap-[4px] mt-[20px] text-[#A1A7B4] text-[16px]">
+          <label className="">{post.user_info.user_nickname}</label>
+          <span>·</span>
           <label>{new Date(post.created_at).toLocaleDateString()}</label>
-          <span className="text-[10px]">&#8226;</span>
-          <div className="flex space-x-4 text-gray-600">
+          <span>·</span>
+          <div className="flex gap-[4px] text-[#A1A7B4">
             <Like postId={post.post_id} />
+            <span>{likes.length}</span>
           </div>
         </div>
         <p className="md:mt-[] md:leading-normal mt-[36px] text-[#000301] text-[14px] font-[400]">
@@ -292,7 +296,7 @@ const PostDetailPage = ({ params }: Props) => {
       </div>
       <hr className="h-px md:mt-[20px] w-full"></hr>
       {/* 댓글 목록 */}
-      <div className="md:mt-8 flex flex-col pt-[28px]">
+      <div className="md:mt-0 flex flex-col pt-[28px]">
         {comments.map((comment) => (
           <div key={comment.comment_id} className="flex flex-col md:mb-4">
             <div className="flex items-center text-[#A1A7B4] text-[14px] leading-[21px] tracking-[-0.14px] gap-[4px]">
@@ -325,7 +329,7 @@ const PostDetailPage = ({ params }: Props) => {
             )}
 
             {user.id === comment.user_id && !editingCommentId && (
-              <div className="flex space-x-4 md:mt-2 mt-[20px] ">
+              <div className="flex space-x-4 mt-[20px] md:mt-2">
                 <button
                   onClick={() => handleEditComment(comment.comment_id)}
                   className="text-[13px] border-none"
@@ -346,7 +350,7 @@ const PostDetailPage = ({ params }: Props) => {
       </div>
       <div>
         {canEdit && (
-          <div className="md:flex md:flex-row gap-[4px] justify-end mt-[10px] w-full">
+          <div className="md:flex md:flex-row gap-[12px] justify-end mt-[10px] md:mt-[20px] md:mb-[198px] w-full">
             <button
               onClick={handleEditClick}
               className="w-[80px] h-[32px] rounded text-[14px]"
